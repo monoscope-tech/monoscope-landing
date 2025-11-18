@@ -215,16 +215,16 @@
 /* Dark mode overrides */
 body[data-theme="dark"],
 html:has(body[data-theme="dark"]) {
-  background-color: oklch(16.4% 0.012 263);
+  background-color: oklch(14% 0.025 263);
 }
 
 [data-theme="dark"] {
   /* Background colors - Dark theme */
-  --color-bgAlternate: oklch(20.1% 0.015 263);
-  --color-bgBase: oklch(16.4% 0.012 263);
+  --color-bgAlternate: oklch(18% 0.025 263);
+  --color-bgBase: oklch(14% 0.025 263);
   --color-bgInverse: rgb(255 255 255);
-  --color-bgOverlay: oklch(26.4% 0.012 263);
-  --color-bgRaised: oklch(22.0% 0.010 263);
+  --color-bgOverlay: oklch(24% 0.025 263);
+  --color-bgRaised: oklch(20% 0.022 263);
   --color-bgSunken: rgb(0 0 0);
   --color-bgBrand: rgb(59 130 246);
 
@@ -241,7 +241,7 @@ html:has(body[data-theme="dark"]) {
   --color-fillInverseDisabled: rgba(0 17 102 / 0.1);
   --color-fillInverse-hover: rgba(0 21 128 / 0.04);
   --color-fillInverse-press: rgba(0 17 102 / 0.1);
-  --color-fillInverse-strong: oklch(16.4% 0.012 263);
+  --color-fillInverse-strong: oklch(14% 0.025 263);
   --color-fillInverse-weak: rgba(0 21 128 / 0.04);
   --color-fillOverlay: rgba(0 6 38 / 0.9);
   --color-fillPress: rgba(255 255 255 / 0.12);
@@ -289,7 +289,7 @@ html:has(body[data-theme="dark"]) {
 
   /* Text colors - Dark theme */
   --color-textBrand: oklch(70% 0.15 241);
-  --color-textDisabled: rgba(255 255 255 / 0.20);
+  --color-textDisabled: rgba(255 255 255 / 0.2);
   --color-textError: oklch(77.2% 0.126 21);
   --color-textInformation: oklch(75.5% 0.098 241);
   --color-textInverseDisabled: rgba(0 17 102 / 0.1);
@@ -300,7 +300,7 @@ html:has(body[data-theme="dark"]) {
   --color-textWarning: oklch(79.5% 0.106 92);
   --color-textWeak: oklch(70% 0 0);
 
-  --backgroundPrimary: oklch(16.4% 0.012 263);
+  --backgroundPrimary: oklch(14% 0.025 263);
 }
 
 .btn {
@@ -321,7 +321,7 @@ html:has(body[data-theme="dark"]) {
 }
 
 .btn-secondary {
-  @apply bg-bgBase border border-strokeBrand-weak text-textBrand
+  @apply bg-bgBase border border-strokeBrand-weak text-fillBrand-strong
          hover:bg-fillBrand-weak
          shadow-[0px_1px_2px_rgba(0,0,0,0.05),0px_0px_0px_1px_rgba(0,104,255,0.1)]
          hover:shadow-[0px_2px_4px_rgba(0,0,0,0.08),0px_0px_0px_1px_rgba(0,104,255,0.2)]
@@ -357,11 +357,15 @@ html:has(body[data-theme="dark"]) {
 }
 
 .mouse-gradient::before {
-  content: '';
+  content: "";
   position: absolute;
   width: 300px;
   height: 300px;
-  background: radial-gradient(circle, var(--color-fillBrand-weak) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    var(--color-fillBrand-weak) 0%,
+    transparent 70%
+  );
   opacity: 0;
   transition: opacity 50ms ease;
   z-index: 0;
