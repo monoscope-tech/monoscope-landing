@@ -289,16 +289,16 @@ html:has(body[data-theme="dark"]) {
 
   /* Text colors - Dark theme */
   --color-textBrand: oklch(70% 0.15 241);
-  --color-textDisabled: rgba(255 255 255 / 0.2);
+  --color-textDisabled: oklch(60% 0.01 263);
   --color-textError: oklch(77.2% 0.126 21);
   --color-textInformation: oklch(75.5% 0.098 241);
-  --color-textInverseDisabled: rgba(0 17 102 / 0.1);
-  --color-textInverse-strong: rgba(0 6 38 / 0.9);
-  --color-textInverse-weak: rgba(0 8 51 / 0.65);
-  --color-textStrong: oklch(85% 0 0);
+  --color-textInverseDisabled: oklch(45% 0.008 263);
+  --color-textInverse-strong: oklch(20% 0.015 263);
+  --color-textInverse-weak: oklch(35% 0.012 263);
+  --color-textStrong: oklch(85% 0.02 263);
   --color-textSuccess: oklch(75.3% 0.092 162);
   --color-textWarning: oklch(79.5% 0.106 92);
-  --color-textWeak: oklch(70% 0 0);
+  --color-textWeak: oklch(70% 0.015 263);
 
   --backgroundPrimary: oklch(14% 0.025 263);
 }
