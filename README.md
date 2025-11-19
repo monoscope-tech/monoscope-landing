@@ -198,7 +198,7 @@ To contribute to the development of this project or request help from the commun
 
 - Read our [Contributors Guide](https://github.com/monoscope-tech/.github/blob/main/CONTRIBUTING.md).
 - Join our community [Discord Server](https://discord.gg/dEB6EjQnKB).
-- Create a [new issue](https://github.com/monoscope-tech/apitoolkit-landing/issues/new/choose) in this repository.
+- Create a [new issue](https://github.com/monoscope-tech/monoscope-landing/issues/new/choose) in this repository.
 
 ## License
 
