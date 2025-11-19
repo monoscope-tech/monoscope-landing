@@ -172,3 +172,11 @@ Below is the full list of options for the `observeAxios` function:
 | `redactResponseBody` | A list of JSONPaths from the response body to redact. |
 | `redactRequestBody` | A list of JSONPaths from the request body to redact. |
 :::
+
+```=html
+<hr />
+<a href="https://github.com/monoscope-tech/monoscope-js/tree/main/packages/nextjs" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">
+    <i class="fa-brands fa-github"></i>
+    Explore the NextJs SDK
+</a>
+```
