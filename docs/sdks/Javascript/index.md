@@ -7,7 +7,7 @@ pageFullWidth: true
 hideToc: true
 pages:
   - title: Browser
-    slug: /docs/sdks/javascript/browser
+    slug: /docs/sdks/Javascript/browser
     icon: /assets/img/framework-logos/js.png
 ---
 

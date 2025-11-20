@@ -23,7 +23,7 @@ pages:
     slug: /docs/sdks/nodejs
     icon: /assets/img/sdk-icons/nodejs.svg
   - title: Javascript (Browser)
-    slug: /docs/sdks/javascript
+    slug: /docs/sdks/Javascript
     icon: /assets/img/framework-logos/js.png
   - title: PHP SDKs
     slug: /docs/sdks/php
