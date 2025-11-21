@@ -306,7 +306,7 @@ The `observe_request()` function accepts a **required `request` argument**, and 
 
 ```=html
 <hr />
-<a href="https://github.com/monoscope-tech/monoscope-flask" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">
+<a href="https://github.com/monoscope-tech/monoscope-python/tree/main/flask" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">
     <i class="fa-brands fa-github"></i>
     Explore the Flask SDK
 </a>

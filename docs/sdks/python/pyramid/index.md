@@ -311,7 +311,7 @@ The `observe_request()` function accepts a **required `request` argument**, and 
 
 ```=html
 <hr />
-<a href="https://github.com/monoscope-tech/monoscope-pyramid" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">
+<a href="https://github.com/monoscope-tech/monoscope-python/tree/main/pyramid" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">
     <i class="fa-brands fa-github"></i>
     Explore the Pyramid SDK
 </a>
