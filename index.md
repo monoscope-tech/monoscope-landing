@@ -167,7 +167,15 @@ platforms:
 
 ```=html
 <script src="https://unpkg.com/@rive-app/canvas"></script>
-<section class="flex flex-col space-y-48 items-center">
+<script src="/assets/js/hero-particles.js"></script>
+
+<!-- Static background at top of page only -->
+<div class="absolute top-0 left-0 w-full pointer-events-none overflow-hidden" style="z-index: 0; height: 120vh;">
+  <div class="hero-gradient-mesh"></div>
+  <canvas id="hero-particles" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
+</div>
+
+<section class="flex flex-col space-y-48 items-center relative" style="z-index: 1;">
   <section class="space-y-20 mt-8 sm:mt-32">
       <div class="flex flex-col md:flex-row max-w-8xl w-full gap-5 px-3">
         <div class="space-y-10 flex-1">

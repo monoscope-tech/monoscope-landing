@@ -1260,6 +1260,9 @@
       mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' stroke='black' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform-origin='center'%3E%3Ccircle cx='12' cy='12' r='9.5' fill='none' stroke-width='3' stroke-linecap='round'%3E%3CanimateTransform attributeName='transform' type='rotate' from='0 12 12' to='360 12 12' dur='2s' repeatCount='indefinite'/%3E%3Canimate attributeName='stroke-dasharray' values='0,150;42,150;42,150' keyTimes='0;0.475;1' dur='1.5s' repeatCount='indefinite'/%3E%3Canimate attributeName='stroke-dashoffset' values='0;-16;-59' keyTimes='0;0.475;1' dur='1.5s' repeatCount='indefinite'/%3E%3C/circle%3E%3C/g%3E%3C/svg%3E");
     }
   }
+  .pointer-events-none {
+    pointer-events: none;
+  }
   .countdown {
     &.countdown {
       line-height: 1em;
@@ -6898,22 +6901,10 @@
   .bg-bgBase {
     background-color: var(--color-bgBase);
   }
-  .bg-bgBase\/60 {
-    background-color: color-mix(in srgb, oklch(99.1% 0.002 247) 60%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-bgBase) 60%, transparent);
-    }
-  }
   .bg-bgBase\/65 {
     background-color: color-mix(in srgb, oklch(99.1% 0.002 247) 65%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-bgBase) 65%, transparent);
-    }
-  }
-  .bg-bgBase\/70 {
-    background-color: color-mix(in srgb, oklch(99.1% 0.002 247) 70%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-bgBase) 70%, transparent);
     }
   }
   .bg-bgOverlay {
@@ -11648,6 +11639,39 @@ body[data-theme="dark"], html:has(body[data-theme="dark"]) {
   to {
     transform: translateX(calc(-100%));
   }
+}
+.hero-gradient-mesh {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: radial-gradient(ellipse 900px 600px at 75% 20%, rgba(139, 92, 246, 0.12) 0%, transparent 65%), radial-gradient(ellipse 700px 500px at 85% 15%, rgba(20, 184, 166, 0.10) 0%, transparent 60%), radial-gradient(ellipse 800px 400px at 70% 10%, rgba(168, 85, 247, 0.08) 0%, transparent 55%), radial-gradient(ellipse 600px 800px at 90% 40%, rgba(6, 182, 212, 0.09) 0%, transparent 65%), radial-gradient(ellipse 700px 600px at 65% 50%, rgba(147, 51, 234, 0.07) 0%, transparent 60%), radial-gradient(ellipse 500px 400px at 80% 70%, rgba(14, 165, 233, 0.06) 0%, transparent 70%), radial-gradient(ellipse 400px 500px at 95% 30%, rgba(139, 92, 246, 0.08) 0%, transparent 60%);
+  animation: gradient-shift 35s ease infinite;
+  will-change: transform;
+  transition: opacity 0.3s ease;
+}
+[data-theme="dark"] .hero-gradient-mesh {
+  background: radial-gradient(ellipse 900px 600px at 75% 20%, rgba(167, 139, 250, 0.16) 0%, transparent 60%), radial-gradient(ellipse 700px 500px at 85% 15%, rgba(94, 234, 212, 0.13) 0%, transparent 55%), radial-gradient(ellipse 800px 400px at 70% 10%, rgba(196, 181, 253, 0.11) 0%, transparent 50%), radial-gradient(ellipse 600px 800px at 90% 40%, rgba(103, 232, 249, 0.12) 0%, transparent 60%), radial-gradient(ellipse 700px 600px at 65% 50%, rgba(187, 134, 252, 0.10) 0%, transparent 55%), radial-gradient(ellipse 500px 400px at 80% 70%, rgba(125, 211, 252, 0.08) 0%, transparent 65%), radial-gradient(ellipse 400px 500px at 95% 30%, rgba(167, 139, 250, 0.10) 0%, transparent 55%);
+}
+@keyframes gradient-shift {
+  0%, 100% {
+    transform: scale(1) translate(0, 0);
+  }
+  25% {
+    transform: scale(1.1) translate(-5%, 3%);
+  }
+  50% {
+    transform: scale(1.15) translate(3%, -5%);
+  }
+  75% {
+    transform: scale(1.05) translate(-3%, 2%);
+  }
+}
+#hero-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 .animation-reverse {
   animation-direction: reverse;
