@@ -1,22 +1,32 @@
-// Floating particles animation for hero section
-class HeroParticles {
+// Network Topology & Monitoring Animation for Monoscope
+class ObservabilityAnimation {
   constructor() {
     this.canvas = document.getElementById('hero-particles');
-    if (!this.canvas) return;
+    console.log('Canvas element found:', this.canvas);
+    if (!this.canvas) {
+      console.error('Hero particles canvas not found!');
+      return;
+    }
 
     this.ctx = this.canvas.getContext('2d');
-    this.particles = [];
-    this.particleCount = 40;
+    this.nodes = [];
+    this.connections = [];
+    this.dataPackets = [];
+    this.nodeCount = 12; // Reduced from 25 for cleaner visualization
     this.animationId = null;
     this.isDarkMode = false;
+    this.radarAngle = 0;
+    this.time = 0;
 
+    console.log('Starting observability animation...');
     this.init();
   }
 
   init() {
     this.resizeCanvas();
     this.checkTheme();
-    this.createParticles();
+    this.createNetworkNodes();
+    this.createConnections();
     this.animate();
 
     // Handle resize
@@ -41,109 +51,304 @@ class HeroParticles {
     this.isDarkMode = theme === 'dark';
   }
 
-  createParticles() {
-    this.particles = [];
-    for (let i = 0; i < this.particleCount; i++) {
-      this.particles.push({
-        x: Math.random() * this.canvas.width,
-        y: Math.random() * this.canvas.height,
-        size: Math.random() * 3 + 2,
-        speedX: (Math.random() - 0.5) * 0.3,
-        speedY: (Math.random() - 0.5) * 0.3,
-        opacity: Math.random() * 0.4 + 0.3,
-        pulse: Math.random() * Math.PI * 2
-      });
+  createNetworkNodes() {
+    this.nodes = [];
+    const radarCenterX = this.canvas.width * 0.8;
+    const radarCenterY = this.canvas.height * 0.2;
+    const radarClusterRadius = Math.min(this.canvas.width, this.canvas.height) * 0.2;
+
+    for (let i = 0; i < this.nodeCount; i++) {
+      let x, y;
+
+      // 40% of nodes cluster around the radar
+      if (i < this.nodeCount * 0.4) {
+        // Position nodes around the radar with some randomness
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * radarClusterRadius + radarClusterRadius * 0.3;
+        x = radarCenterX + Math.cos(angle) * distance;
+        y = radarCenterY + Math.sin(angle) * distance;
+
+        // Keep within canvas bounds
+        x = Math.max(10, Math.min(this.canvas.width - 10, x));
+        y = Math.max(10, Math.min(this.canvas.height - 10, y));
+      } else {
+        // Rest of nodes are randomly distributed
+        x = Math.random() * this.canvas.width;
+        y = Math.random() * this.canvas.height;
+      }
+
+      const node = {
+        x: x,
+        y: y,
+        vx: (Math.random() - 0.5) * 0.2,
+        vy: (Math.random() - 0.5) * 0.2,
+        size: Math.random() * 2 + 1.5, // Reduced from 2-5 to 1.5-3.5
+        pulse: Math.random() * Math.PI * 2,
+
+        // Service health states: healthy, normal, warning, critical
+        health: this.getRandomHealth(),
+        healthTransition: 0,
+
+        // Node types: service, database, api, cache
+        type: ['service', 'database', 'api', 'cache'][Math.floor(Math.random() * 4)],
+
+        // Activity level (0-1)
+        activity: Math.random() * 0.5 + 0.5,
+        activityPulse: Math.random() * Math.PI * 2
+      };
+      this.nodes.push(node);
     }
   }
 
-  updateParticles() {
-    this.particles.forEach(particle => {
-      // Move particles
-      particle.x += particle.speedX;
-      particle.y += particle.speedY;
-
-      // Pulse effect
-      particle.pulse += 0.02;
-      const pulseFactor = Math.sin(particle.pulse) * 0.2 + 1;
-
-      // Wrap around edges
-      if (particle.x < -10) particle.x = this.canvas.width + 10;
-      if (particle.x > this.canvas.width + 10) particle.x = -10;
-      if (particle.y < -10) particle.y = this.canvas.height + 10;
-      if (particle.y > this.canvas.height + 10) particle.y = -10;
-
-      // Apply pulse to size
-      particle.currentSize = particle.size * pulseFactor;
-    });
+  getRandomHealth() {
+    const rand = Math.random();
+    if (rand < 0.7) return 'healthy';
+    if (rand < 0.9) return 'normal';
+    if (rand < 0.97) return 'warning';
+    return 'critical';
   }
 
-  drawParticles() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  createConnections() {
+    this.connections = [];
+    const maxDistance = 150;
 
-    // Get computed styles for theme-aware colors
-    const styles = getComputedStyle(document.documentElement);
-    const brandColor = styles.getPropertyValue('--color-fillBrand-strong');
-
-    this.particles.forEach(particle => {
-      this.ctx.beginPath();
-      this.ctx.arc(particle.x, particle.y, particle.currentSize || particle.size, 0, Math.PI * 2);
-
-      // Adjust opacity based on theme
-      const opacity = this.isDarkMode ? particle.opacity * 0.5 : particle.opacity;
-
-      // Create gradient for each particle with purple/teal colors
-      const gradient = this.ctx.createRadialGradient(
-        particle.x, particle.y, 0,
-        particle.x, particle.y, particle.currentSize || particle.size
-      );
-      // Alternate between purple and teal particles
-      const colors = [
-        [139, 92, 246],   // Purple
-        [20, 184, 166],   // Teal
-        [168, 85, 247],   // Violet
-        [6, 182, 212]     // Cyan
-      ];
-      const color = colors[Math.floor(particle.x * particle.y) % colors.length];
-      gradient.addColorStop(0, `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${opacity})`);
-      gradient.addColorStop(1, `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0)`);
-
-      this.ctx.fillStyle = gradient;
-      this.ctx.fill();
-    });
-
-    // Draw connections between nearby particles
-    this.drawConnections();
-  }
-
-  drawConnections() {
-    const maxDistance = 120;
-    const styles = getComputedStyle(document.documentElement);
-
-    for (let i = 0; i < this.particles.length; i++) {
-      for (let j = i + 1; j < this.particles.length; j++) {
-        const dx = this.particles[i].x - this.particles[j].x;
-        const dy = this.particles[i].y - this.particles[j].y;
+    for (let i = 0; i < this.nodes.length; i++) {
+      for (let j = i + 1; j < this.nodes.length; j++) {
+        const dx = this.nodes[i].x - this.nodes[j].x;
+        const dy = this.nodes[i].y - this.nodes[j].y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance < maxDistance) {
-          const opacity = (1 - distance / maxDistance) * 0.08;
-          const finalOpacity = this.isDarkMode ? opacity * 0.5 : opacity;
-
-          this.ctx.beginPath();
-          this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
-          this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
-          // Use purple for connections
-          this.ctx.strokeStyle = `rgba(139, 92, 246, ${finalOpacity})`;
-          this.ctx.lineWidth = 0.5;
-          this.ctx.stroke();
+        if (distance < maxDistance && Math.random() < 0.3) {
+          this.connections.push({
+            from: i,
+            to: j,
+            strength: 1 - (distance / maxDistance)
+          });
         }
       }
     }
   }
 
+  updateNodes() {
+    this.nodes.forEach((node, index) => {
+      // Gentle floating motion
+      node.x += node.vx;
+      node.y += node.vy;
+
+      // Pulse animation
+      node.pulse += 0.03;
+      node.activityPulse += 0.05 * node.activity;
+
+      // Occasionally change health status
+      if (Math.random() < 0.001) {
+        node.health = this.getRandomHealth();
+      }
+
+      // Boundary check with soft bounce
+      if (node.x < 0 || node.x > this.canvas.width) node.vx *= -0.8;
+      if (node.y < 0 || node.y > this.canvas.height) node.vy *= -0.8;
+
+      // Keep nodes on screen
+      node.x = Math.max(10, Math.min(this.canvas.width - 10, node.x));
+      node.y = Math.max(10, Math.min(this.canvas.height - 10, node.y));
+    });
+
+    // Update connections when nodes move
+    if (this.time % 60 === 0) {
+      this.createConnections();
+    }
+  }
+
+  createDataPacket(connection) {
+    const fromNode = this.nodes[connection.from];
+    const toNode = this.nodes[connection.to];
+
+    this.dataPackets.push({
+      x: fromNode.x,
+      y: fromNode.y,
+      targetX: toNode.x,
+      targetY: toNode.y,
+      progress: 0,
+      speed: 0.02 + Math.random() * 0.02,
+      size: 1.5 + Math.random() * 1.5 // Reduced from 2-4 to 1.5-3
+    });
+  }
+
+  updateDataPackets() {
+    // Create new data packets occasionally
+    this.connections.forEach(conn => {
+      if (Math.random() < 0.005) {
+        this.createDataPacket(conn);
+      }
+    });
+
+    // Update existing packets
+    this.dataPackets = this.dataPackets.filter(packet => {
+      packet.progress += packet.speed;
+
+      if (packet.progress >= 1) {
+        return false; // Remove completed packets
+      }
+
+      // Update position along path
+      packet.x = packet.x + (packet.targetX - packet.x) * packet.speed * 2;
+      packet.y = packet.y + (packet.targetY - packet.y) * packet.speed * 2;
+
+      return true;
+    });
+  }
+
+  getHealthColor(health, opacity = 1) {
+    const colors = {
+      healthy: { r: 34, g: 197, b: 94 },    // Green
+      normal: { r: 20, g: 184, b: 166 },    // Teal
+      warning: { r: 251, g: 191, b: 36 },   // Amber
+      critical: { r: 239, g: 68, b: 68 }    // Red
+    };
+
+    const color = colors[health] || colors.normal;
+    return `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
+  }
+
+  drawNodes() {
+    this.nodes.forEach(node => {
+      const pulseScale = 1 + Math.sin(node.pulse) * 0.15; // Reduced pulse effect
+      const activityGlow = 1 + Math.sin(node.activityPulse) * 0.2 * node.activity;
+      const size = node.size * pulseScale * (this.isDarkMode ? 1 : 1.15); // Smaller multiplier for light mode
+
+      // Outer glow based on health
+      const glowSize = size * activityGlow * 2.5; // Reduced glow size
+      const gradient = this.ctx.createRadialGradient(
+        node.x, node.y, 0,
+        node.x, node.y, glowSize
+      );
+
+      // Much bolder glow in light mode
+      const baseOpacity = this.isDarkMode ? 0.3 : 0.5;
+      gradient.addColorStop(0, this.getHealthColor(node.health, baseOpacity));
+      gradient.addColorStop(0.5, this.getHealthColor(node.health, baseOpacity * 0.4));
+      gradient.addColorStop(1, this.getHealthColor(node.health, 0));
+
+      this.ctx.fillStyle = gradient;
+      this.ctx.beginPath();
+      this.ctx.arc(node.x, node.y, glowSize, 0, Math.PI * 2);
+      this.ctx.fill();
+
+      // Core node - more opaque in light mode
+      this.ctx.fillStyle = this.getHealthColor(node.health, this.isDarkMode ? 0.8 : 0.95);
+      this.ctx.beginPath();
+      this.ctx.arc(node.x, node.y, size, 0, Math.PI * 2);
+      this.ctx.fill();
+
+      // Inner bright spot - more prominent in light mode
+      this.ctx.fillStyle = this.isDarkMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(255, 255, 255, 0.8)';
+      this.ctx.beginPath();
+      this.ctx.arc(node.x - size * 0.3, node.y - size * 0.3, size * 0.3, 0, Math.PI * 2);
+      this.ctx.fill();
+    });
+  }
+
+  drawConnections() {
+    this.connections.forEach(conn => {
+      const fromNode = this.nodes[conn.from];
+      const toNode = this.nodes[conn.to];
+
+      if (!fromNode || !toNode) return;
+
+      // Bolder in light mode
+      const opacity = conn.strength * (this.isDarkMode ? 0.15 : 0.25);
+
+      // Draw connection line
+      this.ctx.beginPath();
+      this.ctx.moveTo(fromNode.x, fromNode.y);
+      this.ctx.lineTo(toNode.x, toNode.y);
+      this.ctx.strokeStyle = `rgba(20, 184, 166, ${opacity})`;
+      this.ctx.lineWidth = this.isDarkMode ? 1 : 1.5; // Thicker lines in light mode
+      this.ctx.stroke();
+    });
+  }
+
+  drawDataPackets() {
+    this.dataPackets.forEach(packet => {
+      // Data packet glow - more prominent in light mode
+      const glowMultiplier = this.isDarkMode ? 2 : 2.5;
+      const gradient = this.ctx.createRadialGradient(
+        packet.x, packet.y, 0,
+        packet.x, packet.y, packet.size * glowMultiplier
+      );
+      const glowOpacity = this.isDarkMode ? 0.8 : 1;
+      gradient.addColorStop(0, `rgba(59, 130, 246, ${glowOpacity})`);
+      gradient.addColorStop(0.5, `rgba(59, 130, 246, ${glowOpacity * 0.4})`);
+      gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+
+      this.ctx.fillStyle = gradient;
+      this.ctx.beginPath();
+      this.ctx.arc(packet.x, packet.y, packet.size * glowMultiplier, 0, Math.PI * 2);
+      this.ctx.fill();
+
+      // Data packet core - more vibrant in light mode
+      const coreOpacity = this.isDarkMode ? 0.9 : 1;
+      this.ctx.fillStyle = `rgba(147, 197, 253, ${coreOpacity})`;
+      this.ctx.beginPath();
+      this.ctx.arc(packet.x, packet.y, packet.size * (this.isDarkMode ? 1 : 1.2), 0, Math.PI * 2);
+      this.ctx.fill();
+    });
+  }
+
+  drawRadarSweep() {
+    // Enhanced radar sweep effect
+    this.radarAngle += 0.015; // Slower, smoother rotation
+
+    const centerX = this.canvas.width * 0.8;
+    const centerY = this.canvas.height * 0.2;
+    const radius = Math.min(this.canvas.width, this.canvas.height) * 0.35; // Slightly larger
+
+    // More prominent radar sweep gradient
+    const gradient = this.ctx.createConicGradient(this.radarAngle, centerX, centerY);
+    const sweepOpacity = this.isDarkMode ? 0.25 : 0.35; // More visible, especially in light mode
+    gradient.addColorStop(0, 'rgba(20, 184, 166, 0)');
+    gradient.addColorStop(0.05, `rgba(20, 184, 166, ${sweepOpacity})`);
+    gradient.addColorStop(0.15, `rgba(20, 184, 166, ${sweepOpacity * 0.6})`);
+    gradient.addColorStop(0.3, 'rgba(20, 184, 166, 0)');
+
+    this.ctx.fillStyle = gradient;
+    this.ctx.beginPath();
+    this.ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+    this.ctx.fill();
+
+    // More visible radar circles
+    for (let i = 1; i <= 4; i++) { // Added 4th circle for better effect
+      this.ctx.beginPath();
+      this.ctx.arc(centerX, centerY, radius * i / 4, 0, Math.PI * 2);
+      const circleOpacity = this.isDarkMode ? 0.08 : 0.12; // More transparent circles
+      this.ctx.strokeStyle = `rgba(20, 184, 166, ${circleOpacity / (i * 0.7)})`;
+      this.ctx.lineWidth = this.isDarkMode ? 1 : 2; // Bolder lines in light mode
+      this.ctx.stroke();
+    }
+
+    // Add center dot for radar origin
+    this.ctx.fillStyle = this.isDarkMode ? 'rgba(20, 184, 166, 0.5)' : 'rgba(20, 184, 166, 0.7)';
+    this.ctx.beginPath();
+    this.ctx.arc(centerX, centerY, 3, 0, Math.PI * 2);
+    this.ctx.fill();
+  }
+
   animate() {
-    this.updateParticles();
-    this.drawParticles();
+    this.time++;
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    // Draw in order: radar, connections, packets, nodes
+    if (this.canvas.width > 768) { // Only show radar on larger screens
+      this.drawRadarSweep();
+    }
+    this.drawConnections();
+    this.drawDataPackets();
+    this.drawNodes();
+
+    // Update animations
+    this.updateNodes();
+    this.updateDataPackets();
+
     this.animationId = requestAnimationFrame(() => this.animate());
   }
 
@@ -154,9 +359,9 @@ class HeroParticles {
   }
 }
 
-// Initialize particles when DOM is ready
+// Initialize animation when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Initializing hero particles...');
-  const particles = new HeroParticles();
-  console.log('Hero particles initialized:', particles);
+  console.log('Initializing observability animation...');
+  const animation = new ObservabilityAnimation();
+  console.log('Observability animation initialized:', animation);
 });
