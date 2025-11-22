@@ -12,7 +12,7 @@ class ObservabilityAnimation {
     this.nodes = [];
     this.connections = [];
     this.dataPackets = [];
-    this.nodeCount = 25;
+    this.nodeCount = 12; // Reduced from 25 for cleaner visualization
     this.animationId = null;
     this.isDarkMode = false;
     this.radarAngle = 0;
@@ -53,13 +53,36 @@ class ObservabilityAnimation {
 
   createNetworkNodes() {
     this.nodes = [];
+    const radarCenterX = this.canvas.width * 0.8;
+    const radarCenterY = this.canvas.height * 0.2;
+    const radarClusterRadius = Math.min(this.canvas.width, this.canvas.height) * 0.2;
+
     for (let i = 0; i < this.nodeCount; i++) {
+      let x, y;
+
+      // 40% of nodes cluster around the radar
+      if (i < this.nodeCount * 0.4) {
+        // Position nodes around the radar with some randomness
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * radarClusterRadius + radarClusterRadius * 0.3;
+        x = radarCenterX + Math.cos(angle) * distance;
+        y = radarCenterY + Math.sin(angle) * distance;
+
+        // Keep within canvas bounds
+        x = Math.max(10, Math.min(this.canvas.width - 10, x));
+        y = Math.max(10, Math.min(this.canvas.height - 10, y));
+      } else {
+        // Rest of nodes are randomly distributed
+        x = Math.random() * this.canvas.width;
+        y = Math.random() * this.canvas.height;
+      }
+
       const node = {
-        x: Math.random() * this.canvas.width,
-        y: Math.random() * this.canvas.height,
+        x: x,
+        y: y,
         vx: (Math.random() - 0.5) * 0.2,
         vy: (Math.random() - 0.5) * 0.2,
-        size: Math.random() * 3 + 2,
+        size: Math.random() * 2 + 1.5, // Reduced from 2-5 to 1.5-3.5
         pulse: Math.random() * Math.PI * 2,
 
         // Service health states: healthy, normal, warning, critical
@@ -147,7 +170,7 @@ class ObservabilityAnimation {
       targetY: toNode.y,
       progress: 0,
       speed: 0.02 + Math.random() * 0.02,
-      size: 2 + Math.random() * 2
+      size: 1.5 + Math.random() * 1.5 // Reduced from 2-4 to 1.5-3
     });
   }
 
@@ -189,19 +212,21 @@ class ObservabilityAnimation {
 
   drawNodes() {
     this.nodes.forEach(node => {
-      const pulseScale = 1 + Math.sin(node.pulse) * 0.2;
-      const activityGlow = 1 + Math.sin(node.activityPulse) * 0.3 * node.activity;
-      const size = node.size * pulseScale;
+      const pulseScale = 1 + Math.sin(node.pulse) * 0.15; // Reduced pulse effect
+      const activityGlow = 1 + Math.sin(node.activityPulse) * 0.2 * node.activity;
+      const size = node.size * pulseScale * (this.isDarkMode ? 1 : 1.15); // Smaller multiplier for light mode
 
       // Outer glow based on health
-      const glowSize = size * activityGlow * 3;
+      const glowSize = size * activityGlow * 2.5; // Reduced glow size
       const gradient = this.ctx.createRadialGradient(
         node.x, node.y, 0,
         node.x, node.y, glowSize
       );
 
-      const baseOpacity = this.isDarkMode ? 0.3 : 0.2;
+      // Much bolder glow in light mode
+      const baseOpacity = this.isDarkMode ? 0.3 : 0.5;
       gradient.addColorStop(0, this.getHealthColor(node.health, baseOpacity));
+      gradient.addColorStop(0.5, this.getHealthColor(node.health, baseOpacity * 0.4));
       gradient.addColorStop(1, this.getHealthColor(node.health, 0));
 
       this.ctx.fillStyle = gradient;
@@ -209,14 +234,14 @@ class ObservabilityAnimation {
       this.ctx.arc(node.x, node.y, glowSize, 0, Math.PI * 2);
       this.ctx.fill();
 
-      // Core node
-      this.ctx.fillStyle = this.getHealthColor(node.health, 0.8);
+      // Core node - more opaque in light mode
+      this.ctx.fillStyle = this.getHealthColor(node.health, this.isDarkMode ? 0.8 : 0.95);
       this.ctx.beginPath();
       this.ctx.arc(node.x, node.y, size, 0, Math.PI * 2);
       this.ctx.fill();
 
-      // Inner bright spot
-      this.ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+      // Inner bright spot - more prominent in light mode
+      this.ctx.fillStyle = this.isDarkMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(255, 255, 255, 0.8)';
       this.ctx.beginPath();
       this.ctx.arc(node.x - size * 0.3, node.y - size * 0.3, size * 0.3, 0, Math.PI * 2);
       this.ctx.fill();
@@ -230,53 +255,60 @@ class ObservabilityAnimation {
 
       if (!fromNode || !toNode) return;
 
-      const opacity = conn.strength * (this.isDarkMode ? 0.15 : 0.1);
+      // Bolder in light mode
+      const opacity = conn.strength * (this.isDarkMode ? 0.15 : 0.25);
 
       // Draw connection line
       this.ctx.beginPath();
       this.ctx.moveTo(fromNode.x, fromNode.y);
       this.ctx.lineTo(toNode.x, toNode.y);
       this.ctx.strokeStyle = `rgba(20, 184, 166, ${opacity})`;
-      this.ctx.lineWidth = 1;
+      this.ctx.lineWidth = this.isDarkMode ? 1 : 1.5; // Thicker lines in light mode
       this.ctx.stroke();
     });
   }
 
   drawDataPackets() {
     this.dataPackets.forEach(packet => {
-      // Data packet glow
+      // Data packet glow - more prominent in light mode
+      const glowMultiplier = this.isDarkMode ? 2 : 2.5;
       const gradient = this.ctx.createRadialGradient(
         packet.x, packet.y, 0,
-        packet.x, packet.y, packet.size * 2
+        packet.x, packet.y, packet.size * glowMultiplier
       );
-      gradient.addColorStop(0, 'rgba(59, 130, 246, 0.8)');
+      const glowOpacity = this.isDarkMode ? 0.8 : 1;
+      gradient.addColorStop(0, `rgba(59, 130, 246, ${glowOpacity})`);
+      gradient.addColorStop(0.5, `rgba(59, 130, 246, ${glowOpacity * 0.4})`);
       gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
 
       this.ctx.fillStyle = gradient;
       this.ctx.beginPath();
-      this.ctx.arc(packet.x, packet.y, packet.size * 2, 0, Math.PI * 2);
+      this.ctx.arc(packet.x, packet.y, packet.size * glowMultiplier, 0, Math.PI * 2);
       this.ctx.fill();
 
-      // Data packet core
-      this.ctx.fillStyle = 'rgba(147, 197, 253, 0.9)';
+      // Data packet core - more vibrant in light mode
+      const coreOpacity = this.isDarkMode ? 0.9 : 1;
+      this.ctx.fillStyle = `rgba(147, 197, 253, ${coreOpacity})`;
       this.ctx.beginPath();
-      this.ctx.arc(packet.x, packet.y, packet.size, 0, Math.PI * 2);
+      this.ctx.arc(packet.x, packet.y, packet.size * (this.isDarkMode ? 1 : 1.2), 0, Math.PI * 2);
       this.ctx.fill();
     });
   }
 
   drawRadarSweep() {
-    // Subtle radar sweep effect
-    this.radarAngle += 0.01;
+    // Enhanced radar sweep effect
+    this.radarAngle += 0.03; // Increased speed for more obvious rotation
 
     const centerX = this.canvas.width * 0.8;
     const centerY = this.canvas.height * 0.2;
-    const radius = Math.min(this.canvas.width, this.canvas.height) * 0.3;
+    const radius = Math.min(this.canvas.width, this.canvas.height) * 0.35; // Slightly larger
 
-    // Radar sweep gradient
+    // More prominent radar sweep gradient
     const gradient = this.ctx.createConicGradient(this.radarAngle, centerX, centerY);
+    const sweepOpacity = this.isDarkMode ? 0.25 : 0.35; // More visible, especially in light mode
     gradient.addColorStop(0, 'rgba(20, 184, 166, 0)');
-    gradient.addColorStop(0.1, 'rgba(20, 184, 166, 0.1)');
+    gradient.addColorStop(0.05, `rgba(20, 184, 166, ${sweepOpacity})`);
+    gradient.addColorStop(0.15, `rgba(20, 184, 166, ${sweepOpacity * 0.6})`);
     gradient.addColorStop(0.3, 'rgba(20, 184, 166, 0)');
 
     this.ctx.fillStyle = gradient;
@@ -284,14 +316,21 @@ class ObservabilityAnimation {
     this.ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
     this.ctx.fill();
 
-    // Radar circles
-    for (let i = 1; i <= 3; i++) {
+    // More visible radar circles
+    for (let i = 1; i <= 4; i++) { // Added 4th circle for better effect
       this.ctx.beginPath();
-      this.ctx.arc(centerX, centerY, radius * i / 3, 0, Math.PI * 2);
-      this.ctx.strokeStyle = `rgba(20, 184, 166, ${0.05 / i})`;
-      this.ctx.lineWidth = 1;
+      this.ctx.arc(centerX, centerY, radius * i / 4, 0, Math.PI * 2);
+      const circleOpacity = this.isDarkMode ? 0.15 : 0.25; // Much more visible
+      this.ctx.strokeStyle = `rgba(20, 184, 166, ${circleOpacity / (i * 0.7)})`;
+      this.ctx.lineWidth = this.isDarkMode ? 1 : 2; // Bolder lines in light mode
       this.ctx.stroke();
     }
+
+    // Add center dot for radar origin
+    this.ctx.fillStyle = this.isDarkMode ? 'rgba(20, 184, 166, 0.5)' : 'rgba(20, 184, 166, 0.7)';
+    this.ctx.beginPath();
+    this.ctx.arc(centerX, centerY, 3, 0, Math.PI * 2);
+    this.ctx.fill();
   }
 
   animate() {
