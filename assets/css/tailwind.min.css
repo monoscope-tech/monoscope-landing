@@ -6898,10 +6898,22 @@
   .bg-bgBase {
     background-color: var(--color-bgBase);
   }
-  .bg-bgBase\/95 {
-    background-color: color-mix(in srgb, oklch(99.1% 0.002 247) 95%, transparent);
+  .bg-bgBase\/60 {
+    background-color: color-mix(in srgb, oklch(99.1% 0.002 247) 60%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-bgBase) 95%, transparent);
+      background-color: color-mix(in oklab, var(--color-bgBase) 60%, transparent);
+    }
+  }
+  .bg-bgBase\/65 {
+    background-color: color-mix(in srgb, oklch(99.1% 0.002 247) 65%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-bgBase) 65%, transparent);
+    }
+  }
+  .bg-bgBase\/70 {
+    background-color: color-mix(in srgb, oklch(99.1% 0.002 247) 70%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-bgBase) 70%, transparent);
     }
   }
   .bg-bgOverlay {

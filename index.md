@@ -312,7 +312,7 @@ platforms:
 
     <div id="monitoring-section" class="w-full">
       <!-- Sticky header and tabs wrapper -->
-      <div class="sticky top-10 md:top-16 z-10  pt-5 pb-1 bg-bgBase/95 backdrop-blur-lg">
+      <div class="sticky top-10 md:top-16 z-10  pt-5 pb-1 bg-bgBase/65 backdrop-blur-lg">
         <div class="max-w-8xl mx-auto px-3 text-textWeak space-y-5">
           <h2 class="text-2xl md:text-4xl leading-tight font-normal text-textStrong">Monitoring and Observability<span class="text-textDisabled">, <br/>built to know what's happening, the moment it happens</span></h2>
 
