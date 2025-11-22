@@ -297,7 +297,7 @@ class ObservabilityAnimation {
 
   drawRadarSweep() {
     // Enhanced radar sweep effect
-    this.radarAngle += 0.03; // Increased speed for more obvious rotation
+    this.radarAngle += 0.015; // Slower, smoother rotation
 
     const centerX = this.canvas.width * 0.8;
     const centerY = this.canvas.height * 0.2;
@@ -320,7 +320,7 @@ class ObservabilityAnimation {
     for (let i = 1; i <= 4; i++) { // Added 4th circle for better effect
       this.ctx.beginPath();
       this.ctx.arc(centerX, centerY, radius * i / 4, 0, Math.PI * 2);
-      const circleOpacity = this.isDarkMode ? 0.15 : 0.25; // Much more visible
+      const circleOpacity = this.isDarkMode ? 0.08 : 0.12; // More transparent circles
       this.ctx.strokeStyle = `rgba(20, 184, 166, ${circleOpacity / (i * 0.7)})`;
       this.ctx.lineWidth = this.isDarkMode ? 1 : 2; // Bolder lines in light mode
       this.ctx.stroke();
