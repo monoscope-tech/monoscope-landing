@@ -1,10 +1,20 @@
 // Network Topology & Monitoring Animation for Monoscope
 class ObservabilityAnimation {
   constructor() {
+    // Detect mobile devices and skip animation
+    this.isMobile = this.detectMobile();
+
     this.canvas = document.getElementById('hero-particles');
     console.log('Canvas element found:', this.canvas);
     if (!this.canvas) {
       console.error('Hero particles canvas not found!');
+      return;
+    }
+
+    // Disable animation on mobile for better performance
+    if (this.isMobile) {
+      console.log('Mobile device detected - disabling hero animation for better performance');
+      this.canvas.style.display = 'none';
       return;
     }
 
@@ -13,13 +23,35 @@ class ObservabilityAnimation {
     this.connections = [];
     this.dataPackets = [];
     this.nodeCount = 12; // Reduced from 25 for cleaner visualization
+    this.maxNodes = 15; // Maximum node limit
+    this.maxConnections = 30; // Maximum connection limit
+    this.maxDataPackets = 20; // Maximum data packet limit
     this.animationId = null;
     this.isDarkMode = false;
     this.radarAngle = 0;
     this.time = 0;
+    this.cleanupInterval = 0;
 
     console.log('Starting observability animation...');
     this.init();
+  }
+
+  detectMobile() {
+    // Check for mobile devices
+    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    // Check for small screen size
+    const isSmallScreen = window.innerWidth < 768 || window.innerHeight < 600;
+
+    // Check for touch support
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    // Check for low-end device indicators
+    const isLowPowerMode = navigator.connection?.saveData ||
+                           navigator.connection?.effectiveType === 'slow-2g' ||
+                           navigator.connection?.effectiveType === '2g';
+
+    return isMobileDevice || (isSmallScreen && isTouchDevice) || isLowPowerMode;
   }
 
   init() {
@@ -57,7 +89,10 @@ class ObservabilityAnimation {
     const radarCenterY = this.canvas.height * 0.2;
     const radarClusterRadius = Math.min(this.canvas.width, this.canvas.height) * 0.2;
 
-    for (let i = 0; i < this.nodeCount; i++) {
+    // Enforce maximum node limit
+    const actualNodeCount = Math.min(this.nodeCount, this.maxNodes);
+
+    for (let i = 0; i < actualNodeCount; i++) {
       let x, y;
 
       // 40% of nodes cluster around the radar
@@ -113,7 +148,13 @@ class ObservabilityAnimation {
     const maxDistance = 150;
 
     for (let i = 0; i < this.nodes.length; i++) {
+      // Stop if we've reached max connections
+      if (this.connections.length >= this.maxConnections) break;
+
       for (let j = i + 1; j < this.nodes.length; j++) {
+        // Stop if we've reached max connections
+        if (this.connections.length >= this.maxConnections) break;
+
         const dx = this.nodes[i].x - this.nodes[j].x;
         const dy = this.nodes[i].y - this.nodes[j].y;
         const distance = Math.sqrt(dx * dx + dy * dy);
@@ -175,27 +216,43 @@ class ObservabilityAnimation {
   }
 
   updateDataPackets() {
-    // Create new data packets occasionally
-    this.connections.forEach(conn => {
-      if (Math.random() < 0.005) {
-        this.createDataPacket(conn);
-      }
-    });
+    // Only create new packets if below limit
+    if (this.dataPackets.length < this.maxDataPackets) {
+      this.connections.forEach(conn => {
+        // Further limit creation if approaching max
+        const creationProbability = this.dataPackets.length > this.maxDataPackets * 0.8
+          ? 0.002
+          : 0.005;
 
-    // Update existing packets
-    this.dataPackets = this.dataPackets.filter(packet => {
+        if (Math.random() < creationProbability) {
+          this.createDataPacket(conn);
+        }
+      });
+    }
+
+    // Update existing packets with cleanup
+    const updatedPackets = [];
+    for (let i = 0; i < this.dataPackets.length; i++) {
+      const packet = this.dataPackets[i];
       packet.progress += packet.speed;
 
       if (packet.progress >= 1) {
-        return false; // Remove completed packets
+        // Cleanup packet properties before removal
+        packet.x = null;
+        packet.y = null;
+        packet.targetX = null;
+        packet.targetY = null;
+        continue; // Skip - effectively removes the packet
       }
 
       // Update position along path
       packet.x = packet.x + (packet.targetX - packet.x) * packet.speed * 2;
       packet.y = packet.y + (packet.targetY - packet.y) * packet.speed * 2;
 
-      return true;
-    });
+      updatedPackets.push(packet);
+    }
+
+    this.dataPackets = updatedPackets;
   }
 
   getHealthColor(health, opacity = 1) {
@@ -295,6 +352,34 @@ class ObservabilityAnimation {
     });
   }
 
+  performMemoryCleanup() {
+    // Periodic cleanup every 300 frames (roughly 5 seconds at 60fps)
+    if (this.cleanupInterval % 300 === 0) {
+      // Clean up connections array - remove invalid references
+      this.connections = this.connections.filter(conn => {
+        return conn.from < this.nodes.length && conn.to < this.nodes.length;
+      });
+
+      // Trim excess nodes if somehow exceeded
+      if (this.nodes.length > this.maxNodes) {
+        this.nodes = this.nodes.slice(0, this.maxNodes);
+      }
+
+      // Force garbage collection hint by nullifying removed packets
+      if (this.dataPackets.length === 0) {
+        this.dataPackets = []; // Create new array reference
+      }
+
+      // Re-validate connections if nodes changed
+      if (this.connections.length > this.maxConnections) {
+        this.connections = this.connections.slice(0, this.maxConnections);
+      }
+
+      console.log(`Cleanup performed - Nodes: ${this.nodes.length}, Connections: ${this.connections.length}, Packets: ${this.dataPackets.length}`);
+    }
+    this.cleanupInterval++;
+  }
+
   drawRadarSweep() {
     // Enhanced radar sweep effect
     this.radarAngle += 0.015; // Slower, smoother rotation
@@ -349,19 +434,85 @@ class ObservabilityAnimation {
     this.updateNodes();
     this.updateDataPackets();
 
+    // Perform periodic memory cleanup
+    this.performMemoryCleanup();
+
     this.animationId = requestAnimationFrame(() => this.animate());
   }
 
   destroy() {
+    // Stop animation loop
     if (this.animationId) {
       cancelAnimationFrame(this.animationId);
+      this.animationId = null;
     }
+
+    // Clear canvas
+    if (this.ctx && this.canvas) {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    // Remove event listeners
+    window.removeEventListener('resize', this.resizeCanvas);
+
+    // Clear all data structures
+    if (this.nodes) {
+      this.nodes.forEach(node => {
+        // Nullify all node properties for garbage collection
+        Object.keys(node).forEach(key => {
+          node[key] = null;
+        });
+      });
+      this.nodes = [];
+    }
+
+    if (this.connections) {
+      this.connections = [];
+    }
+
+    if (this.dataPackets) {
+      this.dataPackets.forEach(packet => {
+        // Nullify all packet properties
+        Object.keys(packet).forEach(key => {
+          packet[key] = null;
+        });
+      });
+      this.dataPackets = [];
+    }
+
+    // Clear canvas references
+    this.canvas = null;
+    this.ctx = null;
+
+    console.log('ObservabilityAnimation destroyed and cleaned up');
   }
 }
 
 // Initialize animation when DOM is ready
+let heroAnimation = null;
+
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Initializing observability animation...');
-  const animation = new ObservabilityAnimation();
-  console.log('Observability animation initialized:', animation);
+  heroAnimation = new ObservabilityAnimation();
+  console.log('Observability animation initialized:', heroAnimation);
+});
+
+// Cleanup on page unload to prevent memory leaks
+window.addEventListener('beforeunload', () => {
+  if (heroAnimation && typeof heroAnimation.destroy === 'function') {
+    heroAnimation.destroy();
+    heroAnimation = null;
+  }
+});
+
+// Also cleanup on visibility change for better performance
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && heroAnimation && heroAnimation.animationId) {
+    // Pause animation when page is hidden
+    cancelAnimationFrame(heroAnimation.animationId);
+    heroAnimation.animationId = null;
+  } else if (!document.hidden && heroAnimation && !heroAnimation.animationId && !heroAnimation.isMobile) {
+    // Resume animation when page is visible (only if not mobile)
+    heroAnimation.animate();
+  }
 });
