@@ -201,11 +201,11 @@ Effective error monitoring is crucial in diverse coding environments. Adapting t
 
 ## Advanced Error Monitoring Tools
 
-Utilizing advanced [error monitoring](https://monoscope.tech/blog/apitoolkit-top-atatus-alternative/) tools is crucial for maintaining the health and performance of applications. Let’s explore some of the cutting-edge tools in this domain and discuss customizing these tools for specific development needs.
+Utilizing advanced [error monitoring](https://monoscope.tech/blog/monoscope-top-atatus-alternative/) tools is crucial for maintaining the health and performance of applications. Let’s explore some of the cutting-edge tools in this domain and discuss customizing these tools for specific development needs.
 
 ### Overview of Cutting-Edge Tools in Error Monitoring
 
-![monoscope](apitoolkit.png)
+![monoscope](monoscope.png)
 **1. monoscope:** This tool specializes in monitoring APIs. [monoscope](https://monoscope.tech/) helps tracks API requests and responses, identifying failures or performance issues. It’s particularly useful for applications heavily reliant on API interactions.
 
 ![Sentry](sentry-1.png)
@@ -240,7 +240,7 @@ The journey towards writing better code and improving debugging skills is ongoin
 
 ## Keep Reading
 
-[monoscope: Top Atatus Alternative for API Monitoring](https://monoscope.tech/blog/apitoolkit-top-atatus-alternative/)
+[monoscope: Top Atatus Alternative for API Monitoring](https://monoscope.tech/blog/monoscope-top-atatus-alternative/)
 
 [API Documentation vs Specification: What It Means for You](https://monoscope.tech/blog/api-documentation-vs-api-specification/)
 

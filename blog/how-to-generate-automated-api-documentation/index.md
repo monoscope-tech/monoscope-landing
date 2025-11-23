@@ -108,7 +108,7 @@ So, APitoolkit builds this insight about your API, which it uses for anomaly det
 
 If you look at the table, you realise that while we have all this automatically generated data, there’s one thing missing: Description
 
-So what we do is simply notify the team or developer, that we detected a new/updated field, and nudge them to add a description via apitoolkit dashboard. So, a user could then add comments to the field as needed, and the table could then look somewhat like:
+So what we do is simply notify the team or developer, that we detected a new/updated field, and nudge them to add a description via monoscope dashboard. So, a user could then add comments to the field as needed, and the table could then look somewhat like:
 
 field	type	format	examples	description
 
@@ -124,7 +124,7 @@ age	int	int:(25 <= x >= 40)	30, 25, 40	The legal age of an account user, calcula
 
 Now we have documentations and other information for each fields, but then we also want to allow multiple people in a team to collaborate and come to a concensus about information. And this can happen via conversations over comments on any given field.
 
-Apitoolkit is on the journey of helping developers create amazing API documentation with very low effort. And even while some of these functionality are still in progress or in flux, we’re constantly thinking about the bigger picture, and are confident that we will solve this problem of API documentation elegantly, with time.
+Monoscope is on the journey of helping developers create amazing API documentation with very low effort. And even while some of these functionality are still in progress or in flux, we’re constantly thinking about the bigger picture, and are confident that we will solve this problem of API documentation elegantly, with time.
 
 Check out the [AIToolkit features](https://monoscope.tech/).
 

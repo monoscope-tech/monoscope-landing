@@ -60,7 +60,7 @@ hide-date: true
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
       <div class="order-last md:order-first">
-        <img src="Testing_apitoolkit.jpeg" alt="Testing monoscope" class="w-full rounded-xl shadow-lg" />
+        <img src="Testing_monoscope.jpeg" alt="Testing monoscope" class="w-full rounded-xl shadow-lg" />
       </div>
       <div class="space-y-6">
         <h2 class="text-3xl font-normal">Advanced Generated Tests and Monitors</h2>
@@ -86,7 +86,7 @@ hide-date: true
         </div>
       </div>
       <div>
-        <img src="reporting_apitoolkit.jpeg" alt="Reporting" class="w-full rounded-xl shadow-lg" />
+        <img src="reporting_monoscope.jpeg" alt="Reporting" class="w-full rounded-xl shadow-lg" />
       </div>
     </div>
   </div>

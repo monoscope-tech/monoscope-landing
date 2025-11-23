@@ -16,7 +16,7 @@ Connectivity is one fantastic thing that has put the world at our fingertips, an
 
 How do you think apps and websites let you create an account and log in with your Facebook or Google credentials? Or how do weather apps get the day’s forecast? The answer to both questions is that they talk to other systems to get the data or verify your credentials. These two systems talk to each other through an API or Application Programming Interface.
 
-![API Connectivity Infographic](./apitoolkitinfographic1.png)
+![API Connectivity Infographic](./monoscopeinfographic1.png)
 
 ## What is an API?
 
@@ -28,7 +28,7 @@ Over 90% of programmers use APIs.
 
 APIs have created the connectivity that puts the world at our fingertips.
 
-![API Report and Trends Update](./apitoolkitinfographic2.png)
+![API Report and Trends Update](./monoscopeinfographic2.png)
 
 ## Key Components of an API
 
@@ -174,7 +174,7 @@ Additionally, API downtime can impact the reputation of the API provider. Let’
 
 Read: [How to Analyze API Logs and Metrics for Better Performance](https://monoscope.tech/blog/api-logs-and-metrics/)
 
-![The monoscope Triad](./apitoolkitinfographic3.png)
+![The monoscope Triad](./monoscopeinfographic3.png)
 
 ### Our Founder’s API Downtime Story
 

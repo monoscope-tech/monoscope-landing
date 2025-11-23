@@ -18,7 +18,7 @@ In a world where [83% of web traffic is estimated to involve API calls,](https:/
 
 ## Harnessing the Power of API Data with monoscope
 
-![Key Features](apitoolkit-key-features.png)
+![Key Features](monoscope-key-features.png)
 
 [monoscope](https://monoscope.tech/blog/) is a comprehensive tool designed to maximize the potential of API data for businesses. It is a vital asset in the API management toolkit, blending core functionalities with advanced features to transform API logs into strategic business resources, driving informed decisions, and enhancing operational excellence. It stands as a crucial solution for managing, monitoring, and analyzing API logs, catering to both basic and advanced API data needs. Key features include:
 

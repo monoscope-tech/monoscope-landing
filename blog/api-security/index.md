@@ -1,6 +1,6 @@
 ---
 title: "How to Optimize Security for Web API Performance in 2024"
-featured_image: apitoolkitblog.png
+featured_image: monoscopeblog.png
 date: 2023-07-10T12:36:58+02:00
 author: collins
 description: Web API performance is crucial for delivering a fast and reliable user experience.
@@ -10,7 +10,7 @@ categories:
 
 # How to Optimize Security for Web API Performance in 2024
 
-![Optimizing API security](./apitoolkitblog.png)
+![Optimizing API security](./monoscopeblog.png)
 
 Web APIs are the backbone of digital transformation, enabling organizations to leverage their data and functionality across different systems and applications. They form the crucial infrastructure that propels digital transformation, enabling seamless data and functionality integration across varied platforms and applications.  However, as the demand for APIs grows, so does the need for security and performance optimization. In this blog post, we will explore some of the best practices for securing and enhancing your [web API performance](https://monoscope.tech/blog/web-api-performance/) in 2024.
 

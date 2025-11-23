@@ -33,7 +33,7 @@ To start, let's understand some key statistics on API documentation:
 
 * Software engineers who participated [in a study](https://www.researchgate.net/publication/335456576_How_developers_use_API_documentation_an_observation_study) said they spend approximately 40% of their time reading documentation.
 
-![monoscope's Documentation Heatmap](./apitoolkit-docs-heatmap.jpg)
+![monoscope's Documentation Heatmap](./monoscope-docs-heatmap.jpg)
 Image source: A heatmap showing site visitors to [monoscope](https://monoscope.tech) (an API management toolkit) spent more time reading the documentation.
 
 ## Importance of API Documentation
@@ -49,7 +49,7 @@ Your [API documentation](https://monoscope.tech/blog/api-documentation-and-obser
 ### Developers
 Developers are the people who directly use your APIs. In order to use your APIs effectively, they need to understand how it applies to their use case.  Additionally, if they need to run QA tests on the APIs, they require as much information as possible about the APIs. They may need to learn how to access and integrate with dozens, or even hundreds, of the resources you expose.
 
-![monoscope installation documentation](./apitoolkitdoc1.png)
+![monoscope installation documentation](./monoscopedoc1.png)
 
 Studies show that [developers have become more confident in API documentation](https://swagger.io/blog/5-key-trends-fintech-api-development/) over the years. With the numbers rising, it only makes sense if you provide the relevant technical docs to accompany your APIs.
 
@@ -86,7 +86,7 @@ Security is paramount in API interactions. Document the authentication and autho
 
 Explain the different authentication mechanisms, such as API keys, OAuth, or JWT, and provide clear instructions on how to obtain and use the necessary credentials. Include examples of API requests with authentication headers or tokens for better understanding.
 
-![monoscope documentation snippet](./apitoolkitdoc3.png)
+![monoscope documentation snippet](./monoscopedoc3.png)
 
 Ensure that developers understand the authorization scopes and permissions associated with each authentication method. Document any access control rules or roles that determine the level of access granted to different users.
 
@@ -118,7 +118,7 @@ Be detailed: It’s important to put in all the important bits of information bu
 
 Be instructional: Let your users know where to begin and where to end. Detail complex pieces of information in clearly outlined steps. Give examples where necessary.
 
-![monoscope installation doc](./apitoolkitdoc2.png)
+![monoscope installation doc](./monoscopedoc2.png)
 
 Read: [Top 7 Reasons Why Your Team should Use an API Monitoring and Observability Tool](https://monoscope.tech/blog/why-you-need-an-api-monitoring-tool/)
 

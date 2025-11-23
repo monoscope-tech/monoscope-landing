@@ -174,7 +174,7 @@ The OpenAPI Specification is a powerful and versatile way to describe your API i
 
 [Best API Monitoring and Observability Tools in 2023](https://monoscope.tech/blog/best-api-monitoring-and-observability-tools/) 
 
-[Generate Swagger Docs Easily with Apitoolkit's Live Traffic](https://monoscope.tech/blog/how-to-generate-swagger-docs-from-your-live-traffic-with-apitoolkit/)
+[Generate Swagger Docs Easily with Monoscope's Live Traffic](https://monoscope.tech/blog/how-to-generate-swagger-docs-from-your-live-traffic-with-monoscope/)
 
 [Generating Golang API Doc with Swagger](https://monoscope.tech/blog/generating-golangdoc/)
 

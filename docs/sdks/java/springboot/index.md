@@ -25,8 +25,8 @@ To install the SDK, kindly add the following dependency to your `pom.xml` file w
 
 ```xml
 <dependency>
-  <groupId>io.apitoolkit.springboot</groupId>
-  <artifactId>apitoolkit-springboot</artifactId>
+  <groupId>io.monoscope.springboot</groupId>
+  <artifactId>monoscope-springboot</artifactId>
   <version>2.0.9</version>
 </dependency>
 ```
@@ -75,18 +75,18 @@ mvn spring-boot:run -Dspring-boot.run.jvmArguments="-javaagent:<PATH-TO>/opentel
 
 ## monoscope SDK Configuration
 
-The apitoolkit sdk can be configured using the following optional properties in your `resource/application.properties` file:
+The monoscope sdk can be configured using the following optional properties in your `resource/application.properties` file:
 
 ```sh
-apitoolkit.captureRequestBody=true # Capture request body.
-apitoolkit.captureResponseBody=true # Capture response body.
-apitoolkit.serviceName=my-service # Service name.
-apitoolkit.serviceVersion="2.0" # Service version.
-apitoolkit.tags = "value1,value2" # Comma-separated list of tags.
-apitoolkit.redactHeaders = "Authorizations, X-Api-Key" # Comma-separated list of headers to redact.
-apitoolkit.redactRequestBody= "$.password,$.creditCardNumber" # Comma-separated list of JSON paths to redact.
-apitoolkit.redactResponseBody= "$.password,$.creditCardNumber" # Comma-separated list of JSON paths to redact.
-apitoolkit.debug=false # Enable debug mode.
+monoscope.captureRequestBody=true # Capture request body.
+monoscope.captureResponseBody=true # Capture response body.
+monoscope.serviceName=my-service # Service name.
+monoscope.serviceVersion="2.0" # Service version.
+monoscope.tags = "value1,value2" # Comma-separated list of tags.
+monoscope.redactHeaders = "Authorizations, X-Api-Key" # Comma-separated list of headers to redact.
+monoscope.redactRequestBody= "$.password,$.creditCardNumber" # Comma-separated list of JSON paths to redact.
+monoscope.redactResponseBody= "$.password,$.creditCardNumber" # Comma-separated list of JSON paths to redact.
+monoscope.debug=false # Enable debug mode.
 # ...
 ```
 
@@ -98,7 +98,7 @@ package com.example.demo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 // Import monoscope annotation
-import io.apitoolkit.springboot.annotations.Enablemonoscope;
+import io.monoscope.springboot.annotations.Enablemonoscope;
 // END Import monoscope annotation
 import org.springframework.web.bind.annotation.*;
 
@@ -177,7 +177,7 @@ Examples of valid JSONPath expressions would be:
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>To learn more about JSONPaths, please take a look at the <a href="https://github.com/json-path/JsonPath/blob/master/README.md" target="_blank">official docs</a> or use this <a href="https://jsonpath.com?ref=apitoolkit" target="_blank">JSONPath Evaluator</a> to validate your JSONPath expressions. </p>
+  <p>To learn more about JSONPaths, please take a look at the <a href="https://github.com/json-path/JsonPath/blob/master/README.md" target="_blank">official docs</a> or use this <a href="https://jsonpath.com?ref=monoscope" target="_blank">JSONPath Evaluator</a> to validate your JSONPath expressions. </p>
   <p><b>You can also use our <a href="/tools/json-redacter/">JSON Redaction Tool</a> <i class="fa-regular fa-screwdriver-wrench"></i> to preview what the final data sent from your API to monoscope will look like, after redacting any given JSON object</b>.</p>
 </div>
 <hr />
@@ -186,17 +186,17 @@ Examples of valid JSONPath expressions would be:
 Here's an example of what the configuration would look like with redacted fields:
 
 ```sh
-apitoolkit.redactHeaders=content-type,Authorization,HOST
-apitoolkit.redactRequestBody=$.user.email,$.user.addresses
-apitoolkit.redactResponseBody=$.users[*].email,$.users[*].credit_card
+monoscope.redactHeaders=content-type,Authorization,HOST
+monoscope.redactRequestBody=$.user.email,$.user.addresses
+monoscope.redactResponseBody=$.users[*].email,$.users[*].credit_card
 ```
 
 ```=html
 <div class="callout">
   <p><i class="fa-regular  fa-circle-info"></i> <b>Note</b></p>
   <ul>
-    <li>The <code>apitoolkit.redactHeaders</code> config field expects a list of <b>case-insensitive headers as strings</b>.</li>
-    <li>The <code>apitoolkit.redactRequestBody</code> and `apitoolkit.redactResponseBody` config fields expect a list of <b>JSONPaths as strings</b>.</li>
+    <li>The <code>monoscope.redactHeaders</code> config field expects a list of <b>case-insensitive headers as strings</b>.</li>
+    <li>The <code>monoscope.redactRequestBody</code> and `monoscope.redactResponseBody` config fields expect a list of <b>JSONPaths as strings</b>.</li>
     <li>The list of items to be redacted will be applied to all endpoint requests and responses on your server.</li>
   </ul>
 </div>
@@ -216,8 +216,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 
-import io.apitoolkit.springboot.APErrors;
-import io.apitoolkit.springboot.annotations.Enablemonoscope;
+import io.monoscope.springboot.APErrors;
+import io.monoscope.springboot.annotations.Enablemonoscope;
 
 @Enablemonoscope
 @SpringBootApplication
@@ -257,8 +257,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import io.apitoolkit.springboot.annotations.Enablemonoscope;
-import io.apitoolkit.springboot.integrations.ObserveRequest;
+import io.monoscope.springboot.annotations.Enablemonoscope;
+import io.monoscope.springboot.integrations.ObserveRequest;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.*;
@@ -299,7 +299,7 @@ public class DemoApplication {
 
 ```=html
 <hr />
-<a href="https://github.com/monoscope-tech/apitoolkit-springboot" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">
+<a href="https://github.com/monoscope-tech/monoscope-springboot" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">
     <i class="fa-brands fa-github"></i>
     Explore the Springboot SDK
 </a>

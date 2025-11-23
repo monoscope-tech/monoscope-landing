@@ -86,7 +86,7 @@ Data Integrity — Comparing the format, schema, and values of API responses aga
 
 **Set up automated testing:** Utilize tools like Postman, JMeter, or SOAPUI to automate the API health check process. These tools can send HTTP requests to the API endpoint and check the response status and time. Additionally, you can configure the tools to trigger the API health check based on specific conditions.
 
-**Monitor API response time:** Using an advanced tool like apitoolkit to monitor your api response time is an important aspect of API health check. An increase in response time could indicate issues with the API or the underlying system. To monitor this, set up performance monitoring using tools like apitoolkit, New Relic, or Grafana.
+**Monitor API response time:** Using an advanced tool like monoscope to monitor your api response time is an important aspect of API health check. An increase in response time could indicate issues with the API or the underlying system. To monitor this, set up performance monitoring using tools like monoscope, New Relic, or Grafana.
 
 **Test error handling and validation:** The API should handle different types of errors and validate input data. Perform manual testing to ensure the API handles invalid requests appropriately and returns clear error messages.
 
@@ -104,7 +104,7 @@ Data Integrity — Comparing the format, schema, and values of API responses aga
 
 
 ## Tools and Resources for API Health Checks
-[Apitoolkit](https://monoscope.tech/)- An advanced API monitoring,teasting, and observability platform providing debugging, [automated testing](https://monoscope.tech/blog/api-testing-automation/), [performance monitoring](https://monoscope.tech/blog/api-logs-and-metrics/), and more. monoscope act as a quality assurance for your API lifecycle. With the engaging community, developers get help easily whenever they get stack.
+[Monoscope](https://monoscope.tech/)- An advanced API monitoring,teasting, and observability platform providing debugging, [automated testing](https://monoscope.tech/blog/api-testing-automation/), [performance monitoring](https://monoscope.tech/blog/api-logs-and-metrics/), and more. monoscope act as a quality assurance for your API lifecycle. With the engaging community, developers get help easily whenever they get stack.
 
 [Postman](https://www.postman.com/) - A powerful tool that allows you to interact with APIs from the comfort of your own workspace, making it easier to design, share, test, and
 

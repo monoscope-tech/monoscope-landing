@@ -1,6 +1,6 @@
 ---
 title: "Add monoscope To Your Next.js Application In 5 Minutes"
-featured_image: apitoolkit-in-5-minutes.png
+featured_image: monoscope-in-5-minutes.png
 date: 2025-03-06T04:03:05+02:00
 author: patrick
 description: Quickly enhance your Next.js API with monoscope in just 5 minutes using OpenTelemetry to capture performance data, monitor errors, and gain easy insights for smoother operations.
@@ -10,7 +10,7 @@ categories:
 
 # Add monoscope To Your Next.js Application In 5 Minutes
 
-![Add monoscope To Your Next.js Application In 5 Minutes](./apitoolkit-in-5-minutes.png)
+![Add monoscope To Your Next.js Application In 5 Minutes](./monoscope-in-5-minutes.png)
 
 In this article, we will learn to integrate [monoscope](https://monoscope.tech/) into our [Next.js](https://nextjs.org/) application in just a few simple steps. For this to work, we need OpenTelemetry. [OpenTelemetry](https://opentelemetry.io/) will help us gather traces about our application and send this information to monoscope. monoscope provides you with a variety of features out-of-the-box, including, but not limited to, API Observability and Monitoring, API Testing, Error Tracking, API Analytics, API Log Explorer, and a lot more.
 
@@ -40,14 +40,14 @@ If you did everything correctly, when you visit `http:localhost:3000` on your br
 
 ![Localhost:3000](./next-js.png)
 
-## Adding APIToolKit to your application
+## Adding Monoscope to your application
 
 {=Note:=} To add monoscope, you need to create an account [here](app.monoscope.tech). This onboarding [video](https://www.youtube.com/watch?v=_uqxNTpcEOI&pp=ygUVYXBpdG9vbGtpdCBvbmJvYXJkaW5n) will walk you through the process. 
 
-Let's install APIToolKit's [Next.js SDK](https://monoscope.tech/docs/sdks/nodejs/nextjs/) with the following command. This command adds the core OpenTelemetry API and also includes Vercel's OpenTelemetry integration.
+Let's install Monoscope's [Next.js SDK](https://monoscope.tech/docs/sdks/nodejs/nextjs/) with the following command. This command adds the core OpenTelemetry API and also includes Vercel's OpenTelemetry integration.
 
 ```javascript
-  npm install --save apitoolkit-next @opentelemetry/api @vercel/otel
+  npm install --save monoscope-next @opentelemetry/api @vercel/otel
 ```
 
 ## Setup OpenTelemetry
@@ -62,7 +62,7 @@ Create a `.env` file with the following configuration. Replace the `service name
   OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf" #Specifies the protocol to use for the OpenTelemetry exporter.
 ```
 
-{=Note:=} You can get your API key from your APIToolKit Dashboard.
+{=Note:=} You can get your API key from your Monoscope Dashboard.
 
 ![API Keys](./api-key.png)
 
@@ -83,7 +83,7 @@ This code initializes [OpenTelemetry](https://opentelemetry.io/) with your proje
 Create an API route `/app/api/hello/route.js` and update it with the following code:
 
 ```javascript
-  import { withmonoscopeAppRouter } from "apitoolkit-next";
+  import { withmonoscopeAppRouter } from "monoscope-next";
   import { NextResponse } from "next/server";
 
   async function handleRequest(request) {
@@ -101,7 +101,7 @@ Create an API route `/app/api/hello/route.js` and update it with the following c
 {=Note:=} If you are using `Pages Router`, use the code below:
 
 ```javascript
-  import { withmonoscopePagesRouter } from "apitoolkit-next";
+  import { withmonoscopePagesRouter } from "monoscope-next";
 
   function handler(req, res) {
     res.status(200).json({ message: "Hello from Next.js!" });
@@ -123,7 +123,7 @@ On your browser, navigate to `http://localhost:3000/api/hello`. You should get a
   }
 ```
 
-Now, let's check if the route is monitored in APIToolKit. Navigate to your project dashboard, on the `Explorer` tab, you should see the API route we visited.
+Now, let's check if the route is monitored in Monoscope. Navigate to your project dashboard, on the `Explorer` tab, you should see the API route we visited.
 
 ![monoscope Explorer](./api-route.png)
 
@@ -132,7 +132,7 @@ Now, let's check if the route is monitored in APIToolKit. Navigate to your proje
 We are going to simulate some errors on our Next.js app and then track them on monoscope. To report errors, we are going to use the `reportError` function. Update your `/app/api/hello/route.js` api route with the following code:
 
 ```javascript
-  import { withmonoscopeAppRouter, reportError } from "apitoolkit-next";
+  import { withmonoscopeAppRouter, reportError } from "monoscope-next";
   import { NextRequest, NextResponse } from "next/server";
   const config = {
     captureResponseBody: "true",
@@ -167,7 +167,7 @@ We just set up [monoscope](https://monoscope.tech/) in our Next.js app in just 5
 
 **Keep Reading**
 
-[Monitoring your Express.js application using OpenTelemetry with monoscope](https://monoscope.tech/blog/monitoring-your-express-application-using-opentelemetry-with-apitoolkit/)
+[Monitoring your Express.js application using OpenTelemetry with monoscope](https://monoscope.tech/blog/monitoring-your-express-application-using-opentelemetry-with-monoscope/)
 
 [The Top 3 API ToolKit Features That Solve Developer's Pain Points](https://monoscope.tech/blog/the-top-three-api-toolkit-features-that-solve-developers-pain-points/)
 

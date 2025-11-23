@@ -199,7 +199,7 @@ Performance metrics tools or services that can measure and report these metrics 
 
   - Utilizing Performance Monitoring Tools and Dashboards
   
-  ![monoscope Dashboard](./apitoolkit-dashboard.png)
+  ![monoscope Dashboard](./monoscope-dashboard.png)
   Image source: monoscope dashboard.
 
   - Use performance [monitoring tools](https://monoscope.tech/api-performance-monitoring-and-compliance/) or services that can continuously collect, aggregate, and visualize your web API performance metrics. For example, [monoscope](https://monoscope.tech) can display your web API performance metrics in real-time, and provide comprehensive and integrated performance monitoring solutions.

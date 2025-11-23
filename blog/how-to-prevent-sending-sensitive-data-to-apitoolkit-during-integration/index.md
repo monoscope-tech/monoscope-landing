@@ -15,7 +15,7 @@ categories:
 The growth of API-driven development opens up huge possibilities, but with great power comes big responsibility, especially for data safety. While many tools have different features, at monoscope, keeping data safe is our top priority and the most important thing we do.
 
 ## Why Protect Sensitive Data in monoscope
-Data protection should be the number one concern for every organization. At apitoolkit, data security is our top priority. We offer data [redaction features](https://monoscope.tech/docs/dashboard/redacting-fields/) that our clients can use to anonymize their sensitive information. To maintain trust, we do not allow client data to leave their servers without being properly redacted.
+Data protection should be the number one concern for every organization. At monoscope, data security is our top priority. We offer data [redaction features](https://monoscope.tech/docs/dashboard/redacting-fields/) that our clients can use to anonymize their sensitive information. To maintain trust, we do not allow client data to leave their servers without being properly redacted.
 
 ## What is Data Security
 Data security is the practices and technologies that safeguard data from unauthorized access, use, or disclosure. These measures ensure the confidentiality, integrity, and availability of data. 
@@ -51,7 +51,7 @@ def should_capture(request):
 @app.before_request
 def before_request():
     if should_capture(request):
-        apitoolkit.beforeRequest()
+        monoscope.beforeRequest()
 ```
 
 #### 3. Encryption by Adding an Extra Security Layer

@@ -62,7 +62,7 @@ Being the most feature-rich solution available, [API ToolKit](https://monoscope.
 
 ## Getting Started with API ToolKit
 
-Here, I’ll show you a step-by-step guide on getting started with APIToolKit
+Here, I’ll show you a step-by-step guide on getting started with Monoscope
 
 - Navigate to [app.monoscope.tech](https://app.monoscope.tech/) and sign up with email or GitHub. 
 
@@ -95,7 +95,7 @@ Here, I’ll show you a step-by-step guide on getting started with APIToolKit
 
 ![integration-with-SDK](./integrate-express.png)
 
-{=Note=}: We have indepth [documentation](https://monoscope.tech/docs/sdks/) for integrating all your favourite frameworks. If you can’t find a specific SDK, you can request for one from the [APIToolKit team](https://discord.gg/BHQh5JzjPX).
+{=Note=}: We have indepth [documentation](https://monoscope.tech/docs/sdks/) for integrating all your favourite frameworks. If you can't find a specific SDK, you can request for one from the [Monoscope team](https://discord.gg/BSFCaUHxt4).
 
 - Select your desired plan:
 

@@ -42,14 +42,14 @@ Compare pricing models and factors in hidden costs like training and support. Ch
 
 ## 1. API Design & Documentation Tools
 
-###  Apitoolkit
+###  Monoscope
 
  1. Features: Monitor Errors & Performance, Debug Errors and See request happening live, Generate Swagger From live traffic or manually upload swagger, Payload Validation & Anomaly Detector, API Static Analysis & Linter, Live API tester	
  2.  Pricing: Free tier. Pay as you grow
  3.  Support: Email, chat, forum and 24/7 support
  4.  Community: Small but active user community
 
-Try [Apitoolkit for Free](https://apitoolkit.eu.auth0.com/u/login?state=hKFo2SBvSnZMUXhDV3JsaF9fNEZBWW1INXZnRjkwYXF0NjVDcKFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIDNtNWpYZ3Jycnh6RmpxN0JvejBpWWg0cTBpOGNkdk1Io2NpZNkgQ0NoZnE2bGVSR2RuOWhhSFdzS0Q5RHRtbVl2RDlYYUM)
+Try [Monoscope for Free](https://monoscope.eu.auth0.com/u/login?state=hKFo2SBvSnZMUXhDV3JsaF9fNEZBWW1INXZnRjkwYXF0NjVDcKFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIDNtNWpYZ3Jycnh6RmpxN0JvejBpWWg0cTBpOGNkdk1Io2NpZNkgQ0NoZnE2bGVSR2RuOWhhSFdzS0Q5RHRtbVl2RDlYYUM)
 
 ### 2.Postman
 
@@ -134,7 +134,7 @@ Redocly provides tools for OpenAPI spec-based API development.
 3. Support: GitHub issues, Slack community
 4. Requirements: OpenAPI spec, customization for specific SDK needs
 
-### 13. Apitoolkit
+### 13. Monoscope
 
 1. Features: Auto-generated SDKs for JavaScript, Python, PHP, Java
 2. Pricing: Free and Pay as you grow(Very moderate)
@@ -266,7 +266,7 @@ Redocly provides tools for OpenAPI spec-based API development.
 4. Requirements: Moderate technical knowledge for API integration and configuration.
 5. Budget: High (custom pricing based on usage and features
     
-### 30. Apitoolkit
+### 30. Monoscope
 
 1. Features: Monitor Errors & Performance, Debug Errors and See request happening live, Generate Swagger From live traffic or manually upload swagger, Payload Validation & Anomaly Detector, API Static Analysis & Linter, Live API tester	
 2. Pricing: Free and Pay as you grow.
@@ -350,12 +350,12 @@ Redocly provides tools for OpenAPI spec-based API development.
 4. Requirements: Budget, technical expertise for deployment/management (hybrid/multi-cloud).
 5. Suitable for: Complex API landscapes, multi-cloud strategies, high security & hybrid needs.
 
-### 40. Apitoolkit
+### 40. Monoscope
 
 1. Features: Lightweight, self-hosted API management platform with a focus on developer experience. Monitor Errors & Performance, Debug Errors and See request happening live, Generate Swagger From live traffic or manually upload swagger,and many more.
 2. Pricing: Free tier and Pay as your grow(Best)
 3. Support: Free community support forums, paid Pro edition support available.
-4. Community: Growing community around apitoolkit, good documentation and tutorials.
+4. Community: Growing community around monoscope, good documentation and tutorials.
 5. Requirements: Technical expertise for self-hosting and management. Cost-effective solution for small teams and individual developers.
 
 ### 5. API Security Tools
@@ -449,7 +449,7 @@ Redocly provides tools for OpenAPI spec-based API development.
     
  **Are there any free or open-source API tools available?**
     
- Yes! Many excellent free and open-source API tools are available, such as Swagger UI, Postman, OpenAPI Generator, and Apitoolkit. These tools offer basic functionalities and can be a great starting point for developers on a budget.
+ Yes! Many excellent free and open-source API tools are available, such as Swagger UI, Postman, OpenAPI Generator, and Monoscope. These tools offer basic functionalities and can be a great starting point for developers on a budget.
     
     
  **Can I get started with APIs without spending any money?**
@@ -462,7 +462,7 @@ Remember, the perfect API tool doesn't exist; it's about finding the perfect fit
 
 **Keep Reading**
 [ A Guide to Embedded API Logs and Metrics ](https://monoscope.tech/blog/embedded-apis-and-metrics/)
-[ Generate Swagger Docs Easily with Apitoolkit's Live Traffic ](https://monoscope.tech/blog/how-to-generate-swagger-docs-from-your-live-traffic-with-apitoolkit/)
+[ Generate Swagger Docs Easily with Monoscope's Live Traffic ](https://monoscope.tech/blog/how-to-generate-swagger-docs-from-your-live-traffic-with-monoscope/)
 [ Bridging the Gap Between API Logs and User Behavior Tracking ](https://monoscope.tech/blog/api-logs-and-user-behaviour-tracking/)
 [ How to Resolve API Downtime Issues Before It Escalates ](https://monoscope.tech/blog/api-downtime/)
 

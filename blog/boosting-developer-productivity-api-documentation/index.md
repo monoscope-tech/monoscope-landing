@@ -73,6 +73,6 @@ In a nutshell, top-notch API documentation is key to helping developers do their
 ## Keep Reading
 
 [API Documentation Trends to Watch out for in 2024: What's new and exciting](https://monoscope.tech/blog/api-documentation-trends-to-watch/)
-[How to Prevent Sending sensitive Data to monoscope during integration](https://monoscope.tech/blog/how-to-prevent-sending-sensitive-data-to-apitoolkit-during-integration/)
+[How to Prevent Sending sensitive Data to monoscope during integration](https://monoscope.tech/blog/how-to-prevent-sending-sensitive-data-to-monoscope-during-integration/)
 [API Uptime for API monitoring and incident management](https://monoscope.tech/blog/better-uptime-for-api-monitoring-and-incident-management./)
 [Error Monitoring for Developers: How to Write Better Code and Improve Your Debugging Skills](https://monoscope.tech/blog/error-monitoring-for-developer/)

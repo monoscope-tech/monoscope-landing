@@ -44,7 +44,7 @@ We’ve curated a list of the best API observability and monitoring tools to hel
 
 ## 1. [monoscope](http://www.monoscope.tech)
 
-![monoscope User Dashboard](./apitoolkit-user-dashboard.png)
+![monoscope User Dashboard](./monoscope-user-dashboard.png)
 
 Built by expert software engineers to solve problems that have cost their employers lots of money in the past, monoscope is an automated tool for API contract monitoring and documentation. Using best-in-class technology, monoscope leverages a highly specialized and powerful platform to provide a secure environment for developers to build and maintain APIs with enhanced analytics.
 

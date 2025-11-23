@@ -52,13 +52,13 @@ Advanced testing features like load testing and chaos engineering experiments he
 
 The error analytics component gives deep insight into API errors and failures. All exceptions and stack traces are centralized for analysis. This helps uncover error root causes and frequency patterns. Developers can use this data to prioritize fixes that will reduce the most common and impactful errors.
 
-Apitoolkit does this and more. Try this feature out for free.[Click here.](https://apitoolkit.eu.auth0.com/u/login?state=hKFo2SBJRVJzWEZhUmJSWlFLcFQwTmhfdjNTT1ktRU01VnZ2R6Fur3VuaXZlcnNhbC1sb2dpbqN0aWTZIGxDVVdkd2JfdmZJdXZpQjNZUmNTclhlMmdVZEZwTDFwo2NpZNkgQ0NoZnE2bGVSR2RuOWhhSFdzS0Q5RHRtbVl2RDlYYUM) 
+Monoscope does this and more. Try this feature out for free.[Click here.](https://monoscope.eu.auth0.com/u/login?state=hKFo2SBJRVJzWEZhUmJSWlFLcFQwTmhfdjNTT1ktRU01VnZ2R6Fur3VuaXZlcnNhbC1sb2dpbqN0aWTZIGxDVVdkd2JfdmZJdXZpQjNZUmNTclhlMmdVZEZwTDFwo2NpZNkgQ0NoZnE2bGVSR2RuOWhhSFdzS0Q5RHRtbVl2RDlYYUM) 
 
 ### List of Popular Better Uptime Tools For API monitoring and incident management.
 
 ### API Monitoring
 
-* Apitoolkit
+* Monoscope
 * Datadog
 * New Relic
 * Sematext Synthetics

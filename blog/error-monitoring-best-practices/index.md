@@ -59,7 +59,7 @@ When evaluating error monitoring solutions, there are several key features to co
 
 When examining the landscape of error monitoring tools, several stand out for their unique features and capabilities. Each of these tools offers distinct features and strengths, making them suitable for different needs and environments. Whether you prioritize user experience, comprehensive system analysis, real-time tracking, or API-specific monitoring, there is a tool designed to meet those specific error monitoring requirements. Choosing the right tool involves weighing these features against your specific needs, budget, and the nature of your project. In the next section, we'll explore best practices for utilizing these tools to their fullest potential. Here's a look at some of the top players in the market, including a noteworthy addition:
 
-![monoscope](apitoolkit.png)
+![monoscope](monoscope.png)
 
 1. **monoscope:** monoscope is a notable addition, especially valuable for teams focused on API monitoring. It specializes in tracking API errors and performance, offering insights that are crucial for applications heavily reliant on API integrations. Its targeted approach to API errors makes it a unique and essential tool for modern applications that interact extensively with various APIs.
 

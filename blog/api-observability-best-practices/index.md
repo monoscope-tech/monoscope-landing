@@ -18,7 +18,7 @@ API observability is a critical component of managing and maintaining successful
 
 API observability refers to the ability to gain insights into the behavior of your APIs by collecting and analyzing telemetry data. It involves monitoring key API metrics, such as response times, error rates, and throughput, to ensure the smooth operation of your APIs.
 
-When it comes to [building and maintaining APIs](https://monoscope.tech/blog/how-apitoolkit-can-help-you-achieve-api-observability/), observability plays a crucial role in ensuring their reliability and performance. By implementing a comprehensive [observability strategy](https://monoscope.tech/blog/how-api-observability-can-boost-your-business-performance/), you can effectively monitor and analyze the behavior of your APIs, enabling you to proactively identify and address any issues or anomalies before they impact your users.
+When it comes to [building and maintaining APIs](https://monoscope.tech/blog/how-monoscope-can-help-you-achieve-api-observability/), observability plays a crucial role in ensuring their reliability and performance. By implementing a comprehensive [observability strategy](https://monoscope.tech/blog/how-api-observability-can-boost-your-business-performance/), you can effectively monitor and analyze the behavior of your APIs, enabling you to proactively identify and address any issues or anomalies before they impact your users.
 
 But why is API observability so important? Let's delve deeper into its significance.
 
@@ -97,7 +97,7 @@ Image Source: monoscope's dashboard displaying latency distribution
 
 * **New Relic:** New Relic offers a range of monitoring and observability solutions, including tools specifically designed for API telemetry data collection. It provides detailed insights into the performance and behavior of your API.
 
-In addition to these observability platforms, cloud service providers like AWS and Google Cloud also offer services that enable you to collect and analyze telemetry data within their respective environments. For example, AWS CloudWatch and Google Cloud's Stackdriver provide monitoring and logging capabilities that integrate seamlessly with their cloud infrastructure. However, a tool like [monoscope](https://apitoolkit,io) gives you more granular insight into your APIs and backend services.
+In addition to these observability platforms, cloud service providers like AWS and Google Cloud also offer services that enable you to collect and analyze telemetry data within their respective environments. For example, AWS CloudWatch and Google Cloud's Stackdriver provide monitoring and logging capabilities that integrate seamlessly with their cloud infrastructure. However, a tool like [monoscope](https://monoscope,io) gives you more granular insight into your APIs and backend services.
 
 By leveraging these tools and services, you can gain valuable insights into the performance, behavior, and usage of your API. This data can help you make informed decisions, optimize your API's performance, and ensure a seamless experience for your users.
 

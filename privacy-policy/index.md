@@ -7,7 +7,7 @@ date: 2022-08-21
 <section class="our_container w-full px-6 md:px-0 lg:px-0">
 ```
 
-At APItoolkit, accessible from [https://monoscope.tech](https://monoscope.tech), one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that are collected and recorded by APItoolkit and how we use it.
+At Monoscope, accessible from [https://monoscope.tech](https://monoscope.tech), one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that are collected and recorded by Monoscope and how we use it.
 
 If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.
 

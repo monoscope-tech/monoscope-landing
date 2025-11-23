@@ -70,9 +70,9 @@ A good [documentation](https://monoscope.tech/blog/how-to-generate-automated-api
 
 There are various widely available API documentation tools. These are a few:
 
-### [Apitoolkit](https://www.monoscope.tech/)
+### [Monoscope](https://www.monoscope.tech/)
 
-![apitoolkit](apitoolkit.png)
+![monoscope](monoscope.png)
 
 [monoscope](https://app.monoscope.tech) offers a unique approach to API documentation by automating much of the process. It distinguishes itself with features that learn from live production traffic, allowing for real-time updates and issue detection. The tool also auto-generates Swagger or OpenAPI documentation, eliminating the need for manual YAML file creation, command-line tools, or code annotations. This level of automation makes it incredibly user-friendly and ensures that the documentation remains accurate and up-to-date. The key advantages of using [monoscope](https://app.monoscope.tech) lie in its automation and real-time capabilities. By learning from live traffic, it ensures that your API documentation is always up-to-date and accurate. This not only saves an immense amount of time but also minimizes the risk of errors that can occur during manual documentation. In a field where precision and timeliness are paramount, [monoscope](https://app.monoscope.tech) emerges as an invaluable tool for hassle-free, accurate API documentation.
 

@@ -1,7 +1,7 @@
 ---
 title: "Improve Your Workflow with monoscope"
 date: 2024-03-01T11:10:00+00:00
-featured_image: improve%20workflow%20apitoolkit.gif
+featured_image: improve%20workflow%20monoscope.gif
 description: "Bugs are an inevitable part of the software development lifecycle, no matter how rigorous your testing processes are. When a new exception rears its ugly head and starts impacting your users, it's crucial that you have systems in place that are able to quickly identify and resolve the issue."
 author: elliot
 categories:
@@ -10,7 +10,7 @@ categories:
 
 # Improve Your Workflow with monoscope
 
-![alt](./improve%20workflow%20apitoolkit.gif)
+![alt](./improve%20workflow%20monoscope.gif)
 
 Building software involves many steps, like designing, coding, testing, deploying, and maintenance. As engineers, we know how complex these processes are and how they interact with each other. The typical way of developing software can make it difficult to quickly fix any issues that come up during the implementation phase.
 
@@ -53,7 +53,7 @@ Of course, every organization is a bit different in its processes and tech stack
 
 To do this use this link to create or sign into your account. Follow the subsequent procedures to get your first project created easily 
 
-![login into apitoolkit](./login.png)
+![login into monoscope](./login.png)
 
 ### Step 2 - Generating your API KEY
 
@@ -72,27 +72,27 @@ To integrate, let's use this Express.js project as an example.
 Run this to install the needed packages
 
 ```js
-  npm install express apitoolkit-express
+  npm install express monoscope-express
 ```
 Run this to initialize monoscope into your existing application
 
 ```js
-import { monoscope } from 'apitoolkit-express';
-const apitoolkitClient = monoscope.NewClient({ apiKey: '<API-KEY>' });
+import { monoscope } from 'monoscope-express';
+const monoscopeClient = monoscope.NewClient({ apiKey: '<API-KEY>' });
 ```
 Once everything works you should get a complete code like this if you use common js
 
 ```js
-const { monoscope } = require('apitoolkit-express');
+const { monoscope } = require('monoscope-express');
 const express = require('express');
 const app = express();
 const port = 3000;
-const apitoolkit = monoscope.NewClient({
-  apiKey: '<API-KEY>', // Required: API Key generated from apitoolkit dashboard
+const monoscope = monoscope.NewClient({
+  apiKey: '<API-KEY>', // Required: API Key generated from monoscope dashboard
 });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(apitoolkit.expressMiddleware);
+app.use(monoscope.expressMiddleware);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
@@ -120,7 +120,7 @@ This example is for our initial Express.js project
 
 ```js
 const express = require('express');
-import monoscope from 'apitoolkit-express';
+import monoscope from 'monoscope-express';
 
 const app = express();
 const port = 3000;
@@ -128,13 +128,13 @@ const port = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const apitoolkitClient = monoscope.NewClient({
+const monoscopeClient = monoscope.NewClient({
   apiKey: '<API-KEY>',
   redactHeaders: ['Content-Type', 'Authorization', 'Cookies'], // Specified headers will be redacted
   redactRequestBody: ['$.credit-card.cvv', '$.credit-card.name'], // Specified request bodies fields will be redacted
   redactResponseBody: ['$.message.error'], // Specified response body fields will be redacted
 });
-app.use(apitoolkitClient.expressMiddleware);
+app.use(monoscopeClient.expressMiddleware);
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });

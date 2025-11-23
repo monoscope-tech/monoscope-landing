@@ -89,7 +89,7 @@ Before you can detect API anomalies, you need to define what constitutes normal 
 
 Effective [API monitoring](https://monoscope.tech/blog/why-you-need-an-api-monitoring-tool/) is key to detecting anomalies before they cause significant disruptions. Use a tool like [monoscope](https://monoscope.tech/) to track key metrics such as response times, latency distribution, error rates, and throughput. Receive alerts that notify you when these metrics deviate from normal behavior. This can help you catch API anomalies early and address them before they become major problems. monoscope uses machine learning algorithms to detect anomalies in real-time, such as unusual traffic patterns or abnormal usage behavior.
 
-![monoscope Anomaly Detection Dashboard](./apitoolkit-anomaly-dashboard.gif)
+![monoscope Anomaly Detection Dashboard](./monoscope-anomaly-dashboard.gif)
 Source: monoscope's app interface.
 
 Read: [Best API Monitoring and Observability Tools in 2023](https://monoscope.tech/blog/best-api-monitoring-and-observability-tools/)
@@ -98,7 +98,7 @@ Read: [Best API Monitoring and Observability Tools in 2023](https://monoscope.te
 
 When you [detect an API anomaly](https://monoscope.tech/api-anomalies-validation-and-checks/), investigate it promptly. Look for potential causes, such as changes to APIs, network issues, or server issues. monoscope can help you with API tracing to pinpoint the source of the issue. This can help you address the issue quickly and minimize its impact on your system.
 
-[monoscope Logs and Metrics Explorer](./apitoolkit-gif-query.gif)
+[monoscope Logs and Metrics Explorer](./monoscope-gif-query.gif)
 Source: monoscope's query explorer.
 
 #### **Implement Safeguards**

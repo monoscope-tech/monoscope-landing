@@ -286,7 +286,7 @@ spec:
         - name: APITOOLKIT_API_KEY
           valueFrom:
             secretKeyRef:
-              name: apitoolkit-secrets
+              name: monoscope-secrets
               key: api-key
       
       volumes:

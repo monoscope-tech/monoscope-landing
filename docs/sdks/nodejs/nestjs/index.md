@@ -80,7 +80,7 @@ async function bootstrap() {
     monitorAxios: axios, // Optional: Use this to monitor axios requests
   });
 
-  app.use(apitoolkit.middleware);
+  app.use(monoscope.middleware);
 
   app.get("/", async (req, res) => {
     // This axios request get's monitored and appears in the  Monoscope explorer

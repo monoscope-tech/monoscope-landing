@@ -274,7 +274,7 @@ They're essential tools in a developer's arsenal to ensure the software or appli
 ---
 - [Learn about testing automation in general](https://monoscope.tech/blog/api-testing-automation/) 
 - [Learn more about these tests on Wikipedia](https://en.wikipedia.org/wiki/Software_performance_testing)
-- [Check out the apitoolkit testing offerings](https://monoscope.tech/api-testing)
+- [Check out the monoscope testing offerings](https://monoscope.tech/api-testing)
 - [Check out the testkit low code DSL for api testing and load+performance testing](https://usetestkit.com)
 
 ---

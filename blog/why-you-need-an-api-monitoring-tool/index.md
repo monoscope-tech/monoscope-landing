@@ -46,7 +46,7 @@ This functionality can notify your security team if an endpoint receives abnorma
 
 ## 3. View Your API Analytics in One Place
 
-![monoscope Dashboard](./apitoolkit-dashboard.png)Image source: monoscope dashboard
+![monoscope Dashboard](./monoscope-dashboard.png)Image source: monoscope dashboard
 
 With our comprehensive dashboard, you can view response times, latency, etc. You can also run queries on your live API requests and responses.
 
@@ -90,7 +90,7 @@ monoscope can help you protect your APIs from damages caused by malicious attack
 
 ## 8. Get a Bird's Eye View of your Entire API
 
-![APITookit Endpoints Interface](./apitoolkit2.png)
+![APITookit Endpoints Interface](./monoscope2.png)
 
 monoscope is equipped with the most advanced tools to give you a detailed insight into everything that is happening on your API. From the list of all your endpoints to metrics to documentation, etc., we have got you covered.
 

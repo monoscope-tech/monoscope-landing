@@ -115,7 +115,7 @@ Read: [Top 7 Reasons Why Your Team Needs an API Monitoring ](https://monoscope.t
 API testing can be done with a variety of automated tools.
 
 - **monoscope**: monoscope possesses all the tool you need to design, TEST, and monitor your APIs. It's the one-stop toolbox for [API developers](https://monoscope.tech/blog/top-8-api-documentation-tools-for-developers/) utilizing a variety of tech stack.
-  ![monoscope app user dashboard](./apitoolkit1.jpg)
+  ![monoscope app user dashboard](./monoscope1.jpg)
 - **Rapid API testing**: Over 1 million developers and 10,000 APIs are available on Rapid API testing. It’s an API testing solution for managing complex API tests throughout the development process. You can run tests for any type of API (including REST, SOAP, and GraphQL).
   ![Rapid API Testing](./image4.png "<a href='https://docs.rapidapi.com/docs/rapidapi-testing-overview'>Image source</a>")
 - **SOAPUI test**: Mainly used for REST, SOAP, and other mainstream API and IoT systems.

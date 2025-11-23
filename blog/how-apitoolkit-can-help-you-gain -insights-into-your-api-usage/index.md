@@ -97,7 +97,7 @@ Real-World Scenario: In a financial trading platform, sudden spikes in API calls
 4. Once you’ve generated a key, go ahead and integrate your APIs into monoscope using these docs
 5. Follow the prompts to connect your API to monoscope
 6. Voila! You are as good as ready and here is what a fully integrated dashboard with data should look like
-![monoscope dashboard](apitoolkit-dashboard.png)
+![monoscope dashboard](monoscope-dashboard.png)
 
 Note: On [monoscope](https://monoscope.tech/) your page is automatically configured with specific endpoints, setting rate limits, and more. All incoming requests are monitored for anomalies, new endpoints, slow endpoints and more. no rate limiting.  
 

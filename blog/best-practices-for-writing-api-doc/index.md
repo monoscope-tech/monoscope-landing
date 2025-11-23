@@ -120,6 +120,6 @@ So, grab these tips and get to work on your API docs. Make them so good that [de
 
 [Managing Custom Alerts and Notifications Using the API](https://monoscope.tech/blog/mastering-custom-alerts/)
 
-[How to Prevent Sending sensitive Data to monoscope during integration](https://monoscope.tech/blog/how-to-prevent-sending-sensitive-data-to-apitoolkit-during-integration/)
+[How to Prevent Sending sensitive Data to monoscope during integration](https://monoscope.tech/blog/how-to-prevent-sending-sensitive-data-to-monoscope-during-integration/)
 
 [Best Practices for Implementing Custom Alerts in API Management](https://monoscope.tech/blog/best-practices-for-implementing-custom-alerts/)

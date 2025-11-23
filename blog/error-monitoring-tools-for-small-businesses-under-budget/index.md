@@ -19,7 +19,7 @@ By proactively identifying and tackling these errors, you keep your system movin
 
 Luckily, these tools are now  available to help small businesses proactively monitor errors across their tech stack. From website monitoring services to log analyzers, these solutions provide actionable insights without breaking the bank. 
 
-For example, apitoolkit uses ai to monitor your system which starts at just $20 per month. This allows even the smallest companies to keep tabs on their servers, and computers.
+For example, monoscope uses ai to monitor your system which starts at just $20 per month. This allows even the smallest companies to keep tabs on their servers, and computers.
 ## What is Error Monitoring Software?
 
 Error monitoring software is a tool that allows developers and businesses to keep a close eye on the health and performance of their applications, websites, and technical infrastructure. It works by continuously monitoring your systems to automatically detect errors, crashes, slowdowns, and other issues in real-time.
@@ -105,7 +105,7 @@ Error monitoring tools come in all shapes and sizes, from free open-source optio
 
 Choosing the right error monitoring software for your small business can be daunting, especially with limited resources. However, neglecting error tracking can cost you dearly in lost revenue, frustrated customers, and wasted developer time. To help you navigate this crucial decision, let's expand on the recommended tools you mentioned and explore other options catering to different needs and budgets:
 
-### Apitoolkit
+### Monoscope
 
 ![apitookit](./monoscope.png)
  monoscope is ideal for businesses heavily reliant on APIs, monoscope monitors for API issues like latency, timeouts, and response errors. Its free plan covers numerous API calls per month, making it perfect for startups and small teams.

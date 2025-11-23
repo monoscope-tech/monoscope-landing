@@ -2,7 +2,7 @@
 date: 2024-17-07
 title: monoscope vs BugSnag
 description: There are many monitoring and observability platforms in the market today, each with its unique offerings. Here’s what monoscope does better and offers differently compared to BugSnag.
-ogImage: https://raw.githubusercontent.com/apitoolkit/.github/main/images/compare-og.png
+ogImage: https://raw.githubusercontent.com/monoscope/.github/main/images/compare-og.png
 ---
 
 ```=html

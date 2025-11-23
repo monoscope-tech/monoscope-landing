@@ -43,7 +43,7 @@ kubectl apply -f https://github.com/open-telemetry/opentelemetry-operator/releas
 apiVersion: opentelemetry.io/v1alpha1
 kind: OpenTelemetryCollector
 metadata:
-  name: apitoolkit-collector
+  name: monoscope-collector
 spec:
   mode: deployment
   config: |
@@ -213,7 +213,7 @@ rbac:
 3. Install the OpenTelemetry Collector using Helm:
 
 ```bash
-helm install apitoolkit-collector open-telemetry/opentelemetry-collector --values values.yaml
+helm install monoscope-collector open-telemetry/opentelemetry-collector --values values.yaml
 ```
 
 ## Monitoring Kubernetes API Services
@@ -263,7 +263,7 @@ spec:
         - name: APITOOLKIT_API_KEY
           valueFrom:
             secretKeyRef:
-              name: apitoolkit-secrets
+              name: monoscope-secrets
               key: api-key
       volumes:
       - name: otel-collector-config
@@ -444,7 +444,7 @@ kubectl apply -f otel-daemonset.yaml
 Create a secret for the monoscope API key:
 
 ```bash
-kubectl create secret generic apitoolkit-secrets --from-literal=api-key=YOUR_API_KEY
+kubectl create secret generic monoscope-secrets --from-literal=api-key=YOUR_API_KEY
 ```
 
 ## Monitoring API Gateways and Ingresses

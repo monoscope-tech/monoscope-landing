@@ -61,7 +61,7 @@ When it comes to keeping your API in prime condition, there are a few vital sign
 
 Selecting the right tools for [API monitoring](https://monoscope.tech/blog/treblle-alternative/) is like gearing up for a major league game. You want the best equipment in your corner to ensure you're not just playing, but also winning. With the right set of tools, you can keep a close eye on those key metrics we talked about, from response times to error rates. Here's a rundown of some top tools that can help you stay on top of your API's game:
 
-![monoscope](apitoolkit.png)
+![monoscope](monoscope.png)
 
 1. **[monoscope](https://monoscope.tech/):** monoscope stands out in the API monitoring field by offering comprehensive oversight. This tool goes beyond mere monitoring; it acts as both a guide and a strategist for your API, tracking its performance, detecting errors as they occur, and shedding light on usage patterns. Its strength lies in providing actionable insights that help you understand the root causes of issues and how to prevent them, ensuring your API operates smoothly.
 

@@ -18,7 +18,7 @@ Ensure you have already completed the first three steps of the [onboarding guide
 
 ## Installation
 
-Kindly run the command below to install the apitoolkit pyramid sdk and necessary opentelemetry packages:
+Kindly run the command below to install the monoscope pyramid sdk and necessary opentelemetry packages:
 
 ```sh
 pip install monoscope-pyramid opentelemetry-distro opentelemetry-exporter-otlp
@@ -53,7 +53,7 @@ opentelemetry-instrument python3 myapp.py
 
 ## Monoscope Pyramid Configuration
 
-After setting up open telemetry, you can now configure and start the apitoolkit pyramid middleware.
+After setting up open telemetry, you can now configure and start the monoscope pyramid middleware.
 
 Next, add the configuration variables to your settings or `development.ini` or `production.ini` file, like so:
 
@@ -198,7 +198,7 @@ Examples of valid JSONPath expressions would be:
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>To learn more about JSONPaths, please take a look at the <a href="https://github.com/json-path/JsonPath/blob/master/README.md" target="_blank">official docs</a> or use this <a href="https://jsonpath.com?ref=apitoolkit" target="_blank">JSONPath Evaluator</a> to validate your JSONPath expressions. </p>
+  <p>To learn more about JSONPaths, please take a look at the <a href="https://github.com/json-path/JsonPath/blob/master/README.md" target="_blank">official docs</a> or use this <a href="https://jsonpath.com?ref=monoscope" target="_blank">JSONPath Evaluator</a> to validate your JSONPath expressions. </p>
   <p><b>You can also use our <a href="/tools/json-redacter/">JSON Redaction Tool</a> <i class="fa-regular fa-screwdriver-wrench"></i> to preview what the final data sent from your API to Monoscope will look like, after redacting any given JSON object</b>.</p>
 </div>
 <hr />
@@ -303,7 +303,7 @@ The `observe_request()` function accepts a **required `request` argument**, and 
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>The `observe_request()` function wraps an <a href="https://github.com/monoscope-tech/apitoolkit-python/main/tree/pyramid" target="_blank" rel="noopener noreferrer" class="">HTTPX</a>
+  <p>The `observe_request()` function wraps an <a href="https://github.com/monoscope-tech/monoscope-python/main/tree/pyramid" target="_blank" rel="noopener noreferrer" class="">HTTPX</a>
 
  client and you can use it just like you would normally use HTTPX for any request.</p>
 </div>

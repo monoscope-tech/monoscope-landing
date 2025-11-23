@@ -213,7 +213,7 @@ Read: [How to Write API Documentation: 10 Essential Guidelines](https://monoscop
 
 ## The monoscope Solution
 
-![monoscope's landing page](./apitoolkit-landing.png)
+![monoscope's landing page](./monoscope-landing.png)
 
 [monoscope](https://monoscope.tech) is a toolbox that contains all the tools you need to design, test and monitor the most reliable APIs.
 

@@ -20,7 +20,7 @@ Ensure you have already completed the first three steps of the [onboarding guide
 
 ## Installation
 
-Kindly run the command below to install the apitoolkit django sdks and necessary opentelemetry packages:
+Kindly run the command below to install the monoscope django sdks and necessary opentelemetry packages:
 
 ```sh
 pip install monoscope-django opentelemetry-distro opentelemetry-exporter-otlp
@@ -69,7 +69,7 @@ opentelemetry-instrument daphne myapp.asgi:application
 
 ## Configuration
 
-After setting up open telemetry, you can now configure the apitoolkit django middleware.
+After setting up open telemetry, you can now configure the monoscope django middleware.
 By adding the following Monoscope variables to your Django settings (`settings.py`) file:
 
 ```python
@@ -178,7 +178,7 @@ Examples of valid JSONPath expressions would be:
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>To learn more about JSONPaths, please take a look at the <a href="https://github.com/json-path/JsonPath/blob/master/README.md" target="_blank">official docs</a> or use this <a href="https://jsonpath.com?ref=apitoolkit" target="_blank">JSONPath Evaluator</a> to validate your JSONPath expressions. </p>
+  <p>To learn more about JSONPaths, please take a look at the <a href="https://github.com/json-path/JsonPath/blob/master/README.md" target="_blank">official docs</a> or use this <a href="https://jsonpath.com?ref=monoscope" target="_blank">JSONPath Evaluator</a> to validate your JSONPath expressions. </p>
   <p><b>You can also use our <a href="/tools/json-redacter/">JSON Redaction Tool</a> <i class="fa-regular fa-screwdriver-wrench"></i> to preview what the final data sent from your API to Monoscope will look like, after redacting any given JSON object</b>.</p>
 </div>
 <hr />

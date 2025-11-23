@@ -14,7 +14,7 @@ hide_date: true
 <script src="jsonpath.min.js"></script>
 <script src="jsonpath-plus-umd.min.cjs"></script>
 <script>
-    // Source: https://github.com/monoscope-tech/apitoolkit-js/blob/main/src/payload.ts
+    // Source: https://github.com/monoscope-tech/monoscope-js/blob/main/src/payload.ts
     function redactFields(body, fieldsToRedact) {
       try {
         const bodyOB = JSON.parse(body);

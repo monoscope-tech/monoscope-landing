@@ -1,13 +1,13 @@
 <div align="center">
 
-![APItoolkit's Logo](https://github.com/monoscope-tech/.github/blob/main/images/logo-white.svg?raw=true#gh-dark-mode-only)
-![APItoolkit's Logo](https://github.com/monoscope-tech/.github/blob/main/images/logo-black.svg?raw=true#gh-light-mode-only)
+![Monoscope's Logo](https://github.com/monoscope-tech/.github/blob/main/images/logo-white.svg?raw=true#gh-dark-mode-only)
+![Monoscope's Logo](https://github.com/monoscope-tech/.github/blob/main/images/logo-black.svg?raw=true#gh-light-mode-only)
 
 ## Marketing Website and Developer Documentation
 
-[![QuickStatic](https://img.shields.io/badge/QuickStatic-Generator-f1541c?logo=rust)](https://github.com/topics/apitoolkit-sdk) [![APItoolkit SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=github)](https://github.com/topics/apitoolkit-sdk) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://discord.gg/dEB6EjQnKB) [![APItoolkit Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://monoscope.tech/docs?utm_source=github-sdks)
+[![QuickStatic](https://img.shields.io/badge/QuickStatic-Generator-f1541c?logo=rust)](https://github.com/topics/apitoolkit-sdk) [![Monoscope SDK](https://img.shields.io/badge/Monoscope-SDK-0068ff?logo=github)](https://github.com/topics/apitoolkit-sdk) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://discord.gg/BSFCaUHxt4) [![Monoscope Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://monoscope.tech/docs?utm_source=github-sdks)
 
-[APItoolkit](https://app.monoscope.tech) is an end-to-end API and web services management toolkit for engineers and customer support teams. This repository houses our [marketing website](https://monoscope.tech) and [developer documentation](https://monoscope.tech/docs) built using our in-house [QuickStatic](https://github.com/tonyalaribe/quickstatic) static site generator.
+[Monoscope](https://app.monoscope.tech) is an end-to-end API and web services management toolkit for engineers and customer support teams. This repository houses our [marketing website](https://monoscope.tech) and [developer documentation](https://monoscope.tech/docs) built using our in-house [QuickStatic](https://github.com/tonyalaribe/quickstatic) static site generator.
 
 </div>
 
@@ -197,7 +197,7 @@ You can have more than one tab in the tab group toggle component but keep things
 To contribute to the development of this project or request help from the community and our team, kindly do any of the following:
 
 - Read our [Contributors Guide](https://github.com/monoscope-tech/.github/blob/main/CONTRIBUTING.md).
-- Join our community [Discord Server](https://discord.gg/dEB6EjQnKB).
+- Join our community [Discord Server](https://discord.gg/BSFCaUHxt4).
 - Create a [new issue](https://github.com/monoscope-tech/monoscope-landing/issues/new/choose) in this repository.
 
 ## License

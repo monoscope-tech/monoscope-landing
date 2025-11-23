@@ -30,7 +30,7 @@ Therefore, it is essential to monitor and analyze an API’s performance regular
 
 ## Understanding API Logs and Metrics
 
-![APIToolit dashboard](./apitoolkit-dashboard.png)
+![APIToolit dashboard](./monoscope-dashboard.png)
 Image source: monoscope's dashboard
 
 API logs and metrics are two types of data that can help developers and operators understand the behavior and performance of an API. They are complementary sources of information that can provide different perspectives and levels of detail on how the API is functioning.

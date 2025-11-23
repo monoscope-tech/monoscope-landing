@@ -22,7 +22,7 @@ By analyzing these logs, you can gain valuable insights into the behavior of you
 
 [monoscope](https://monoscope.tech) is a powerful API analytics platform that allows you to gather and analyze data from your API logs. With monoscope, you can unlock the full potential of your API logs and gain a deeper understanding of how users interact with your APIs.
 
-![monoscope dashboard](./apitoolkit-dashboard.png)
+![monoscope dashboard](./monoscope-dashboard.png)
 
 One of the key features of monoscope is its ability to analyze customer journeys. By tracking and analyzing the sequence of API calls made by a user, you can gain insights into their behavior and preferences. This information can be invaluable in optimizing your APIs to meet the specific needs and expectations of your users.
 

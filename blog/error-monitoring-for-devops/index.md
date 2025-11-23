@@ -156,5 +156,5 @@ Adopting error monitoring in DevOps workflows is crucial for any software develo
 [From Data to Decisions: Leveraging API Logs for Strategic Insights with monoscope](https://monoscope.tech/blog/leveraging-api-logs/)
 [Metrics that Matter: Key Performance Indicators in API Logs](https://monoscope.tech/blog/metrics-that-matter/)
 [Identifying the Root Cause of Application Errors: A Guide to Error Monitoring](https://monoscope.tech/blog/application-errors-a-guide-to-error-monitoring/)
-[PHP Laravel Cache Setup for Apitoolkit to Avoid SDK Reinit](https://monoscope.tech/blog/how-to-setup-php-laravel-cache-for-apitoolkit-to-avoid-sdk-reinitialization/)
+[PHP Laravel Cache Setup for Monoscope to Avoid SDK Reinit](https://monoscope.tech/blog/how-to-setup-php-laravel-cache-for-monoscope-to-avoid-sdk-reinitialization/)
 [Enhancing Customer Experience Through API Log Insights](https://monoscope.tech/blog/enhancing-customer-experience/)

@@ -1,6 +1,6 @@
 ---
-title: "Generate Swagger Docs Easily with Apitoolkit's Live Traffic"
-featured_image: How%20to%20Generate%20Swagger%20Docs%20from%20your%20Live%20traffic%20with%20Apitoolkit%20a%20heading(1).png
+title: "Generate Swagger Docs Easily with Monoscope's Live Traffic"
+featured_image: How%20to%20Generate%20Swagger%20Docs%20from%20your%20Live%20traffic%20with%20Monoscope%20a%20heading(1).png
 date: 2023-12-13T08:20:58+00:00
 author: elliot
 description: "By analyzing your live API traffic, monoscope automatically generates accurate and up-to-date Swagger Docs, so you can spend more time building great projects."
@@ -8,9 +8,9 @@ categories:
   - API Documentation
 ---
 
-# Generate Swagger Docs Easily with Apitoolkit's Live Traffic
+# Generate Swagger Docs Easily with Monoscope's Live Traffic
 
-![How to Generate Swagger Docs from your Live traffic with Apitoolkit](How%20to%20Generate%20Swagger%20Docs%20from%20your%20Live%20traffic%20with%20Apitoolkit%20a%20heading(1).png)
+![How to Generate Swagger Docs from your Live traffic with Monoscope](How%20to%20Generate%20Swagger%20Docs%20from%20your%20Live%20traffic%20with%20Monoscope%20a%20heading(1).png)
 
 Creating clear, and useful documentation is one of the toughest challenges developers face. We pour endless energy into crafting beautiful code, architecting complex systems, and engineering revolutionary products. Yet all that effort is wasted if no one understands how to properly interact with what we build. As the saying goes, "Confusion is the enemy of utilization".
 
@@ -89,7 +89,7 @@ This is a sample flask project to deomonstrate how to generate live traffice usi
 ``````python
 from flask import Flask
 from flask_restful import Api
-from apitoolkit.flask import swagger
+from monoscope.flask import swagger
 
 app = Flask(__name__)
 api = Api(app)
@@ -171,10 +171,10 @@ Generating Swagger Docs from live traffic with monoscope offers a powerful and e
 
 **Also Read**
 
-[PHP Laravel Cache Setup for Apitoolkit to Avoid SDK Reinit](https://monoscope.tech/blog/how-to-setup-php-laravel-cache-for-apitoolkit-to-avoid-sdk-reinitialization/)
+[PHP Laravel Cache Setup for Monoscope to Avoid SDK Reinit](https://monoscope.tech/blog/how-to-setup-php-laravel-cache-for-monoscope-to-avoid-sdk-reinitialization/)
 	
 [Generating Golang API Doc with Swagger](https://monoscope.tech/blog/generating-golangdoc/)
 
-[Monitoring API Failures with monoscope: A Guide to Efficient Endpoint Troubleshooting](https://monoscope.tech/blog/monitoring-api-failures-with-apitoolkit/)
+[Monitoring API Failures with monoscope: A Guide to Efficient Endpoint Troubleshooting](https://monoscope.tech/blog/monitoring-api-failures-with-monoscope/)
 
 [Unlocking the Advantages of OpenAPI (Swagger) Specification for API Development](https://monoscope.tech/blog/open-api-swagger-specification-for-api-development/imdex/)

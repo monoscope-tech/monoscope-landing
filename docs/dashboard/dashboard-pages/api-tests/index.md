@@ -228,7 +228,7 @@ By employing JSONPath expressions, you can precisely pinpoint the desired data w
 
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>To learn more about JSONPaths, please take a look at the [official docs](https://github.com/json-path/JsonPath/blob/master/README.md){target="_blank"} or use this [JSONPath Evaluator](https://jsonpath.com?ref=apitoolkit){target="_blank"} to validate your JSONPath expressions.</p>
+  <p>To learn more about JSONPaths, please take a look at the [official docs](https://github.com/json-path/JsonPath/blob/master/README.md){target="_blank"} or use this [JSONPath Evaluator](https://jsonpath.com?ref=monoscope){target="_blank"} to validate your JSONPath expressions.</p>
 </div>
 
 ## Referencing Values and Dynamic Inputs for Subsequent API Requests

@@ -72,7 +72,7 @@ In the world of digital transformation, APIs power a significant chunk of the mo
    ![Dashboard](dashboard.png)
 5. Now your page is automatically configured with specific endpoints, setting rate limits, and more. All incoming requests are monitored for anomalies, new endpoints, slow end points and more.
 6. Your main dashboard will display key metrics, including requests, anomalies, endpoints, error rates, signatures, fields and latency percentiles.
-   ![monoscope Dashboard](apitoolkit-dashboard.png)
+   ![monoscope Dashboard](monoscope-dashboard.png)
 7. Now navigate to the 'API Log Explorer' section from your main dashboard.
 8. Here, you'll see a chronological record of all API activity.
    ![LOg explorer](api-log-explorer.jpeg)

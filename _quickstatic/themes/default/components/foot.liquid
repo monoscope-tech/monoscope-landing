@@ -7,7 +7,7 @@
           <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong">Book a demo</a>
           <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-transparent border border-fillBrand-strong text-fillBrand-strong" >Start 30 day free trial</a>
         </div>
-        {% assign social_links = "github|https://github.com/monoscope-tech,twitter|https://x.com/APItoolkitHQ,linkedin|https://www.linkedin.com/company/apitoolkit,youtube|https://www.youtube.com/@APItoolkit,discord|https://discord.gg/BHQh5JzjPX" | split: "," %}
+        {% assign social_links = "github|https://github.com/monoscope-tech,twitter|https://x.com/monoscope_tech,linkedin|https://www.linkedin.com/company/monoscope,youtube|https://www.youtube.com/@Monoscope,discord|https://discord.gg/BSFCaUHxt4" | split: "," %}
         <div class="md:space-x-8 gap-2 md:gap-0 flex md:inline-flex flex-col md:flex-row md:items-center  text-xl">
           <div class="[&_svg]:h-5 [&_svg]:w-5 inline-flex gap-4">
             {% for social in social_links %}
@@ -89,7 +89,7 @@
               <ul class="space-y-3 [&_a]:underline [&_a]:underline-offset-2">
                   <li><a href="/blog/api-trends/">10 Must-Know API trends in 2024</a></li>
                   <li><a href="/blog/api-testing-automation/">Ultimate Guide to API Testing Automation</a></li>
-                  <li><a href="/blog/apitoolkit-top-atatus-alternative/">monoscope: Top Atatus Alternative for API Monitoring</a></li>
+                  <li><a href="/blog/monoscope-top-atatus-alternative/">monoscope: Top Atatus Alternative for API Monitoring</a></li>
                   <li><a href="/blog/detecting-api-documentation-errors/">Detecting API Documentation Errors: What You Should Know</a></li>
                   <li><a href="/blog/error-monitoring-tools-for-small-businesses-under-budget/">Error Monitoring tools for Small Businesses Under Budget</a></li>
               </ul>
@@ -150,7 +150,7 @@
             </div>
             <!-- Bottom row -->
             <div class="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
-                <a href="https://discord.gg/BHQh5JzjPX" target="_blank" class="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">
+                <a href="https://discord.gg/BSFCaUHxt4" target="_blank" class="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">
                     <svg class="h-5 w-5 mr-2"><use xlink:href="/assets/deps/sprite.svg#discord"></use></svg>
                     Join our discord community
                 </a>
@@ -322,22 +322,22 @@
         // Create a new script element for the ConvertKit form
         var script = document.createElement('script');
         script.dataset.uid = uid; // Your form's unique ID
-        script.src = "https://apitoolkit.ck.page/"+uid+"/index.js"; // The script source
+        script.src = "https://monoscope.ck.page/"+uid+"/index.js"; // The script source
         elements[i].replaceChildren(script);
       }
   }
 
     document.addEventListener('DOMContentLoaded', function() {
-      iFrameResize({log: false, checkOrigin: false}, '#testimonialto-apitoolkit-tag-all-light');
-      iFrameResize({log: false, checkOrigin: false}, '#testimonialto-apitoolkit-tag-all-dark');
+      iFrameResize({log: false, checkOrigin: false}, '#testimonialto-monoscope-tag-all-light');
+      iFrameResize({log: false, checkOrigin: false}, '#testimonialto-monoscope-tag-all-dark');
       hljs.highlightAll();
       loadConvertKitForm("15d365ef1d");
     });
 
      document.body.addEventListener('htmx:afterSwap', function(event) {
       window.requestAnimationFrame(() => {
-        iFrameResize({log: false, checkOrigin: false}, '#testimonialto-apitoolkit-tag-all-light');
-        iFrameResize({log: false, checkOrigin: false}, '#testimonialto-apitoolkit-tag-all-dark');
+        iFrameResize({log: false, checkOrigin: false}, '#testimonialto-monoscope-tag-all-light');
+        iFrameResize({log: false, checkOrigin: false}, '#testimonialto-monoscope-tag-all-dark');
         hljs.highlightAll();
         lazyLoadInstance.update();
         loadConvertKitForm("15d365ef1d");
@@ -403,5 +403,5 @@ o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+
 o.onload=function(){window.trackingFunctions.onLoad({appId:"66f1f1ed596af3065a8f94f7"})},
 document.head.appendChild(o)}initApollo();</script>
 
-<script>window.lemonSqueezyAffiliateConfig = { store: "apitoolkit" };</script> <script src="https://lmsqueezy.com/affiliate.js" defer></script>
+<script>window.lemonSqueezyAffiliateConfig = { store: "monoscope" };</script> <script src="https://lmsqueezy.com/affiliate.js" defer></script>
 </body></html>

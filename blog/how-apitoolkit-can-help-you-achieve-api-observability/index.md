@@ -58,7 +58,7 @@ monoscope excels in aiding users in the ongoing analysis of API usage and perfor
 
 [monoscope](https://monoscope.tech/) is a powerful tool designed to enhance the visibility and control developers have over their APIs. It offers tools and features that span the entire API lifecycle, from design to deployment, monitoring, and debugging.
 
-![api dashboard](apitoolkit-dashboard.png)
+![api dashboard](monoscope-dashboard.png)
 
 ### Key Features of monoscope
 

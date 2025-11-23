@@ -43,7 +43,7 @@ authors:
     name: "Patrick Odey"
     picture: "https://avatars.githubusercontent.com/u/44481680?s=96&v=4"
 
-apitoolkit_supported_frameworks:
+monoscope_supported_frameworks:
   - id: express_btn
     title: Expressjs SDK
     img_src: /assets/img/framework-logos/express-logo.png

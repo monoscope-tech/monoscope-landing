@@ -51,7 +51,7 @@ After installating .NET autoinstrumentation packages, you can configure the Open
 
 ```sh
 export OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317" # Specifies the endpoint to send the traces to.
-export OTEL_DOTNET_AUTO_TRACES_ADDITIONAL_SOURCES="monoscope.HTTPInstrumentation" # The apitoolkit instrumentation  activity resource.
+export OTEL_DOTNET_AUTO_TRACES_ADDITIONAL_SOURCES="monoscope.HTTPInstrumentation" # The monoscope instrumentation  activity resource.
 export OTEL_SERVICE_NAME="my-service" # Specifies the name of the service.
 export OTEL_RESOURCE_ATTRIBUTES="at-project-key={ENTER_YOUR_API_KEY_HERE}" # Adds your API KEY to the resource.
 export OTEL_EXPORTER_OTLP_PROTOCOL="grpc" # Specifies the protocol to use for the OpenTelemetry exporter.
@@ -61,7 +61,7 @@ After setting the environment variables, build and run your application and you 
 
 ## monoscope SDK Configuration
 
-After setting up open telemetry, you can now configure the apitoolkit middleware, to monitor incoming and outgoing requests, report errors, and gain deeper insights into your application's performance.
+After setting up open telemetry, you can now configure the monoscope middleware, to monitor incoming and outgoing requests, report errors, and gain deeper insights into your application's performance.
 
 #### Installation
 
@@ -188,7 +188,7 @@ Examples of valid JSONPath expressions would be:
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>To learn more about JSONPaths, please take a look at the <a href="https://github.com/json-path/JsonPath/blob/master/README.md" target="_blank">official docs</a> or use this <a href="https://jsonpath.com?ref=apitoolkit" target="_blank">JSONPath Evaluator</a> to validate your JSONPath expressions. </p>
+  <p>To learn more about JSONPaths, please take a look at the <a href="https://github.com/json-path/JsonPath/blob/master/README.md" target="_blank">official docs</a> or use this <a href="https://jsonpath.com?ref=monoscope" target="_blank">JSONPath Evaluator</a> to validate your JSONPath expressions. </p>
   <p><b>You can also use our <a href="/tools/json-redacter/">JSON Redaction Tool</a> <i class="fa-regular fa-screwdriver-wrench"></i> to preview what the final data sent from your API to monoscope will look like, after redacting any given JSON object</b>.</p>
 </div>
 <hr />
@@ -325,7 +325,7 @@ The `client.monoscopeObservingHandler` handler accepts a required `context` fiel
 
 ```=html
 <hr />
-<a href="https://github.com/monoscope-tech/apitoolkit-dotnet" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">
+<a href="https://github.com/monoscope-tech/monoscope-dotnet" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">
     <i class="fa-brands fa-github"></i>
     Explore the .Net Core SDK
 </a>

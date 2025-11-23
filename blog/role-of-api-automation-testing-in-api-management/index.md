@@ -116,11 +116,11 @@ For intuitive, adaptable, and powerful API test automation that delivers tangibl
 
 ### Quantifiable Benefits
 
-**Reduce Testing Time:** Apitoolkit automation capabilities can help you reduce API testing time by up to 70%, freeing up valuable resources for other critical tasks.
+**Reduce Testing Time:** Monoscope automation capabilities can help you reduce API testing time by up to 70%, freeing up valuable resources for other critical tasks.
 
-**Improve Test Coverage:** Achieve comprehensive test coverage with Apitoolkit wide range of features and customization options, ensuring all aspects of your APIs are thoroughly tested.
+**Improve Test Coverage:** Achieve comprehensive test coverage with Monoscope wide range of features and customization options, ensuring all aspects of your APIs are thoroughly tested.
 
-**Boost Development Speed:**  By enabling continuous testing and delivery, Apitoolkit can help you accelerate development speed by identifying and resolving issues early in the development cycle.
+**Boost Development Speed:**  By enabling continuous testing and delivery, Monoscope can help you accelerate development speed by identifying and resolving issues early in the development cycle.
 
 
-Apitoolkit empowers you to streamline your API testing process, achieve exceptional quality, and accelerate your development efforts. [Sign up](https://apitoolkit.eu.auth0.com/u/login?state=hKFo2SAxdGcza1hWOFVZVEZwclFFS0lfcGJCMFNxcVQtVE9WWaFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIGVhY2pBV0ZDQ09NbFFuR25rVUVqcEdQTkpteGlYdnpao2NpZNkgQ0NoZnE2bGVSR2RuOWhhSFdzS0Q5RHRtbVl2RDlYYUM) for a free trial today and experience the difference!
+Monoscope empowers you to streamline your API testing process, achieve exceptional quality, and accelerate your development efforts. [Sign up](https://monoscope.eu.auth0.com/u/login?state=hKFo2SAxdGcza1hWOFVZVEZwclFFS0lfcGJCMFNxcVQtVE9WWaFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIGVhY2pBV0ZDQ09NbFFuR25rVUVqcEdQTkpteGlYdnpao2NpZNkgQ0NoZnE2bGVSR2RuOWhhSFdzS0Q5RHRtbVl2RDlYYUM) for a free trial today and experience the difference!

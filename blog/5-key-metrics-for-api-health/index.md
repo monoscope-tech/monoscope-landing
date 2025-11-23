@@ -60,7 +60,7 @@ The average RPM can vary significantly depending on the industry and API purpose
 
 ### Latency (Response Time)
 
-![alt](./apitoolkit-api-response-time.png)
+![alt](./monoscope-api-response-time.png)
 Latency measures the time it takes for an API to respond to a request. Faster response times translate to a smoother and more enjoyable user experience. Continuously monitoring both average and maximum latency is crucial.
 
 Analyzing these values can help pinpoint performance bottlenecks within the API code. By optimizing the code for efficiency, you can significantly reduce latency and ensure users experience rapid response times.

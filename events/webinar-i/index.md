@@ -1,7 +1,7 @@
 ---
 title: "Webinar I: Building Resilient Backend System: Navigating Challenges with Integration"
 date: 2024-06-06
-ogImage: https://raw.githubusercontent.com/apitoolkit/.github/main/images/events-og.png
+ogImage: https://raw.githubusercontent.com/monoscope/.github/main/images/events-og.png
 ---
 
 ```=html

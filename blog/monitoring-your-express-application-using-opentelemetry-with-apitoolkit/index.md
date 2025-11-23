@@ -1,6 +1,6 @@
 ---
 title: "Monitoring your Express.js application using OpenTelemetry with monoscope"
-featured_image: monitoring-your-express-app-with-opentelemetry-and-apitoolkit.jpeg
+featured_image: monitoring-your-express-app-with-opentelemetry-and-monoscope.jpeg
 date: 2025-02-27T04:08:58+02:00
 author: patrick
 description: With APITookit, you can efficiently identify and diagnose failing endpoints, minimizing downtime and ensuring a seamless user experience.
@@ -10,7 +10,7 @@ categories:
 
 # Monitoring your Express.js application using OpenTelemetry with monoscope
 
-![monoscope](./monitoring-your-express-app-with-opentelemetry-and-apitoolkit.jpeg)
+![monoscope](./monitoring-your-express-app-with-opentelemetry-and-monoscope.jpeg)
 
 The complexity of modern microservices requires a thorough understanding of your application's production behaviour. [OpenTelemetry](https://opentelemetry.io/) provides a universal framework that enables code instrumentation to gather telemetry data through collection, processing, and exporting metrics, logs, and traces. In this article, we'll explore how to implement [OpenTelemetry](https://opentelemetry.io/) in an Express.js application to gain valuable insights into its performance and behaviour.
 
@@ -91,7 +91,7 @@ Navigate to http://localhost:3000, and you should see the “Hello World” mess
 Run the following code to install the monoscope express SDK and OpenTelemetry API, SDK, and auto instrumentation tools.
 
 ```javascript
-  npm install --save apitoolkit-express @opentelemetry/api @opentelemetry/auto-instrumentations-node
+  npm install --save monoscope-express @opentelemetry/api @opentelemetry/auto-instrumentations-node
 ```
 
 ### OpenTelemetry Configuration
@@ -126,18 +126,18 @@ monoscope Express Middleware is a tool for monitoring HTTP requests in Express.j
 
 ```javascript
   import * as express from "express";
-  import { monoscope } from "apitoolkit-express";
+  import { monoscope } from "monoscope-express";
   import axios from "axios";
 
   const port = 3000;
 
   const app = express();
-  const apitoolkitClient = monoscope.NewClient({
+  const monoscopeClient = monoscope.NewClient({
     monitorAxios: axios, // Optional: Use this to monitor Axios requests
   });
 
   // Add middleware for request monitoring
-  app.use(apitoolkitClient.middleware);
+  app.use(monoscopeClient.middleware);
 
   app.get("/", async (req, res) => {
     // This axios request get's monitored and appears in the  monoscope explorer
@@ -148,7 +148,7 @@ monoscope Express Middleware is a tool for monitoring HTTP requests in Express.j
   });
 
   // automatically report unhandled errors along with the request data
-  app.use(apitoolkitClient.errorMiddleware);
+  app.use(monoscopeClient.errorMiddleware);
 
   app.listen(3000, () => {
     console.log(`Example app listening at http://localhost:${port}`);
@@ -157,7 +157,7 @@ monoscope Express Middleware is a tool for monitoring HTTP requests in Express.j
 
 Refresh your browser a couple of times (you can hit some other routes too) so we can gather telemetry data and visualize it on our monoscope Dashboard:
 
-![Dashboard-explorer](./apitoolkit-dashboard.png)
+![Dashboard-explorer](./monoscope-dashboard.png)
 
 - **Logs**: We can access the logs using the logs tabs
 

@@ -76,7 +76,7 @@ hide-date: true
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
       <div class="order-last md:order-first">
-        <img src="apitoolkit_slack.png" alt="monoscope Slack Integration" class="w-full rounded-xl shadow-lg" />
+        <img src="monoscope_slack.png" alt="monoscope Slack Integration" class="w-full rounded-xl shadow-lg" />
       </div>
       <div class="space-y-6">
         <h2 class="text-3xl font-normal">Get Instant Alerts and Notifications</h2>

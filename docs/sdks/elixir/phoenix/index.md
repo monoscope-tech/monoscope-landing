@@ -20,31 +20,31 @@ Ensure you have already completed the first three steps of the [onboarding guide
 
 ## Installation
 
-To install the SDK, kindly add `apitoolkit_phoenix` to the list of dependencies in the `mix.exs` file, like so:
+To install the SDK, kindly add `monoscope_phoenix` to the list of dependencies in the `mix.exs` file, like so:
 
 ```elixir
 def deps do
   [
-    {:apitoolkit_phoenix, "~> 0.1.1"}
+    {:monoscope_phoenix, "~> 0.1.1"}
   ]
 end
 ```
 
-Then, run the `mix deps.get` command to install the `apitoolkit_phoenix` dependency.
+Then, run the `mix deps.get` command to install the `monoscope_phoenix` dependency.
 
 ## Configuration
 
-Next, import and initialize the `ApitoolkitPhoenix` Plug in your `router.ex` file, like so:
+Next, import and initialize the `MonoscopePhoenix` Plug in your `router.ex` file, like so:
 
 ```elixir
 defmodule HelloWeb.Router do
   use HelloWeb, :router
   use Plug.ErrorHandler
-  import ApitoolkitPhoenix
+  import MonoscopePhoenix
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug ApitoolkitPhoenix,
+    plug MonoscopePhoenix,
       config: %{
         api_key: "{ENTER_YOUR_API_KEY_HERE}",
         debug: false,
@@ -133,7 +133,7 @@ Examples of valid JSONPath expressions would be:
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>To learn more about JSONPaths, please take a look at the <a href="https://github.com/json-path/JsonPath/blob/master/README.md" target="_blank">official docs</a> or use this <a href="https://jsonpath.com?ref=apitoolkit" target="_blank">JSONPath Evaluator</a> to validate your JSONPath expressions. </p>
+  <p>To learn more about JSONPaths, please take a look at the <a href="https://github.com/json-path/JsonPath/blob/master/README.md" target="_blank">official docs</a> or use this <a href="https://jsonpath.com?ref=monoscope" target="_blank">JSONPath Evaluator</a> to validate your JSONPath expressions. </p>
   <p><b>You can also use our <a href="/tools/json-redacter/">JSON Redaction Tool</a> <i class="fa-regular fa-screwdriver-wrench"></i> to preview what the final data sent from your API to monoscope will look like, after redacting any given JSON object</b>.</p>
 </div>
 <hr />
@@ -145,12 +145,12 @@ Here's an example of what the configuration would look like with redacted fields
 defmodule HelloWeb.Router do
   use HelloWeb, :router
   use Plug.ErrorHandler
-  import ApitoolkitPhoenix
+  import MonoscopePhoenix
 
   pipeline :api do
     plug :accepts, ["json"]
     # Other plugs
-    plug ApitoolkitPhoenix,
+    plug MonoscopePhoenix,
       config: %{
         api_key: "{ENTER_YOUR_API_KEY_HERE}",
         redact_headers: ["content-type", "Authorization", "HOST"],
@@ -201,7 +201,7 @@ To manually report specific errors at different parts of your application, call 
 ```elixir
 defmodule HelloWeb.PageController do
   use HelloWeb, :controller
-  import ApitoolkitPhoenix
+  import MonoscopePhoenix
 
   def home(conn, _params) do
     try do
@@ -224,7 +224,7 @@ end
 
 ```=html
 <hr />
-<a href="https://github.com/monoscope-tech/apitoolkit-phoenix" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">
+<a href="https://github.com/monoscope-tech/monoscope-phoenix" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">
     <i class="fa-brands fa-github"></i>
     Explore the Phoenix SDK
 </a>

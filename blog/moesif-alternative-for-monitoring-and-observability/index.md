@@ -65,7 +65,7 @@ monoscope is a robust and innovative API monitoring and observability platform d
 
 ### Key Features and Benefits
 
-![Key Benefit of monoscope](key-benefits-of-apitoolkit.png)
+![Key Benefit of monoscope](key-benefits-of-monoscope.png)
 
 monoscope distinguishes itself with a range of powerful features and benefits that make it a compelling alternative to Moesif and other [API monitoring](https://monoscope.tech/blog/rum-vs-synthetic-monitoring/) solutions. Here's a closer look at some of its key features and the advantages it brings:
 
