@@ -31,13 +31,14 @@ In this guide, we will walk you through the process of integrating monoscope int
 
 ## Getting Started
 
-There are five steps required to get started with monoscope and begin exploring and analyzing requests from your API in our dashboard:
+There are six steps required to get started with monoscope and begin exploring and analyzing requests from your API in our dashboard:
 
 1. [Create an Account](#create-an-account)
 2. [Create a New Project](#create-a-new-project)
 3. [Fetch API Key](#fetch-api-key)
 4. [Integrate SDK](#integrate-sdk)
-5. [Acknowledge Endpoints or Anomalies](#⑤-acknowledge-endpoints-or-anomalies)
+5. [Quick Test Your Integration](#⑤-quick-test-your-integration)
+6. [Acknowledge Endpoints or Anomalies](#⑥-acknowledge-endpoints-or-anomalies)
 
 ## ① Create an Account
 
@@ -124,7 +125,116 @@ To allow monoscope to begin monitoring your API and for you to start exploring y
 
 If we don't support your framework yet, kindly [send us an email](mailto:hello@monoscope.tech) and we'll help you get started!
 
-## ⑤ Acknowledge Endpoints or Anomalies
+## ⑤ Quick Test Your Integration
+
+Want to verify that your monoscope integration is working correctly before deploying your application? You can quickly send test telemetry data to monoscope using **telemetrygen**, a tool that generates sample OpenTelemetry data.
+
+### Install telemetrygen
+
+First, install the telemetrygen tool based on your operating system:
+
+```=html
+<section class="tab-group" data-tab-group="os">
+  <button class="tab-button" data-tab="macos">macOS</button>
+  <button class="tab-button" data-tab="linux">Linux</button>
+  <button class="tab-button" data-tab="windows">Windows</button>
+  <button class="tab-button" data-tab="docker">Docker</button>
+
+  <div id="macos" class="tab-content">
+    <pre><code class="language-bash"># Using Homebrew
+brew install telemetrygen
+
+# Or download directly
+curl -LO https://github.com/open-telemetry/opentelemetry-collector-contrib/releases/latest/download/telemetrygen_darwin_amd64
+chmod +x telemetrygen_darwin_amd64
+sudo mv telemetrygen_darwin_amd64 /usr/local/bin/telemetrygen</code></pre>
+  </div>
+
+  <div id="linux" class="tab-content">
+    <pre><code class="language-bash"># Download the binary
+curl -LO https://github.com/open-telemetry/opentelemetry-collector-contrib/releases/latest/download/telemetrygen_linux_amd64
+chmod +x telemetrygen_linux_amd64
+sudo mv telemetrygen_linux_amd64 /usr/local/bin/telemetrygen</code></pre>
+  </div>
+
+  <div id="windows" class="tab-content">
+    <pre><code class="language-bash"># Download from PowerShell
+Invoke-WebRequest -Uri https://github.com/open-telemetry/opentelemetry-collector-contrib/releases/latest/download/telemetrygen_windows_amd64.exe -OutFile telemetrygen.exe</code></pre>
+  </div>
+
+  <div id="docker" class="tab-content">
+    <pre><code class="language-bash"># Run using Docker
+docker run --rm -it ghcr.io/open-telemetry/opentelemetry-collector-contrib/telemetrygen:latest \
+  traces --otlp-insecure \
+  --otlp-endpoint otel.monoscope.tech:4317 \
+  --otlp-header="x-api-key=YOUR_API_KEY"</code></pre>
+  </div>
+</section>
+```
+
+### Send Test Data
+
+Once installed, you can send test traces to monoscope using your API key:
+
+```bash
+# Send test traces
+telemetrygen traces \
+  --otlp-insecure \
+  --otlp-endpoint otel.monoscope.tech:4317 \
+  --otlp-header="x-api-key=YOUR_API_KEY" \
+  --traces 10 \
+  --rate 2
+```
+
+Replace `YOUR_API_KEY` with your actual monoscope API key from [Step 3](#fetch-api-key).
+
+#### Command Options
+
+- `--traces 10`: Number of traces to generate (default: 1)
+- `--rate 2`: Number of traces per second (default: 1)
+- `--duration 30s`: How long to generate traces (e.g., 30s, 1m, 5m)
+- `--service-name "test-service"`: Custom service name for the traces
+- `--span-name "test-operation"`: Custom span name for the operations
+
+### Example: Simulate Different Scenarios
+
+```bash
+# Simulate a service with normal traffic
+telemetrygen traces \
+  --otlp-insecure \
+  --otlp-endpoint otel.monoscope.tech:4317 \
+  --otlp-header="x-api-key=YOUR_API_KEY" \
+  --service-name "payment-service" \
+  --span-name "process-payment" \
+  --duration 1m \
+  --rate 5
+
+# Simulate errors (with status codes)
+telemetrygen traces \
+  --otlp-insecure \
+  --otlp-endpoint otel.monoscope.tech:4317 \
+  --otlp-header="x-api-key=YOUR_API_KEY" \
+  --service-name "auth-service" \
+  --span-name "authenticate" \
+  --status-code "ERROR" \
+  --traces 5
+```
+
+```=html
+<div class="callout">
+  <i class="fa-solid fa-check-circle"></i>
+  <p>After running the command, check your monoscope dashboard. You should see the test traces appear in the <b>API Log Explorer</b> within a few seconds. This confirms that your API key is valid and monoscope is correctly receiving telemetry data.</p>
+</div>
+```
+
+```=html
+<div class="callout">
+  <i class="fa-regular fa-lightbulb"></i>
+  <p><b>Pro tip:</b> Use telemetrygen to test your alerting rules and monitors by generating specific error patterns or latency spikes before deploying your actual application.</p>
+</div>
+```
+
+## ⑥ Acknowledge Endpoints or Anomalies
 
 Once monoscope starts tracking data from your API, you will find the list of **detected endpoints** on the [Explorer](/docs/dashboard/endpoints/) page and the list of **detected anomalies** on the [Changes & Errors](/docs/dashboard/changes-errors/) page or in the Ongoing Anomalies and Monitors section of the [Dashboard](/docs/dashboard/dashboard/) page. You need to **acknowledge** each endpoint or anomaly so monoscope understands the shape of the endpoints on your API and uses that information for future anomaly detections. As a side effect, we then use this information to trigger the [OpenAPI spec generation](/docs/dashboard/documentation) feature and send you scheduled reports. Hence, **you should continuously acknowledge all important endpoints and anomalies you want us to monitor**.
 
