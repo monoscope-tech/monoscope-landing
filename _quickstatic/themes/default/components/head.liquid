@@ -363,7 +363,20 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     <script>
     !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
     rdt('init','t2_9wupu0');
-    rdt('track', 'PageVisit');
+
+    // Generate unique conversion ID for this PageVisit event
+    var conversionId = 'PageVisit_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
+
+    rdt('track', 'PageVisit', {
+      conversionId: conversionId,
+      page: window.location.pathname
+    });
+
+    // Store in sessionStorage for potential server-side access
+    var events = JSON.parse(sessionStorage.getItem('reddit_events') || '[]');
+    events.push({conversionId: conversionId, eventName: 'PageVisit', timestamp: Date.now()});
+    if (events.length > 50) events.shift();
+    sessionStorage.setItem('reddit_events', JSON.stringify(events));
     </script>
     <!-- End Reddit Pixel -->
 

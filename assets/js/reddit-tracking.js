@@ -2,6 +2,38 @@
 (function() {
   'use strict';
 
+  // Generate unique conversion ID for each event
+  function generateConversionId(eventName) {
+    // Generate a unique ID for this specific event occurrence
+    // Format: eventName_timestamp_randomString
+    const timestamp = Date.now();
+    const random = Math.random().toString(36).substring(2, 9);
+    const sessionId = window.sessionStorage.getItem('session_id') ||
+                     (function() {
+                       const id = 'sid_' + Date.now();
+                       window.sessionStorage.setItem('session_id', id);
+                       return id;
+                     })();
+
+    // Create a unique event ID that could be shared with server-side tracking
+    const conversionId = `${eventName}_${timestamp}_${random}`;
+
+    // Store recent conversion IDs in sessionStorage so server can access if needed
+    const recentEvents = JSON.parse(window.sessionStorage.getItem('reddit_events') || '[]');
+    recentEvents.push({
+      conversionId: conversionId,
+      eventName: eventName,
+      timestamp: timestamp
+    });
+    // Keep only last 50 events
+    if (recentEvents.length > 50) {
+      recentEvents.shift();
+    }
+    window.sessionStorage.setItem('reddit_events', JSON.stringify(recentEvents));
+
+    return conversionId;
+  }
+
   // Wait for DOM and Reddit Pixel to be ready
   function initRedditTracking() {
     if (typeof window.rdt !== 'function') {
@@ -13,8 +45,15 @@
     // Track CTA button clicks
     function trackCTAClick(eventName, metadata) {
       try {
-        // Send custom event to Reddit
-        window.rdt('track', eventName, metadata);
+        // Add unique conversion ID for deduplication with Conversions API
+        const conversionId = generateConversionId(eventName);
+        const trackingData = {
+          ...metadata,
+          conversionId: conversionId
+        };
+
+        // Send custom event to Reddit with conversion ID
+        window.rdt('track', eventName, trackingData);
 
         // Also send to other analytics if needed
         if (window.amplitude) {
