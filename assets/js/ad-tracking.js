@@ -1,4 +1,4 @@
-// Unified Ad Platform Conversion Tracking (Reddit, LinkedIn, Meta, Google)
+// Unified Ad Platform Conversion Tracking (Reddit, LinkedIn, Meta, Google, Twitter/X)
 (function() {
   'use strict';
 
@@ -13,8 +13,15 @@
     // Reddit
     if (window.rdt) window.rdt('track', event, meta);
 
-    // LinkedIn - map events to conversion tracking
+    // LinkedIn
     if (window.lintrk) window.lintrk('track', meta);
+
+    // Twitter/X
+    if (window.twq) {
+      var twMap = { SignUp: 'tw-om5gt-om5gt', ScheduleDemo: 'tw-om5gt-om5gt', InitiateCheckout: 'tw-om5gt-om5gt',
+                   Contact: 'tw-om5gt-om5gt', CompleteRegistration: 'tw-om5gt-om5gt', ViewContent: 'tw-om5gt-om5gt' };
+      window.twq('event', twMap[event] || 'tw-om5gt-om5gt', meta);
+    }
 
     // Meta/Facebook
     if (window.fbq) {
