@@ -67,6 +67,7 @@
 
     <link rel="stylesheet" href="/assets/css/tailwind.min.css?v=1">
     <script defer src="/assets/js/main.js"></script>
+    <script defer src="/assets/js/reddit-tracking.js"></script>
     <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
     <script>
 function cycleRadioButtons(name, direction) {
@@ -357,6 +358,23 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
       >
     </noscript>
     <!-- END LINKEDIN -->
+
+    <!-- Reddit Pixel -->
+    <script>
+    !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
+    rdt('init','t2_9wupu0');
+    rdt('track', 'PageVisit');
+    </script>
+    <!-- End Reddit Pixel -->
+
+    <!-- Apollo Website Tracker -->
+    <script>
+    !function(){function t(t){var e=document.getElementsByTagName("script")[0],n=document.createElement("script");n.async=!0,n.src=t,e.parentNode.insertBefore(n,e)}t("https://app.apollo.io/api/v2/wst/intercept.js")}();
+    </script>
+    <script>
+    window.websiteTracker = { appId: "66f1f1ed596af3065a8f94f7" }
+    </script>
+    <!-- End Apollo Website Tracker -->
   </head>
 
   <body

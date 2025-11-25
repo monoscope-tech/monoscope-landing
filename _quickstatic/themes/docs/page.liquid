@@ -690,6 +690,14 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         src="https://px.ads.linkedin.com/collect/?pid=5779626&fmt=gif"
       >
     </noscript>
+
+    <!-- Reddit Pixel -->
+    <script>
+    !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
+    rdt('init','t2_9wupu0');
+    rdt('track', 'PageVisit');
+    </script>
+    <!-- End Reddit Pixel -->
   </head>
 
 <body data-theme="light" {% comment %}hx-boost="true"{% endcomment %} hx-ext="preload,head-support" class="" preload>
@@ -734,7 +742,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
               <span class="text-textWeak group-hover/gh:text-textStrong transition-colors">Star</span>
               <span class="px-1.5 py-0.5 bg-fillWeak rounded-full text-xs font-medium text-textStrong" id="github-stars-docs">-</span>
             </a>
-            <a href="https://app.monoscope.tech?utm_source=docs" class="btn btn-sm bg-fillBrand-strong hover:bg-fillBrand-weak text-textInverse-strong border-0">Sign Up</a>
+            <a href="https://app.monoscope.tech?utm_source=docs" class="btn btn-sm bg-fillBrand-strong hover:bg-fillBrand-weak text-textInverse-strong border-0" data-tracking="docs-sign-up" data-reddit-event="SignUp">Sign Up</a>
 
             <a
               class="input input-sm bg-fillWeak dark:bg-fillAlternate input-bordered hidden sm:flex items-center gap-2 flex-shrink min-w-0"
@@ -1003,6 +1011,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/elixir.min.js"></script>
     <script defer src="/assets/js/tabs.js"></script>
+    <script defer src="/assets/js/reddit-tracking.js"></script>
 
     <script defer type="text/javascript">
       document.addEventListener('DOMContentLoaded', function () {

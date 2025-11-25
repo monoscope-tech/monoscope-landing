@@ -204,8 +204,8 @@ platforms:
             </svg> Monitor performance and uptime of both APIs and external APIs</li>
           </ul>
           <div class="flex gap-2 sm:gap-4">
-            <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong">Start free trial</a>
-            <a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer" class="btn btn-secondary py-3 px-6 rounded-xl">Launch playground</a>
+            <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong" data-tracking="index-start-trial-1" data-reddit-event="SignUp">Start free trial</a>
+            <a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer" class="btn btn-secondary py-3 px-6 rounded-xl" data-tracking="index-playground-1" data-reddit-event="ViewContent">Launch playground</a>
           </div>
           <div class="flex gap-4 items-center text-textWeak">
             <!-- TrustBox Rating -->
@@ -620,8 +620,8 @@ platforms:
 
       <!-- CTA Links -->
       <div class="flex flex-wrap gap-6 pt-5 text-textBrand">
-        <a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer" class="underline underline-offset-2 hover:text-textBrand-strong">Launch playground</a>
-        <a href="https://app.monoscope.tech" class="underline underline-offset-2 hover:text-textBrand-strong">Start free trial</a>
+        <a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer" class="underline underline-offset-2 hover:text-textBrand-strong" data-tracking="index-playground-2" data-reddit-event="ViewContent">Launch playground</a>
+        <a href="https://app.monoscope.tech" class="underline underline-offset-2 hover:text-textBrand-strong" data-tracking="index-start-trial-2" data-reddit-event="SignUp">Start free trial</a>
       </div>
     </div>
 
@@ -630,8 +630,8 @@ platforms:
       <h2 class="text-4xl leading-tight font-normal text-textStrong">Flexible deployment options <span class="text-textDisabled">for every company</span></h2>
       <p class="text-2xl leading-normal">Regardless of your company's size or compliance requirements, Monoscope operates <br/>within your business and regulatory constraints.</p>
       <div>
-        <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong">Start free trial</a>
-        <a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer" class="btn btn-secondary py-3 px-6 rounded-xl">Launch playground</a>
+        <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong" data-tracking="index-start-trial-3" data-reddit-event="SignUp">Start free trial</a>
+        <a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer" class="btn btn-secondary py-3 px-6 rounded-xl" data-tracking="index-playground-3" data-reddit-event="ViewContent">Launch playground</a>
       </div>
       <div class="grid md:grid-cols-3 gap-8 pt-5">
         <div class="rounded-xl border border-strokeBrand-weak p-8 flex flex-col">
@@ -661,7 +661,7 @@ platforms:
                       <p class="text-base text-textWeak"><strong class="text-textStrong text-2xl">$34</strong>/month for up to 20M events, + <strong class="text-textStrong">$2 per 1M events</strong> after</p>
                  {% endif %}
             </div>
-            <a href="https://app.monoscope.tech" class="btn block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium">Start free trial</a>
+            <a href="https://app.monoscope.tech" class="btn block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium" data-tracking="index-pricing-plan" data-reddit-event="SignUp">Start free trial</a>
           </div>
         </div>
 
@@ -689,7 +689,7 @@ platforms:
               </p>
               <p class="text-base text-textWeak">Includes up to 100M events, + <strong class="text-textStrong">$2 per 1M events</strong> after</p>
             </div>
-            <a href="https://app.monoscope.tech" class="btn block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium">Start free trial</a>
+            <a href="https://app.monoscope.tech" class="btn block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium" data-tracking="index-pricing-plan" data-reddit-event="SignUp">Start free trial</a>
           </div>
         </div>
 
@@ -730,8 +730,8 @@ platforms:
               <p class="text-base text-textWeak">Enterprise: <strong class="text-textStrong">starts at $500/month</strong></p>
             </div>
             <div class="flex flex-col gap-2">
-              <a href="https://github.com/monoscope-tech/monoscope" target="_blank" rel="noopener noreferrer" class="block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium hover:bg-fillBrand-weak transition-colors">View on GitHub</a>
-              <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" rel="noopener noreferrer" class="block text-center py-2.5 px-6 bg-transparent text-fillBrand-strong border border-fillBrand-strong rounded-lg font-medium hover:bg-fillBrand-weak hover:text-textStrong transition-colors text-sm">Discuss Enterprise with an engineer</a>
+              <a href="https://github.com/monoscope-tech/monoscope" target="_blank" rel="noopener noreferrer" class="block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium hover:bg-fillBrand-weak transition-colors" data-tracking="index-github-enterprise" data-reddit-event="ViewContent">View on GitHub</a>
+              <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" rel="noopener noreferrer" class="block text-center py-2.5 px-6 bg-transparent text-fillBrand-strong border border-fillBrand-strong rounded-lg font-medium hover:bg-fillBrand-weak hover:text-textStrong transition-colors text-sm" data-tracking="index-enterprise-demo" data-reddit-event="ScheduleDemo">Discuss Enterprise with an engineer</a>
             </div>
           </div>
         </div>
