@@ -20,6 +20,20 @@ class ObservabilityAnimation {
     this.time = 0;
     this.dpr = window.devicePixelRatio || 1;
 
+    // Performance mode detection
+    this.isLowPerf = this.detectLowPerformance();
+    this.targetFPS = this.isLowPerf ? 30 : 60;
+    this.frameInterval = 1000 / this.targetFPS;
+    this.lastFrameTime = 0;
+
+    // Pre-cached color strings to avoid string creation in render loop
+    this.colorCache = {
+      healthy: { r: 34, g: 197, b: 94 },
+      normal: { r: 20, g: 184, b: 166 },
+      warning: { r: 251, g: 191, b: 36 },
+      critical: { r: 239, g: 68, b: 68 }
+    };
+
     // Trace tree state
     this.traceTree = new TraceTreeOverlay(this);
 
@@ -34,6 +48,15 @@ class ObservabilityAnimation {
                            navigator.connection?.effectiveType === 'slow-2g' ||
                            navigator.connection?.effectiveType === '2g';
     return isMobileDevice || (isSmallScreen && isTouchDevice) || isLowPowerMode;
+  }
+
+  detectLowPerformance() {
+    // Check for indicators of low-performance devices
+    const hasLowMemory = navigator.deviceMemory && navigator.deviceMemory < 4;
+    const hasSlowConnection = navigator.connection?.effectiveType === '3g';
+    const hasLowCores = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return hasLowMemory || hasSlowConnection || hasLowCores || prefersReducedMotion;
   }
 
   init() {
@@ -84,12 +107,17 @@ class ObservabilityAnimation {
     const radarCenterY = this.logicalHeight * 0.25;
     const radarClusterRadius = Math.min(this.logicalWidth, this.logicalHeight) * 0.2;
 
-    // Depth layers for parallax effect
-    const depthLayers = [
-      { z: 0.6, count: 4, sizeMultiplier: 0.7, opacity: 0.5 },
-      { z: 0.8, count: 4, sizeMultiplier: 0.85, opacity: 0.75 },
-      { z: 1.0, count: 4, sizeMultiplier: 1.0, opacity: 1.0 }
-    ];
+    // Depth layers for parallax effect (reduced for low-perf)
+    const depthLayers = this.isLowPerf
+      ? [
+          { z: 0.8, count: 3, sizeMultiplier: 0.85, opacity: 0.75 },
+          { z: 1.0, count: 3, sizeMultiplier: 1.0, opacity: 1.0 }
+        ]
+      : [
+          { z: 0.6, count: 4, sizeMultiplier: 0.7, opacity: 0.5 },
+          { z: 0.8, count: 4, sizeMultiplier: 0.85, opacity: 0.75 },
+          { z: 1.0, count: 4, sizeMultiplier: 1.0, opacity: 1.0 }
+        ];
 
     depthLayers.forEach(layer => {
       for (let i = 0; i < layer.count; i++) {
@@ -146,12 +174,13 @@ class ObservabilityAnimation {
   createConnections() {
     this.connections = [];
     const maxDistance = 120;
+    const maxConnections = this.isLowPerf ? 12 : 25;
 
     for (let i = 0; i < this.nodes.length; i++) {
-      if (this.connections.length >= 25) break;
+      if (this.connections.length >= maxConnections) break;
 
       for (let j = i + 1; j < this.nodes.length; j++) {
-        if (this.connections.length >= 25) break;
+        if (this.connections.length >= maxConnections) break;
 
         const dx = this.nodes[i].x - this.nodes[j].x;
         const dy = this.nodes[i].y - this.nodes[j].y;
@@ -225,8 +254,11 @@ class ObservabilityAnimation {
   }
 
   updateDataPackets() {
-    // Create new packets sparingly
-    if (this.dataPackets.length < 15) {
+    // Create new packets sparingly (fewer on low-perf)
+    const maxPackets = this.isLowPerf ? 8 : 15;
+    const maxTrailLength = this.isLowPerf ? 4 : 8;
+
+    if (this.dataPackets.length < maxPackets) {
       this.connections.forEach(conn => {
         if (Math.random() < 0.003) {
           this.createDataPacket(conn);
@@ -235,9 +267,9 @@ class ObservabilityAnimation {
     }
 
     this.dataPackets = this.dataPackets.filter(packet => {
-      // Store trail position
+      // Store trail position (shorter on low-perf since we don't render it anyway)
       packet.trail.push({ x: packet.x, y: packet.y });
-      if (packet.trail.length > 8) packet.trail.shift();
+      if (packet.trail.length > maxTrailLength) packet.trail.shift();
 
       // Smooth eased progress
       packet.progress += packet.speed;
@@ -262,6 +294,29 @@ class ObservabilityAnimation {
   }
 
   drawNodes() {
+    // Low-perf mode: simplified rendering with fewer gradients
+    if (this.isLowPerf) {
+      this.nodes.forEach(node => {
+        const pulseScale = 1 + Math.sin(node.pulse) * 0.1;
+        const size = node.size * pulseScale;
+        const baseOpacity = node.opacityMultiplier * (this.isDarkMode ? 0.85 : 1);
+
+        // Single glow layer (simplified)
+        this.ctx.fillStyle = this.getHealthColor(node.health, 0.2 * baseOpacity);
+        this.ctx.beginPath();
+        this.ctx.arc(node.x, node.y, size * 2, 0, Math.PI * 2);
+        this.ctx.fill();
+
+        // Core only
+        this.ctx.fillStyle = this.getHealthColor(node.health, 0.9 * baseOpacity);
+        this.ctx.beginPath();
+        this.ctx.arc(node.x, node.y, size, 0, Math.PI * 2);
+        this.ctx.fill();
+      });
+      return;
+    }
+
+    // Full quality rendering
     this.nodes.forEach(node => {
       const pulseScale = 1 + Math.sin(node.pulse) * 0.1;
       const activityGlow = 1 + Math.sin(node.activityPulse) * 0.15 * node.activity;
@@ -323,7 +378,18 @@ class ObservabilityAnimation {
       const avgZ = (fromNode.z + toNode.z) / 2;
       const baseOpacity = conn.strength * avgZ * (this.isDarkMode ? 0.12 : 0.2);
 
-      // Gradient along connection
+      // Low-perf: simple solid line, no gradient or pulse
+      if (this.isLowPerf) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(fromNode.x, fromNode.y);
+        this.ctx.lineTo(toNode.x, toNode.y);
+        this.ctx.strokeStyle = `rgba(20, 184, 166, ${baseOpacity})`;
+        this.ctx.lineWidth = avgZ * (this.isDarkMode ? 0.8 : 1.2);
+        this.ctx.stroke();
+        return;
+      }
+
+      // Full quality: gradient along connection
       const gradient = this.ctx.createLinearGradient(
         fromNode.x, fromNode.y, toNode.x, toNode.y
       );
@@ -358,6 +424,25 @@ class ObservabilityAnimation {
   }
 
   drawDataPackets() {
+    // Low-perf: simplified rendering - no trails, no gradients
+    if (this.isLowPerf) {
+      this.dataPackets.forEach(packet => {
+        // Simple glow
+        this.ctx.fillStyle = `rgba(59, 130, 246, 0.3)`;
+        this.ctx.beginPath();
+        this.ctx.arc(packet.x, packet.y, packet.size * 2, 0, Math.PI * 2);
+        this.ctx.fill();
+
+        // Solid core
+        this.ctx.fillStyle = 'rgba(147, 197, 253, 0.95)';
+        this.ctx.beginPath();
+        this.ctx.arc(packet.x, packet.y, packet.size, 0, Math.PI * 2);
+        this.ctx.fill();
+      });
+      return;
+    }
+
+    // Full quality rendering
     this.dataPackets.forEach(packet => {
       // Motion blur trail
       packet.trail.forEach((point, i) => {
@@ -408,7 +493,39 @@ class ObservabilityAnimation {
     const centerY = this.logicalHeight * 0.25;
     const radius = Math.min(this.logicalWidth, this.logicalHeight) * 0.32;
 
-    // Multiple sweep layers for depth
+    // Low-perf: single sweep layer, fewer circles, no crosshair gradients
+    if (this.isLowPerf) {
+      // Single sweep layer
+      const gradient = this.ctx.createConicGradient(this.radarAngle, centerX, centerY);
+      const sweepOpacity = this.isDarkMode ? 0.12 : 0.18;
+      gradient.addColorStop(0, 'rgba(20, 184, 166, 0)');
+      gradient.addColorStop(0.02, `rgba(20, 184, 166, ${sweepOpacity})`);
+      gradient.addColorStop(0.1, 'rgba(20, 184, 166, 0)');
+
+      this.ctx.fillStyle = gradient;
+      this.ctx.beginPath();
+      this.ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+      this.ctx.fill();
+
+      // Only 2 concentric circles
+      for (let i = 2; i <= 4; i += 2) {
+        const ringRadius = radius * i / 4;
+        this.ctx.beginPath();
+        this.ctx.arc(centerX, centerY, ringRadius, 0, Math.PI * 2);
+        this.ctx.strokeStyle = `rgba(20, 184, 166, 0.03)`;
+        this.ctx.lineWidth = 0.5;
+        this.ctx.stroke();
+      }
+
+      // Simple center dot
+      this.ctx.fillStyle = 'rgba(20, 184, 166, 0.8)';
+      this.ctx.beginPath();
+      this.ctx.arc(centerX, centerY, 2, 0, Math.PI * 2);
+      this.ctx.fill();
+      return;
+    }
+
+    // Full quality: Multiple sweep layers for depth
     for (let layer = 0; layer < 3; layer++) {
       const layerOffset = layer * 0.12;
       const layerOpacity = (3 - layer) / 3 * (this.isDarkMode ? 0.12 : 0.18);
@@ -480,7 +597,17 @@ class ObservabilityAnimation {
     this.ctx.fill();
   }
 
-  animate() {
+  animate(timestamp) {
+    // Frame throttling for low-perf devices
+    if (this.isLowPerf && timestamp) {
+      const elapsed = timestamp - this.lastFrameTime;
+      if (elapsed < this.frameInterval) {
+        this.animationId = requestAnimationFrame((t) => this.animate(t));
+        return;
+      }
+      this.lastFrameTime = timestamp - (elapsed % this.frameInterval);
+    }
+
     this.time++;
     this.ctx.save();
     this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
@@ -494,8 +621,8 @@ class ObservabilityAnimation {
     this.drawDataPackets();
     this.drawNodes();
 
-    // Draw trace tree overlay (only on larger screens)
-    if (this.logicalWidth > 1024) {
+    // Draw trace tree overlay (only on larger screens, skip in low-perf mode on smaller screens)
+    if (this.logicalWidth > 1024 && !(this.isLowPerf && this.logicalWidth < 1280)) {
       this.traceTree.update(this.time);
       this.traceTree.draw(this.ctx);
     }
@@ -505,7 +632,7 @@ class ObservabilityAnimation {
     this.updateNodes();
     this.updateDataPackets();
 
-    this.animationId = requestAnimationFrame(() => this.animate());
+    this.animationId = requestAnimationFrame((t) => this.animate(t));
   }
 
   destroy() {
@@ -586,6 +713,19 @@ class TraceTreeOverlay {
       error: '#ef4444'
     };
 
+    // Pre-cache RGB conversions to avoid regex parsing every frame
+    this.rgbCache = {};
+    Object.values(this.typeColors).forEach(t => { this.rgbCache[t.color] = this.parseHexToRgb(t.color); });
+    Object.values(this.logLevelColors).forEach(c => { this.rgbCache[c] = this.parseHexToRgb(c); });
+    this.rgbCache['#f59e0b'] = this.parseHexToRgb('#f59e0b'); // warning/MISS color
+    this.rgbCache['#22c55e'] = this.parseHexToRgb('#22c55e'); // success/HIT color
+  }
+
+  parseHexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result
+      ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`
+      : '255, 255, 255';
   }
 
   update(time) {
@@ -812,10 +952,9 @@ class TraceTreeOverlay {
   }
 
   hexToRgb(hex) {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result
-      ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`
-      : '255, 255, 255';
+    // Use pre-cached value if available
+    if (this.rgbCache[hex]) return this.rgbCache[hex];
+    return this.parseHexToRgb(hex);
   }
 }
 
