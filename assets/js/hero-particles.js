@@ -711,7 +711,7 @@ class TraceTreeOverlay {
       http: { color: '#14b8a6', label: 'HTTP' },
       grpc: { color: '#a855f7', label: 'gRPC' },
       sql: { color: '#f59e0b', label: 'SQL' },
-      cache: { color: '#06b6d4', label: 'CACHE' },
+      cache: { color: '#06b6d4', label: 'REDIS' },
       log: { color: '#6b7280', label: 'LOG' }
     };
 
