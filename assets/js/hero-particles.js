@@ -663,7 +663,7 @@ class TraceTreeOverlay {
     this.globalOpacity = 0;
 
     this.traces = [
-      // Example 1: E-commerce checkout
+      // Example 1: E-commerce checkout (success)
       {
         lines: [
           { depth: 0, type: 'http', method: 'POST', path: '/api/checkout', duration: '234ms', status: 'success' },
@@ -674,18 +674,17 @@ class TraceTreeOverlay {
           { depth: 1, type: 'log', level: 'info', message: 'Order #1234 completed' }
         ]
       },
-      // Example 2: User authentication
+      // Example 2: Failed payment (error)
       {
         lines: [
-          { depth: 0, type: 'http', method: 'POST', path: '/api/auth/login', duration: '156ms', status: 'success' },
-          { depth: 1, type: 'sql', query: 'SELECT * FROM users WHERE email=?', duration: '8ms', status: 'success' },
-          { depth: 1, type: 'grpc', service: 'auth.ValidatePassword', duration: '45ms', status: 'success' },
-          { depth: 2, type: 'log', level: 'info', message: 'Password validated' },
-          { depth: 1, type: 'cache', action: 'SET session:abc123', duration: '3ms', status: 'success' },
-          { depth: 1, type: 'log', level: 'info', message: 'Session created for user@example.com' }
+          { depth: 0, type: 'http', method: 'POST', path: '/api/checkout', duration: '1.2s', status: 'error' },
+          { depth: 1, type: 'grpc', service: 'payment.Charge', duration: '1.1s', status: 'error' },
+          { depth: 2, type: 'http', method: 'POST', path: 'stripe.com/v1/charges', duration: '1.0s', status: 'error' },
+          { depth: 2, type: 'log', level: 'error', message: 'Card declined: insufficient funds' },
+          { depth: 1, type: 'log', level: 'warn', message: 'Payment failed, notifying user' }
         ]
       },
-      // Example 3: Dashboard with cache
+      // Example 3: Dashboard with cache miss
       {
         lines: [
           { depth: 0, type: 'http', method: 'GET', path: '/api/dashboard/stats', duration: '89ms', status: 'success' },
@@ -694,6 +693,16 @@ class TraceTreeOverlay {
           { depth: 2, type: 'log', level: 'debug', message: 'Aggregating 50k rows' },
           { depth: 1, type: 'cache', action: 'SET stats:daily', duration: '3ms', status: 'success' },
           { depth: 1, type: 'log', level: 'info', message: 'Dashboard stats computed' }
+        ]
+      },
+      // Example 4: Database timeout (error)
+      {
+        lines: [
+          { depth: 0, type: 'http', method: 'GET', path: '/api/reports/annual', duration: '30.1s', status: 'error' },
+          { depth: 1, type: 'cache', action: 'GET reports:2024', result: 'MISS', duration: '1ms', status: 'warning' },
+          { depth: 1, type: 'sql', query: 'SELECT * FROM transactions...', duration: '30s', status: 'error' },
+          { depth: 2, type: 'log', level: 'error', message: 'Query timeout after 30s' },
+          { depth: 1, type: 'log', level: 'error', message: 'Request failed: database timeout' }
         ]
       }
     ];
@@ -719,6 +728,8 @@ class TraceTreeOverlay {
     Object.values(this.logLevelColors).forEach(c => { this.rgbCache[c] = this.parseHexToRgb(c); });
     this.rgbCache['#f59e0b'] = this.parseHexToRgb('#f59e0b'); // warning/MISS color
     this.rgbCache['#22c55e'] = this.parseHexToRgb('#22c55e'); // success/HIT color
+    this.rgbCache['#ef4444'] = this.parseHexToRgb('#ef4444'); // error color
+    this.rgbCache['#fbbf24'] = this.parseHexToRgb('#fbbf24'); // amber/warning duration color
   }
 
   parseHexToRgb(hex) {
@@ -941,11 +952,17 @@ class TraceTreeOverlay {
         currentX += ctx.measureText(line.result).width + 8;
       }
 
-      // Duration badge
+      // Duration badge (red for errors, amber for warnings)
       if (line.duration) {
-        ctx.fillStyle = isDark
-          ? `rgba(100, 116, 139, ${opacity * 0.7})`
-          : `rgba(148, 163, 184, ${opacity * 0.7})`;
+        if (line.status === 'error') {
+          ctx.fillStyle = `rgba(239, 68, 68, ${opacity})`;
+        } else if (line.status === 'warning') {
+          ctx.fillStyle = `rgba(251, 191, 36, ${opacity * 0.9})`;
+        } else {
+          ctx.fillStyle = isDark
+            ? `rgba(100, 116, 139, ${opacity * 0.7})`
+            : `rgba(148, 163, 184, ${opacity * 0.7})`;
+        }
         ctx.fillText(line.duration, currentX, y);
       }
     }
