@@ -57,10 +57,10 @@ function updateCloudPricing() {
     cloudPriceEl.innerText = "Free";
     cloudPriceDescEl.innerText = "up to 10k events/day";
   } else {
-    // $34 minimum for up to 20M events, then $2 per 1M events after that
-    let totalPrice = 34;
+    // $29 minimum for up to 20M events, then $2 per 1M events after that
+    let totalPrice = 29;
     if (eventsInMillions > 20) {
-      totalPrice = 34 + ((eventsInMillions - 20) * 2);
+      totalPrice = 29 + ((eventsInMillions - 20) * 2);
     }
     cloudPriceEl.innerText = "$" + totalPrice.toFixed(0);
     cloudPriceDescEl.innerText = "/month for " + eventsInMillions.toFixed(0) + "M events";
@@ -87,12 +87,12 @@ function updateCostCalculator() {
   const percentage = ((value - 20000000) / (500000000 - 20000000)) * 100;
   costCalculatorRange.style.setProperty('--value', percentage + '%');
   
-  // Cloud cost: Free up to 300k (10k/day), then $34 for up to 20M, then $2 per 1M after that
+  // Cloud cost: Free up to 300k (10k/day), then $29 for up to 20M, then $2 per 1M after that
   let cloudCost = 0;
   if (value > 300000) {
-    cloudCost = 34;
+    cloudCost = 29;
     if (eventsInMillions > 20) {
-      cloudCost = 34 + ((eventsInMillions - 20) * 2);
+      cloudCost = 29 + ((eventsInMillions - 20) * 2);
     }
   }
   

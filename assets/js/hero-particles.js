@@ -657,7 +657,7 @@ class TraceTreeOverlay {
     this.animation = animation;
     this.currentTraceIndex = 0;
     this.visibleLines = [];
-    this.cycleLength = 1110; // ~18.5 seconds at 60fps
+    this.cycleLength = 930; // ~15.5 seconds at 60fps
     this.state = 'hidden'; // hidden, typing, visible, fading
     this.stateStartTime = 0;
     this.globalOpacity = 0;
@@ -742,20 +742,20 @@ class TraceTreeOverlay {
   update(time) {
     const cycleTime = time % this.cycleLength;
 
-    // State machine for animation cycle (slowed down)
-    if (cycleTime < 30) {
-      // 0-0.5s: Brief hidden state before typing starts
+    // State machine for animation cycle
+    if (cycleTime < 20) {
+      // 0-0.33s: Brief hidden state before typing starts
       this.state = 'hidden';
       this.globalOpacity = 0;
       this.visibleLines = [];
-    } else if (cycleTime < 510) {
-      // 0.5-8.5s: Typing in lines
+    } else if (cycleTime < 500) {
+      // 0.33-8.33s: Typing in lines
       this.state = 'typing';
-      const typingProgress = (cycleTime - 30) / 480;
+      const typingProgress = (cycleTime - 20) / 480;
       const trace = this.traces[this.currentTraceIndex];
       const linesToShow = Math.floor(typingProgress * trace.lines.length);
       this.visibleLines = trace.lines.slice(0, linesToShow + 1);
-      this.globalOpacity = Math.min(1, (cycleTime - 30) / 50);
+      this.globalOpacity = Math.min(1, (cycleTime - 20) / 50);
 
       // Typing effect on current line
       if (linesToShow < trace.lines.length) {
@@ -764,18 +764,21 @@ class TraceTreeOverlay {
       } else {
         this.currentLineProgress = 1;
       }
-    } else if (cycleTime < 810) {
-      // 8.5-13.5s: Fully visible
+    } else if (cycleTime < 800) {
+      // 8.33-13.33s: Fully visible
       this.state = 'visible';
       this.visibleLines = this.traces[this.currentTraceIndex].lines;
       this.globalOpacity = 1;
       this.currentLineProgress = 1;
-    } else if (cycleTime < 990) {
-      // 13.5-16.5s: Fading out
+    } else if (cycleTime < 900) {
+      // 13.33-15s: Faster staggered fade out (bottom to top)
       this.state = 'fading';
-      this.globalOpacity = 1 - ((cycleTime - 810) / 180);
+      this.visibleLines = this.traces[this.currentTraceIndex].lines;
+      this.fadeProgress = (cycleTime - 800) / 100; // 100 frames (~1.67s)
+      // Global opacity stays high until near the end
+      this.globalOpacity = this.fadeProgress < 0.8 ? 1 : 1 - ((this.fadeProgress - 0.8) / 0.2);
     } else {
-      // 16.5-18.5s: Hidden, prepare next trace
+      // 15-15.5s: Short hidden gap, prepare next trace
       this.state = 'hidden';
       this.globalOpacity = 0;
       this.visibleLines = [];
@@ -796,15 +799,28 @@ class TraceTreeOverlay {
 
     // Position near the radar, aligned with hero heading
     const radarCenterX = this.animation.logicalWidth * 0.75;
-    const startX = radarCenterX - 180; // Center the panel on radar
+    const startX = radarCenterX - 200; // Center the panel on radar
     const startY = this.animation.logicalHeight * 0.18; // ~18% from top to align with hero text
     const lineHeight = 26;
     const indentWidth = 18;
 
     // Panel dimensions
     const panelPadding = 14;
-    const panelWidth = 360;
-    const panelHeight = this.visibleLines.length * lineHeight + panelPadding * 2;
+    const panelWidth = 400;
+    const totalLines = this.visibleLines.length;
+
+    // Calculate effective visible lines for panel height during fading
+    let effectiveLines = totalLines;
+    if (this.state === 'fading') {
+      // Lines exit from bottom, so visible count decreases as fadeProgress increases
+      const linesExited = this.fadeProgress * totalLines;
+      effectiveLines = Math.max(0, totalLines - linesExited);
+    } else if (this.state === 'typing') {
+      // During typing, panel grows with lines
+      effectiveLines = this.visibleLines.length;
+    }
+
+    const panelHeight = effectiveLines * lineHeight + panelPadding * 2;
 
     // Frosted glass effect using theme's bgBase colors
     // Light: oklch(99.1% 0.002 247) ≈ rgb(252, 252, 253)
@@ -838,8 +854,33 @@ class TraceTreeOverlay {
     this.visibleLines.forEach((line, index) => {
       const x = startX + line.depth * indentWidth;
       const y = startY + index * lineHeight;
-      const isCurrentLine = index === this.visibleLines.length - 1 && this.state === 'typing';
-      const lineOpacity = this.globalOpacity * (isCurrentLine ? this.currentLineProgress : 1);
+
+      // Calculate per-line opacity based on animation state
+      let lineOpacity;
+      if (this.state === 'fading') {
+        // Staggered exit: bottom lines fade first
+        // Each line gets a portion of the fade duration
+        const lineExitStart = (totalLines - 1 - index) / totalLines;
+        const lineExitEnd = lineExitStart + (1.2 / totalLines); // Slight overlap for smoothness
+
+        if (this.fadeProgress < lineExitStart) {
+          lineOpacity = 1;
+        } else if (this.fadeProgress >= lineExitEnd) {
+          lineOpacity = 0;
+        } else {
+          // Ease out the fade for each line
+          const lineFadeProgress = (this.fadeProgress - lineExitStart) / (lineExitEnd - lineExitStart);
+          lineOpacity = 1 - (lineFadeProgress * lineFadeProgress); // Quadratic ease out
+        }
+      } else if (this.state === 'typing') {
+        const isCurrentLine = index === totalLines - 1;
+        lineOpacity = this.globalOpacity * (isCurrentLine ? this.currentLineProgress : 1);
+      } else {
+        lineOpacity = this.globalOpacity;
+      }
+
+      // Skip fully faded lines
+      if (lineOpacity <= 0) return;
 
       // Draw indent connector lines
       if (line.depth > 0) {
