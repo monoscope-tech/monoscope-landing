@@ -657,7 +657,7 @@ class TraceTreeOverlay {
     this.animation = animation;
     this.currentTraceIndex = 0;
     this.visibleLines = [];
-    this.cycleLength = 1320; // ~22 seconds at 60fps
+    this.cycleLength = 1110; // ~18.5 seconds at 60fps
     this.state = 'hidden'; // hidden, typing, visible, fading
     this.stateStartTime = 0;
     this.globalOpacity = 0;
@@ -743,19 +743,19 @@ class TraceTreeOverlay {
     const cycleTime = time % this.cycleLength;
 
     // State machine for animation cycle (slowed down)
-    if (cycleTime < 240) {
-      // 0-4s: Hidden (radar only)
+    if (cycleTime < 30) {
+      // 0-0.5s: Brief hidden state before typing starts
       this.state = 'hidden';
       this.globalOpacity = 0;
       this.visibleLines = [];
-    } else if (cycleTime < 720) {
-      // 4-12s: Typing in lines (slower)
+    } else if (cycleTime < 510) {
+      // 0.5-8.5s: Typing in lines
       this.state = 'typing';
-      const typingProgress = (cycleTime - 240) / 480; // Even slower typing
+      const typingProgress = (cycleTime - 30) / 480;
       const trace = this.traces[this.currentTraceIndex];
       const linesToShow = Math.floor(typingProgress * trace.lines.length);
       this.visibleLines = trace.lines.slice(0, linesToShow + 1);
-      this.globalOpacity = Math.min(1, (cycleTime - 240) / 50);
+      this.globalOpacity = Math.min(1, (cycleTime - 30) / 50);
 
       // Typing effect on current line
       if (linesToShow < trace.lines.length) {
@@ -764,18 +764,18 @@ class TraceTreeOverlay {
       } else {
         this.currentLineProgress = 1;
       }
-    } else if (cycleTime < 1020) {
-      // 12-17s: Fully visible
+    } else if (cycleTime < 810) {
+      // 8.5-13.5s: Fully visible
       this.state = 'visible';
       this.visibleLines = this.traces[this.currentTraceIndex].lines;
       this.globalOpacity = 1;
       this.currentLineProgress = 1;
-    } else if (cycleTime < 1200) {
-      // 17-20s: Fading out
+    } else if (cycleTime < 990) {
+      // 13.5-16.5s: Fading out
       this.state = 'fading';
-      this.globalOpacity = 1 - ((cycleTime - 1020) / 180);
+      this.globalOpacity = 1 - ((cycleTime - 810) / 180);
     } else {
-      // 20-22s: Hidden, prepare next trace
+      // 16.5-18.5s: Hidden, prepare next trace
       this.state = 'hidden';
       this.globalOpacity = 0;
       this.visibleLines = [];
@@ -975,12 +975,8 @@ class TraceTreeOverlay {
   }
 }
 
-// Initialize
-let heroAnimation = null;
-
-document.addEventListener('DOMContentLoaded', () => {
-  heroAnimation = new ObservabilityAnimation();
-});
+// Initialize immediately (script is placed after canvas in DOM)
+let heroAnimation = new ObservabilityAnimation();
 
 window.addEventListener('beforeunload', () => {
   if (heroAnimation?.destroy) {
