@@ -656,9 +656,9 @@ platforms:
                       <p class="text-2xl font-semibold text-textStrong">
                        <span id="cloud_price">Free</span> <span class="text-base font-normal text-textWeak" id="cloud_price_desc">up to 10k events/day</span>
                       </p>
-                      <p class="text-base text-textWeak">Then <strong class="text-textStrong">$34/month</strong> for up to 20M events, + <strong class="text-textStrong">$2 per 1M events</strong> after</p>
+                      <p class="text-base text-textWeak">Then <strong class="text-textStrong">$29/month</strong> for up to 20M events, + <strong class="text-textStrong">$2 per 1M events</strong> after</p>
                  {% else %}
-                      <p class="text-base text-textWeak"><strong class="text-textStrong text-2xl">$34</strong>/month for up to 20M events, + <strong class="text-textStrong">$2 per 1M events</strong> after</p>
+                      <p class="text-base text-textWeak"><strong class="text-textStrong text-2xl">$29</strong>/month for up to 20M events, + <strong class="text-textStrong">$2 per 1M events</strong> after</p>
                  {% endif %}
             </div>
             <a href="https://app.monoscope.tech" class="btn block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium" data-tracking="index-pricing-plan" data-reddit-event="SignUp">Start free trial</a>

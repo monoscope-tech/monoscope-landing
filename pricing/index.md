@@ -7,7 +7,7 @@ faqs:
   - q: What's included in the free tier?
     a: The free tier includes 10,000 events per day, unlimited team members, 30 days data retention, and access to all core features including logs, traces, API documentation, and custom monitors. Perfect for hobby projects and getting started.
   - q: How does pricing scale with usage?
-    a: After the free tier, you pay $34/month for up to 20M events, then $2 per million events after that. For example, 50M events/month costs $94 ($34 base + $60 for 30M extra events). With Cloud + S3, it's $199/month for up to 100M events, then $2 per million events after that, plus you get unlimited data retention.
+    a: After the free tier, you pay $29/month for up to 20M events, then $2 per million events after that. For example, 50M events/month costs $94 ($29 base + $60 for 30M extra events). With Cloud + S3, it's $199/month for up to 100M events, then $2 per million events after that, plus you get unlimited data retention.
   - q: What's the difference between deployment options?
     a: <strong>Cloud:</strong> Fully managed, 30-day retention, starts free. <strong>Cloud + S3:</strong> Your data in your own S3 bucket, unlimited retention, starts at $199/month. <strong>Self-hosted:</strong> Run on your servers, complete control, free community edition or custom enterprise pricing.
   - q: Can I switch between plans?
@@ -65,9 +65,9 @@ faqs:
                              <p class="text-2xl font-semibold text-textStrong">
                             <span id="cloud_price">Free</span> <span class="text-base font-normal text-textWeak" id="cloud_price_desc">up to 10k events/day</span>
                             </p>
-                              <p class="text-base text-textWeak">Then <strong class="text-textStrong">$34/month</strong> for up to 20M events, + <strong class="text-textStrong">$2 per 1M events</strong> after</p>
+                              <p class="text-base text-textWeak">Then <strong class="text-textStrong">$29/month</strong> for up to 20M events, + <strong class="text-textStrong">$2 per 1M events</strong> after</p>
                          {% else %}
-                            <p class="text-base text-textWeak"><strong class="text-textStrong text-2xl">$34</strong>/month for up to 20M events, + <strong class="text-textStrong">$2 per 1M events</strong> after</p>
+                            <p class="text-base text-textWeak"><strong class="text-textStrong text-2xl">$29</strong>/month for up to 20M events, + <strong class="text-textStrong">$2 per 1M events</strong> after</p>
                         {% endif %}
 
                     </div>
