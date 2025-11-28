@@ -661,9 +661,10 @@ class TraceTreeOverlay {
     this.state = 'hidden'; // hidden, typing, visible, fading
     this.stateStartTime = 0;
     this.globalOpacity = 0;
+    this.hasIncrementedThisCycle = false;
 
     this.traces = [
-      // Example 1: E-commerce checkout (success)
+      // 1: E-commerce checkout (success)
       {
         lines: [
           { depth: 0, type: 'http', method: 'POST', path: '/api/checkout', duration: '234ms', status: 'success' },
@@ -674,7 +675,19 @@ class TraceTreeOverlay {
           { depth: 1, type: 'log', level: 'info', message: 'Order #1234 completed' }
         ]
       },
-      // Example 2: Failed payment (error)
+      // 2: Metrics chart - p99 Latency
+      {
+        type: 'chart',
+        title: 'p99 Latency',
+        unit: 'ms',
+        timeRange: 'Last 5 min',
+        data: [42, 48, 45, 52, 78, 95, 82, 68, 54, 49, 46, 51, 48, 44, 47],
+        currentValue: '47',
+        avgValue: '54',
+        change: '-12%',
+        changePositive: true
+      },
+      // 3: Failed payment (error)
       {
         lines: [
           { depth: 0, type: 'http', method: 'POST', path: '/api/checkout', duration: '1.2s', status: 'error' },
@@ -684,7 +697,7 @@ class TraceTreeOverlay {
           { depth: 1, type: 'log', level: 'warn', message: 'Payment failed, notifying user' }
         ]
       },
-      // Example 3: Dashboard with cache miss
+      // 4: Dashboard with cache miss
       {
         lines: [
           { depth: 0, type: 'http', method: 'GET', path: '/api/dashboard/stats', duration: '89ms', status: 'success' },
@@ -695,7 +708,19 @@ class TraceTreeOverlay {
           { depth: 1, type: 'log', level: 'info', message: 'Dashboard stats computed' }
         ]
       },
-      // Example 4: Database timeout (error)
+      // 5: Metrics chart - Request rate
+      {
+        type: 'chart',
+        title: 'Requests',
+        unit: '/min',
+        timeRange: 'Last 5 min',
+        data: [820, 845, 890, 920, 980, 1050, 1120, 1080, 1150, 1200, 1180, 1220, 1250, 1190, 1240],
+        currentValue: '1.2k',
+        avgValue: '1.1k',
+        change: '+8%',
+        changePositive: true
+      },
+      // 6: Database timeout (error)
       {
         lines: [
           { depth: 0, type: 'http', method: 'GET', path: '/api/reports/annual', duration: '30.1s', status: 'error' },
@@ -741,6 +766,8 @@ class TraceTreeOverlay {
 
   update(time) {
     const cycleTime = time % this.cycleLength;
+    const trace = this.traces[this.currentTraceIndex];
+    const isChart = trace.type === 'chart';
 
     // State machine for animation cycle
     if (cycleTime < 20) {
@@ -749,31 +776,37 @@ class TraceTreeOverlay {
       this.globalOpacity = 0;
       this.visibleLines = [];
     } else if (cycleTime < 500) {
-      // 0.33-8.33s: Typing in lines
+      // 0.33-8.33s: Typing in lines (or drawing chart)
       this.state = 'typing';
-      const typingProgress = (cycleTime - 20) / 480;
-      const trace = this.traces[this.currentTraceIndex];
-      const linesToShow = Math.floor(typingProgress * trace.lines.length);
-      this.visibleLines = trace.lines.slice(0, linesToShow + 1);
       this.globalOpacity = Math.min(1, (cycleTime - 20) / 50);
 
-      // Typing effect on current line
-      if (linesToShow < trace.lines.length) {
-        const lineProgress = (typingProgress * trace.lines.length) % 1;
-        this.currentLineProgress = lineProgress;
+      if (isChart) {
+        // Charts handle their own progress in drawChart()
+        this.visibleLines = [];
+        this.currentLineProgress = (cycleTime - 20) / 480;
       } else {
-        this.currentLineProgress = 1;
+        const typingProgress = (cycleTime - 20) / 480;
+        const linesToShow = Math.floor(typingProgress * trace.lines.length);
+        this.visibleLines = trace.lines.slice(0, linesToShow + 1);
+
+        // Typing effect on current line
+        if (linesToShow < trace.lines.length) {
+          const lineProgress = (typingProgress * trace.lines.length) % 1;
+          this.currentLineProgress = lineProgress;
+        } else {
+          this.currentLineProgress = 1;
+        }
       }
     } else if (cycleTime < 800) {
       // 8.33-13.33s: Fully visible
       this.state = 'visible';
-      this.visibleLines = this.traces[this.currentTraceIndex].lines;
+      this.visibleLines = isChart ? [] : trace.lines;
       this.globalOpacity = 1;
       this.currentLineProgress = 1;
     } else if (cycleTime < 900) {
       // 13.33-15s: Faster staggered fade out (bottom to top)
       this.state = 'fading';
-      this.visibleLines = this.traces[this.currentTraceIndex].lines;
+      this.visibleLines = isChart ? [] : trace.lines;
       this.fadeProgress = (cycleTime - 800) / 100; // 100 frames (~1.67s)
       // Global opacity stays high until near the end
       this.globalOpacity = this.fadeProgress < 0.8 ? 1 : 1 - ((this.fadeProgress - 0.8) / 0.2);
@@ -783,19 +816,33 @@ class TraceTreeOverlay {
       this.globalOpacity = 0;
       this.visibleLines = [];
 
-      // Switch to next trace at end of cycle
+      // Switch to next trace ONCE at end of cycle (use flag to prevent multiple increments)
       if (cycleTime > this.cycleLength - 10) {
-        this.currentTraceIndex = (this.currentTraceIndex + 1) % this.traces.length;
+        if (!this.hasIncrementedThisCycle) {
+          this.currentTraceIndex = (this.currentTraceIndex + 1) % this.traces.length;
+          this.hasIncrementedThisCycle = true;
+        }
+      } else {
+        this.hasIncrementedThisCycle = false;
       }
     }
   }
 
   draw(ctx) {
-    if (this.globalOpacity <= 0 || this.visibleLines.length === 0) return;
+    if (this.globalOpacity <= 0) return;
 
     // Check dark mode from body attribute (where theme is set)
     const theme = document.body.getAttribute('data-theme');
     const isDark = theme === 'dark';
+
+    // Check if current trace is a chart type
+    const currentTrace = this.traces[this.currentTraceIndex];
+    if (currentTrace.type === 'chart') {
+      this.drawChart(ctx, currentTrace, isDark);
+      return;
+    }
+
+    if (this.visibleLines.length === 0) return;
 
     // Position near the radar, aligned with hero heading
     const radarCenterX = this.animation.logicalWidth * 0.75;
@@ -1006,6 +1053,239 @@ class TraceTreeOverlay {
         }
         ctx.fillText(line.duration, currentX, y);
       }
+    }
+  }
+
+  drawChart(ctx, chart, isDark) {
+    const radarCenterX = this.animation.logicalWidth * 0.75;
+    const startX = radarCenterX - 200;
+    const startY = this.animation.logicalHeight * 0.18;
+
+    const panelPadding = 14;
+    const panelWidth = 400;
+    const panelHeight = 180;
+
+    // Calculate draw progress based on state (use overall typing progress for charts)
+    let drawProgress = 0;
+    if (this.state === 'typing') {
+      // For charts, use the full typing duration progress
+      const cycleTime = this.animation.time % this.cycleLength;
+      drawProgress = Math.min(1, (cycleTime - 20) / 400); // Draw chart over ~6.7s
+    } else if (this.state === 'visible') {
+      drawProgress = 1;
+    } else if (this.state === 'fading') {
+      drawProgress = 1;
+    }
+
+    // Frosted glass panel
+    const bgOpacity = 0.65 * this.globalOpacity;
+
+    ctx.fillStyle = isDark
+      ? `rgba(28, 31, 40, ${0.4 * this.globalOpacity})`
+      : `rgba(252, 252, 253, ${0.4 * this.globalOpacity})`;
+    ctx.beginPath();
+    ctx.roundRect(startX - panelPadding - 4, startY - panelPadding - 4, panelWidth + 8, panelHeight + 8, 12);
+    ctx.fill();
+
+    ctx.fillStyle = isDark
+      ? `rgba(28, 31, 40, ${bgOpacity})`
+      : `rgba(252, 252, 253, ${bgOpacity})`;
+    ctx.beginPath();
+    ctx.roundRect(startX - panelPadding, startY - panelPadding, panelWidth, panelHeight, 10);
+    ctx.fill();
+
+    ctx.strokeStyle = isDark
+      ? `rgba(71, 85, 105, ${0.3 * this.globalOpacity})`
+      : `rgba(203, 213, 225, ${0.4 * this.globalOpacity})`;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Chart area dimensions
+    const chartX = startX + 10;
+    const chartY = startY + 35;
+    const chartWidth = panelWidth - panelPadding * 2 - 20;
+    const chartHeight = 80;
+
+    // Header: title and time range
+    ctx.font = '600 14px ui-sans-serif, system-ui, sans-serif';
+    ctx.fillStyle = isDark
+      ? `rgba(226, 232, 240, ${this.globalOpacity})`
+      : `rgba(30, 41, 59, ${this.globalOpacity})`;
+    ctx.fillText(chart.title, startX, startY + 8);
+
+    ctx.font = '12px ui-sans-serif, system-ui, sans-serif';
+    ctx.fillStyle = isDark
+      ? `rgba(148, 163, 184, ${this.globalOpacity * 0.7})`
+      : `rgba(100, 116, 139, ${this.globalOpacity * 0.7})`;
+    const timeRangeWidth = ctx.measureText(chart.timeRange).width;
+    ctx.fillText(chart.timeRange, startX + panelWidth - panelPadding * 2 - timeRangeWidth, startY + 8);
+
+    // Grid lines (horizontal)
+    const gridLines = 4;
+    for (let i = 0; i <= gridLines; i++) {
+      const y = chartY + (chartHeight / gridLines) * i;
+      ctx.beginPath();
+      ctx.moveTo(chartX, y);
+      ctx.lineTo(chartX + chartWidth, y);
+      ctx.strokeStyle = isDark
+        ? `rgba(71, 85, 105, ${0.15 * this.globalOpacity})`
+        : `rgba(203, 213, 225, ${0.25 * this.globalOpacity})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    // Draw the line chart
+    const data = chart.data;
+    const maxVal = Math.max(...data) * 1.1;
+    const minVal = Math.min(...data) * 0.9;
+    const range = maxVal - minVal;
+
+    // Use fractional progress for smooth animation
+    const exactProgress = (data.length - 1) * drawProgress;
+    const pointsToShow = Math.floor(exactProgress) + 1;
+    const fractionalPart = exactProgress - Math.floor(exactProgress);
+
+    if (pointsToShow < 1 || drawProgress < 0.05) {
+      // Still show panel and header even before line starts
+      return;
+    }
+
+    // Helper to get x,y for a data point
+    const getPoint = (i) => ({
+      x: chartX + (chartWidth / (data.length - 1)) * i,
+      y: chartY + chartHeight - ((data[i] - minVal) / range) * chartHeight
+    });
+
+    // Create gradient for line
+    const lineGradient = ctx.createLinearGradient(chartX, 0, chartX + chartWidth, 0);
+    lineGradient.addColorStop(0, `rgba(20, 184, 166, ${this.globalOpacity})`);
+    lineGradient.addColorStop(1, `rgba(59, 130, 246, ${this.globalOpacity})`);
+
+    // Draw the line with smooth interpolation
+    ctx.beginPath();
+    const firstPoint = getPoint(0);
+    ctx.moveTo(firstPoint.x, firstPoint.y);
+
+    for (let i = 1; i < Math.min(pointsToShow, data.length); i++) {
+      const curr = getPoint(i);
+      const prev = getPoint(i - 1);
+      const cpX = (prev.x + curr.x) / 2;
+      const cpY = (prev.y + curr.y) / 2;
+      ctx.quadraticCurveTo(prev.x, prev.y, cpX, cpY);
+    }
+
+    // Interpolate to fractional position for smooth animation
+    const lastFullIdx = Math.min(pointsToShow - 1, data.length - 1);
+    const lastPoint = getPoint(lastFullIdx);
+
+    let finalX = lastPoint.x;
+    let finalY = lastPoint.y;
+
+    if (lastFullIdx < data.length - 1 && fractionalPart > 0) {
+      const nextPoint = getPoint(lastFullIdx + 1);
+      finalX = lastPoint.x + (nextPoint.x - lastPoint.x) * fractionalPart;
+      finalY = lastPoint.y + (nextPoint.y - lastPoint.y) * fractionalPart;
+      ctx.quadraticCurveTo(lastPoint.x, lastPoint.y, finalX, finalY);
+    } else {
+      ctx.lineTo(finalX, finalY);
+    }
+
+    ctx.strokeStyle = lineGradient;
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.stroke();
+
+    // Glow effect on the line
+    ctx.strokeStyle = `rgba(20, 184, 166, ${0.3 * this.globalOpacity})`;
+    ctx.lineWidth = 6;
+    ctx.stroke();
+
+    // Area fill under the line (using same smooth path)
+    if (pointsToShow >= 1) {
+      ctx.beginPath();
+      ctx.moveTo(firstPoint.x, chartY + chartHeight);
+      ctx.lineTo(firstPoint.x, firstPoint.y);
+
+      for (let i = 1; i < Math.min(pointsToShow, data.length); i++) {
+        const curr = getPoint(i);
+        const prev = getPoint(i - 1);
+        const cpX = (prev.x + curr.x) / 2;
+        const cpY = (prev.y + curr.y) / 2;
+        ctx.quadraticCurveTo(prev.x, prev.y, cpX, cpY);
+      }
+
+      if (lastFullIdx < data.length - 1 && fractionalPart > 0) {
+        ctx.quadraticCurveTo(lastPoint.x, lastPoint.y, finalX, finalY);
+      } else {
+        ctx.lineTo(finalX, finalY);
+      }
+
+      ctx.lineTo(finalX, chartY + chartHeight);
+      ctx.closePath();
+
+      const areaGradient = ctx.createLinearGradient(0, chartY, 0, chartY + chartHeight);
+      areaGradient.addColorStop(0, `rgba(20, 184, 166, ${0.15 * this.globalOpacity})`);
+      areaGradient.addColorStop(1, `rgba(20, 184, 166, ${0.02 * this.globalOpacity})`);
+      ctx.fillStyle = areaGradient;
+      ctx.fill();
+    }
+
+    // Animated dot at the current position
+    if (drawProgress > 0) {
+      const dotPulse = 1 + Math.sin(this.animation.time * 0.1) * 0.2;
+
+      // Outer glow
+      ctx.beginPath();
+      ctx.arc(finalX, finalY, 8 * dotPulse, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(20, 184, 166, ${0.3 * this.globalOpacity})`;
+      ctx.fill();
+
+      // Inner dot
+      ctx.beginPath();
+      ctx.arc(finalX, finalY, 4, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${this.globalOpacity})`;
+      ctx.fill();
+      ctx.strokeStyle = `rgba(20, 184, 166, ${this.globalOpacity})`;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    // Stats footer (only show when typing is mostly complete)
+    const statsOpacity = Math.max(0, (drawProgress - 0.5) * 2) * this.globalOpacity;
+    if (statsOpacity > 0) {
+      const statsY = chartY + chartHeight + 25;
+
+      // Current value
+      ctx.font = '600 20px ui-sans-serif, system-ui, sans-serif';
+      ctx.fillStyle = isDark
+        ? `rgba(226, 232, 240, ${statsOpacity})`
+        : `rgba(30, 41, 59, ${statsOpacity})`;
+      ctx.fillText(chart.currentValue + chart.unit, startX, statsY);
+
+      // Average label
+      ctx.font = '12px ui-sans-serif, system-ui, sans-serif';
+      ctx.fillStyle = isDark
+        ? `rgba(148, 163, 184, ${statsOpacity * 0.8})`
+        : `rgba(100, 116, 139, ${statsOpacity * 0.8})`;
+      const avgText = `avg ${chart.avgValue}${chart.unit}`;
+      ctx.fillText(avgText, startX + 90, statsY);
+
+      // Change percentage
+      const changeColor = chart.changePositive ? '#22c55e' : '#ef4444';
+      ctx.fillStyle = `rgba(${this.hexToRgb(changeColor)}, ${statsOpacity})`;
+      ctx.fillText(chart.change, startX + 170, statsY);
+
+      // "METRIC" badge
+      ctx.fillStyle = `rgba(139, 92, 246, ${statsOpacity * 0.15})`;
+      const badgeX = startX + panelWidth - panelPadding * 2 - 60;
+      ctx.beginPath();
+      ctx.roundRect(badgeX, statsY - 12, 50, 16, 3);
+      ctx.fill();
+
+      ctx.fillStyle = `rgba(139, 92, 246, ${statsOpacity})`;
+      ctx.font = '10px ui-monospace, SFMono-Regular, monospace';
+      ctx.fillText('METRIC', badgeX + 6, statsY);
     }
   }
 
