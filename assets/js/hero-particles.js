@@ -657,7 +657,7 @@ class TraceTreeOverlay {
     this.animation = animation;
     this.currentTraceIndex = 0;
     this.visibleLines = [];
-    this.cycleLength = 930; // ~15.5 seconds at 60fps
+    this.cycleLength = 360; // ~6 seconds at 60fps
     this.state = 'hidden'; // hidden, typing, visible, fading
     this.stateStartTime = 0;
     this.globalOpacity = 0;
@@ -769,23 +769,23 @@ class TraceTreeOverlay {
     const trace = this.traces[this.currentTraceIndex];
     const isChart = trace.type === 'chart';
 
-    // State machine for animation cycle
-    if (cycleTime < 20) {
-      // 0-0.33s: Brief hidden state before typing starts
+    // State machine for animation cycle (360 frames = ~6s at 60fps)
+    if (cycleTime < 10) {
+      // 0-0.17s: Brief hidden state before typing starts
       this.state = 'hidden';
       this.globalOpacity = 0;
       this.visibleLines = [];
-    } else if (cycleTime < 500) {
-      // 0.33-8.33s: Typing in lines (or drawing chart)
+    } else if (cycleTime < 180) {
+      // 0.17-3s: Typing in lines (or drawing chart)
       this.state = 'typing';
-      this.globalOpacity = Math.min(1, (cycleTime - 20) / 50);
+      this.globalOpacity = Math.min(1, (cycleTime - 10) / 30);
 
       if (isChart) {
         // Charts handle their own progress in drawChart()
         this.visibleLines = [];
-        this.currentLineProgress = (cycleTime - 20) / 480;
+        this.currentLineProgress = (cycleTime - 10) / 170;
       } else {
-        const typingProgress = (cycleTime - 20) / 480;
+        const typingProgress = (cycleTime - 10) / 170;
         const linesToShow = Math.floor(typingProgress * trace.lines.length);
         this.visibleLines = trace.lines.slice(0, linesToShow + 1);
 
@@ -797,21 +797,21 @@ class TraceTreeOverlay {
           this.currentLineProgress = 1;
         }
       }
-    } else if (cycleTime < 800) {
-      // 8.33-13.33s: Fully visible
+    } else if (cycleTime < 300) {
+      // 3-5s: Fully visible
       this.state = 'visible';
       this.visibleLines = isChart ? [] : trace.lines;
       this.globalOpacity = 1;
       this.currentLineProgress = 1;
-    } else if (cycleTime < 900) {
-      // 13.33-15s: Faster staggered fade out (bottom to top)
+    } else if (cycleTime < 350) {
+      // 5-5.8s: Faster staggered fade out (bottom to top)
       this.state = 'fading';
       this.visibleLines = isChart ? [] : trace.lines;
-      this.fadeProgress = (cycleTime - 800) / 100; // 100 frames (~1.67s)
+      this.fadeProgress = (cycleTime - 300) / 50;
       // Global opacity stays high until near the end
       this.globalOpacity = this.fadeProgress < 0.8 ? 1 : 1 - ((this.fadeProgress - 0.8) / 0.2);
     } else {
-      // 15-15.5s: Short hidden gap, prepare next trace
+      // 5.8-6s: Short hidden gap, prepare next trace
       this.state = 'hidden';
       this.globalOpacity = 0;
       this.visibleLines = [];
@@ -1070,7 +1070,7 @@ class TraceTreeOverlay {
     if (this.state === 'typing') {
       // For charts, use the full typing duration progress
       const cycleTime = this.animation.time % this.cycleLength;
-      drawProgress = Math.min(1, (cycleTime - 20) / 400); // Draw chart over ~6.7s
+      drawProgress = Math.min(1, (cycleTime - 10) / 170); // Draw chart over ~2.8s
     } else if (this.state === 'visible') {
       drawProgress = 1;
     } else if (this.state === 'fading') {
