@@ -1,5 +1,5 @@
 ---
-date: 2024-17-07
+date: 2024-07-17
 title: monoscope vs Honeybadger
 description: There are many monitoring and observability platforms in the market today, each with its unique offerings. Here’s what monoscope does better and offers differently compared to Honeybadger.
 ogImage: https://raw.githubusercontent.com/monoscope/.github/main/images/compare-og.png

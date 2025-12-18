@@ -1,6 +1,6 @@
 ---
 title: "Top 7 API Observability Tools for Peak API Performance"
-featured_image: 
+featured_image: top-7-api-observability-tools.png
 date: 2024-03-08T06:44:56+02:00
 description: API observability tools empower developers and operations teams to gain a deep understanding of API health, API performance, and user interactions.
 author: elliot

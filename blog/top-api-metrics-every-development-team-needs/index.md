@@ -1,13 +1,13 @@
 ---
 title: "Top API Metrics Every Development Team Needs"
 date: 2024-03-01T11:10:00+00:00
-featured_image: 
+featured_image: api-metrics-for-developers.png
 description: "API metrics can be instrumental in optimizing resource allocation and ensuring the overall health of your infrastructure."
 author: elliot
 categories:
   - API metrics
 --- 
-![alt](./api%20metrics%20for%20developers.png)
+![alt](./api-metrics-for-developers.png)
 Most developer teams leverage API metrics to configure and deploy their infrastructure effectively. API performance metrics play a crucial role in ensuring the successful delivery of operational functionalities within a project. These metrics are assessed in a hierarchical structure, with operational API metrics forming the foundation.
 
 Monitoring these metrics continuously allows for proactive identification and resolution of performance issues. API metrics can be instrumental in optimizing resource allocation and ensuring the overall health of your infrastructure.

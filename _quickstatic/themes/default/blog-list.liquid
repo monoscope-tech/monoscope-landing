@@ -17,7 +17,7 @@
             Get articles and updates in your inbox on what we learn while building Monoscope.
             </p>
             <div class="15d365ef1d">
-              <script async data-uid="15d365ef1d" src="https://monoscope.ck.page/15d365ef1d/index.js"></script>
+              <script async data-uid="15d365ef1d" src="https://monoscope.kit.com/15d365ef1d/index.js"></script>
             </div>
           </div>
         </div>
@@ -26,7 +26,7 @@
           <h2 class="text-2xl font-normal pb-3 text-textStrong"> ❯ &nbsp; {{ this.frontmatter.title }}</h2>
           {% endif %}
 
-          {% assign blog_posts = file_list | where_glob: 'file_path', "./blog/*/index.md" | sort: "date" %}
+          {% assign blog_posts = file_list | where_glob: 'file_path', "./blog/*/index.md" | sort: "frontmatter.date" | reverse %}
           
           <!-- Category menu -->
           <div class="mb-8">

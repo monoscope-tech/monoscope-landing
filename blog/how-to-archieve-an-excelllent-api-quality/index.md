@@ -1,6 +1,6 @@
 ---
 title: "How to Achieve an Excellent API Quality"
-featured_image: 
+featured_image: api-quality.webp
 date: 2024-03-26T06:44:56+02:00
 description: "with a plethora of API observability tools available, finding the right one can feel like navigating a labyrinth."
 author: elliot
