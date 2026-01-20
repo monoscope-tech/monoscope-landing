@@ -54,6 +54,13 @@ OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
 OTEL_NODE_DISABLED_INSTRUMENTATIONS=net,connect,dns,fs
 ```
 
+```=html
+<div class="callout">
+  <i class="fa-solid fa-circle-info"></i>
+  <p><b>Import Order Matters:</b> The <code>@opentelemetry/auto-instrumentations-node/register</code> module reads environment variables at import time. If using a <code>.env</code> file, import <code>dotenv/config</code> first. If not using a <code>.env</code> file, ensure <code>OTEL_*</code> environment variables are set before starting your application (e.g., via command line, Docker, or your deployment platform).</p>
+</div>
+```
+
 ## Monoscope Middleware for NestJs + Express
 
 If your NestJs app uses the default Express adapter (which is the default unless changed), you can include the Monoscope Express middleware to capture HTTP request and response details:
@@ -67,7 +74,8 @@ npm install --save @monoscopetech/express
 in your `main.ts` file
 
 ```ts
-import "@opentelemetry/auto-instrumentations-node/register"; // IMPORTANT: Do this as early as possible in your server
+import "dotenv/config";
+import "@opentelemetry/auto-instrumentations-node/register";
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { Monoscope } from "@monoscopetech/express";

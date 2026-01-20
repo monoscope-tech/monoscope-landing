@@ -48,6 +48,13 @@ OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
 OTEL_NODE_DISABLED_INSTRUMENTATIONS=net,connect,dns,fs
 ```
 
+```=html
+<div class="callout">
+  <i class="fa-solid fa-circle-info"></i>
+  <p><b>Import Order Matters:</b> The <code>@opentelemetry/auto-instrumentations-node/register</code> module reads environment variables at import time. If using a <code>.env</code> file, import <code>dotenv/config</code> first. If not using a <code>.env</code> file, ensure <code>OTEL_*</code> environment variables are set before starting your application (e.g., via command line, Docker, or your deployment platform).</p>
+</div>
+```
+
 ## Setup Monoscope Adonis Middleware For HTTP Request Monitoring
 
 Monoscope Adonis Middleware is a middleware that can be used to monitor HTTP requests. It is a wrapper around the Express.js middleware and provides additional functionalities on top of the open telemetry instrumentation which creates a custom span for each request capturing details about the request including request and response bodies.
@@ -74,6 +81,7 @@ export default defineConfig({
 Then, register the middleware by adding the `@monoscopetech/adonis` client to your global middleware list in the `start/kernel.js|ts` file like so:
 
 ```js
+import "dotenv/config";
 import "@opentelemetry/auto-instrumentations-node/register";
 
 import server from "@adonisjs/core/services/server";
