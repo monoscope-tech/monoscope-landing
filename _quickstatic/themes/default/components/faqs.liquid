@@ -2,17 +2,19 @@
     <div class="grow space-y-8 text-2xl ">
         <p class="text-4xl md:text-6xl leading-normal font-semibold">Frequently Asked <br/> Questions</p>
         <p>Here are some questions many have asked us.</p>
-        <a href="/docs/faqs/" class="text-lg text-textBrand underline block">View all FAQs</a>
+        <a href="/docs/faqs/" class="text-lg text-textBrand underline block footer-link">View all FAQs</a>
     </div>
 
     <div class="flex w-full md:w-[40%] flex-col gap-4 text-gray-700 dark:text-base-content">
         {% for faq in this.frontmatter.faqs %}
-        <div class="bg-base-100 px-6 py-3 shadow-sm">
-            <button class="flex gap-4 items-center text-left hover:text-gray-800 dark:hover:text-white" onclick="toggleFaq(event)">
-            <svg class="shrink-0 icon h-5 w-5 text-current fill-current stroke-current opacity-70"><use xlink:href="/assets/deps/fontawesome/solid.svg#caret-right"></use></svg>
+        <div class="bg-base-100 px-6 py-3 shadow-sm rounded-lg">
+            <button class="faq-button press-effect w-full flex gap-4 items-center text-left rounded-md px-2 py-3 -mx-2" onclick="toggleFaqSmooth(event)">
+            <svg class="faq-icon shrink-0 h-5 w-5 text-current fill-current stroke-current opacity-70"><use xlink:href="/assets/deps/fontawesome/solid.svg#caret-right"></use></svg>
             {{faq.q}}
             </button>
-            <div class="pl-4 py-4 hidden text-gray-600 dark:text-base-content">{{faq.a}}</div>
+            <div class="faq-answer">
+                <div class="pl-9 py-4 text-gray-600 dark:text-base-content">{{faq.a}}</div>
+            </div>
         </div>
         {% endfor %}
     </div>

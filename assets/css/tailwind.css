@@ -19,6 +19,14 @@
   /* Custom max-width */
   --max-width-8xl: 88rem;
 
+  /* Animation timing tokens */
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+
   /* Simple colors */
   --color-gray-25: oklch(99.1% 0.002 247);
   --color-gray-150: oklch(94.5% 0.005 247);
@@ -128,6 +136,8 @@
       background-position: 200% 0;
     }
   }
+
+  --animate-shimmer: shimmer 2s ease-in-out infinite;
 }
 
 @plugin "daisyui/theme" {
@@ -305,12 +315,26 @@ html:has(body[data-theme="dark"]) {
 
 .btn {
   @apply relative overflow-hidden cursor-pointer
-         transition-all duration-150
          shadow-[0px_1px_3px_rgba(0,0,0,0.1),0px_1px_2px_rgba(0,0,0,0.06)]
          hover:shadow-[0px_4px_6px_rgba(0,0,0,0.1),0px_2px_4px_rgba(0,0,0,0.06)]
          active:shadow-[0px_1px_2px_rgba(0,0,0,0.06)]
-         active:translate-y-[1px]
          before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/10 before:to-transparent before:pointer-events-none;
+  transition: transform var(--duration-fast) var(--ease-smooth),
+              box-shadow var(--duration-fast) var(--ease-smooth),
+              background-color var(--duration-fast) var(--ease-smooth);
+}
+
+.btn:active {
+  transform: scale(0.98) translateY(1px);
+}
+
+@media (hover: hover) {
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+  .btn:hover:active {
+    transform: scale(0.98) translateY(1px);
+  }
 }
 
 .btn-primary {
@@ -395,6 +419,39 @@ html:has(body[data-theme="dark"]) {
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
+  }
+
+  /* Global focus-visible states for keyboard navigation */
+  :focus-visible {
+    outline: 2px solid var(--color-strokeFocus);
+    outline-offset: 2px;
+    border-radius: 4px;
+    transition: outline-offset var(--duration-fast) var(--ease-smooth);
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Subtle focus ring expansion on interactive elements */
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline-offset: 3px;
+  }
+
+  /* Reduced motion: respect user preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
@@ -860,4 +917,543 @@ html:has(body[data-theme="dark"]) {
   .tabs-outline .tab {
     @apply !text-slate-800 font-medium;
   }*/
+}
+
+/* ========================================
+   Blog Design Improvements
+   Following Emil Kowalski's Design Principles
+   ======================================== */
+
+/* Blog card hover effects - GPU-accelerated, no layout shift */
+.blog-card {
+  transition: transform var(--duration-normal) var(--ease-smooth),
+              box-shadow var(--duration-normal) var(--ease-smooth);
+  will-change: transform;
+}
+
+@media (hover: hover) {
+  .blog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08),
+                0 4px 8px rgba(0, 0, 0, 0.04);
+  }
+}
+
+.blog-card:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08),
+              0 0 0 2px var(--color-strokeFocus);
+}
+
+[data-theme="dark"] .blog-card:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3),
+              0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Blog card image zoom on hover */
+.blog-card-image {
+  overflow: hidden;
+}
+
+.blog-card-image img {
+  transition: transform var(--duration-slow) var(--ease-smooth);
+}
+
+@media (hover: hover) {
+  .blog-card:hover .blog-card-image img {
+    transform: scale(1.03);
+  }
+}
+
+/* Image skeleton shimmer for lazy loading */
+.lazy:not(.loaded) {
+  background: linear-gradient(
+    90deg,
+    var(--color-fillWeaker) 0%,
+    var(--color-fillWeak) 50%,
+    var(--color-fillWeaker) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+.lazy.loaded {
+  animation: none;
+  background: none;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+/* Category filter transitions */
+.category-filter {
+  position: relative;
+  transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-filter::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--color-fillBrand-strong);
+  transition: width 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(-50%);
+}
+
+.category-filter:hover::after {
+  width: 60%;
+}
+
+.category-filter.active::after {
+  width: 100%;
+}
+
+/* Reading progress indicator */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--color-fillBrand-strong);
+  transform-origin: left;
+  transform: scaleX(0);
+  z-index: 100;
+}
+
+@supports (animation-timeline: scroll()) {
+  .reading-progress {
+    animation: reading-progress linear;
+    animation-timeline: scroll();
+  }
+
+  @keyframes reading-progress {
+    to {
+      transform: scaleX(1);
+    }
+  }
+}
+
+/* Blog TOC styles */
+#blogTableOfContents a {
+  display: block;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-textWeak);
+  border-left: 2px solid transparent;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  line-height: 1.4;
+}
+
+#blogTableOfContents a:hover {
+  color: var(--color-textBrand);
+  border-left-color: var(--color-strokeBrand-weak);
+}
+
+#blogTableOfContents a.active {
+  color: var(--color-textBrand);
+  border-left-color: var(--color-strokeBrand-strong);
+  font-weight: 500;
+}
+
+#blogTableOfContents a.toc-h3 {
+  padding-left: 1.5rem;
+  font-size: 0.8125rem;
+}
+
+/* Floating share buttons */
+.share-floating {
+  position: fixed;
+  left: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 40;
+}
+
+.share-floating.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (max-width: 1536px) {
+  .share-floating {
+    display: none;
+  }
+}
+
+/* Smooth scroll with reduced motion support */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    .blog-card,
+    .blog-card-image img,
+    .category-filter,
+    .category-filter::after,
+    #blogTableOfContents a {
+      transition: none;
+    }
+
+    .lazy:not(.loaded) {
+      animation: none;
+    }
+  }
+}
+
+/* Newsletter container focus animation */
+.newsletter-container {
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.newsletter-container:focus-within {
+  transform: scale(1.01);
+  box-shadow: 0 0 0 2px var(--color-strokeBrand-strong);
+}
+
+/* Author social link hover */
+.author-social-link {
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.author-social-link:hover {
+  transform: scale(1.15);
+}
+
+/* ========================================
+   Global Interaction Utilities
+   ======================================== */
+
+/* Icon hover effect - consistent across all icon interactions */
+@utility icon-hover {
+  transition: transform var(--duration-fast) var(--ease-smooth),
+              color var(--duration-fast) var(--ease-smooth);
+}
+
+@media (hover: hover) {
+  .icon-hover:hover,
+  .group:hover .icon-hover {
+    transform: scale(1.12);
+    color: var(--color-textBrand);
+  }
+}
+
+/* Link hover - standardized link transition */
+@utility link-hover {
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+.link-hover:hover {
+  color: var(--color-textStrong);
+}
+
+/* Footer link styling - consistent transitions */
+.footer-link {
+  color: var(--color-textWeak);
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+@media (hover: hover) {
+  .footer-link:hover {
+    color: var(--color-textStrong);
+  }
+}
+
+.footer-link:focus-visible {
+  color: var(--color-textBrand);
+}
+
+/* Status indicator pulse - subtle and refined */
+.status-pulse {
+  animation: status-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes status-pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0);
+  }
+}
+
+/* ========================================
+   FAQ Smooth Animation
+   Uses CSS Grid for height animation without JS
+   ======================================== */
+
+.faq-answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--duration-normal) var(--ease-smooth);
+}
+
+.faq-answer.open {
+  grid-template-rows: 1fr;
+}
+
+.faq-answer > div {
+  overflow: hidden;
+}
+
+.faq-icon {
+  transition: transform var(--duration-normal) var(--ease-smooth);
+}
+
+.faq-icon.open {
+  transform: rotate(90deg);
+}
+
+/* FAQ button hover */
+.faq-button {
+  transition: background-color var(--duration-fast) var(--ease-smooth);
+}
+
+.faq-button:hover {
+  background-color: var(--color-fillHover);
+}
+
+.faq-button:focus-visible {
+  outline: 2px solid var(--color-strokeFocus);
+  outline-offset: -2px;
+}
+
+/* ========================================
+   Subtle Delight Utilities
+   ======================================== */
+
+/* Animated underline for links - grows from left on hover */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width var(--duration-normal) var(--ease-smooth);
+}
+
+.link-underline:hover::after {
+  width: 100%;
+}
+
+/* Center-out underline variant */
+.link-underline-center {
+  position: relative;
+  text-decoration: none;
+}
+
+.link-underline-center::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width var(--duration-normal) var(--ease-smooth),
+              left var(--duration-normal) var(--ease-smooth);
+}
+
+.link-underline-center:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* Interactive card with subtle lift on hover */
+.interactive-card {
+  transition: transform var(--duration-normal) var(--ease-smooth),
+              box-shadow var(--duration-normal) var(--ease-smooth);
+  will-change: transform;
+}
+
+@media (hover: hover) {
+  .interactive-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08),
+                0 2px 4px rgba(0, 0, 0, 0.04);
+  }
+}
+
+[data-theme="dark"] .interactive-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.24),
+              0 2px 4px rgba(0, 0, 0, 0.16);
+}
+
+.interactive-card:focus-within {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 2px var(--color-strokeFocus);
+}
+
+/* Subtle icon rotation on hover */
+.icon-wiggle {
+  transition: transform var(--duration-normal) var(--ease-smooth);
+}
+
+@media (hover: hover) {
+  .icon-wiggle:hover {
+    transform: rotate(8deg);
+  }
+}
+
+/* Icon scale with color change */
+.icon-pop {
+  transition: transform var(--duration-fast) var(--ease-smooth),
+              color var(--duration-fast) var(--ease-smooth);
+}
+
+@media (hover: hover) {
+  .icon-pop:hover {
+    transform: scale(1.15);
+    color: var(--color-textBrand);
+  }
+}
+
+/* Smooth background color transition for interactive elements */
+.bg-smooth {
+  transition: background-color var(--duration-fast) var(--ease-smooth);
+}
+
+/* Subtle press effect for clickable items */
+.press-effect {
+  transition: transform var(--duration-fast) var(--ease-smooth);
+}
+
+.press-effect:active {
+  transform: scale(0.97);
+}
+
+/* Fade in on scroll - for elements entering viewport */
+@media (prefers-reduced-motion: no-preference) {
+  .fade-in-up {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity var(--duration-slow) var(--ease-out),
+                transform var(--duration-slow) var(--ease-out);
+  }
+
+  .fade-in-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stagger children animation delays */
+.stagger-children > *:nth-child(1) { --stagger-delay: 0ms; }
+.stagger-children > *:nth-child(2) { --stagger-delay: 50ms; }
+.stagger-children > *:nth-child(3) { --stagger-delay: 100ms; }
+.stagger-children > *:nth-child(4) { --stagger-delay: 150ms; }
+.stagger-children > *:nth-child(5) { --stagger-delay: 200ms; }
+.stagger-children > *:nth-child(6) { --stagger-delay: 250ms; }
+
+.stagger-children > * {
+  transition-delay: var(--stagger-delay, 0ms);
+}
+
+/* ========================================
+   Subtle Delight Enhancements
+   Following Emil Kowalski's Design Principles
+   ======================================== */
+
+/* Theme toggle button transitions */
+.tab[data-theme-option] {
+  transition: background-color var(--duration-fast) var(--ease-smooth),
+              color var(--duration-fast) var(--ease-smooth),
+              transform var(--duration-fast) var(--ease-smooth),
+              box-shadow var(--duration-fast) var(--ease-smooth);
+}
+
+.tab[data-theme-option]:active {
+  transform: scale(0.95);
+}
+
+.tab[data-theme-option].tab-active {
+  animation: tab-select-pop var(--duration-fast) var(--ease-smooth);
+}
+
+@keyframes tab-select-pop {
+  0% { transform: scale(0.95); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+/* GitHub stars fade-in animation */
+.stars-loaded {
+  animation: stars-fade-in var(--duration-normal) var(--ease-out);
+}
+
+@keyframes stars-fade-in {
+  from {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Dropdown menu origin - appear from trigger */
+.nav-dropdown {
+  transform-origin: top left;
+}
+
+/* Touch target minimum size utility */
+@utility touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Mobile menu items need proper touch targets */
+@media (max-width: 767px) {
+  nav a,
+  nav button {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* Guarded hover utilities for touch-first approach */
+@media (hover: hover) {
+  .hover-lift:hover {
+    transform: translateY(-2px);
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.02);
+  }
+
+  .hover-glow:hover {
+    box-shadow: 0 0 20px rgba(0, 104, 255, 0.15);
+  }
+}
+
+/* Ensure active states work on touch */
+.hover-lift:active,
+.hover-scale:active {
+  transform: scale(0.98);
 }

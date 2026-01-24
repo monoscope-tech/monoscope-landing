@@ -3,20 +3,20 @@
       <!-- Footer CTA-->
       <div class="max-w-8xl w-full text-textWeak space-y-10 py-20 px-3">
         <h2 class="text-[2rem] font-normal text-textStrong leading-10"><span class="text-textBrand">Find and fix issues</span> before your customers, <br/>stakeholders or partners notice.</h2>
-        <div>
-          <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong" data-tracking="footer-book-demo" data-reddit-event="ScheduleDemo">Book a demo</a>
-          <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-transparent border border-fillBrand-strong text-fillBrand-strong" data-tracking="footer-start-trial" data-reddit-event="SignUp">Start 30 day free trial</a>
+        <div class="flex flex-wrap gap-3">
+          <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" class="btn px-5 py-2.5 rounded-lg bg-fillBrand-strong text-textInverse-strong font-semibold" data-tracking="footer-book-demo" data-reddit-event="ScheduleDemo">Book a demo</a>
+          <a href="https://app.monoscope.tech" class="btn btn-secondary px-5 py-2.5 rounded-lg font-normal" data-tracking="footer-start-trial" data-reddit-event="SignUp">Start 30 day free trial</a>
         </div>
         {% assign social_links = "github|https://github.com/monoscope-tech,twitter|https://x.com/monoscope_tech,linkedin|https://www.linkedin.com/company/monoscope,youtube|https://www.youtube.com/@Monoscope,discord|https://discord.gg/BSFCaUHxt4" | split: "," %}
         <div class="md:space-x-8 gap-2 md:gap-0 flex md:inline-flex flex-col md:flex-row md:items-center  text-xl">
           <div class="[&_svg]:h-5 [&_svg]:w-5 inline-flex gap-4">
             {% for social in social_links %}
               {% assign social_data = social | split: "|" %}
-              <a href="{{ social_data[1] }}" target="_blank"><svg><use xlink:href="/assets/deps/sprite.svg#{{ social_data[0] }}"></use></svg></a>
+              <a href="{{ social_data[1] }}" target="_blank" rel="noopener noreferrer" class="icon-hover text-textWeak hover:text-textBrand" aria-label="{{ social_data[0] }}"><svg><use xlink:href="/assets/deps/sprite.svg#{{ social_data[0] }}"></use></svg></a>
             {% endfor %}
           </div>
           <span class="text-textDisabled hidden md:block">|</span>
-          <a>Signup for our <span class="underline underline-offset-2 font-semibold">newsletter</span> to stay updated</a>
+          <button onclick="loadConvertKitForm('e05f719e6e')" class="group cursor-pointer text-left">Signup for our <span class="underline underline-offset-2 font-semibold text-textBrand group-hover:text-fillBrand-strong transition-colors duration-150">newsletter</span> to stay updated</button>
         </div>
       </div>
 
@@ -32,7 +32,7 @@
             <!-- Navigation Columns -->
             <div class="col-span-1">
                 <h3 class="text-sm font-semibold text-textWeak mb-4">Product</h3>
-                <ul class="space-y-3">
+                <ul class="space-y-3 [&_a]:footer-link">
                     <li><a href="/features/error-tracking">Error Tracking</a></li>
                     <li><a href="/features/error-tracking">Breaking Changes Detection</a></li>
                     <li><a href="/features/api-logs-and-metrics/">API Logs and Metrics</a></li>
@@ -45,7 +45,7 @@
 
             <div class="col-span-1">
                 <h3 class="text-sm font-semibold text-textWeak mb-4">Developers and Support</h3>
-                <ul class="space-y-3">
+                <ul class="space-y-3 [&_a]:footer-link">
                     <li><a href="/docs/">Documentation</a></li>
                     <li><a href="/docs/onboarding/">Onboarding Guide</a></li>
                     <li><a href="/docs/sdks/">SDK Guides</a></li>
@@ -59,7 +59,7 @@
 
             <div class="col-span-1">
               <h3 class="text-sm font-semibold text-textWeak mb-4">Product Comparisons</h3>
-              <ul class="space-y-3">
+              <ul class="space-y-3 [&_a]:footer-link">
                   <li><a href="/compare/datadog">monoscope vs Datadog</a></li>
                   <li><a href="/compare/sentry">monoscope vs Sentry</a></li>
                   <li><a href="/compare/honeybadger">monoscope vs Honeybadger</a></li>
@@ -72,7 +72,7 @@
 
             <div class="col-span-1">
               <h3 class="text-sm font-semibold text-textWeak mb-4">Company</h3>
-              <ul class="space-y-3">
+              <ul class="space-y-3 [&_a]:footer-link">
                   <li><a href="/about/">About</a></li>
                   <li><a href="/docs/faqs">FAQs</a></li>
                   <li><a href="/blog/">Blog</a></li>
@@ -86,7 +86,7 @@
 
             <div class="col-span-2">
               <h3 class="text-sm font-semibold text-textWeak mb-4">Latest recommended writeups</h3>
-              <ul class="space-y-3 [&_a]:underline [&_a]:underline-offset-2">
+              <ul class="space-y-3 [&_a]:underline [&_a]:underline-offset-2 [&_a]:footer-link">
                   <li><a href="/blog/api-trends/">10 Must-Know API trends in 2024</a></li>
                   <li><a href="/blog/api-testing-automation/">Ultimate Guide to API Testing Automation</a></li>
                   <li><a href="/blog/monoscope-top-atatus-alternative/">monoscope: Top Atatus Alternative for API Monitoring</a></li>
@@ -98,7 +98,7 @@
 
         <div class="">
           <h3 class="text-sm font-semibold text-textWeak mb-4">Platforms</h3>
-          <div class="grid grid-cols-2 md:grid-cols-6 gap-3 *:col-span-1">
+          <div class="grid grid-cols-2 md:grid-cols-6 gap-3 *:col-span-1 [&_a]:footer-link">
             <a href="/blog/database-monitoring/">Database Monitoring</a>
             <a href="#">Kubernetes Monitoring</a>
             <a href="/docs/sdks/php">PHP Monitoring</a>
@@ -118,7 +118,7 @@
             <a href="#">Angular Monitoring</a>
             <a href="#">React Monitoring</a>
           </div>
-          <a href="#" class="block py-3 underline underline-offset-2">See all platforms</a>
+          <a href="#" class="block py-3 underline underline-offset-2 footer-link">See all platforms</a>
         </div>
 
         <hr/>
@@ -150,12 +150,12 @@
             </div>
             <!-- Bottom row -->
             <div class="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
-                <a href="https://discord.gg/BSFCaUHxt4" target="_blank" class="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">
-                    <svg class="h-5 w-5 mr-2"><use xlink:href="/assets/deps/sprite.svg#discord"></use></svg>
+                <a href="https://discord.gg/BSFCaUHxt4" target="_blank" rel="noopener noreferrer" class="group flex items-center text-textWeak hover:text-textBrand transition-colors duration-150">
+                    <svg class="h-5 w-5 mr-2 icon-hover"><use xlink:href="/assets/deps/sprite.svg#discord"></use></svg>
                     Join our discord community
                 </a>
                 <div class="flex items-center text-gray-600 dark:text-gray-400">
-                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2 status-pulse"></span>
                     Status All systems operational
                 </div>
             </div>
@@ -199,11 +199,17 @@
       const stars = data.stargazers_count;
       const formattedStars = stars >= 1000 ? (stars / 1000).toFixed(1) + 'k' : stars;
 
-      // Update both main nav and docs nav star counts
+      // Update both main nav and docs nav star counts with fade-in
       const starsElement = document.getElementById('github-stars');
       const starsDocsElement = document.getElementById('github-stars-docs');
-      if (starsElement) starsElement.textContent = formattedStars;
-      if (starsDocsElement) starsDocsElement.textContent = formattedStars;
+      if (starsElement) {
+        starsElement.textContent = formattedStars;
+        starsElement.classList.add('stars-loaded');
+      }
+      if (starsDocsElement) {
+        starsDocsElement.textContent = formattedStars;
+        starsDocsElement.classList.add('stars-loaded');
+      }
     } catch (error) {
       console.error('Failed to fetch GitHub stars:', error);
     }
@@ -242,6 +248,13 @@
       e.currentTarget.nextElementSibling.classList.toggle('hidden')
       e.currentTarget.firstElementChild.classList.toggle('rotate-90')
     }
+    function toggleFaqSmooth(e) {
+      const button = e.currentTarget;
+      const answer = button.nextElementSibling;
+      const icon = button.querySelector('.faq-icon');
+      answer.classList.toggle('open');
+      icon.classList.toggle('open');
+    }
     function switchTab(e, imageId) {
       const tabs = document.querySelectorAll(".tab-button")
       const images = document.querySelectorAll('.tab-image')
@@ -276,10 +289,22 @@
       e.currentTarget.lastElementChild.classList.toggle("-rotate-180")
     }
 
+    // Close mobile menu when clicking a nav link
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        const menuInput = document.getElementById('menuInput');
+        if (menuInput && menuInput.checked) {
+          menuInput.checked = false;
+        }
+      });
+    });
+
     // Set the options globally
     // to make LazyLoad self-initialize
     window.lazyLoadOptions = {
-      // Your custom settings go here
+      callback_loaded: function(el) {
+        el.classList.add('loaded');
+      }
     };
     window.addEventListener(
       "LazyLoad::Initialized",
