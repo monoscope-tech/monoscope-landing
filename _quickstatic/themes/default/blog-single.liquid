@@ -1,6 +1,36 @@
 {% render "default/components/head", this:this, config:config %}
 {% render "default/components/nav", this:this, config:config %}
 
+<!-- Reading Progress Indicator -->
+<div class="reading-progress" aria-hidden="true"></div>
+
+<!-- Floating Share Buttons (desktop only) -->
+<div class="share-floating" id="floatingShare">
+  <a href="https://www.twitter.com/share?url=https://monoscope.tech{{ this.permalink }}&text={{ this.frontmatter.title }}"
+     target="_blank" rel="noopener noreferrer"
+     title="Share on X"
+     class="group p-3 bg-bgRaised hover:bg-fillBrand-weak rounded-full border border-strokeWeak shadow-sm transition-all duration-200 hover:scale-110">
+    <svg class="w-5 h-5 text-textWeak group-hover:text-textBrand"><use xlink:href="/assets/deps/fontawesome/brands.svg#x-twitter"></use></svg>
+  </a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://monoscope.tech{{ this.permalink }}&title={{ this.frontmatter.title }}"
+     target="_blank" rel="noopener noreferrer"
+     title="Share on LinkedIn"
+     class="group p-3 bg-bgRaised hover:bg-fillBrand-weak rounded-full border border-strokeWeak shadow-sm transition-all duration-200 hover:scale-110">
+    <svg class="w-5 h-5 text-textWeak group-hover:text-textBrand"><use xlink:href="/assets/deps/fontawesome/brands.svg#linkedin"></use></svg>
+  </a>
+  <a href="https://www.reddit.com/submit?url=https://monoscope.tech{{ this.permalink }}&title={{ this.frontmatter.title }}"
+     target="_blank" rel="noopener noreferrer"
+     title="Share on Reddit"
+     class="group p-3 bg-bgRaised hover:bg-fillBrand-weak rounded-full border border-strokeWeak shadow-sm transition-all duration-200 hover:scale-110">
+    <svg class="w-5 h-5 text-textWeak group-hover:text-textBrand"><use xlink:href="/assets/deps/fontawesome/brands.svg#reddit-alien"></use></svg>
+  </a>
+  <button onclick="copyToClipboard('https://monoscope.tech{{ this.permalink }}')"
+          title="Copy link"
+          class="group p-3 bg-bgRaised hover:bg-fillBrand-weak rounded-full border border-strokeWeak shadow-sm transition-all duration-200 hover:scale-110">
+    <svg class="w-5 h-5 text-textWeak group-hover:text-textBrand"><use xlink:href="/assets/deps/sprite.svg#link"></use></svg>
+  </button>
+</div>
+
 <main>
   <!-- Hero Section -->
   <div class="w-full bg-gradient-to-b from-fillWeak to-transparent">
@@ -64,10 +94,8 @@
             {{ this.frontmatter.date | date: "%B %d, %Y" }}
           </time>
           
-          {% if this.frontmatter.readingTime %}
-            <span class="hidden sm:block w-px h-8 bg-strokeWeak"></span>
-            <span class="text-sm font-medium">{{ this.frontmatter.readingTime }} min read</span>
-          {% endif %}
+          <span class="hidden sm:block w-px h-8 bg-strokeWeak"></span>
+          <span class="text-sm font-medium" data-reading-time>{% if this.frontmatter.readingTime %}{{ this.frontmatter.readingTime }} min read{% endif %}</span>
         </div>
       </header>
     </div>
@@ -82,31 +110,44 @@
     </div>
   {% endif %}
 
-  <!-- Article Content -->
-  <article class="max-w-4xl mx-auto px-3">
-    <div class="prose prose-lg prose-gray dark:prose-invert mx-auto
-                prose-headings:font-normal prose-headings:text-textStrong
-                prose-h1:text-3xl prose-h1:sm:text-4xl prose-h1:mb-8 prose-h1:mt-12
-                prose-h2:text-2xl prose-h2:sm:text-3xl prose-h2:mb-6 prose-h2:mt-10
-                prose-h3:text-xl prose-h3:sm:text-2xl prose-h3:mb-4 prose-h3:mt-8
-                prose-p:text-textWeak prose-p:leading-relaxed prose-p:mb-6
-                prose-a:text-textBrand prose-a:underline prose-a:underline-offset-2 hover:prose-a:text-fillBrand-strong
-                prose-strong:text-textStrong prose-strong:font-semibold
-                prose-code:text-textBrand prose-code:bg-fillBrand-weak prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-[''] prose-code:after:content-['']
-                prose-pre:bg-fillWeak prose-pre:border prose-pre:border-strokeWeak prose-pre:shadow-sm
-                prose-blockquote:border-l-4 prose-blockquote:border-strokeBrand-strong prose-blockquote:bg-fillBrand-weak prose-blockquote:py-1 prose-blockquote:px-6 prose-blockquote:italic
-                prose-img:rounded-xl prose-img:shadow-lg prose-img:border prose-img:border-strokeWeak
-                prose-ul:list-disc prose-ul:pl-6 prose-ul:space-y-2
-                prose-ol:list-decimal prose-ol:pl-6 prose-ol:space-y-2
-                prose-li:text-textWeak prose-li:leading-relaxed
-                prose-table:border prose-table:border-strokeWeak prose-table:rounded-lg prose-table:overflow-hidden
-                prose-th:bg-fillWeak prose-th:font-semibold prose-th:text-textStrong
-                prose-td:border-t prose-td:border-strokeWeak">
-      
-      {{ this.content }}
-      
+  <!-- Article Content with TOC -->
+  <div class="max-w-8xl mx-auto px-3">
+    <div class="flex gap-8 justify-center">
+      <!-- Main Article -->
+      <article class="max-w-4xl w-full" id="articleContent">
+        <div class="prose prose-lg prose-gray dark:prose-invert mx-auto
+                    prose-headings:font-normal prose-headings:text-textStrong
+                    prose-h1:text-3xl prose-h1:sm:text-4xl prose-h1:mb-8 prose-h1:mt-12
+                    prose-h2:text-2xl prose-h2:sm:text-3xl prose-h2:mb-6 prose-h2:mt-10
+                    prose-h3:text-xl prose-h3:sm:text-2xl prose-h3:mb-4 prose-h3:mt-8
+                    prose-p:text-textWeak prose-p:leading-relaxed prose-p:mb-6
+                    prose-a:text-textBrand prose-a:underline prose-a:underline-offset-2 hover:prose-a:text-fillBrand-strong
+                    prose-strong:text-textStrong prose-strong:font-semibold
+                    prose-code:text-textBrand prose-code:bg-fillBrand-weak prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-[''] prose-code:after:content-['']
+                    prose-pre:bg-fillWeak prose-pre:border prose-pre:border-strokeWeak prose-pre:shadow-sm
+                    prose-blockquote:border-l-4 prose-blockquote:border-strokeBrand-strong prose-blockquote:bg-fillBrand-weak prose-blockquote:py-1 prose-blockquote:px-6 prose-blockquote:italic
+                    prose-img:rounded-xl prose-img:shadow-lg prose-img:border prose-img:border-strokeWeak
+                    prose-ul:list-disc prose-ul:pl-6 prose-ul:space-y-2
+                    prose-ol:list-decimal prose-ol:pl-6 prose-ol:space-y-2
+                    prose-li:text-textWeak prose-li:leading-relaxed
+                    prose-table:border prose-table:border-strokeWeak prose-table:rounded-lg prose-table:overflow-hidden
+                    prose-th:bg-fillWeak prose-th:font-semibold prose-th:text-textStrong
+                    prose-td:border-t prose-td:border-strokeWeak">
+
+          {{ this.content }}
+
+        </div>
+      </article>
+
+      <!-- Sticky TOC (hidden on mobile and tablets) -->
+      <aside class="hidden xl:block w-56 flex-shrink-0">
+        <nav class="sticky top-24">
+          <h4 class="text-xs font-semibold text-textDisabled mb-4 uppercase tracking-wider">On this page</h4>
+          <ul id="blogTableOfContents" class="space-y-1 text-sm"></ul>
+        </nav>
+      </aside>
     </div>
-  </article>
+  </div>
 
   <!-- Share Section -->
   <div class="max-w-4xl mx-auto px-3 mt-16 mb-8">
@@ -265,16 +306,18 @@
       
       <div class="grid gap-8 grid-cols-1 md:grid-cols-3">
         {% for post in related_posts limit: 3 %}
-          <article class="group">
+          <article class="blog-card group rounded-xl p-4 -m-4">
             <a href="{{ post.permalink }}" class="block space-y-3">
-              {% if post.frontmatter.featured_image %}
-                <img src="{{ post.permalink }}{{ post.frontmatter.featured_image }}" 
-                     alt="{{ post.frontmatter.title }}"
-                     class="w-full aspect-video object-cover rounded-xl border border-strokeWeak group-hover:shadow-lg transition-all duration-200">
-              {% else %}
-                <div class="w-full aspect-video bg-gradient-to-br from-fillBrand-weak to-fillWeak rounded-xl border border-strokeWeak group-hover:shadow-lg transition-all duration-200"></div>
-              {% endif %}
-              
+              <div class="blog-card-image rounded-xl overflow-hidden">
+                {% if post.frontmatter.featured_image %}
+                  <img src="{{ post.permalink }}{{ post.frontmatter.featured_image }}"
+                       alt="{{ post.frontmatter.title }}"
+                       class="w-full aspect-video object-cover border border-strokeWeak">
+                {% else %}
+                  <div class="w-full aspect-video bg-gradient-to-br from-fillBrand-weak to-fillWeak border border-strokeWeak"></div>
+                {% endif %}
+              </div>
+
               <div class="space-y-2">
                 <h3 class="text-lg font-medium text-textStrong group-hover:text-textBrand transition-colors line-clamp-2">
                   {{ post.frontmatter.title }}
@@ -305,13 +348,102 @@
 function copyToClipboard(text) {
   navigator.clipboard.writeText(text).then(() => {
     const button = event.currentTarget;
-    const originalText = button.querySelector('span').textContent;
-    button.querySelector('span').textContent = 'Copied!';
-    setTimeout(() => {
-      button.querySelector('span').textContent = originalText;
-    }, 2000);
+    const span = button.querySelector('span');
+    button.classList.add('copy-success');
+    if (span) {
+      const originalText = span.textContent;
+      span.textContent = 'Copied!';
+      setTimeout(() => {
+        span.textContent = originalText;
+        button.classList.remove('copy-success');
+      }, 2000);
+    } else {
+      setTimeout(() => button.classList.remove('copy-success'), 2000);
+    }
   });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  const article = document.getElementById('articleContent');
+  const toc = document.getElementById('blogTableOfContents');
+  const floatingShare = document.getElementById('floatingShare');
+  const readingTimeEl = document.querySelector('[data-reading-time]');
+  const progressBar = document.querySelector('.reading-progress');
+
+  // Dynamic reading time calculation
+  if (article && readingTimeEl && !readingTimeEl.textContent.trim()) {
+    const words = article.textContent.trim().split(/\s+/).length;
+    const minutes = Math.ceil(words / 200);
+    readingTimeEl.textContent = minutes + ' min read';
+  }
+
+  // Build TOC from h2 and h3 headings
+  if (article && toc) {
+    const prose = article.querySelector('.prose');
+    if (prose) {
+      const headings = prose.querySelectorAll('h2, h3');
+      headings.forEach((heading, i) => {
+        if (!heading.id) heading.id = 'heading-' + i;
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = '#' + heading.id;
+        a.textContent = heading.textContent;
+        if (heading.tagName === 'H3') {
+          a.classList.add('toc-h3');
+        }
+        li.appendChild(a);
+        toc.appendChild(li);
+      });
+
+      // IntersectionObserver for active TOC highlighting
+      if (headings.length > 0) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                toc.querySelectorAll('a').forEach(link => link.classList.remove('active'));
+                const active = toc.querySelector(`a[href="#${entry.target.id}"]`);
+                if (active) active.classList.add('active');
+              }
+            });
+          },
+          { rootMargin: '-80px 0px -80% 0px', threshold: 0 }
+        );
+        headings.forEach(heading => observer.observe(heading));
+      }
+    }
+  }
+
+  // Floating share buttons visibility
+  if (floatingShare) {
+    const hero = document.querySelector('.bg-gradient-to-b');
+    if (hero) {
+      const shareObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              floatingShare.classList.remove('visible');
+            } else {
+              floatingShare.classList.add('visible');
+            }
+          });
+        },
+        { threshold: 0 }
+      );
+      shareObserver.observe(hero);
+    }
+  }
+
+  // Reading progress bar fallback for browsers without scroll-timeline
+  if (progressBar && !CSS.supports('animation-timeline', 'scroll()')) {
+    progressBar.style.animation = 'none';
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.transform = `scaleX(${Math.min(scrolled / height, 1)})`;
+    }, { passive: true });
+  }
+});
 </script>
 
 {% render "default/components/foot", this:this %}
