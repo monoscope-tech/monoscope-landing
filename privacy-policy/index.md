@@ -5,8 +5,8 @@ updatedDate: 2025-01-23
 ---
 
 ```=html
-<section class="mt-8 sm:mt-32 px-6 md:px-12 lg:px-24">
-  <div class="max-w-5xl space-y-6">
+<section class="mt-8 sm:mt-32 px-1">
+  <div class="max-w-5xl w-full space-y-6">
     <span class="inline-block text-textWeak uppercase tracking-wide text-xs font-semibold">Legal</span>
     <h1 class="text-[2.5rem] font-normal leading-tight">Privacy Policy</h1>
     <p class="text-lg text-textWeak">
@@ -15,8 +15,8 @@ updatedDate: 2025-01-23
   </div>
 </section>
 
-<section class="py-12 px-6 md:px-12 lg:px-24">
-  <div class="max-w-5xl prose prose-lg">
+<section class="py-12 px-1">
+  <div class="max-w-5xl w-full prose prose-lg">
 ```
 
 Past 3 technologies UG ("Monoscope", "we", "us", or "our") operates the Monoscope observability platform and the website [monoscope.tech](https://monoscope.tech). This Privacy Policy explains how we collect, use, disclose, and protect your personal data.
@@ -191,13 +191,13 @@ Retention is configurable based on your plan:
 
 We use the following sub-processors:
 
-| Provider | Purpose | Location |
-|----------|---------|----------|
-| OVH Cloud | Infrastructure hosting | EU (Germany, France) |
-| Posthog | Product analytics | EU/US |
-| Cloudflare R2 | Object storage | Global (EU primary) |
-| Lemonsqueezy | Payment processing | US |
-| GitHub | Code hosting, issue tracking | US |
+| Provider      | Purpose                      | Location             |
+| ------------- | ---------------------------- | -------------------- |
+| OVH Cloud     | Infrastructure hosting       | EU (Germany, France) |
+| Posthog       | Product analytics            | EU/US                |
+| Cloudflare R2 | Object storage               | Global (EU primary)  |
+| Lemonsqueezy  | Payment processing           | US                   |
+| GitHub        | Code hosting, issue tracking | US                   |
 
 We will notify customers of material changes to sub-processors.
 
@@ -225,6 +225,7 @@ We are based in Germany and primarily process data within the European Union. Wh
 We implement appropriate technical and organizational measures:
 
 **Technical measures:**
+
 - Encryption in transit (TLS 1.2+) and at rest
 - Access controls and authentication
 - Regular security assessments
@@ -232,6 +233,7 @@ We implement appropriate technical and organizational measures:
 - Secure infrastructure on OVH Cloud
 
 **Organizational measures:**
+
 - Employee security training
 - Access on a need-to-know basis
 - Incident response procedures
