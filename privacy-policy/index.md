@@ -5,8 +5,8 @@ updatedDate: 2025-01-23
 ---
 
 ```=html
-<section class="flex flex-col items-center mt-8 sm:mt-32 px-3">
-  <div class="max-w-4xl w-full space-y-6">
+<section class="mt-8 sm:mt-32 px-6 md:px-12 lg:px-24">
+  <div class="max-w-5xl space-y-6">
     <span class="inline-block text-textWeak uppercase tracking-wide text-xs font-semibold">Legal</span>
     <h1 class="text-[2.5rem] font-normal leading-tight">Privacy Policy</h1>
     <p class="text-lg text-textWeak">
@@ -15,8 +15,8 @@ updatedDate: 2025-01-23
   </div>
 </section>
 
-<section class="flex flex-col items-center py-12 px-3">
-  <div class="max-w-4xl w-full prose prose-lg">
+<section class="py-12 px-6 md:px-12 lg:px-24">
+  <div class="max-w-5xl prose prose-lg">
 ```
 
 Past 3 technologies UG ("Monoscope", "we", "us", or "our") operates the Monoscope observability platform and the website [monoscope.tech](https://monoscope.tech). This Privacy Policy explains how we collect, use, disclose, and protect your personal data.
