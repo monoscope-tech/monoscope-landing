@@ -18,6 +18,9 @@ pages:
   - title: Integrations
     slug: /docs/dashboard/settings-pages/integrations
     icon: arrows-turn-right
+  - title: S3 Storage
+    slug: /docs/dashboard/settings-pages/s3-storage
+    icon: bucket
 ---
 
 # Settings Pages
