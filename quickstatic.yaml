@@ -4,6 +4,8 @@ description: Monitoring and Observability Platform.
 
 layouts:
   "./blog/**/index.md": default/blog-single.liquid
+  "./changelog/index.md": default/changelog-list.liquid
+  "./changelog/**/index.md": default/changelog-single.liquid
   "./features/**/index.md": default/features-single.liquid
   "./pricing/index.md": default/index.liquid
   "./index.md": default/index.liquid
@@ -170,5 +172,7 @@ main_nav:
         description: Achieve real-time Observability to pinpoint issues, understand root causes, and fix problems
   - title: Blog
     url: /blog
+  - title: Changelog
+    url: /changelog
   - title: Pricing
     url: /pricing

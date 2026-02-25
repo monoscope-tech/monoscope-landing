@@ -1,0 +1,101 @@
+{% render "default/components/head", this:this, config:config %}
+{% render "default/components/nav", this:this, config:config %}
+
+<main>
+  <div class="w-full bg-gradient-to-b from-fillWeak to-transparent">
+    <div class="max-w-4xl mx-auto px-3 pt-32 pb-16">
+      <nav class="flex items-center gap-2 text-sm text-textWeak mb-8">
+        <a href="/" class="hover:text-textBrand transition-colors">Home</a>
+        <svg class="w-4 h-4 opacity-50"><use xlink:href="/assets/deps/sprite.svg#chevron-right"></use></svg>
+        <a href="/changelog/" class="hover:text-textBrand transition-colors">Changelog</a>
+        <svg class="w-4 h-4 opacity-50"><use xlink:href="/assets/deps/sprite.svg#chevron-right"></use></svg>
+        <span class="text-textStrong">{{ this.frontmatter.title }}</span>
+      </nav>
+
+      <header class="space-y-6">
+        {% if this.frontmatter.categories %}
+          <div class="flex flex-wrap gap-2">
+            {% for category in this.frontmatter.categories %}
+              {% case category %}
+                {% when 'feature' %}
+                  {% assign badge_class = "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400" %}
+                {% when 'fix' %}
+                  {% assign badge_class = "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400" %}
+                {% when 'improvement' %}
+                  {% assign badge_class = "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400" %}
+                {% when 'performance' %}
+                  {% assign badge_class = "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400" %}
+                {% when 'security' %}
+                  {% assign badge_class = "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400" %}
+                {% when 'breaking' %}
+                  {% assign badge_class = "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400" %}
+                {% when 'deprecated' %}
+                  {% assign badge_class = "bg-gray-100 text-gray-800 dark:bg-gray-700/30 dark:text-gray-400" %}
+                {% else %}
+                  {% assign badge_class = "bg-gray-100 text-gray-800 dark:bg-gray-700/30 dark:text-gray-400" %}
+              {% endcase %}
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ badge_class }}">
+                {{ category | capitalize }}
+              </span>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <h1 class="text-4xl sm:text-5xl font-normal leading-tight text-textStrong">
+          {{ this.frontmatter.title }}
+        </h1>
+
+        <div class="flex items-center gap-4 text-textWeak">
+          <time class="text-sm font-medium" datetime="{{ this.frontmatter.date }}">
+            {{ this.frontmatter.date | date: "%B %d, %Y" }}
+          </time>
+          {% if this.frontmatter.weekEnd %}
+            <span class="text-textDisabled">-</span>
+            <time class="text-sm font-medium" datetime="{{ this.frontmatter.weekEnd }}">
+              {{ this.frontmatter.weekEnd | date: "%B %d, %Y" }}
+            </time>
+          {% endif %}
+        </div>
+      </header>
+    </div>
+  </div>
+
+  {% if this.frontmatter.featured_image %}
+    <div class="max-w-6xl mx-auto px-3 -mt-8 mb-16">
+      <img src="{{ this.permalink }}{{ this.frontmatter.featured_image }}"
+           alt="{{ this.frontmatter.title }}"
+           class="w-full aspect-video object-cover rounded-2xl shadow-xl border border-strokeWeak">
+    </div>
+  {% endif %}
+
+  <article class="max-w-4xl mx-auto px-3">
+    <div class="prose prose-lg prose-gray dark:prose-invert mx-auto
+                prose-headings:font-normal prose-headings:text-textStrong
+                prose-h2:text-2xl prose-h2:sm:text-3xl prose-h2:mb-6 prose-h2:mt-10
+                prose-h3:text-xl prose-h3:sm:text-2xl prose-h3:mb-4 prose-h3:mt-8
+                prose-p:text-textWeak prose-p:leading-relaxed prose-p:mb-6
+                prose-a:text-textBrand prose-a:underline prose-a:underline-offset-2
+                prose-code:text-textBrand prose-code:bg-fillBrand-weak prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-[''] prose-code:after:content-['']
+                prose-pre:bg-fillWeak prose-pre:border prose-pre:border-strokeWeak
+                prose-img:rounded-xl prose-img:shadow-lg prose-img:border prose-img:border-strokeWeak
+                prose-ul:list-disc prose-ul:pl-6 prose-ul:space-y-2
+                prose-li:text-textWeak">
+
+      {{ this.content }}
+
+    </div>
+  </article>
+
+  <div class="max-w-4xl mx-auto px-3 mt-16 mb-16">
+    <div class="border-t border-strokeWeak pt-8">
+      <div class="flex justify-between items-center">
+        <a href="/changelog/" class="flex items-center gap-2 text-textBrand hover:underline">
+          <svg class="w-4 h-4"><use xlink:href="/assets/deps/sprite.svg#chevron-left"></use></svg>
+          Back to Changelog
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+
+{% render "default/components/foot", this:this %}
