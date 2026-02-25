@@ -31,13 +31,19 @@ There are several approaches to deploy the OpenTelemetry Collector in Kubernetes
 
 The OpenTelemetry Operator provides a Kubernetes-native way to deploy and manage the OpenTelemetry Collector.
 
-1. Install the OpenTelemetry Operator:
+1. Install cert-manager (required by the Operator):
+
+```bash
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
+```
+
+2. Install the OpenTelemetry Operator:
 
 ```bash
 kubectl apply -f https://github.com/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml
 ```
 
-2. Create a file named `otel-collector.yaml`:
+3. Create a file named `otel-collector.yaml`:
 
 ```yaml
 apiVersion: opentelemetry.io/v1beta1
@@ -46,39 +52,19 @@ metadata:
   name: monoscope-collector
 spec:
   mode: deployment
-  config: |
+  config:
     receivers:
-      # Kubernetes metrics receiver
       k8s_cluster:
         collection_interval: 10s
-      
-      # OTLP receiver for any instrumented services
       otlp:
         protocols:
           grpc:
             endpoint: 0.0.0.0:4317
           http:
             endpoint: 0.0.0.0:4318
-      
-      # Prometheus receiver for scraping Kubernetes metrics
-      prometheus:
-        config:
-          scrape_configs:
-            - job_name: 'kubernetes-apiservers'
-              kubernetes_sd_configs:
-              - role: endpoints
-              scheme: https
-              tls_config:
-                ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-                insecure_skip_verify: true
-              bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-              relabel_configs:
-              - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
-                action: keep
-                regex: default;kubernetes;https
 
     processors:
-      batch:
+      batch: {}
       memory_limiter:
         check_interval: 1s
         limit_mib: 4000
@@ -93,7 +79,7 @@ spec:
             action: upsert
 
     exporters:
-      otlpgrpc:
+      otlp_grpc:
         endpoint: "otelcol.monoscope.tech:4317"
         tls:
           insecure: true
@@ -103,20 +89,20 @@ spec:
         traces:
           receivers: [otlp]
           processors: [memory_limiter, batch, resourcedetection, resource]
-          exporters: [otlpgrpc]
+          exporters: [otlp_grpc]
         metrics:
-          receivers: [otlp, k8s_cluster, prometheus]
+          receivers: [otlp, k8s_cluster]
           processors: [memory_limiter, batch, resourcedetection, resource]
-          exporters: [otlpgrpc]
+          exporters: [otlp_grpc]
         logs:
           receivers: [otlp]
           processors: [memory_limiter, batch, resourcedetection, resource]
-          exporters: [otlpgrpc]
+          exporters: [otlp_grpc]
 ```
 
 Replace `YOUR_API_KEY` with your actual monoscope project key.
 
-3. Apply the collector configuration:
+4. Apply the collector configuration:
 
 ```bash
 kubectl apply -f otel-collector.yaml
@@ -157,22 +143,6 @@ config:
         http:
           endpoint: 0.0.0.0:4318
 
-    prometheus:
-      config:
-        scrape_configs:
-          - job_name: 'kubernetes-apiservers'
-            kubernetes_sd_configs:
-            - role: endpoints
-            scheme: https
-            tls_config:
-              ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-              insecure_skip_verify: true
-            bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-            relabel_configs:
-            - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
-              action: keep
-              regex: default;kubernetes;https
-
   processors:
     batch: {}
     memory_limiter:
@@ -189,7 +159,7 @@ config:
           action: upsert
 
   exporters:
-    otlpgrpc:
+    otlp_grpc:
       endpoint: "otelcol.monoscope.tech:4317"
       tls:
         insecure: true
@@ -199,31 +169,27 @@ config:
       traces:
         receivers: [otlp]
         processors: [memory_limiter, batch, resourcedetection, resource]
-        exporters: [otlpgrpc]
+        exporters: [otlp_grpc]
       metrics:
-        receivers: [otlp, k8s_cluster, prometheus]
+        receivers: [otlp, k8s_cluster]
         processors: [memory_limiter, batch, resourcedetection, resource]
-        exporters: [otlpgrpc]
+        exporters: [otlp_grpc]
       logs:
         receivers: [otlp]
         processors: [memory_limiter, batch, resourcedetection, resource]
-        exporters: [otlpgrpc]
+        exporters: [otlp_grpc]
 
 serviceAccount:
   create: true
   name: "otel-collector"
-
-clusterRole:
-  create: true
-
-clusterRoleBinding:
-  create: true
 ```
 
+```=html
 <div class="callout">
   <i class="fa-solid fa-circle-info"></i>
   <p><code>image.repository</code> is required since chart v0.89.0 and must point to GHCR — Docker Hub images are no longer published since chart v0.122.0. The <code>presets.clusterMetrics</code> and <code>presets.kubernetesAttributes</code> options auto-configure the <code>k8s_cluster</code> receiver, <code>k8sattributes</code> processor, and required RBAC rules.</p>
 </div>
+```
 
 3. Install the OpenTelemetry Collector using Helm:
 
@@ -267,9 +233,6 @@ spec:
         - name: varlogpods
           mountPath: /var/log/pods
           readOnly: true
-        - name: varlibdockercontainers
-          mountPath: /var/lib/docker/containers
-          readOnly: true
         env:
         - name: K8S_NODE_NAME
           valueFrom:
@@ -287,9 +250,6 @@ spec:
       - name: varlogpods
         hostPath:
           path: /var/log/pods
-      - name: varlibdockercontainers
-        hostPath:
-          path: /var/lib/docker/containers
 ```
 
 Create a ConfigMap for the collector configuration:
@@ -318,12 +278,13 @@ data:
             id: extract_metadata_from_filepath
             regex: '^.*\/(?P<namespace>[^_]+)_(?P<pod_name>[^_]+)_(?P<uid>[a-f0-9\-]+)\/(?P<container_name>[^\._]+)\/(?P<restart_count>\d+).log$'
             parse_from: attributes["log.file.path"]
+            output: move_to_resource
           - type: resource
+            id: move_to_resource
             resource:
               k8s.namespace.name: EXPR(attributes.namespace)
               k8s.pod.name: EXPR(attributes.pod_name)
               k8s.container.name: EXPR(attributes.container_name)
-            output: extract_metadata_to_body
 
       # Collect Kubernetes API server metrics
       k8s_cluster:
@@ -383,7 +344,7 @@ data:
             action: upsert
 
     exporters:
-      otlpgrpc:
+      otlp_grpc:
         endpoint: "otelcol.monoscope.tech:4317"
         tls:
           insecure: true
@@ -393,15 +354,15 @@ data:
         traces:
           receivers: [otlp]
           processors: [k8sattributes, memory_limiter, batch, resourcedetection, resource]
-          exporters: [otlpgrpc]
+          exporters: [otlp_grpc]
         metrics:
           receivers: [otlp, kubeletstats, k8s_cluster]
           processors: [k8sattributes, memory_limiter, batch, resourcedetection, resource]
-          exporters: [otlpgrpc]
+          exporters: [otlp_grpc]
         logs:
           receivers: [filelog, otlp]
           processors: [k8sattributes, memory_limiter, batch, resourcedetection, resource]
-          exporters: [otlpgrpc]
+          exporters: [otlp_grpc]
 ```
 
 Create the required RBAC permissions:
@@ -423,15 +384,18 @@ rules:
   - nodes/stats
   - nodes/metrics
   - services
-  - endpoints
   - pods
   verbs: ["get", "list", "watch"]
-- apiGroups: ["extensions", "apps"]
+- apiGroups: ["apps"]
   resources:
   - deployments
   - replicasets
   - daemonsets
   - statefulsets
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["discovery.k8s.io"]
+  resources:
+  - endpointslices
   verbs: ["get", "list", "watch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -470,7 +434,21 @@ For monitoring Kubernetes API gateways (like Kong, Istio, or Ambassador) or Ingr
 
 2. Configure your API gateway to emit metrics or logs in a format the collector can ingest
 
-For example, with Nginx Ingress Controller, add these annotations:
+For example, with the Nginx Ingress Controller, first configure the collector endpoint in the controller's ConfigMap:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
+data:
+  enable-opentelemetry: "true"
+  otlp-collector-host: "otel-collector.default.svc.cluster.local"
+  otlp-collector-port: "4317"
+```
+
+Then enable tracing on individual Ingress resources using the annotation:
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -479,8 +457,6 @@ metadata:
   name: example-ingress
   annotations:
     nginx.ingress.kubernetes.io/enable-opentelemetry: "true"
-    nginx.ingress.kubernetes.io/opentelemetry-collector-host: "otel-collector.default.svc.cluster.local"
-    nginx.ingress.kubernetes.io/opentelemetry-collector-port: "4317"
 ```
 
 ## Verifying the Setup
