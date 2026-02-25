@@ -51,11 +51,29 @@ kind: OpenTelemetryCollector
 metadata:
   name: monoscope-collector
 spec:
-  mode: deployment
+  mode: daemonset
+  volumeMounts:
+    - name: varlogpods
+      mountPath: /var/log/pods
+      readOnly: true
+  volumes:
+    - name: varlogpods
+      hostPath:
+        path: /var/log/pods
+  env:
+    - name: K8S_NODE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
   config:
     receivers:
       k8s_cluster:
         collection_interval: 10s
+      k8s_events:
+        namespaces: []
+      filelog:
+        include: [/var/log/pods/*/*/*/*.log]
+        start_at: beginning
       otlp:
         protocols:
           grpc:
@@ -69,6 +87,19 @@ spec:
         check_interval: 1s
         limit_mib: 4000
         spike_limit_mib: 800
+      k8s_attributes:
+        auth_type: "serviceAccount"
+        passthrough: false
+        filter:
+          node_from_env_var: K8S_NODE_NAME
+        extract:
+          metadata:
+            - k8s.pod.name
+            - k8s.pod.uid
+            - k8s.deployment.name
+            - k8s.namespace.name
+            - k8s.node.name
+            - k8s.container.name
       resourcedetection:
         detectors: [env]
         override: false
@@ -88,23 +119,56 @@ spec:
       pipelines:
         traces:
           receivers: [otlp]
-          processors: [memory_limiter, batch, resourcedetection, resource]
+          processors: [k8s_attributes, memory_limiter, batch, resourcedetection, resource]
           exporters: [otlp_grpc]
         metrics:
           receivers: [otlp, k8s_cluster]
-          processors: [memory_limiter, batch, resourcedetection, resource]
+          processors: [k8s_attributes, memory_limiter, batch, resourcedetection, resource]
           exporters: [otlp_grpc]
         logs:
-          receivers: [otlp]
-          processors: [memory_limiter, batch, resourcedetection, resource]
+          receivers: [filelog, k8s_events, otlp]
+          processors: [k8s_attributes, memory_limiter, batch, resourcedetection, resource]
           exporters: [otlp_grpc]
 ```
 
 Replace `YOUR_API_KEY` with your actual monoscope project key.
 
-4. Apply the collector configuration:
+4. Create the required RBAC permissions in a file named `otel-operator-rbac.yaml`:
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: monoscope-collector
+rules:
+- apiGroups: [""]
+  resources: [pods, namespaces, nodes, events]
+  verbs: [get, list, watch]
+- apiGroups: ["apps"]
+  resources: [deployments, replicasets, daemonsets, statefulsets]
+  verbs: [get, list, watch]
+- apiGroups: ["events.k8s.io"]
+  resources: [events]
+  verbs: [get, list, watch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: monoscope-collector
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: monoscope-collector
+subjects:
+- kind: ServiceAccount
+  name: monoscope-collector-collector
+  namespace: default
+```
+
+5. Apply the configurations:
 
 ```bash
+kubectl apply -f otel-operator-rbac.yaml
 kubectl apply -f otel-collector.yaml
 ```
 
@@ -120,7 +184,7 @@ helm repo update
 2. Create a `values.yaml` file:
 
 ```yaml
-mode: deployment
+mode: daemonset
 
 image:
   repository: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-k8s
@@ -129,7 +193,11 @@ command:
   name: otelcol-k8s
 
 presets:
+  logsCollection:
+    enabled: true
   clusterMetrics:
+    enabled: true
+  kubernetesEvents:
     enabled: true
   kubernetesAttributes:
     enabled: true
@@ -175,7 +243,7 @@ config:
         processors: [memory_limiter, batch, resourcedetection, resource]
         exporters: [otlp_grpc]
       logs:
-        receivers: [otlp]
+        receivers: [filelog, k8s_events, otlp]
         processors: [memory_limiter, batch, resourcedetection, resource]
         exporters: [otlp_grpc]
 
@@ -187,7 +255,7 @@ serviceAccount:
 ```=html
 <div class="callout">
   <i class="fa-solid fa-circle-info"></i>
-  <p><code>image.repository</code> is required since chart v0.89.0 and must point to GHCR — Docker Hub images are no longer published since chart v0.122.0. The <code>presets.clusterMetrics</code> and <code>presets.kubernetesAttributes</code> options auto-configure the <code>k8s_cluster</code> receiver, <code>k8sattributes</code> processor, and required RBAC rules.</p>
+  <p><code>image.repository</code> is required since chart v0.89.0 and must point to GHCR — Docker Hub images are no longer published since chart v0.122.0. The <code>presets.clusterMetrics</code> and <code>presets.kubernetesAttributes</code> options auto-configure the <code>k8s_cluster</code> receiver, <code>k8s_attributes</code> processor, and required RBAC rules.</p>
 </div>
 ```
 
@@ -306,6 +374,10 @@ data:
           - container.id
           - k8s.volume.type
       
+      # Collect Kubernetes events
+      k8s_events:
+        namespaces: []
+
       # Standard OTLP receiver for any instrumented applications
       otlp:
         protocols:
@@ -320,7 +392,7 @@ data:
         check_interval: 1s
         limit_mib: 4000
         spike_limit_mib: 800
-      k8sattributes:
+      k8s_attributes:
         auth_type: "serviceAccount"
         passthrough: false
         filter:
@@ -353,15 +425,15 @@ data:
       pipelines:
         traces:
           receivers: [otlp]
-          processors: [k8sattributes, memory_limiter, batch, resourcedetection, resource]
+          processors: [k8s_attributes, memory_limiter, batch, resourcedetection, resource]
           exporters: [otlp_grpc]
         metrics:
           receivers: [otlp, kubeletstats, k8s_cluster]
-          processors: [k8sattributes, memory_limiter, batch, resourcedetection, resource]
+          processors: [k8s_attributes, memory_limiter, batch, resourcedetection, resource]
           exporters: [otlp_grpc]
         logs:
-          receivers: [filelog, otlp]
-          processors: [k8sattributes, memory_limiter, batch, resourcedetection, resource]
+          receivers: [filelog, k8s_events, otlp]
+          processors: [k8s_attributes, memory_limiter, batch, resourcedetection, resource]
           exporters: [otlp_grpc]
 ```
 
@@ -385,6 +457,7 @@ rules:
   - nodes/metrics
   - services
   - pods
+  - events
   verbs: ["get", "list", "watch"]
 - apiGroups: ["apps"]
   resources:
@@ -392,6 +465,10 @@ rules:
   - replicasets
   - daemonsets
   - statefulsets
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["events.k8s.io"]
+  resources:
+  - events
   verbs: ["get", "list", "watch"]
 - apiGroups: ["discovery.k8s.io"]
   resources:
