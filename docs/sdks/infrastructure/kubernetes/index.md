@@ -3,7 +3,7 @@ title: Integrating monoscope with Kubernetes
 ogTitle: How to Integrate monoscope with Kubernetes using OpenTelemetry Collector
 faLogo: cube
 date: 2024-06-14
-updatedDate: 2024-06-14
+updatedDate: 2026-02-25
 linkTitle: "Kubernetes"
 menuWeight: 10
 ---
@@ -40,7 +40,7 @@ kubectl apply -f https://github.com/open-telemetry/opentelemetry-operator/releas
 2. Create a file named `otel-collector.yaml`:
 
 ```yaml
-apiVersion: opentelemetry.io/v1alpha1
+apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
   name: monoscope-collector
@@ -84,7 +84,7 @@ spec:
         limit_mib: 4000
         spike_limit_mib: 800
       resourcedetection:
-        detectors: [env, k8s]
+        detectors: [env]
         override: false
       resource:
         attributes:
@@ -93,7 +93,7 @@ spec:
             action: upsert
 
     exporters:
-      otlp:
+      otlpgrpc:
         endpoint: "otelcol.monoscope.tech:4317"
         tls:
           insecure: true
@@ -103,15 +103,15 @@ spec:
         traces:
           receivers: [otlp]
           processors: [memory_limiter, batch, resourcedetection, resource]
-          exporters: [otlp]
+          exporters: [otlpgrpc]
         metrics:
           receivers: [otlp, k8s_cluster, prometheus]
           processors: [memory_limiter, batch, resourcedetection, resource]
-          exporters: [otlp]
+          exporters: [otlpgrpc]
         logs:
           receivers: [otlp]
           processors: [memory_limiter, batch, resourcedetection, resource]
-          exporters: [otlp]
+          exporters: [otlpgrpc]
 ```
 
 Replace `YOUR_API_KEY` with your actual monoscope project key.
@@ -136,18 +136,27 @@ helm repo update
 ```yaml
 mode: deployment
 
+image:
+  repository: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-k8s
+
+command:
+  name: otelcol-k8s
+
+presets:
+  clusterMetrics:
+    enabled: true
+  kubernetesAttributes:
+    enabled: true
+
 config:
   receivers:
-    k8s_cluster:
-      collection_interval: 10s
-    
     otlp:
       protocols:
         grpc:
           endpoint: 0.0.0.0:4317
         http:
           endpoint: 0.0.0.0:4318
-    
+
     prometheus:
       config:
         scrape_configs:
@@ -163,7 +172,7 @@ config:
             - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
               action: keep
               regex: default;kubernetes;https
-  
+
   processors:
     batch: {}
     memory_limiter:
@@ -171,44 +180,50 @@ config:
       limit_mib: 4000
       spike_limit_mib: 800
     resourcedetection:
-      detectors: [env, k8s]
+      detectors: [env]
       override: false
     resource:
       attributes:
         - key: at-project-key
           value: YOUR_API_KEY
           action: upsert
-  
+
   exporters:
-    otlp:
+    otlpgrpc:
       endpoint: "otelcol.monoscope.tech:4317"
       tls:
         insecure: true
-  
+
   service:
     pipelines:
       traces:
         receivers: [otlp]
         processors: [memory_limiter, batch, resourcedetection, resource]
-        exporters: [otlp]
+        exporters: [otlpgrpc]
       metrics:
         receivers: [otlp, k8s_cluster, prometheus]
         processors: [memory_limiter, batch, resourcedetection, resource]
-        exporters: [otlp]
+        exporters: [otlpgrpc]
       logs:
         receivers: [otlp]
         processors: [memory_limiter, batch, resourcedetection, resource]
-        exporters: [otlp]
+        exporters: [otlpgrpc]
 
 serviceAccount:
   create: true
-  annotations:
-    {}
   name: "otel-collector"
 
-rbac:
+clusterRole:
+  create: true
+
+clusterRoleBinding:
   create: true
 ```
+
+<div class="callout">
+  <i class="fa-solid fa-circle-info"></i>
+  <p><code>image.repository</code> is required since chart v0.89.0 and must point to GHCR — Docker Hub images are no longer published since chart v0.122.0. The <code>presets.clusterMetrics</code> and <code>presets.kubernetesAttributes</code> options auto-configure the <code>k8s_cluster</code> receiver, <code>k8sattributes</code> processor, and required RBAC rules.</p>
+</div>
 
 3. Install the OpenTelemetry Collector using Helm:
 
@@ -243,7 +258,7 @@ spec:
       serviceAccountName: otel-collector
       containers:
       - name: otel-collector
-        image: otel/opentelemetry-collector-contrib:latest
+        image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:latest
         args:
         - "--config=/conf/otel-collector-config.yaml"
         volumeMounts:
@@ -359,7 +374,7 @@ data:
             - k8s.container.name
             - container.image.name
       resourcedetection:
-        detectors: [env, k8s]
+        detectors: [env]
         override: false
       resource:
         attributes:
@@ -368,7 +383,7 @@ data:
             action: upsert
 
     exporters:
-      otlp:
+      otlpgrpc:
         endpoint: "otelcol.monoscope.tech:4317"
         tls:
           insecure: true
@@ -378,15 +393,15 @@ data:
         traces:
           receivers: [otlp]
           processors: [k8sattributes, memory_limiter, batch, resourcedetection, resource]
-          exporters: [otlp]
+          exporters: [otlpgrpc]
         metrics:
           receivers: [otlp, kubeletstats, k8s_cluster]
           processors: [k8sattributes, memory_limiter, batch, resourcedetection, resource]
-          exporters: [otlp]
+          exporters: [otlpgrpc]
         logs:
           receivers: [filelog, otlp]
           processors: [k8sattributes, memory_limiter, batch, resourcedetection, resource]
-          exporters: [otlp]
+          exporters: [otlpgrpc]
 ```
 
 Create the required RBAC permissions:
