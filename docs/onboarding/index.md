@@ -118,12 +118,13 @@ To allow monoscope to begin monitoring your API and for you to start exploring y
     <li>PHP (Laravel, Symfony, Slim)</li>
     <li>.NET Core</li>
     <li>Java (Spring Boot)</li>
+    <li>OpenTelemetry (any language — Rust, Ruby, C++, etc.)</li>
     <li>And more...</li>
   </ul>
 </div>
 ```
 
-If we don't support your framework yet, kindly [send us an email](mailto:hello@monoscope.tech) and we'll help you get started!
+If your language doesn't have a native SDK, you can integrate directly via [OpenTelemetry](/docs/sdks/opentelemetry/). For any other questions, kindly [send us an email](mailto:hello@monoscope.tech) and we'll help you get started!
 
 ## ⑤ Quick Test Your Integration
 

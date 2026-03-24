@@ -31,12 +31,16 @@ pages:
   - title: Python SDKs
     slug: /docs/sdks/python
     icon: /assets/img/sdk-icons/python.svg
+  - title: OpenTelemetry (Any Language)
+    slug: /docs/sdks/opentelemetry
+    icon: /assets/img/sdk-icons/opentelemetry.svg
 ---
 
 # SDK Guides
 
 In these guides, you will learn how to integrate monoscope into your application using any of our 17+ platform SDKs in different programming languages and frameworks. Even if your application doesn't use a web framework,
 **these SDKs are also compatible with different HTTP client libraries (e.g., `<i class="fa-brands fa-js"></i>`{=html} fetch, `<i class="fa-brands fa-js"></i>`{=html} axios, `<i class="fa-brands fa-js"></i>`{=html} xhr, `<i class="fa-brands fa-php"></i>`{=html} guzzle, `<i class="fa-brands fa-golang"></i>`{=html} tls, etc.)**.
+If your language doesn't have a native SDK, you can integrate directly via [OpenTelemetry](/docs/sdks/opentelemetry/).
 Kindly select your preferred programming language below to get started.
 
 ```=html
