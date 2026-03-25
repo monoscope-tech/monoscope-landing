@@ -40,7 +40,7 @@ OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
 # Specifies the name of the service.
 OTEL_SERVICE_NAME="{YOUR_SERVICE_NAME}"
 # Adds your API KEY to the resource.
-OTEL_RESOURCE_ATTRIBUTES="at-project-key={YOUR_API_KEY}"
+OTEL_RESOURCE_ATTRIBUTES="x-api-key={YOUR_API_KEY}"
 # Specifies the protocol to use for the OpenTelemetry exporter.
 OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
 # disable some auto instrumentation libraries

@@ -21,9 +21,11 @@ go get github.com/monoscope-tech/monoscope-go/gorilla
 Before configuration open telemetery and setting up the monoscope middleware, you need to configure a few environment variables. These variables provide essential information for setting up openTelemetry and monoscope.
 
 ```sh
-OTEL_RESOURCE_ATTRIBUTES="at-project-key=YOUR_API_KEY" # Your monoscope API key
-OTEL_SERVICE_NAME="monoscope-otel-go-demo" # Service name for your the service you're integrating in
-OTEL_SERVICE_VERSION="0.0.1" # Your application's service version
+OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
+OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
+OTEL_SERVICE_NAME="monoscope-otel-go-demo"
+OTEL_SERVICE_VERSION="0.0.1"
+OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
 ```
 
 ## Usage
@@ -77,7 +79,7 @@ Set the following environment variables in your application to enable the SDK:
 :::
 | Variable Name | Description | Required | Example |
 | ----------------------------------- | ------------------------------------------------------------- | -------- | ---------------------------- |
-| `OTEL_RESOURCE_ATTRIBUTES` | monoscope project key (`at-project-key=<YOUR_API_KEY>`) | Yes | `at-project-key=my-api-key` |
+| `OTEL_RESOURCE_ATTRIBUTES` | monoscope project key (`x-api-key=<YOUR_API_KEY>`) | Yes | `x-api-key=my-api-key` |
 | `OTEL_SERVICE_NAME` | The name of the service being monitored | No | `example-chi-server` |
 | `OTEL_SERVICE_VERSION` | The version of your application or service | No | `0.0.1` |
 | `OTEL_EXPORTER_OTLP_ENDPOINT` | The grpc endpoint for the OpenTelemetry collector. | No | `otelcol.monoscope.tech:4317` |
@@ -112,7 +114,7 @@ The middleware configuration specifies how the monoscope SDK should handle reque
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tips</b></p>
   <ol>
   <li>
-  Remember to keep your monoscope project key (`at-project-key`) secure and not expose it in public repositories or logs.
+  Remember to keep your monoscope project key (`x-api-key`) secure and not expose it in public repositories or logs.
   </li>
   </ul>
 </div>

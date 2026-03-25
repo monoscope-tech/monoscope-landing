@@ -105,7 +105,7 @@ spec:
         override: false
       resource:
         attributes:
-          - key: at-project-key
+          - key: x-api-key
             value: YOUR_API_KEY
             action: upsert
 
@@ -222,7 +222,7 @@ config:
       override: false
     resource:
       attributes:
-        - key: at-project-key
+        - key: x-api-key
           value: YOUR_API_KEY
           action: upsert
 
@@ -306,7 +306,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
-        - name: APITOOLKIT_API_KEY
+        - name: MONOSCOPE_API_KEY
           valueFrom:
             secretKeyRef:
               name: monoscope-secrets
@@ -411,8 +411,8 @@ data:
         override: false
       resource:
         attributes:
-          - key: at-project-key
-            value: ${env:APITOOLKIT_API_KEY}
+          - key: x-api-key
+            value: ${env:MONOSCOPE_API_KEY}
             action: upsert
 
     exporters:

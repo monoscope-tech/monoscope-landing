@@ -50,7 +50,7 @@ services:
     volumes:
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
     environment:
-      - APITOOLKIT_API_KEY=YOUR_API_KEY
+      - MONOSCOPE_API_KEY=YOUR_API_KEY
     depends_on:
       - postgres
 
@@ -112,8 +112,8 @@ processors:
     override: false
   resource:
     attributes:
-      - key: at-project-key
-        value: ${env:APITOOLKIT_API_KEY}
+      - key: x-api-key
+        value: ${env:MONOSCOPE_API_KEY}
         action: upsert
       - key: db.system
         value: postgresql
@@ -283,7 +283,7 @@ spec:
           mountPath: /etc/otel-collector-config.yaml
           subPath: otel-collector-config.yaml
         env:
-        - name: APITOOLKIT_API_KEY
+        - name: MONOSCOPE_API_KEY
           valueFrom:
             secretKeyRef:
               name: monoscope-secrets

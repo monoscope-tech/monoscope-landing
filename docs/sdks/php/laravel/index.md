@@ -55,7 +55,7 @@ export OTEL_SERVICE_NAME=your-service-name
 export OTEL_TRACES_EXPORTER=otlp
 export OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
 export OTEL_EXPORTER_OTLP_ENDPOINT=http://otelcol.monoscope.tech:4318
-export OTEL_RESOURCE_ATTRIBUTES="at-project-key={ENTER_YOUR_API_KEY_HERE}"
+export OTEL_RESOURCE_ATTRIBUTES="x-api-key={ENTER_YOUR_API_KEY_HERE}"
 export OTEL_PROPAGATORS=baggage,tracecontext
 ```
 

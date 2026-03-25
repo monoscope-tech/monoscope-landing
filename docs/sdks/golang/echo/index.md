@@ -21,9 +21,11 @@ go get github.com/monoscope-tech/monoscope-go/echo
 Before configuration open telemetery and setting up the Monoscope middleware, you need to configure a few environment variables. These variables provide essential information for setting up openTelemetry and Monoscope.
 
 ```sh
-OTEL_RESOURCE_ATTRIBUTES="at-project-key=YOUR_API_KEY" # Your monoscope API key
-OTEL_SERVICE_NAME="monoscope-otel-go-demo" # Service name for your the service you're integrating in
-OTEL_SERVICE_VERSION="0.0.1" # Your application's service version
+OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
+OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
+OTEL_SERVICE_NAME="monoscope-otel-go-demo"
+OTEL_SERVICE_VERSION="0.0.1"
+OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
 ```
 
 ## Usage
@@ -91,7 +93,7 @@ The middleware configuration specifies how the Monoscope SDK should handle reque
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tips</b></p>
   <ol>
   <li>
-  Remember to keep your Monoscope project key (<code>at-project-key</code>) secure and not expose it in public repositories or logs.
+  Remember to keep your Monoscope project key (<code>x-api-key</code>) secure and not expose it in public repositories or logs.
   </li>
   </ul>
 </div>

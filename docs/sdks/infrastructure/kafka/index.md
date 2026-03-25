@@ -51,7 +51,7 @@ services:
     volumes:
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
     environment:
-      - APITOOLKIT_API_KEY=YOUR_API_KEY
+      - MONOSCOPE_API_KEY=YOUR_API_KEY
     ports:
       - "4317:4317"   # OTLP gRPC receiver
       - "4318:4318"   # OTLP HTTP receiver
@@ -86,7 +86,7 @@ spec:
         - name: otel-collector-config
           mountPath: /conf
         env:
-        - name: APITOOLKIT_API_KEY
+        - name: MONOSCOPE_API_KEY
           valueFrom:
             secretKeyRef:
               name: monoscope-secrets
@@ -175,8 +175,8 @@ processors:
     override: false
   resource:
     attributes:
-      - key: at-project-key
-        value: ${env:APITOOLKIT_API_KEY}
+      - key: x-api-key
+        value: ${env:MONOSCOPE_API_KEY}
         action: upsert
       - key: service.name
         value: kafka-broker

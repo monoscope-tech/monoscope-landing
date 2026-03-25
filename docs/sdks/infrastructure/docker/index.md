@@ -53,7 +53,7 @@ services:
       - "8888:8888"   # Metrics endpoint
       - "8889:8889"   # Health check endpoint
     environment:
-      - APITOOLKIT_API_KEY=YOUR_API_KEY
+      - MONOSCOPE_API_KEY=YOUR_API_KEY
 ```
 
 ### Configuring the OpenTelemetry Collector
@@ -105,8 +105,8 @@ processors:
     override: false
   resource:
     attributes:
-      - key: at-project-key
-        value: ${env:APITOOLKIT_API_KEY}
+      - key: x-api-key
+        value: ${env:MONOSCOPE_API_KEY}
         action: upsert
 
 exporters:

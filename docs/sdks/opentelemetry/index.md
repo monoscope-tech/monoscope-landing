@@ -39,7 +39,7 @@ OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
 ```=html
 <div class="callout">
   <i class="fa-regular fa-lightbulb"></i>
-  <p><b>API key options:</b> The legacy key <code>at-project-key</code> is also supported as a resource attribute. Alternatively, you can pass the API key as an OTLP header:<br>
+  <p><b>API key options:</b> The legacy key <code>x-api-key</code> is also supported as a resource attribute. Alternatively, you can pass the API key as an OTLP header:<br>
   <code>OTEL_EXPORTER_OTLP_HEADERS="x-api-key=YOUR_API_KEY"</code></p>
 </div>
 ```

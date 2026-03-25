@@ -27,12 +27,21 @@ Kindly run the command below to install the SDK:
 composer require monoscope/monoscope-symfony
 ```
 
-## Configuration
+## OpenTelemetry Configuration
 
-First, add the `APITOOLKIT_KEY` environment variable to your `.env` file, like so:
+Set the following environment variables to configure the OpenTelemetry exporter:
 
 ```sh
-APITOOLKIT_KEY={ENTER_YOUR_API_KEY_HERE}
+OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
+OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
+```
+
+## Configuration
+
+First, add the `MONOSCOPE_API_KEY` environment variable to your `.env` file, like so:
+
+```sh
+MONOSCOPE_API_KEY={ENTER_YOUR_API_KEY_HERE}
 ```
 
 Then, add the `monoscope\EventSubscriber\monoscopeService` listener and API Key to your `config/service.yaml` file, like so:
@@ -54,7 +63,7 @@ services:
   # Initialize the monoscope client
   monoscope\EventSubscriber\monoscopeService:
     arguments:
-      $apiKey: "%env(APITOOLKIT_KEY)%"
+      $apiKey: "%env(MONOSCOPE_API_KEY)%"
   # END Initialize the monoscope client
 
   # makes classes in src/ available to be used as services
@@ -146,7 +155,7 @@ Here's what the configuration would look like with redacted fields in the `confi
 services:
   monoscope\EventSubscriber\monoscopeService:
     arguments:
-      $apiKey: "%env(APITOOLKIT_KEY)%"
+      $apiKey: "%env(MONOSCOPE_API_KEY)%"
       $redactedHeaders:
         - "content-type"
         - "Authorization"

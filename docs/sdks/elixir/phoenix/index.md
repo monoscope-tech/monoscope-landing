@@ -34,6 +34,13 @@ Then, run the `mix deps.get` command to install the `monoscope_phoenix` dependen
 
 ## Configuration
 
+First, set the following environment variables to configure the OpenTelemetry exporter:
+
+```sh
+OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
+OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
+```
+
 Next, import and initialize the `MonoscopePhoenix` Plug in your `router.ex` file, like so:
 
 ```elixir

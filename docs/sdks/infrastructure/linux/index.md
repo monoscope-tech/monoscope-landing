@@ -103,7 +103,7 @@ processors:
     override: false
   resource:
     attributes:
-      - key: at-project-key
+      - key: x-api-key
         value: YOUR_API_KEY
         action: upsert
       - key: service.name

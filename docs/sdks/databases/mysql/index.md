@@ -36,7 +36,7 @@ export OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
 export OTEL_SERVICE_NAME="mysql-service"
 
 # Adds your API KEY to the resource
-export OTEL_RESOURCE_ATTRIBUTES="at-project-key=YOUR_API_KEY"
+export OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
 
 # Specifies the protocol to use for the OpenTelemetry exporter
 export OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
@@ -211,7 +211,7 @@ wget https://github.com/open-telemetry/opentelemetry-java-instrumentation/releas
 java -javaagent:path/to/opentelemetry-javaagent.jar \
      -Dotel.service.name=mysql-service \
      -Dotel.exporter.otlp.endpoint=http://otelcol.monoscope.tech:4317 \
-     -Dotel.resource.attributes=at-project-key=YOUR_API_KEY \
+     -Dotel.resource.attributes=x-api-key=YOUR_API_KEY \
      -jar your-application.jar
 ```
 
@@ -236,7 +236,7 @@ const sdk = new NodeSDK({
   }),
   instrumentations: [getNodeAutoInstrumentations()],
   resourceAttributes: {
-    'at-project-key': 'YOUR_API_KEY',
+    'x-api-key': 'YOUR_API_KEY',
     'service.name': 'mysql-service',
   },
 });
