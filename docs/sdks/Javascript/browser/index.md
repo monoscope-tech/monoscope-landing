@@ -2,13 +2,13 @@
 title: Browser
 ogTitle: Browser Integration Guide
 date: 2022-03-23
-updatedDate: 2024-06-16
+updatedDate: 2025-03-25
 menuWeight: 2
 ---
 
 # Monoscope Browser SDK
 
-The **Monoscope Browser SDK** is a lightweight JavaScript library for adding **session replay**, **performance tracing**, and **frontend logging** to your web applications.
+The **Monoscope Browser SDK** is a lightweight JavaScript library for adding **session replay**, **performance tracing**, **error tracking**, and **web vitals** to your web applications.
 
 When used together with the [Monoscope Server SDKs](https://monoscope.tech/docs/sdks/), you gain **end-to-end observability** — seamlessly connecting user interactions in the browser to backend services, APIs, and databases.
 
@@ -16,9 +16,9 @@ This means you can:
 
 - **Replay user sessions** to see exactly what happened.
 - **Trace requests** from the frontend, through your backend, and into your database.
-- **Capture logs and errors** with full context for faster debugging.
-
-With the sdk, you can seamlessly monitor how users interact with your app, measure performance, and gain insights into issues — all in one place.
+- **Capture errors and console logs** with full context and breadcrumbs for faster debugging.
+- **Collect Web Vitals** (CLS, INP, LCP, FCP, TTFB) automatically.
+- **Track SPA navigations** across pushState, replaceState, and popstate.
 
 ## Installation
 
@@ -46,26 +46,73 @@ import Monoscope from "@monoscopetech/browser";
 const monoscope = new Monoscope({
   projectId: "YOUR_PROJECT_ID",
   serviceName: "my-web-app",
-  // ...other configuration options
+});
+
+// Identify the current user
+monoscope.setUser({
+  id: "user-123",
+  email: "user@example.com",
 });
 ```
 
+## React / Next.js
+
+For React apps, use the `@monoscopetech/browser/react` subpath export:
+
+```tsx
+import { MonoscopeProvider, useMonoscope, useMonoscopeUser, MonoscopeErrorBoundary } from "@monoscopetech/browser/react";
+
+function App() {
+  return (
+    <MonoscopeProvider config={{ projectId: "YOUR_PROJECT_ID", serviceName: "my-react-app" }}>
+      <MonoscopeErrorBoundary fallback={<div>Something went wrong</div>}>
+        <MyApp />
+      </MonoscopeErrorBoundary>
+    </MonoscopeProvider>
+  );
+}
+
+function MyApp() {
+  const monoscope = useMonoscope();
+  useMonoscopeUser(currentUser ? { id: currentUser.id, email: currentUser.email } : null);
+  return <div>...</div>;
+}
+```
+
+**Next.js App Router**: The provider includes `"use client"` — import it in a client component or your root layout.
+
+{class="docs-table"}
+:::
+| Export | Description |
+| --- | --- |
+| `MonoscopeProvider` | Context provider. Creates and destroys the SDK instance. Strict Mode safe. |
+| `useMonoscope()` | Returns the `Monoscope` instance (or `null` during SSR). |
+| `useMonoscopeUser(user)` | Calls `setUser` reactively when the user object changes. |
+| `MonoscopeErrorBoundary` | Error boundary that reports caught errors to Monoscope. Accepts `fallback` prop. |
+:::
+
 ## Configuration
 
-The `Monoscope` constructor accepts the following options
+The `Monoscope` constructor accepts the following options:
 
 {class="docs-table"}
 :::
 | Name | Type | Description |
-| ------------------------------ | --------------------- | ---------------------------------------------------------------------------- |
+| --- | --- | --- |
 | `projectId` | `string` | **Required** – Your Monoscope project ID. |
 | `serviceName` | `string` | **Required** – Name of your service or application. |
-| `exporterEndpoint` | `string` | Endpoint for exporting traces/logs. Defaults to Monoscope's ingest endpoint. |
-| `propagateTraceHeaderCorsUrls` | `RegExp[]` | Array of regex patterns for URLs where trace headers should be propagated. |
-| `resourceAttributes` | `Record<string, any>` | Additional resource-level attributes. |
-| `instrumentations` | `any[]` | OpenTelemetry instrumentations to enable. |
+| `exporterEndpoint` | `string` | Endpoint for exporting traces. Defaults to Monoscope's ingest endpoint. |
+| `propagateTraceHeaderCorsUrls` | `RegExp[]` | URL patterns where trace context headers should be propagated. Defaults to same-origin only. |
+| `resourceAttributes` | `Record<string, string>` | Additional OpenTelemetry resource attributes. |
+| `instrumentations` | `unknown[]` | Additional OpenTelemetry instrumentations to register. |
 | `replayEventsBaseUrl` | `string` | Base URL for session replay events. Defaults to Monoscope's ingest endpoint. |
+| `enableNetworkEvents` | `boolean` | Include network timing events in document load spans. |
 | `user` | `MonoscopeUser` | Default user information for the session. |
+| `debug` | `boolean` | Enable debug logging to the console. |
+| `sampleRate` | `number` | Trace sampling rate from `0` to `1`. Default `1` (100%). |
+| `replaySampleRate` | `number` | Replay sampling rate from `0` to `1`. Default `1` (100%). |
+| `enabled` | `boolean` | Whether to start collecting data immediately. Default `true`. |
+| `resourceTimingThresholdMs` | `number` | Minimum resource duration (ms) to report. Default `200`. |
 :::
 
 ### User Object
@@ -75,19 +122,21 @@ The `MonoscopeUser` object can contain:
 {class="docs-table"}
 :::
 | Name | Type | Description |
-| ---------- | ---------- | ------------------------- |
+| --- | --- | --- |
 | `email` | `string` | User's email address. |
-| `fullName` | `string` | User's full name. |
+| `full_name` | `string` | User's full name. |
 | `name` | `string` | User's preferred name. |
 | `id` | `string` | User's unique identifier. |
 | `roles` | `string[]` | User's roles. |
 :::
 
+Additional string-keyed attributes are also accepted and forwarded as custom user attributes.
+
 ## API
 
 ### `setUser(user: MonoscopeUser)`
 
-Associates the given user with the current session.
+Associates the given user with the current session. Can be called at any time.
 
 ```javascript
 monoscope.setUser({
@@ -96,11 +145,81 @@ monoscope.setUser({
 });
 ```
 
-### `getSessionId(): string`
+### `startSpan(name, fn)`
 
-Retrieves the current session ID — useful for tagging custom spans or events.
+Creates a custom OpenTelemetry span. The span is automatically ended when the function returns. Supports async functions.
+
+```javascript
+monoscope.startSpan("checkout", (span) => {
+  span.setAttribute("cart.items", 3);
+  // ... your logic
+});
+```
+
+### `recordEvent(name, attributes)`
+
+Records a custom event as a span with the given attributes.
+
+```javascript
+monoscope.recordEvent("button_click", {
+  "button.name": "subscribe",
+  "button.variant": "primary",
+});
+```
+
+### `getSessionId()`
+
+Returns the current session ID — useful for tagging custom spans or correlating with backend logs.
 
 ```javascript
 const sessionId = monoscope.getSessionId();
-console.log(sessionId);
 ```
+
+### `getTabId()`
+
+Returns the current tab ID (unique per browser tab).
+
+```javascript
+const tabId = monoscope.getTabId();
+```
+
+### `enable()` / `disable()`
+
+Dynamically enable or disable all data collection.
+
+```javascript
+monoscope.disable(); // pause collection
+monoscope.enable();  // resume collection
+```
+
+### `isEnabled()`
+
+Returns whether the SDK is currently enabled.
+
+### `destroy()`
+
+Stops all collection, flushes pending data, and shuts down the OpenTelemetry provider. Call this when your application is being torn down.
+
+```javascript
+await monoscope.destroy();
+```
+
+## Features
+
+### Session Replay
+Captures DOM changes via [rrweb](https://github.com/rrweb-io/rrweb) to enable full session replay. Sensitive inputs are masked by default.
+
+### Error Tracking
+Automatically captures `window.onerror`, unhandled promise rejections, and `console.error` calls with stack traces and breadcrumbs.
+
+### SPA Navigation Tracking
+Detects client-side navigations (`pushState`, `replaceState`, `popstate`) and emits navigation spans.
+
+### Web Vitals
+Collects Core Web Vitals (CLS, INP, LCP) and additional metrics (FCP, TTFB) via the [web-vitals](https://github.com/GoogleChrome/web-vitals) library.
+
+### Performance Observers
+Reports long tasks and slow resource loads as spans for performance debugging.
+
+### Session Management
+Sessions persist across page reloads via `sessionStorage` and automatically rotate after 30 minutes of inactivity.
