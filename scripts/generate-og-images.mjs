@@ -11,6 +11,8 @@ const OUT_DIR = 'assets/og';
 
 const fontRegular = readFileSync('assets/fonts/Inter-Regular.ttf');
 const fontBold = readFileSync('assets/fonts/Inter-Bold.ttf');
+const logoPng = readFileSync('assets/brand/logo_full_white_clean.png');
+const logoDataUri = `data:image/png;base64,${logoPng.toString('base64')}`;
 
 function deriveSection(filePath) {
   const parts = filePath.replace(/\/index\.md$/, '').replace(/\.md$/, '').split('/');
@@ -24,13 +26,13 @@ function outPath(filePath) {
 
 function titleSize(title) {
   if (title.length > 60) return 40;
-  if (title.length > 40) return 46;
-  return 52;
+  if (title.length > 40) return 48;
+  return 56;
 }
 
 function buildLayout(title, section) {
   const sectionEl = section
-    ? { type: 'div', props: { style: { display: 'flex', color: '#0068ff', fontSize: 18, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }, children: section } }
+    ? { type: 'div', props: { style: { display: 'flex', color: '#4d94ff', fontSize: 16, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }, children: section } }
     : null;
 
   return {
@@ -38,20 +40,19 @@ function buildLayout(title, section) {
     props: {
       style: {
         width: '100%', height: '100%', display: 'flex', flexDirection: 'column',
-        justifyContent: 'space-between', padding: '60px 80px',
-        backgroundColor: '#0a0a0f',
-        backgroundImage: 'radial-gradient(circle at 70% 40%, rgba(0,104,255,0.15), transparent 60%)',
+        justifyContent: 'space-between', padding: '56px 72px',
+        backgroundColor: '#0f1117',
+        backgroundImage: 'radial-gradient(ellipse 80% 60% at 75% 35%, rgba(0,80,200,0.12), transparent)',
       },
       children: [
-        { type: 'div', props: { style: { display: 'flex', alignItems: 'center', color: '#ffffff', fontSize: 28, fontWeight: 700 },
-          children: 'monoscope' } },
-        { type: 'div', props: { style: { display: 'flex', flexDirection: 'column', gap: '16px' }, children: sectionEl
-          ? [sectionEl, { type: 'div', props: { style: { display: 'flex', color: '#ffffff', fontSize: titleSize(title), fontWeight: 700, lineHeight: 1.2, maxWidth: '900px' }, children: title } }]
-          : { type: 'div', props: { style: { display: 'flex', color: '#ffffff', fontSize: titleSize(title), fontWeight: 700, lineHeight: 1.2, maxWidth: '900px' }, children: title } }
+        { type: 'img', props: { src: logoDataUri, width: 220, height: 36, style: { display: 'flex' } } },
+        { type: 'div', props: { style: { display: 'flex', flexDirection: 'column', gap: '14px' }, children: sectionEl
+          ? [sectionEl, { type: 'div', props: { style: { display: 'flex', color: '#f0f0f5', fontSize: titleSize(title), fontWeight: 700, lineHeight: 1.15 }, children: title } }]
+          : { type: 'div', props: { style: { display: 'flex', color: '#f0f0f5', fontSize: titleSize(title), fontWeight: 700, lineHeight: 1.15 }, children: title } }
         } },
-        { type: 'div', props: { style: { display: 'flex', flexDirection: 'column', gap: '16px' }, children: [
-          { type: 'div', props: { style: { display: 'flex', width: '60px', height: '4px', backgroundColor: '#0068ff', borderRadius: '2px' }, children: '' } },
-          { type: 'div', props: { style: { display: 'flex', color: '#555555', fontSize: 18 }, children: 'monoscope.tech' } },
+        { type: 'div', props: { style: { display: 'flex', alignItems: 'center', gap: '16px' }, children: [
+          { type: 'div', props: { style: { display: 'flex', width: '48px', height: '3px', backgroundColor: '#3b82f6', borderRadius: '2px' }, children: '' } },
+          { type: 'div', props: { style: { display: 'flex', color: '#6b7280', fontSize: 16, fontWeight: 400 }, children: 'monoscope.tech' } },
         ] } },
       ],
     },
