@@ -3,7 +3,7 @@ node_modules/
 **/.DS_Store
 resources/
 public/
-scripts/
+assets/og/
 .vscode
 quickstatic
 build.log

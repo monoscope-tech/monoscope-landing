@@ -40,5 +40,7 @@ npm i
 
 make css-prod
 
+node scripts/generate-og-images.mjs
+
 # Run the binary to generate the static site
 ./$BINARY_NAME build

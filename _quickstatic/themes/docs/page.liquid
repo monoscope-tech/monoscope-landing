@@ -21,10 +21,13 @@
       content="{% if this.frontmatter.ogTitle %}{{this.frontmatter.ogTitle}}{% else %}{{this.frontmatter.title}}{% endif %} | Monoscope Docs"
     >
     <meta property="og:description" content="Monoscope product and SDKs documentation">
+    {% assign og_parts = this.permalink | split: '/' %}{% assign og_slug = '' %}{% for p in og_parts %}{% if p != '' %}{% if og_slug != '' %}{% assign og_slug = og_slug | append: '/' %}{% endif %}{% assign og_slug = og_slug | append: p %}{% endif %}{% endfor %}
     <meta
       property="og:image"
-      content="{% if this.frontmatter.ogImage%}{{this.frontmatter.ogImage}}{% else %}https://raw.githubusercontent.com/apitoolkit/.github/main/images/docs-og.png{% endif %}"
+      content="{% if this.frontmatter.ogImage %}{{this.frontmatter.ogImage}}{% else %}https://monoscope.tech/assets/og/{{ og_slug }}.png{% endif %}"
     >
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="{% if this.frontmatter.ogImage %}{{this.frontmatter.ogImage}}{% else %}https://monoscope.tech/assets/og/{{ og_slug }}.png{% endif %}">
     <meta
       property="og:type"
       content="{% if this.frontmatter.ogType %}{{this.frontmatter.ogType}}{% else %}article{% endif %}"
