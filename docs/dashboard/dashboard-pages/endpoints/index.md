@@ -26,7 +26,7 @@ All endpoints are organized based on the following categories:
 ```=html
 <div class="callout">
   <i class="fa-regular fa-lightbulb"></i>
-  <p>When you acknowledge an endpoint or anomaly, monoscope understands the shape of the endpoints on your API and uses that information for future anomaly detections. As a side effect, we then use that to trigger the <a href="/docs/dashboard/documentation/">OpenAPI spec generation</a> feature we offer and send you daily/weekly reports. Hence, <b>you should acknowledge all important endpoints you want us to monitor</b>.</p>
+  <p>When you acknowledge an endpoint or anomaly, monoscope understands the shape of the endpoints on your API and uses that information for future anomaly detections and daily/weekly reports. Hence, <b>you should acknowledge all important endpoints you want us to monitor</b>.</p>
 </div>
 ```
 

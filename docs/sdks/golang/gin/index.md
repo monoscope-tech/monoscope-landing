@@ -10,7 +10,7 @@ menuWeight: 4
 
 ## Installation
 
-Install the monoscope gin SDK using the following command `go get` command:
+Install the Monoscope Gin SDK:
 
 ```sh
 go get github.com/monoscope-tech/monoscope-go/gin
@@ -18,7 +18,7 @@ go get github.com/monoscope-tech/monoscope-go/gin
 
 ## Configuration
 
-Before configuration open telemetery and setting up the Monoscope middleware, you need to configure a few environment variables. These variables provide essential information for setting up openTelemetry and Monoscope.
+Configure the following environment variables for OpenTelemetry and Monoscope:
 
 ```sh
 OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
@@ -361,6 +361,6 @@ The middleware configuration specifies how the Monoscope SDK should handle reque
   <li>
   Remember to keep your Monoscope project key (<code>x-api-key</code>) secure and not expose it in public repositories or logs.
   </li>
-  </ul>
+  </ol>
 </div>
 ```

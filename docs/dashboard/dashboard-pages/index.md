@@ -14,10 +14,10 @@ pages:
     icon: qrcode
   - title: Endpoints
     slug: /docs/dashboard/dashboard-pages/endpoints
-    icon: swap
+    icon: arrow-right-arrow-left
   - title: API Log Explorer
     slug: /docs/dashboard/dashboard-pages/api-log-explorer
-    icon: list-tree
+    icon: rectangle-list
   - title: Changes & Errors
     slug: /docs/dashboard/dashboard-pages/changes-errors
     icon: bug
@@ -27,9 +27,6 @@ pages:
   - title: API Tests
     slug: /docs/dashboard/dashboard-pages/api-tests
     icon: list-check
-  - title: OpenAPI/Swagger
-    slug: /docs/dashboard/dashboard-pages/openapi-docs
-    icon: brackets-curly
   - title: Reports
     slug: /docs/dashboard/dashboard-pages/reports
     icon: chart-simple

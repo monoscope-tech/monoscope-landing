@@ -97,6 +97,6 @@ The middleware configuration specifies how the Monoscope SDK should handle reque
   <li>
   Remember to keep your Monoscope project key (<code>x-api-key</code>) secure and not expose it in public repositories or logs.
   </li>
-  </ul>
+  </ol>
 </div>
 ```

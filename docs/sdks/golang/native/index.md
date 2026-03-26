@@ -113,6 +113,6 @@ The middleware configuration specifies how the Monoscope SDK should handle reque
   <li>
   Remember to keep your Monoscope project key (`x-api-key`) secure and not expose it in public repositories or logs.
   </li>
-  </ul>
+  </ol>
 </div>
 ```

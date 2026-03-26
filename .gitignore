@@ -6,3 +6,4 @@ public/
 scripts/
 .vscode
 quickstatic
+build.log

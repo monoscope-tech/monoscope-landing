@@ -145,17 +145,6 @@ ogImage: https://raw.githubusercontent.com/monoscope/.github/main/images/compare
             </td>
          </tr>
          <tr>
-            <td class="font-bold text-base md:text-lg lg:text-lg text-center">OpenAPI Spec Documentation</td>
-            <td class="border border-blue-500 bg-slate-50 dark:bg-inherit prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check.svg" alt="Icon that indicates this feature is supported." />
-
-                Auto-generate OpenAPI specifications (swagger docs) from the live payloads on your API endpoints, so every team (e.g., API documentation) that depends on the spec can be alerted when something changes to act quickly.
-            </td>
-            <td class="border prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check2-x.svg" alt="Icon that indicates this feature is not supported." />
-            </td>
-         </tr>
-         <tr>
             <td class="font-bold text-base md:text-lg lg:text-lg text-center">Share Log Request</td>
             <td class="border border-blue-500 bg-slate-50 dark:bg-inherit prose text-sm md:text-base lg:text-base leading-relaxed text-center">
                 <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check.svg" alt="Icon that indicates this feature is supported." />

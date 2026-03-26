@@ -21,6 +21,7 @@ layouts:
 ignore:
   - "./node_modules/**"
   - ".git"
+  - "./CLAUDE.md"
 
 authors:
   anthony:

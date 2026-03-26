@@ -9,6 +9,9 @@ pages:
   - title: Browser
     slug: /docs/sdks/Javascript/browser
     icon: /assets/img/framework-logos/js.png
+  - title: React / Next.js
+    slug: /docs/sdks/Javascript/reactjs
+    icon: /assets/img/framework-logos/next-icon.svg
 ---
 
 # Browser SDK

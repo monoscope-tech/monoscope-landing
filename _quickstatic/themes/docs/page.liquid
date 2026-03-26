@@ -41,16 +41,37 @@
     <base href="{{ this.permalink }}">
 
     <!-- Stylesheets and Scripts -->
-    <link rel="stylesheet" href="/assets/css/tailwind.min.css">
-    <script defer src="https://kit.fontawesome.com/32c218ff10.js" crossorigin="anonymous"></script>
+    <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/assets/css/tailwind.min.css" hx-preserve="true">
+    <link rel="stylesheet" href="/assets/deps/fontawesome/css/all.min.css" hx-preserve="true">
     <script defer src="/assets/deps/htmx/htmx.min.js"></script>
+    <script defer src="/assets/deps/htmx/idiomorph-ext.min.js"></script>
     <script defer src="/assets/deps/htmx/preload.js"></script>
-    <script defer src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+    <script defer src="/assets/deps/htmx/head-support.js"></script>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap');
-      
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 300 900;
+        font-display: swap;
+        src: url('/assets/fonts/inter-latin.woff2') format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 300 900;
+        font-display: swap;
+        src: url('/assets/fonts/inter-latin-ext.woff2') format('woff2');
+        unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1D2B, U+1D6B-1D77, U+1D79-1DBE, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+      }
+
       body {
         font-family: Inter, "Inter Fallback", sans-serif;
+      }
+
+      html {
+        scroll-behavior: auto;
       }
       
       /* Table of Contents Active State */
@@ -58,9 +79,11 @@
         color: var(--color-textBrand-strong);
         border-left-color: var(--color-strokeBrand-strong);
         font-weight: 500;
+        background-color: var(--color-fillBrand-weak);
+        border-radius: 0 6px 6px 0;
       }
       
-      /* Only apply header styles within the article */
+      /* Heading typography: weight hierarchy + tracking */
       #mainArticle h1,
       #mainArticle h2,
       #mainArticle h3,
@@ -69,6 +92,37 @@
       #mainArticle h6 {
         position: relative;
         cursor: pointer;
+      }
+      #mainArticle h1 {
+        font-weight: 600;
+        letter-spacing: -0.025em;
+      }
+      #mainArticle h2 {
+        font-weight: 500;
+      }
+      #mainArticle h3 {
+        font-weight: 600;
+      }
+      #mainArticle h4,
+      #mainArticle h5,
+      #mainArticle h6 {
+        font-weight: 500;
+      }
+      /* Visual separation between major sections (skip after first) */
+      #mainArticle section + section + section > h2 {
+        border-top: 1px solid var(--color-strokeWeak);
+        padding-top: 2rem;
+        margin-top: 2.5rem;
+      }
+
+      /* Ensure list items match body text size (prose-lg default can be smaller) */
+      #mainArticle li {
+        font-size: 1.125rem;
+      }
+
+      /* Tabular numbers for data tables */
+      .docs-table table tbody tr td {
+        font-variant-numeric: tabular-nums;
       }
 
       .header-link {
@@ -100,172 +154,107 @@
         display: inline;
       }
 
-      .docs-card {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-        width: 100%;
-        padding: 1.5rem;
-        text-decoration: none;
-        border-width: 1px;
-        border-color: var(--color-strokeWeak);
-        background-color: var(--color-bgRaised);
-        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-        transition: all 300ms ease;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .docs-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 4px;
-        height: 0;
-        background-color: var(--color-fillBrand-strong);
-        transition: height 300ms ease;
-      }
-
-      .docs-card:hover {
-        border-color: var(--color-strokeBrand-weak);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.08), 0 0 0 1px var(--color-strokeBrand-weak);
-      }
-
-      .docs-card:hover::before {
-        height: 100%;
-      }
-
-      .docs-card p {
-        margin: 0;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-      }
-
-      .docs-card i {
-        font-size: 2.5rem;
-        background: linear-gradient(135deg, var(--color-fillBrand-strong), var(--color-fillInformation-strong));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
-        transition: transform 300ms ease;
-      }
-
-      .docs-card:hover i {
-        transform: scale(1.1);
-      }
-
-      .docs-card span:not(.text-xl):not(.text-2xl) {
-        margin-top: 0.75rem;
-        color: var(--color-textWeak);
-        line-height: 1.6;
-        padding-left: 0;
-        text-align: left;
-        display: block;
-        font-weight: normal;
-        font-size: 0.875rem;
-      }
-
-      .mouse-gradient {
-        position: relative;
-        overflow: hidden;
-      }
-
-      .mouse-gradient::before {
-        content: '';
-        position: absolute;
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(circle, var(--color-fillBrand-weak) 0%, transparent 70%);
-        opacity: 0;
-        transition: opacity 50ms ease;
-        z-index: 0;
-        pointer-events: none;
-        left: var(--mouse-x, 50%);
-        top: var(--mouse-y, 50%);
-        transform: translate(-50%, -50%);
-      }
-
-      .mouse-gradient:hover::before {
-        opacity: 1;
-        transform: none;
-      }
-
+      .docs-card,
       .docs-card-2 {
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
         width: 100%;
-        min-height: 9rem;
+        min-width: 0;
         padding: 1.5rem;
         text-decoration: none;
-        border-width: 1px;
-        border-color: var(--color-strokeWeak);
+        border: 1px solid var(--color-strokeWeak);
         background-color: var(--color-bgRaised);
         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-        transition: all 300ms ease;
+        transition: border-color 200ms ease, box-shadow 200ms ease;
         gap: 0.75rem;
+        overflow: hidden;
       }
 
+      .docs-card {
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
+
+      .docs-card-2 {
+        justify-content: center;
+        align-items: center;
+      }
+
+      .docs-card:hover,
       .docs-card-2:hover {
         border-color: var(--color-strokeBrand-weak);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.08), 0 0 0 1px var(--color-strokeBrand-weak);
+        box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
       }
 
-      .docs-card-2 i {
-        font-size: 4.5rem;
-        background: linear-gradient(135deg, var(--color-fillBrand-strong), var(--color-fillInformation-strong));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin-bottom: 0.75rem;
-        position: relative;
-        z-index: 1;
-        transition: all 300ms ease;
-        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+      .docs-card:focus-visible,
+      .docs-card-2:focus-visible {
+        outline: 2px solid var(--color-strokeBrand-strong);
+        outline-offset: 2px;
       }
 
-      .docs-card-2:hover i {
-        transform: scale(1.15) translateY(-2px);
-        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
-      }
-
-      .docs-card-2 img {
-        transition: transform 300ms ease;
-        position: relative;
-        z-index: 1;
-      }
-
-      .docs-card-2:hover img {
-        transform: scale(1.05);
-      }
-
+      .docs-card p,
       .docs-card-2 p {
-        font-weight: normal;
         margin: 0;
-        position: relative;
-        z-index: 1;
         display: flex;
         align-items: center;
         gap: 0.75rem;
       }
 
-      .docs-card-2 > span {
-        color: var(--color-textWeak) !important;
+      .docs-card i,
+      .docs-card-2 i {
+        color: var(--color-fillBrand-strong);
       }
+
+      .docs-card i {
+        font-size: 1.5rem;
+      }
+
+      .docs-card-2 i {
+        font-size: 2rem;
+      }
+
+      .docs-card > span,
+      .docs-card-2 > span {
+        color: var(--color-textWeak);
+        line-height: 1.6;
+        display: block;
+        font-size: 0.875rem;
+      }
+
+
+      .t-white { filter: brightness(0) invert(1); }
+      .t-black { filter: brightness(0); }
 
       .callout {
         background-color: var(--color-fillBrand-weak);
         border-left: 4px solid var(--color-strokeBrand-strong);
-        padding: 20px;
-        margin: 24px 0;
+        padding: 20px 24px;
+        margin: 28px 0;
         border-radius: 8px;
+        font-size: 0.9375rem;
+      }
+      .callout i:first-child,
+      .callout > p:first-child > i:first-child {
+        font-size: 1.125rem;
+        color: var(--color-fillBrand-strong);
+      }
+      /* Tip callouts — green semantic color */
+      .callout-tip {
+        border-left-color: oklch(0.65 0.2 145);
+        background-color: oklch(0.97 0.02 145);
+      }
+      .callout-tip i:first-child,
+      .callout-tip > p:first-child > i:first-child {
+        color: oklch(0.55 0.2 145);
+      }
+      /* Warning callouts — amber */
+      .callout-warning {
+        border-left-color: oklch(0.75 0.17 70);
+        background-color: oklch(0.97 0.02 70);
+      }
+      .callout-warning i:first-child,
+      .callout-warning > p:first-child > i:first-child {
+        color: oklch(0.65 0.17 70);
       }
 
       .callout p:first-of-type {
@@ -281,16 +270,54 @@
       }
 
       .callout-red {
-        border-left: 6px solid #ff3131 !important;
+        border-left: 6px solid oklch(0.6 0.24 25) !important;
+        background-color: oklch(0.97 0.02 25);
+      }
+      [data-theme='dark'] .callout-red {
+        background-color: oklch(0.22 0.04 25);
+        border-left-color: oklch(0.65 0.2 25) !important;
       }
 
       [data-theme='dark'] .callout {
         background-color: var(--color-fillAlternate);
         color: var(--color-textStrong);
       }
-
       [data-theme='dark'] .callout code {
         background: var(--color-fillRaised);
+      }
+      [data-theme='dark'] .callout-tip {
+        background-color: oklch(0.22 0.04 145);
+        border-left-color: oklch(0.65 0.18 145);
+      }
+      [data-theme='dark'] .callout-tip i:first-child,
+      [data-theme='dark'] .callout-tip > p:first-child > i:first-child {
+        color: oklch(0.72 0.18 145);
+      }
+      [data-theme='dark'] .callout-warning {
+        background-color: oklch(0.22 0.04 70);
+        border-left-color: oklch(0.75 0.15 70);
+      }
+      [data-theme='dark'] .callout-red {
+        background-color: oklch(0.22 0.04 25);
+        border-left-color: oklch(0.65 0.2 25) !important;
+      }
+      @media (prefers-color-scheme: dark) {
+        .callout-tip {
+          background-color: oklch(0.22 0.04 145);
+          border-left-color: oklch(0.65 0.18 145);
+        }
+        .callout-tip i:first-child,
+        .callout-tip > p:first-child > i:first-child {
+          color: oklch(0.72 0.18 145);
+        }
+        .callout-warning {
+          background-color: oklch(0.22 0.04 70);
+          border-left-color: oklch(0.75 0.15 70);
+        }
+        .callout-red {
+          background-color: oklch(0.22 0.04 25);
+          border-left-color: oklch(0.65 0.2 25) !important;
+        }
       }
 
       .docs-table table thead tr th {
@@ -323,8 +350,11 @@
         color: var(--color-textStrong);
       }
 
-      .docs-table table tbody tr:hover {
+      .docs-table table tbody tr:nth-child(even) {
         background-color: var(--color-fillWeak);
+      }
+      .docs-table table tbody tr:hover {
+        background-color: var(--color-fillBrand-weak);
       }
 
       .docs-table table tbody tr td {
@@ -333,28 +363,21 @@
         color: var(--color-textWeak);
         font-size: 1rem;
       }
+      .docs-table table tbody tr td code {
+        font-size: 0.8125rem;
+        padding: 2px 6px;
+        background: var(--color-fillWeak);
+        border-radius: 4px;
+        white-space: nowrap;
+      }
 
       .btn {
         text-decoration: none !important;
       }
 
-      .t-white {
-        color: #ffffff !important;
-      }
-
-      .t-black {
-        color: #000000 !important;
-      }
-
-      /*
-      DO NOT REMOVE
-      This is for the images in integration-footer.liquid
-      */
-      button img {
-        border-width: 0px !important;
-        --tw-drop-shadow: none !important;
-      }
-      div #sdk-images img {
+      /* DO NOT REMOVE - integration-footer.liquid images */
+      button img,
+      #sdk-images img {
         border-width: 0px !important;
         --tw-drop-shadow: none !important;
       }
@@ -367,8 +390,8 @@
         border-bottom: none;
         border-radius: 8px 8px 0 0;
         margin-right: 8px;
-        background-color: var(--color-fillWeak);
-        color: var(--color-textWeak);
+        background-color: var(--color-fillRaised);
+        color: var(--color-text);
         font-weight: 500;
         transition: all 0.2s ease;
       }
@@ -379,6 +402,7 @@
       .tab-button.active {
         background-color: var(--color-bgBase);
         border-bottom: 2px solid var(--color-bgBase);
+        border-top: 2px solid var(--color-strokeBrand-strong);
         color: var(--color-textBrand-strong);
         font-weight: 600;
       }
@@ -396,152 +420,99 @@
         color: var(--color-textBrand-strong);
         text-decoration: underline;
       }
+
+      /* Code block header with language label + copy button */
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 16px;
+        background: #282c34;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        border-radius: 12px 12px 0 0;
+        font-size: 0.75rem;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+      }
+      .code-header + code { border-radius: 0 0 12px 12px !important; }
+      .code-lang {
+        color: #7f848e; text-transform: uppercase; letter-spacing: 0.05em;
+        display: flex; align-items: center; gap: 6px;
+      }
+      .code-lang::before {
+        content: '';
+        width: 8px; height: 8px; border-radius: 50%;
+        background: #7f848e;
+        flex-shrink: 0;
+      }
+      .code-lang[data-lang="go"]::before { background: oklch(0.72 0.13 195); }
+      .code-lang[data-lang="javascript"]::before,
+      .code-lang[data-lang="js"]::before,
+      .code-lang[data-lang="jsx"]::before,
+      .code-lang[data-lang="typescript"]::before,
+      .code-lang[data-lang="ts"]::before { background: oklch(0.78 0.15 85); }
+      .code-lang[data-lang="python"]::before { background: oklch(0.72 0.14 250); }
+      .code-lang[data-lang="php"]::before { background: oklch(0.60 0.16 290); }
+      .code-lang[data-lang="ruby"]::before { background: oklch(0.60 0.2 25); }
+      .code-lang[data-lang="sh"]::before,
+      .code-lang[data-lang="bash"]::before,
+      .code-lang[data-lang="shell"]::before { background: oklch(0.72 0.18 145); }
+      .code-lang[data-lang="java"]::before { background: oklch(0.65 0.18 40); }
+      .code-lang[data-lang="csharp"]::before,
+      .code-lang[data-lang="cs"]::before { background: oklch(0.58 0.2 300); }
+      .code-lang[data-lang="elixir"]::before { background: oklch(0.58 0.18 310); }
+      .code-lang[data-lang="yaml"]::before,
+      .code-lang[data-lang="json"]::before,
+      .code-lang[data-lang="toml"]::before { background: oklch(0.70 0.10 60); }
+      .code-copy {
+        display: flex; align-items: center; gap: 6px;
+        color: #7f848e; background: none; border: none;
+        cursor: pointer; font-size: 0.75rem; padding: 2px 8px;
+        border-radius: 4px; transition: all 150ms ease;
+      }
+      .code-copy:hover { color: #abb2bf; background: rgba(255,255,255,0.08); }
+      .code-copy.copied { color: #98c379; }
+
+      /* Sidebar collapsible sections */
+      .sidebar-section summary { list-style: none; cursor: pointer; }
+      .sidebar-section summary::-webkit-details-marker { display: none; }
+      .sidebar-section summary .chevron-icon {
+        transition: transform 200ms ease;
+        width: 12px; height: 12px; flex-shrink: 0;
+      }
+      .sidebar-section[open] summary .chevron-icon { transform: rotate(90deg); }
+
+      /* Breadcrumbs */
+      .breadcrumbs {
+        font-size: 0.875rem;
+        display: flex; flex-wrap: wrap; align-items: center; gap: 0;
+      }
+      .breadcrumbs a { color: var(--color-textWeak); text-decoration: none; white-space: nowrap; }
+      .breadcrumbs a:hover { color: var(--color-textBrand-strong); }
+      .breadcrumbs .separator { color: var(--color-textWeak); opacity: 0.4; margin: 0 8px; }
+      .breadcrumbs .current { color: var(--color-textStrong); font-weight: 500; white-space: nowrap; }
+      @media (max-width: 640px) { .breadcrumbs { display: none; } }
+
+      /* Prev/Next navigation */
+      .prev-next-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; max-width: 36rem; margin-left: auto; margin-right: auto; }
+      @media (max-width: 640px) { .prev-next-nav { grid-template-columns: 1fr; max-width: none; } }
+      .prev-next-card {
+        display: flex; flex-direction: column; padding: 0.875rem 1.25rem;
+        border: 1px solid var(--color-strokeWeak); border-radius: 10px;
+        text-decoration: none; transition: border-color 200ms ease, box-shadow 200ms ease;
+        background: var(--color-bgRaised);
+      }
+      .prev-next-card:hover {
+        border-color: var(--color-strokeBrand-weak);
+        box-shadow: 0 2px 8px 0 rgba(0,0,0,0.06);
+      }
+      .prev-next-card .direction {
+        font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;
+        color: var(--color-textWeak); margin-bottom: 2px;
+      }
+      .prev-next-card .title { color: var(--color-textBrand-strong); font-weight: 500; font-size: 0.9rem; }
+      .prev-next-card.next { text-align: right; grid-column: 2; }
+      @media (max-width: 640px) { .prev-next-card.next { grid-column: 1; } }
     </style>
-
-    <!-- Twitter conversion tracking base code -->
-    <script>
-      !(function (e, t, n, s, u, a) {
-        e.twq ||
-          ((s = e.twq =
-            function () {
-              s.exe ? s.exe.apply(s, arguments) : s.queue.push(arguments);
-            }),
-          (s.version = '1.1'),
-          (s.queue = []),
-          (u = t.createElement(n)),
-          (u.async = !0),
-          (u.src = 'https://static.ads-twitter.com/uwt.js'),
-          (a = t.getElementsByTagName(n)[0]),
-          a.parentNode.insertBefore(u, a));
-      })(window, document, 'script');
-      twq('config', 'om5gt');
-    </script>
-    <!-- End Twitter conversion tracking base code -->
-
-    <!-- Amplitude (with GA Events Forwarder) -->
-    <script type="text/javascript">
-      !(function () {
-        'use strict';
-        !(function (e, t) {
-          var r = e.amplitude || { _q: [], _iq: {} };
-          if (r.invoked) e.console && console.error && console.error('Amplitude snippet has been loaded.');
-          else {
-            var n = function (e, t) {
-                e.prototype[t] = function () {
-                  return this._q.push({ name: t, args: Array.prototype.slice.call(arguments, 0) }), this;
-                };
-              },
-              s = function (e, t, r) {
-                return function (n) {
-                  e._q.push({ name: t, args: Array.prototype.slice.call(r, 0), resolve: n });
-                };
-              },
-              o = function (e, t, r) {
-                e[t] = function () {
-                  if (r) return { promise: new Promise(s(e, t, Array.prototype.slice.call(arguments))) };
-                };
-              },
-              i = function (e) {
-                for (var t = 0; t < m.length; t++) o(e, m[t], !1);
-                for (var r = 0; r < y.length; r++) o(e, y[r], !0);
-              };
-            r.invoked = !0;
-            var a = t.createElement('script');
-            (a.type = 'text/javascript'),
-              (a.crossOrigin = 'anonymous'),
-              (a.src = 'https://cdn.amplitude.com/libs/plugin-ga-events-forwarder-browser-0.2.0-min.js.gz'),
-              (a.onload = function () {
-                e.gaEventsForwarder && e.gaEventsForwarder.plugin && e.amplitude.add(e.gaEventsForwarder.plugin());
-              });
-            var c = t.createElement('script');
-            (c.type = 'text/javascript'),
-              (c.integrity = 'sha384-HpnlFSsUOQTaqmMKb6/PqZKVOBEpRji3JNLr81x6XElQ4bkquzRyG/F8rY8IDMuw'),
-              (c.crossOrigin = 'anonymous'),
-              (c.async = !0),
-              (c.src = 'https://cdn.amplitude.com/libs/analytics-browser-2.2.1-min.js.gz'),
-              (c.onload = function () {
-                e.amplitude.runQueuedFunctions || console.log('[Amplitude] Error: could not load SDK');
-              });
-            var u = t.getElementsByTagName('script')[0];
-            u.parentNode.insertBefore(a, u), u.parentNode.insertBefore(c, u);
-            for (
-              var p = function () {
-                  return (this._q = []), this;
-                },
-                d = [
-                  'add',
-                  'append',
-                  'clearAll',
-                  'prepend',
-                  'set',
-                  'setOnce',
-                  'unset',
-                  'preInsert',
-                  'postInsert',
-                  'remove',
-                  'getUserProperties',
-                ],
-                l = 0;
-              l < d.length;
-              l++
-            )
-              n(p, d[l]);
-            r.Identify = p;
-            for (
-              var g = function () {
-                  return (this._q = []), this;
-                },
-                v = [
-                  'getEventProperties',
-                  'setProductId',
-                  'setQuantity',
-                  'setPrice',
-                  'setRevenue',
-                  'setRevenueType',
-                  'setEventProperties',
-                ],
-                f = 0;
-              f < v.length;
-              f++
-            )
-              n(g, v[f]);
-            r.Revenue = g;
-            var m = [
-                'getDeviceId',
-                'setDeviceId',
-                'getSessionId',
-                'setSessionId',
-                'getUserId',
-                'setUserId',
-                'setOptOut',
-                'setTransport',
-                'reset',
-                'extendSession',
-              ],
-              y = [
-                'init',
-                'add',
-                'remove',
-                'track',
-                'logEvent',
-                'identify',
-                'groupIdentify',
-                'setGroup',
-                'revenue',
-                'flush',
-              ];
-            i(r),
-              (r.createInstance = function (e) {
-                return (r._iq[e] = { _q: [] }), i(r._iq[e]), r._iq[e];
-              }),
-              (e.amplitude = r);
-          }
-        })(window, document);
-      })();
-
-      amplitude.init('e11d597a7ac4268a7efc286cec3e947d');
-    </script>
-    <!-- END Amplitude -->
 
     <!-- Google Tag Manager -->
     <script>
@@ -556,157 +527,67 @@
         f.parentNode.insertBefore(j, f);
       })(window, document, 'script', 'dataLayer', 'GTM-TF4BQQ3D');
     </script>
-    <!-- End Google Tag Manager -->
 
-    <!-- Facebook Pixel Code -->
-    <script>
-      !(function (f, b, e, v, n, t, s) {
-        if (f.fbq) return;
-        n = f.fbq = function () {
-          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
-        };
-        if (!f._fbq) f._fbq = n;
-        n.push = n;
-        n.loaded = !0;
-        n.version = '2.0';
-        n.queue = [];
-        t = b.createElement(e);
-        t.async = !0;
-        t.src = v;
-        s = b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t, s);
-      })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '1135987380886994');
-      fbq('track', 'PageView');
-    </script>
-    <noscript>
-      <img
-        height="1"
-        width="1"
-        src="
-          https://www.facebook.com/tr?id=1135987380886994&ev=PageView
-          &noscript=1
-        "
-      >
-    </noscript>
-    <!-- End Facebook Pixel Code -->
-
+    <!-- PostHog (product analytics) -->
     <script>
         !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Ce Ls Ns Te As js capture Xe calculateEventProperties qs register register_once register_for_session unregister unregister_for_session Gs getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Hs Us createPersonProfile Ws Os Js opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing zs debug L Bs getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
         posthog.init('phc_cGqLesvzRVXTutxJWICMXjvhJmib23ifyfWTYK8eiCz', {
             api_host: 'https://eu.i.posthog.com',
             defaults: '2025-05-24',
-            person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
+            person_profiles: 'identified_only',
         })
     </script>
 
+    <!-- Deferred marketing/ad pixels - loaded after page is interactive -->
     <script>
-      if (localStorage.getItem('darkMode') === 'true') {
-        document.body.setAttribute('data-theme', 'dark');
-      }
-    </script>
+      (function() {
+        var load = window.requestIdleCallback || function(cb) { setTimeout(cb, 1500); };
+        load(function() {
+          // Amplitude
+          !function(){!function(e,t){var r=e.amplitude||{_q:[],_iq:{}};if(!r.invoked){var n=function(e,t){e.prototype[t]=function(){return this._q.push({name:t,args:Array.prototype.slice.call(arguments,0)}),this}},s=function(e,t,r){return function(n){e._q.push({name:t,args:Array.prototype.slice.call(r,0),resolve:n})}},o=function(e,t,r){e[t]=function(){if(r)return{promise:new Promise(s(e,t,Array.prototype.slice.call(arguments)))}}},i=function(e){for(var t=0;t<m.length;t++)o(e,m[t],!1);for(var r=0;r<y.length;r++)o(e,y[r],!0)};r.invoked=!0;var a=t.createElement("script");a.type="text/javascript",a.crossOrigin="anonymous",a.src="https://cdn.amplitude.com/libs/plugin-ga-events-forwarder-browser-0.2.0-min.js.gz",a.onload=function(){e.gaEventsForwarder&&e.gaEventsForwarder.plugin&&e.amplitude.add(e.gaEventsForwarder.plugin())};var c=t.createElement("script");c.type="text/javascript",c.integrity="sha384-HpnlFSsUOQTaqmMKb6/PqZKVOBEpRji3JNLr81x6XElQ4bkquzRyG/F8rY8IDMuw",c.crossOrigin="anonymous",c.async=!0,c.src="https://cdn.amplitude.com/libs/analytics-browser-2.2.1-min.js.gz",c.onload=function(){e.amplitude.runQueuedFunctions||console.log("[Amplitude] Error: could not load SDK")};var u=t.getElementsByTagName("script")[0];u.parentNode.insertBefore(a,u),u.parentNode.insertBefore(c,u);for(var p=function(){return this._q=[],this},d=["add","append","clearAll","prepend","set","setOnce","unset","preInsert","postInsert","remove","getUserProperties"],l=0;l<d.length;l++)n(p,d[l]);r.Identify=p;for(var g=function(){return this._q=[],this},v=["getEventProperties","setProductId","setQuantity","setPrice","setRevenue","setRevenueType","setEventProperties"],f=0;f<v.length;f++)n(g,v[f]);r.Revenue=g;var m=["getDeviceId","setDeviceId","getSessionId","setSessionId","getUserId","setUserId","setOptOut","setTransport","reset","extendSession"],y=["init","add","remove","track","logEvent","identify","groupIdentify","setGroup","revenue","flush"];i(r),r.createInstance=function(e){return r._iq[e]={_q:[]},i(r._iq[e]),r._iq[e]},e.amplitude=r}}(window,document)}();
+          amplitude.init('e11d597a7ac4268a7efc286cec3e947d');
 
-    <!-- Facebook Pixel Code -->
-    <script>
-      !(function (f, b, e, v, n, t, s) {
-        if (f.fbq) return;
-        n = f.fbq = function () {
-          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
-        };
-        if (!f._fbq) f._fbq = n;
-        n.push = n;
-        n.loaded = !0;
-        n.version = '2.0';
-        n.queue = [];
-        t = b.createElement(e);
-        t.async = !0;
-        t.src = v;
-        s = b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t, s);
-      })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '3674513372787915');
-      fbq('track', 'PageView');
-    </script>
-    <noscript
-      ><img
-        height="1"
-        width="1"
-        style="display:none"
-        src="https://www.facebook.com/tr?id=3674513372787915&ev=PageView&noscript=1"
-    ></noscript>
-    <!-- DO NOT MODIFY -->
-    <!-- End Facebook Pixel Code -->
+          // Twitter pixel
+          !function(e,t,n,s,u,a){e.twq||((s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments)}),s.version="1.1",s.queue=[],(u=t.createElement(n)).async=!0,u.src="https://static.ads-twitter.com/uwt.js",(a=t.getElementsByTagName(n)[0]).parentNode.insertBefore(u,a))}(window,document,"script");
+          twq("config","om5gt");
 
-    <!-- Google Tag Manager -->
-    <script>
-      (function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-        f.parentNode.insertBefore(j, f);
-      })(window, document, 'script', 'dataLayer', 'GTM-TF4BQQ3D');
-    </script>
-    <!-- End Google Tag Manager -->
+          // Facebook Pixel (both IDs via single bootstrap)
+          !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");
+          fbq('init','1135987380886994');
+          fbq('init','3674513372787915');
+          fbq('track','PageView');
 
-    <script type="text/javascript">
-      window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
-      window._linkedin_data_partner_ids.push('8274722');
+          // LinkedIn
+          window._linkedin_data_partner_ids=window._linkedin_data_partner_ids||[];
+          window._linkedin_data_partner_ids.push("8274722");
+          !function(l){if(!l){window.lintrk=function(a,b){window.lintrk.q.push([a,b])};window.lintrk.q=[]}var s=document.getElementsByTagName("script")[0];var b=document.createElement("script");b.type="text/javascript";b.async=true;b.src="https://snap.licdn.com/li.lms-analytics/insight.min.js";s.parentNode.insertBefore(b,s)}(window.lintrk);
+
+          // reb2b
+          !function(key){if(window.reb2b)return;window.reb2b={loaded:true};var s=document.createElement("script");s.async=true;s.src="https://ddwl4m2hdecbv.cloudfront.net/b/"+key+"/"+key+".js.gz";document.getElementsByTagName("script")[0].parentNode.insertBefore(s,document.getElementsByTagName("script")[0])}("DNXY8HXZYQO0");
+
+          // Reddit Pixel
+          !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
+          rdt('init','t2_9wupu0');
+          rdt('track','PageVisit',{conversionId:'PageVisit_'+Date.now()+'_'+Math.random().toString(36).substring(2,9),page:window.location.pathname});
+        });
+      })();
     </script>
-    <script type="text/javascript">
-      (function (l) {
-        if (!l) {
-          window.lintrk = function (a, b) {
-            window.lintrk.q.push([a, b]);
-          };
-          window.lintrk.q = [];
-        }
-        var s = document.getElementsByTagName('script')[0];
-        var b = document.createElement('script');
-        b.type = 'text/javascript';
-        b.async = true;
-        b.src = 'https://snap.licdn.com/li.lms-analytics/insight.min.js';
-        s.parentNode.insertBefore(b, s);
-      })(window.lintrk);
-    </script>
-<script>!function(key) {
-if (window.reb2b) return;
-window.reb2b = {loaded: true};
-var s = document.createElement("script");
-s.async = true;
-s.src = "https://ddwl4m2hdecbv.cloudfront.net/b/" + key + "/" + key + ".js.gz";
-document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.getElementsByTagName("script")[0]);
-}("DNXY8HXZYQO0");</script>
     <noscript>
+      <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1135987380886994&ev=PageView&noscript=1">
+      <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=3674513372787915&ev=PageView&noscript=1">
       <img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=8274722&fmt=gif">
     </noscript>
-
-    <!-- Reddit Pixel -->
-    <script>
-    !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
-    rdt('init','t2_9wupu0');
-
-    // Generate unique conversion ID for this PageVisit event
-    var conversionId = 'PageVisit_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
-
-    rdt('track', 'PageVisit', {
-      conversionId: conversionId,
-      page: window.location.pathname
-    });
-
-    // Store in sessionStorage for potential server-side access
-    var events = JSON.parse(sessionStorage.getItem('reddit_events') || '[]');
-    events.push({conversionId: conversionId, eventName: 'PageVisit', timestamp: Date.now()});
-    if (events.length > 50) events.shift();
-    sessionStorage.setItem('reddit_events', JSON.stringify(events));
-    </script>
-    <!-- End Reddit Pixel -->
   </head>
 
-<body data-theme="light" {% comment %}hx-boost="true"{% endcomment %} hx-ext="preload,head-support" class="" preload>
+<body data-theme="light"
+      hx-boost="true"
+      hx-ext="preload,head-support,morph"
+      hx-select="#docs-page-content"
+      hx-target="#docs-page-content"
+      hx-select-oob="#root-menu-tabs:morph,#sidebar-nav:morph,#toc-section:morph,#mobile-nav-content:morph"
+      hx-swap="morph show:window:top"
+      class=""
+      preload="mouseover">
     <script>
       if (localStorage.getItem('darkMode') === 'true') {
         document.body.setAttribute('data-theme', 'dark');
@@ -726,7 +607,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     <section class="sticky top-0 w-full bg-bgBase z-10 border-b border-b-strokeWeak">
       <section class="w-full flex flex-col items-center border-b border-b-strokeWeak">
         <div class="max-w-8xl w-full py-4 px-4 text-left flex justify-between items-center">
-          <a href="/" class="px-1 py-1" aria-label="Back to homepage">
+          <a href="/" hx-boost="false" class="px-1 py-1" aria-label="Back to homepage">
             <img class="h-7 dark:hidden" src="/assets/brand/logo_full_color.svg" alt="Monoscope full color logo">
             <img
               class="h-7 hidden dark:inline-block"
@@ -735,7 +616,10 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
             >
           </a>
           <div class="flex gap-4 items-center">
-            <a href="/" class="hidden sm:inline-block text-sm text-textBrand-strong whitespace-nowrap flex-shrink-0">↢&nbsp;Back to Website</a>
+            <label for="mobile-menu-drawer" class="sm:hidden cursor-pointer p-2 hover:bg-fillWeak rounded-lg transition-colors" aria-label="Open menu">
+              <svg class="h-5 w-5 fill-current opacity-70"><use xlink:href="/assets/deps/fontawesome/solid.svg#bars"></use></svg>
+            </label>
+            <a href="/" hx-boost="false" class="hidden sm:inline-block text-sm text-textBrand-strong whitespace-nowrap flex-shrink-0">↢&nbsp;Back to Website</a>
             <a class="cursor-pointer sm:hidden" onClick="search_modal.showModal()" aria-label="search" title="Search">
               <svg class="icon h-4 w-4 text-current fill-current stroke-current opacity-70">
                 <use xlink:href="/assets/deps/fontawesome/solid.svg#magnifying-glass"></use>
@@ -748,7 +632,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
               <span class="text-textWeak group-hover/gh:text-textStrong transition-colors">Star</span>
               <span class="px-1.5 py-0.5 bg-fillWeak rounded-full text-xs font-medium text-textStrong" id="github-stars-docs">-</span>
             </a>
-            <a href="https://app.monoscope.tech?utm_source=docs" class="btn btn-sm bg-fillBrand-strong hover:bg-fillBrand-weak text-textInverse-strong border-0" data-tracking="docs-sign-up" data-reddit-event="SignUp">Sign Up</a>
+            <a href="https://app.monoscope.tech?utm_source=docs" hx-boost="false" class="btn btn-sm bg-fillBrand-strong hover:bg-fillBrand-weak text-textInverse-strong border-0" data-tracking="docs-sign-up" data-reddit-event="SignUp">Sign Up</a>
 
             <a
               class="input input-sm bg-fillWeak dark:bg-fillAlternate input-bordered hidden sm:flex items-center gap-2 flex-shrink min-w-0"
@@ -809,7 +693,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
       </section>
 
       <section class="text-center">
-        <div class="max-w-8xl w-full gap-4 text-md hidden sm:inline-flex sm:ml-8 a:no-underline">
+        <div id="root-menu-tabs" class="max-w-8xl w-full gap-4 text-md hidden sm:inline-flex sm:ml-8 a:no-underline">
           {% capture root_menu_items %}
         {% assign is_home = this.frontmatter.title | equals: "Home" %}
         <a class="flex gap-3 sm:border-b-2 {{ is_home | ternary: 'sm:border-b-strokeBrand-strong text-textBrand-strong sm:text-current ', 'border-b-transparent' }} py-2 px-1 items-center hover:text-textBrand-strong transition-colors"
@@ -826,8 +710,9 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         {% assign is_active = this.permalink | starts_with: parent_doc_prefix %}
         <a class="flex gap-3 sm:border-b-2 {{ is_active | ternary: 'sm:border-b-strokeBrand-strong text-textBrand-strong sm:text-current', 'border-b-transparent' }} py-2 px-1 items-center hover:text-textBrand-strong transition-colors"
           href="{{ page.permalink }}">
-          <i
-            class="fa-regular fa-{% if page.frontmatter.faLogo %}{{ page.frontmatter.faLogo }}{%else%}star{%endif%} w-5 h-5 {{ is_active | ternary: 'text-iconBrand', '' }}"></i>
+          <svg class="icon h-5 w-5 text-current fill-current stroke-current {{ is_active | ternary: 'text-iconBrand', '' }}">
+            <use xlink:href="/assets/deps/fontawesome/regular.svg#{% if page.frontmatter.faLogo %}{{ page.frontmatter.faLogo }}{%else%}star{%endif%}"></use>
+          </svg>
           <span>{{ page.frontmatter.title | default: 'Untitled' }}</span>
         </a>
         {% endfor %}
@@ -847,18 +732,17 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
       {% capture glob_pattern %}./docs/{{ parent_doc_section }}/*/index.md{% endcapture %}
       {% assign pages = file_list | where_glob: 'file_path', glob_pattern | sort: 'frontmatter.menuWeight' %}
       {% for page in pages %}
-      <section class="pl-1">
-      <!-- FILE TREE PARENT -->
-        <a class="block font-semibold text-sm uppercase tracking-wider pb-2 text-textStrong hover:text-textBrand-strong transition-colors" href="{{ page.permalink }}">{{ page.frontmatter.title }}</a>
+      {% assign is_in_section = this.permalink | starts_with: page.permalink %}
+      {% assign is_parent_of_section = page.permalink | starts_with: this.permalink %}
+      <details class="sidebar-section pl-1" {% if is_in_section or is_parent_of_section %}open{% endif %} data-section="{{ page.permalink }}">
+        <summary class="flex items-center justify-between font-semibold text-sm uppercase tracking-wider pb-2 text-textStrong hover:text-textBrand-strong transition-colors">
+          <a href="{{ page.permalink }}" class="flex-1">{{ page.frontmatter.title }}</a>
+          <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
+        </summary>
         {% capture glob_pattern1 %}.{{ page.permalink }}*/index.md{% endcapture %}
-        <!-- In an idea scenario, we will sort this automatically based on "frontmatter.title"
-             but the dashboard guides page requires custom sorting and will conflict with the
-             sdk guides page. Hence all markdown files for now will have "menuWeight"
-          -->
         {% assign subpages = file_list | where_glob: 'file_path', glob_pattern1 | sort: 'frontmatter.menuWeight' %}
         {% if subpages.size > 0 %}
-        <!-- FILE TREE CHILDREN -->
-        <ul class="space-y-1">
+        <ul class="space-y-1 mt-1">
           {% for subpage in subpages %}
           <li>
             {% assign is_active_page = subpage.permalink | equals: this.permalink %}
@@ -883,16 +767,14 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
           {% endfor %}
         </ul>
         {% endif %}
-      </section>
+      </details>
       {% endfor %}
       {% endcapture %}
-        {% unless this.frontmatter.hideFileTree %}
-          <div class="w-64 leading-relaxed border-r border-r-strokeWeak hidden sm:block ">
-            <nav class="h-full w-64 space-y-6 text-sm py-32 pr-8 pl-4 fixed top-0 overflow-y-scroll">
+          <div id="sidebar-nav" class="w-64 leading-relaxed border-r border-r-strokeWeak hidden {% unless this.frontmatter.hideFileTree %}sm:block{% endunless %}">
+            <nav class="h-full w-64 space-y-4 text-sm pt-32 pb-8 pr-8 pl-4 fixed top-0 overflow-y-scroll">
               {{ main_menu_items }}
             </nav>
           </div>
-        {% endunless %}
         <!-- Navigation drawer used on Mobile only -->
         <div class="drawer fixed top-0 z-50">
           <input id="mobile-menu-drawer" type="checkbox" class="drawer-toggle">
@@ -904,7 +786,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
                   <use xlink:href="/assets/deps/fontawesome/regular.svg#xmark"></use>
                 </svg>
               </label>
-              <div class="space-y-5 pt-5">
+              <div id="mobile-nav-content" class="space-y-5 pt-5">
                 <section>
                   {{ root_menu_items }}
                 </section>
@@ -917,13 +799,13 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         </div>
 
         <div class="flex-1 grow flex relative min-h-screen">
-          <div class="text-center flex-1 grow p-5 pt-12 sm:px-12 sm:py-20 sm:pb-28 pb-40 divide-y divide-y-strokeWeak">
+          <div id="docs-page-content" class="text-center flex-1 grow p-5 pt-12 sm:px-12 sm:py-20 sm:pb-28 pb-40 divide-y divide-y-strokeWeak">
             <article
               class="
-                text-left pb-12 prose prose-lg prose-slate dark:prose-invert 
-                prose-headings:font-normal prose-h1:text-4xl prose-h1:leading-tight prose-h2:text-3xl prose-h2:leading-tight 
-                prose-h3:text-2xl prose-h3:font-semibold prose-h4:text-xl prose-h5:text-lg prose-h6:text-base
-                prose-p:text-textWeak prose-p:leading-relaxed prose-p:text-base
+                text-left pb-12 prose prose-lg prose-slate dark:prose-invert
+                prose-h1:text-4xl prose-h1:leading-tight prose-h2:text-3xl prose-h2:leading-tight
+                prose-h3:text-2xl prose-h4:text-xl prose-h5:text-lg prose-h6:text-base
+                prose-p:text-textWeak prose-p:leading-relaxed
                 prose-strong:text-textStrong prose-strong:font-semibold
                 prose-a:text-textBrand-strong prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-textBrand-weak
                 prose-img:w-full prose-img:rounded-xl prose-img:drop-shadow-md prose-img:border prose-img:border-strokeWeak
@@ -938,19 +820,46 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
               "
               id="mainArticle"
             >
+              {% unless this.frontmatter.title == "Home" %}
+              <nav class="breadcrumbs not-prose mb-8" aria-label="Breadcrumb">
+                <a href="/docs/">Docs</a>
+                {% assign crumb_parts = this.permalink | split: '/' %}
+                {% assign crumb_path = "/docs/" %}
+                {% for part in crumb_parts %}
+                  {% if part == "" or part == "docs" %}{% continue %}{% endif %}
+                  {% assign crumb_path = crumb_path | append: part | append: "/" %}
+                  <span class="separator">/</span>
+                  {% assign is_current_crumb = crumb_path | equals: this.permalink %}
+                  {% if is_current_crumb %}
+                    <span class="current">{{ this.frontmatter.title }}</span>
+                  {% else %}
+                    {% capture crumb_glob %}.{{ crumb_path }}index.md{% endcapture %}
+                    {% assign crumb_pages = file_list | where_glob: 'file_path', crumb_glob %}
+                    {% if crumb_pages.size > 0 %}
+                      <a href="{{ crumb_path }}">{{ crumb_pages[0].frontmatter.title }}</a>
+                    {% else %}
+                      <a href="{{ crumb_path }}">{{ part | replace: "-", " " | capitalize }}</a>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+              </nav>
+              {% endunless %}
               {{ this.content }}
             </article>
-            <footer class="text-center py-12 space-y-4">
-              <h5 class="font-medium text-lg text-textStrong">Need assistance or have some feedback for us? You can reach out to us at:</h5>
+            {% unless this.frontmatter.title == "Home" %}
+            <nav id="prev-next-nav" class="prev-next-nav not-prose max-w-4xl mx-auto mt-12 mb-8"></nav>
+            {% endunless %}
+            <footer class="text-center py-8 space-y-3">
+              <p class="font-medium text-sm text-textWeak">Need help? Reach out to us:</p>
               <p class="text-textWeak">
-                <i class="fa-regular fa-envelope text-textBrand"></i>
+                <svg class="icon inline h-4 w-4 fill-current text-textBrand"><use xlink:href="/assets/deps/fontawesome/regular.svg#envelope"></use></svg>
                 <a
                   class="text-textBrand-strong hover:text-textBrand-weak underline underline-offset-4 transition-colors"
                   href="mailto:hello@monoscope.tech"
                   >hello@monoscope.tech</a
                 >
                 <span class="px-2">|</span>
-                <i class="fa-brands fa-discord text-textBrand"></i>
+                <svg class="icon inline h-4 w-4 fill-current text-textBrand"><use xlink:href="/assets/deps/fontawesome/brands.svg#discord"></use></svg>
                 <a
                   class="text-textBrand-strong hover:text-textBrand-weak underline underline-offset-4 transition-colors"
                   href="https://monoscope.tech/discord"
@@ -959,7 +868,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
                   >Discord Community Server</a
                 >
                 <span class="px-2">|</span>
-                <i class="fa-brands fa-github text-textBrand"></i>
+                <svg class="icon inline h-4 w-4 fill-current text-textBrand"><use xlink:href="/assets/deps/fontawesome/brands.svg#github"></use></svg>
                 <a
                   class="text-textBrand-strong hover:text-textBrand-weak underline underline-offset-4 transition-colors"
                   href="https://github.com/monoscope-tech/monoscope-landing/issues/new/choose"
@@ -971,11 +880,10 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
             </footer>
           </div>
         </div>
-        {% unless this.frontmatter.hideToc %}
-          <section class="w-64 hidden lg:block">
+          <section id="toc-section" class="w-64 hidden {% unless this.frontmatter.hideToc %}lg:block{% endunless %}">
             <div class="w-64 fixed top-32 pr-8">
               <nav class="sticky top-0">
-                <h3 class="font-semibold text-sm uppercase tracking-wider text-textStrong mb-4">On this page</h3>
+                <h3 class="font-medium text-xs text-textWeak mb-4">On this page</h3>
                 <ul class="space-y-1 text-sm overflow-y-auto max-h-[calc(100vh-12rem)]" id="tableOfContents">
                   {% for toc in this.toc %}
                     {% assign indent_class = "" %}
@@ -991,7 +899,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
                       {% assign indent_class = "pl-16" %}
                     {% endif %}
                     <li class="{{indent_class}} relative">
-                      <a href="#{{toc.id}}" 
+                      <a href="#{{toc.id}}"
                          class="block py-1 pr-3 text-textWeak hover:text-textBrand-strong transition-all duration-200 border-l-2 border-transparent hover:border-strokeBrand-strong -ml-px pl-4">
                         {{ toc.title }}
                       </a>
@@ -1001,21 +909,17 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
               </nav>
             </div>
           </section>
-        {% endunless %}
       </div>
     </section>
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"
-    >
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/php.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/elixir.min.js"></script>
+    <link rel="stylesheet" href="/assets/deps/highlightjs/atom-one-dark.min.css" hx-preserve="true">
+    <script defer src="/assets/deps/highlightjs/highlight.min.js"></script>
+    <script defer src="/assets/deps/highlightjs/go.min.js"></script>
+    <script defer src="/assets/deps/highlightjs/javascript.min.js"></script>
+    <script defer src="/assets/deps/highlightjs/php.min.js"></script>
+    <script defer src="/assets/deps/highlightjs/csharp.min.js"></script>
+    <script defer src="/assets/deps/highlightjs/python.min.js"></script>
+    <script defer src="/assets/deps/highlightjs/elixir.min.js"></script>
     <script defer src="/assets/js/tabs.js"></script>
     <script defer src="/assets/js/ad-tracking.js"></script>
 
@@ -1024,45 +928,104 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         hljs.highlightAll();
       });
 
+      function initCodeBlocks() {
+        document.querySelectorAll('#mainArticle pre > code').forEach(function(code) {
+          var pre = code.parentElement;
+          if (pre.querySelector('.code-header')) return;
+          var lang = '';
+          code.classList.forEach(function(c) {
+            if (c.startsWith('language-')) lang = c.replace('language-', '');
+          });
+          if (lang === 'html' && code.closest('[class*="=html"]')) return;
+          var header = document.createElement('div');
+          header.className = 'code-header';
+          header.innerHTML = '<span class="code-lang" data-lang="' + (lang || 'code') + '">' + (lang || 'code') + '</span>' +
+            '<button class="code-copy" title="Copy code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg><span>Copy</span></button>';
+          header.querySelector('.code-copy').addEventListener('click', function() {
+            var btn = this;
+            navigator.clipboard.writeText(code.textContent).then(function() {
+              btn.classList.add('copied');
+              btn.querySelector('span').textContent = 'Copied!';
+              setTimeout(function() {
+                btn.classList.remove('copied');
+                btn.querySelector('span').textContent = 'Copy';
+              }, 2000);
+            });
+          });
+          pre.insertBefore(header, code);
+        });
+      }
+
+      function initSidebarState() {
+        // No localStorage — always trust server-rendered open state
+        // (current section auto-opens via Liquid template logic)
+      }
+
+      function initPrevNext() {
+        var nav = document.getElementById('prev-next-nav');
+        if (!nav) return;
+        var links = Array.from(document.querySelectorAll('#sidebar-nav a[href]'));
+        var current = window.location.pathname;
+        var idx = links.findIndex(function(a) { return a.getAttribute('href') === current; });
+        if (idx === -1) return;
+        var html = '';
+        if (idx > 0) {
+          html += '<a class="prev-next-card prev" href="' + links[idx-1].getAttribute('href') + '">' +
+            '<span class="direction">&larr; Previous</span>' +
+            '<span class="title">' + links[idx-1].textContent.trim() + '</span></a>';
+        }
+        if (idx < links.length - 1) {
+          html += '<a class="prev-next-card next" href="' + links[idx+1].getAttribute('href') + '">' +
+            '<span class="direction">Next &rarr;</span>' +
+            '<span class="title">' + links[idx+1].textContent.trim() + '</span></a>';
+        }
+        nav.innerHTML = html;
+      }
+
       function init() {
-        // Select all headers
-        const headers = document.querySelectorAll(
-          '#mainArticle h1, #mainArticle h2, #mainArticle h3, #mainArticle h4,#mainArticle h5,#mainArticle h6'
-        );
-        headers.forEach((header) => {
-          const hashtag = document.createElement('a');
-          hashtag.classList.add('header-link');
-          hashtag.textContent = '🔗 ';
-          hashtag.href = '#' + header.id;
-          header.insertBefore(hashtag, header.firstChild);
+        var sel = '#mainArticle h1, #mainArticle h2, #mainArticle h3, #mainArticle h4, #mainArticle h5, #mainArticle h6';
+        var headings = document.querySelectorAll(sel);
+
+        headings.forEach(function(h) {
+          var hid = h.id || (h.parentElement && h.parentElement.id) || '';
+          if (!h.querySelector('.header-link') && hid) {
+            var a = document.createElement('a');
+            a.classList.add('header-link');
+            a.textContent = '#';
+            a.href = '#' + hid;
+            h.insertBefore(a, h.firstChild);
+          }
         });
 
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
+        var tocLinks = document.querySelectorAll('#tableOfContents a');
+        if (tocLinks.length) {
+          var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
               if (entry.isIntersecting) {
-                document.querySelectorAll('#tableOfContents a').forEach((link) => {
-                  if (link.getAttribute('href').substring(1) === entry.target.id) {
-                    document.querySelectorAll('#tableOfContents a').forEach(function (element) {
-                      element.classList.remove('active');
-                    });
-                    link.classList.add('active');
-                  }
-                });
+                var eid = entry.target.id || (entry.target.parentElement && entry.target.parentElement.id) || '';
+                if (!eid) return;
+                tocLinks.forEach(function(l) { l.classList.remove('active'); });
+                var match = document.querySelector('#tableOfContents a[href="#' + eid + '"]');
+                if (match) match.classList.add('active');
               }
             });
-          },
-          { rootMargin: '-80px 0px -80% 0px', threshold: 0 }
-        );
+          }, { rootMargin: '-80px 0px -80% 0px', threshold: 0 });
 
-        // Observe all headings within the article
-        document
-          .querySelectorAll(
-            '#mainArticle h1, #mainArticle h2, #mainArticle h3, #mainArticle h4, #mainArticle h5, #mainArticle h6'
-          )
-          .forEach((heading) => {
-            observer.observe(heading);
-          });
+          headings.forEach(function(h) { observer.observe(h); });
+        }
+
+        initCodeBlocks();
+        initSidebarState();
+        initPrevNext();
+        initCalloutColors();
+      }
+
+      function initCalloutColors() {
+        document.querySelectorAll('.callout').forEach(function(el) {
+          if (el.classList.contains('callout-tip') || el.classList.contains('callout-red') || el.classList.contains('callout-warning')) return;
+          var icon = el.querySelector('i.fa-lightbulb');
+          if (icon) el.classList.add('callout-tip');
+        });
       }
 
       function toggleFaq(e) {
@@ -1070,25 +1033,12 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         e.currentTarget.firstElementChild.classList.toggle('rotate-90');
       }
 
-      document.querySelectorAll('.mouse-gradient').forEach(card => {
-        let rafId;
-        card.addEventListener('mousemove', e => {
-          if (rafId) return;
-          rafId = requestAnimationFrame(() => {
-            const rect = card.getBoundingClientRect();
-            card.style.setProperty('--mouse-x', (e.clientX - rect.left - 150) + 'px');
-            card.style.setProperty('--mouse-y', (e.clientY - rect.top - 150) + 'px');
-            rafId = null;
-          });
-        });
-      });
-
       init();
 
-      document.body.addEventListener('htmx:afterSwap', function (event) {
-        window.requestAnimationFrame(() => {
-          init();
+      document.body.addEventListener('htmx:afterSettle', function () {
+        requestAnimationFrame(function() {
           hljs.highlightAll();
+          init();
         });
       });
     </script>

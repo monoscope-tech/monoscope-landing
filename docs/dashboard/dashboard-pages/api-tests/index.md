@@ -317,8 +317,8 @@ In the table above, the "Date String" column represents the example date string,
 
 ```=html
 <hr />
-<a href="/docs/dashboard/dashboard-pages/openapi-docs/" class="w-full btn btn-outline link link-hover">
-    Next: OpenAPI/Swagger Page
+<a href="/docs/dashboard/dashboard-pages/reports/" class="w-full btn btn-outline link link-hover">
+    Next: Reports Page
     <i class="fa-regular fa-arrow-right mr-4"></i>
 </a>
 ```

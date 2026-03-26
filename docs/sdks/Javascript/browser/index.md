@@ -57,39 +57,9 @@ monoscope.setUser({
 
 ## React / Next.js
 
-For React apps, use the `@monoscopetech/browser/react` subpath export:
+For React and Next.js apps, the SDK provides idiomatic bindings with context providers, hooks, and an error boundary via the `@monoscopetech/browser/react` subpath export.
 
-```tsx
-import { MonoscopeProvider, useMonoscope, useMonoscopeUser, MonoscopeErrorBoundary } from "@monoscopetech/browser/react";
-
-function App() {
-  return (
-    <MonoscopeProvider config={{ projectId: "YOUR_PROJECT_ID", serviceName: "my-react-app" }}>
-      <MonoscopeErrorBoundary fallback={<div>Something went wrong</div>}>
-        <MyApp />
-      </MonoscopeErrorBoundary>
-    </MonoscopeProvider>
-  );
-}
-
-function MyApp() {
-  const monoscope = useMonoscope();
-  useMonoscopeUser(currentUser ? { id: currentUser.id, email: currentUser.email } : null);
-  return <div>...</div>;
-}
-```
-
-**Next.js App Router**: The provider includes `"use client"` — import it in a client component or your root layout.
-
-{class="docs-table"}
-:::
-| Export | Description |
-| --- | --- |
-| `MonoscopeProvider` | Context provider. Creates and destroys the SDK instance. Strict Mode safe. |
-| `useMonoscope()` | Returns the `Monoscope` instance (or `null` during SSR). |
-| `useMonoscopeUser(user)` | Calls `setUser` reactively when the user object changes. |
-| `MonoscopeErrorBoundary` | Error boundary that reports caught errors to Monoscope. Accepts `fallback` prop. |
-:::
+See the dedicated [React / Next.js integration guide](/docs/sdks/Javascript/reactjs/) for setup, hooks API, and component instrumentation examples.
 
 ## Configuration
 
@@ -113,6 +83,7 @@ The `Monoscope` constructor accepts the following options:
 | `replaySampleRate` | `number` | Replay sampling rate from `0` to `1`. Default `1` (100%). |
 | `enabled` | `boolean` | Whether to start collecting data immediately. Default `true`. |
 | `resourceTimingThresholdMs` | `number` | Minimum resource duration (ms) to report. Default `200`. |
+| `enableUserInteraction` | `boolean` | Trace user clicks and interactions, linking them to downstream network calls. Default `false`. |
 :::
 
 ### User Object
@@ -202,6 +173,57 @@ Stops all collection, flushes pending data, and shuts down the OpenTelemetry pro
 
 ```javascript
 await monoscope.destroy();
+```
+
+## Custom Instrumentation
+
+### Custom Spans
+
+Use `startSpan()` to instrument specific operations with timing and attributes. It supports both sync and async functions — the span is automatically ended when the function returns or the promise resolves.
+
+```javascript
+// Sync
+monoscope.startSpan("parse-config", (span) => {
+  span.setAttribute("config.size", rawConfig.length);
+  return parseConfig(rawConfig);
+});
+
+// Async
+const data = await monoscope.startSpan("fetch-dashboard", async (span) => {
+  span.setAttribute("dashboard.id", dashboardId);
+  const res = await fetch(`/api/dashboards/${dashboardId}`);
+  span.setAttribute("http.status", res.status);
+  return res.json();
+});
+```
+
+### Custom Events
+
+Use `recordEvent()` to track discrete events without wrapping a code block:
+
+```javascript
+monoscope.recordEvent("feature_flag_evaluated", {
+  "flag.name": "new-checkout",
+  "flag.value": true,
+});
+```
+
+### React Components
+
+For instrumenting React components with custom spans and events, see the [React / Next.js guide](/docs/sdks/Javascript/reactjs/#custom-spans-in-components).
+
+### Additional OpenTelemetry Instrumentations
+
+Pass extra OTel instrumentations via the `instrumentations` config to extend tracing beyond the built-in set:
+
+```javascript
+import { LongTaskInstrumentation } from "@opentelemetry/instrumentation-long-task";
+
+const monoscope = new Monoscope({
+  projectId: "YOUR_PROJECT_ID",
+  serviceName: "my-app",
+  instrumentations: [new LongTaskInstrumentation()],
+});
 ```
 
 ## Features

@@ -6,63 +6,46 @@ linkTitle: "Documentation"
 menuWeight: 20
 hideFileTree: true
 hideToc: true
-pageFullWidth: true
 ---
 
 ```=html
-<section class="max-w-5xl text-center">
+<section class="max-w-4xl mx-auto">
 ```
 
-# Welcome to the monoscope Documentation
+# Monoscope Documentation
 
 ```=html
-<p class="text-lg items-center text-center justify-center mt-4">monoscope is an API-first monitoring and observability platform for engineering and customer support teams. We use AI to help engineering teams observe, debug, monitor, and test their backend systems and any external API they depend on.</p>
+<p class="text-lg text-textWeak mt-4">Monitor APIs, track errors, analyze logs, metrics, and traces — integrate in minutes.</p>
 
-<div class="items-center text-center justify-center mt-8">
+<div class="flex items-center gap-4 mt-6 flex-wrap">
     <a href="/docs/onboarding/" class="btn btn-primary sm:w-56">Get Started</a>
-    <p class="inline-block px-5">|</p>
-    <a href="https://monoscope.tech/demo" target="_blank" rel="noopener noreferrer" class="btn btn-secondary sm:w-56">Get a Demo</a>
+    <a href="https://monoscope.tech/demo" target="_blank" rel="noopener noreferrer" class="btn btn-secondary sm:w-56">Book a Demo</a>
 </div>
-```
 
-```=html
-<hr />
-```
-
-{.text-lg}
-Explore our product and SDK documentation to get started with using monoscope.
-
-```=html
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
-    <a href="/docs/onboarding" class="docs-card-2 mouse-gradient rounded-lg">
-        <p><i class="fa-solid fa-rocket"></i><span class="text-2xl">Quickstart</span></p>
-        <span>Get started with monoscope in just a few steps. Follow our simple setup guide.</span>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12 not-prose">
+    <a href="/docs/onboarding/" class="docs-card rounded-xl">
+        <p><i class="fa-solid fa-rocket"></i> <strong>Get Started</strong></p>
+        <span>Set up Monoscope in your project in under 5 minutes with our quickstart guide.</span>
     </a>
-    <a href="/docs/features" class="docs-card-2 mouse-gradient rounded-lg">
-        <p><i class="fa-solid fa-layer-group"></i><span class="text-2xl">Features</span></p>
-        <span>Explore all monoscope key features - monitoring, testing, error tracking, and more.</span>
+    <a href="/docs/sdks/" class="docs-card rounded-xl">
+        <p><i class="fa-solid fa-code"></i> <strong>SDK Guides</strong></p>
+        <span>Native SDKs and OpenTelemetry support for Go, Node.js, Python, PHP, .NET, and more.</span>
     </a>
-    <a href="/docs/sdks" class="docs-card-2 mouse-gradient rounded-lg">
-        <p><i class="fa-solid fa-code"></i><span class="text-2xl">SDK Guides</span></p>
-        <span>Integrate monoscope using our SDKs for Node.js, Python, Go, and 14+ other frameworks.</span>
+    <a href="/docs/dashboard/" class="docs-card rounded-xl">
+        <p><i class="fa-solid fa-chart-line"></i> <strong>Dashboard Guides</strong></p>
+        <span>Learn how to navigate endpoints, errors, API tests, and log explorer.</span>
     </a>
-    <a href="/docs/dashboard" class="docs-card-2 mouse-gradient rounded-lg">
-        <p><i class="fa-solid fa-chart-line"></i><span class="text-2xl">Dashboard Guides</span></p>
-        <span>Navigate through monoscope's dashboard features, settings, and analytics tools.</span>
+    <a href="/docs/features/" class="docs-card rounded-xl">
+        <p><i class="fa-solid fa-star"></i> <strong>Features</strong></p>
+        <span>Explore API analytics, error tracking, monitors, anomaly detection, and more.</span>
     </a>
 </div>
 ```
 
-```=html
-<hr />
-```
-
-## Ready to ship? Pick your flavor 🚀
-
-{.text-lg}
-We've got you covered with OpenTelemetry support and native SDKs for 17+ frameworks. Whether you're building with Node.js, Python, Go, or something else entirely, integration takes just a few minutes.
+## Choose Your SDK
 
 ```=html
+<p class="text-textWeak mt-2">OpenTelemetry support and native SDKs for 17+ frameworks.</p>
 {% render "default/markdown/integration-footer.liquid", config:config %}
 ```
 
