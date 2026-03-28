@@ -797,13 +797,15 @@
       <section class="text-center">
         <div id="root-menu-tabs" class="max-w-8xl w-full gap-4 text-md hidden sm:inline-flex sm:ml-8 a:no-underline">
           {% capture root_menu_items %}
+        {% assign show_nav_icons = false %}
         {% assign is_home = this.frontmatter.title | equals: "Home" %}
-        <a class="flex gap-3 sm:border-b-2 {{ is_home | ternary: 'sm:border-b-strokeBrand-strong text-textBrand-strong sm:text-current ', 'border-b-transparent' }} py-2 px-1 items-center hover:text-textBrand-strong transition-colors"
+        <a class="flex gap-3 sm:border-b-2 {{ is_home | ternary: 'sm:border-b-strokeBrand-strong text-textStrong', 'border-b-transparent text-textWeak' }} py-2 px-1 items-center hover:text-textStrong transition-colors"
           href="/docs/" preload="preload:init" title="Documentation Home" aria-label="Documentation Home">
-          <svg
-            class="icon h-5 w-5 text-current fill-current stroke-current  {{ is_home | ternary: 'text-iconBrand', '' }}">
+          {% if show_nav_icons %}
+          <svg class="icon h-5 w-5 text-current fill-current stroke-current {{ is_home | ternary: 'text-iconBrand', '' }}">
             <use xlink:href="/assets/deps/fontawesome/regular.svg#house"></use>
           </svg>
+          {% endif %}
           <span>Home</span>
         </a>
         {% assign pages = file_list | where_glob: 'file_path', "./docs/*/index.md" | sort: 'frontmatter.menuWeight' %}
@@ -811,11 +813,13 @@
         {% if page.frontmatter.hideFromNav %}{% continue %}{% endif %}
         {% assign parent_doc_prefix = page.file_path | remove: "index.md" | remove_first: "." %}
         {% assign is_active = this.permalink | starts_with: parent_doc_prefix %}
-        <a class="flex gap-3 sm:border-b-2 {{ is_active | ternary: 'sm:border-b-strokeBrand-strong text-textBrand-strong sm:text-current', 'border-b-transparent' }} py-2 px-1 items-center hover:text-textBrand-strong transition-colors"
+        <a class="flex gap-3 sm:border-b-2 {{ is_active | ternary: 'sm:border-b-strokeBrand-strong text-textStrong', 'border-b-transparent text-textWeak' }} py-2 px-1 items-center hover:text-textStrong transition-colors"
           href="{{ page.permalink }}">
+          {% if show_nav_icons %}
           <svg class="icon h-5 w-5 text-current fill-current stroke-current {{ is_active | ternary: 'text-iconBrand', '' }}">
             <use xlink:href="/assets/deps/fontawesome/regular.svg#{% if page.frontmatter.faLogo %}{{ page.frontmatter.faLogo }}{%else%}star{%endif%}"></use>
           </svg>
+          {% endif %}
           <span>{{ page.frontmatter.title | default: 'Untitled' }}</span>
         </a>
         {% endfor %}

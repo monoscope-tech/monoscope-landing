@@ -6750,6 +6750,14 @@
       border-color: var(--color-strokeWeak);
     }
   }
+  .divide-strokeWeak\/30 {
+    :where(& > :not(:last-child)) {
+      border-color: color-mix(in srgb, rgba(0 17 102 / 0.1) 30%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        border-color: color-mix(in oklab, var(--color-strokeWeak) 30%, transparent);
+      }
+    }
+  }
   .self-center {
     align-self: center;
   }
@@ -10988,6 +10996,11 @@
       line-height: var(--tw-leading, var(--text-xl--line-height));
     }
   }
+  .prose-h4\:text-\[1\.375rem\] {
+    & :is(:where(h4):not(:where([class~="not-prose"],[class~="not-prose"] *))) {
+      font-size: 1.375rem;
+    }
+  }
   .prose-h5\:text-lg {
     & :is(:where(h5):not(:where([class~="not-prose"],[class~="not-prose"] *))) {
       font-size: var(--text-lg);
@@ -11136,6 +11149,11 @@
     & :is(:where(code):not(:where([class~="not-prose"],[class~="not-prose"] *))) {
       font-size: var(--text-sm);
       line-height: var(--tw-leading, var(--text-sm--line-height));
+    }
+  }
+  .prose-code\:text-\[0\.9em\] {
+    & :is(:where(code):not(:where([class~="not-prose"],[class~="not-prose"] *))) {
+      font-size: 0.9em;
     }
   }
   .prose-code\:text-textBrand {
@@ -11371,6 +11389,19 @@
       --tw-drop-shadow-size: drop-shadow(0 3px 3px var(--tw-drop-shadow-color, rgb(0 0 0 / 0.12)));
       --tw-drop-shadow: drop-shadow(var(--drop-shadow-md));
       filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+    }
+  }
+  .prose-hr\:my-8 {
+    & :is(:where(hr):not(:where([class~="not-prose"],[class~="not-prose"] *))) {
+      margin-block: calc(var(--spacing) * 8);
+    }
+  }
+  .prose-hr\:border-strokeWeak\/20 {
+    & :is(:where(hr):not(:where([class~="not-prose"],[class~="not-prose"] *))) {
+      border-color: color-mix(in srgb, rgba(0 17 102 / 0.1) 20%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        border-color: color-mix(in oklab, var(--color-strokeWeak) 20%, transparent);
+      }
     }
   }
   .\[\&_\.col-span-6\]\:gap-8 {
