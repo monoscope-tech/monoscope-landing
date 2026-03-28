@@ -18,7 +18,7 @@ go get github.com/monoscope-tech/monoscope-go/gin
 
 ## Configuration
 
-Configure the following environment variables for OpenTelemetry and Monoscope:
+Set these environment variables (e.g. in a `.env` file or your deployment config):
 
 ```sh
 OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
@@ -30,7 +30,7 @@ OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
 
 ## Usage
 
-After setting up the environment variables, you can configure the OpenTelemetry SDK and Monoscope middleware like so:
+Initialize OpenTelemetry and add the Monoscope middleware to your Gin router:
 
 ```go
 package main
@@ -71,9 +71,9 @@ func main() {
 
 ## Error Reporting
 
-Monoscope automatically detects different unhandled errors, API issues, and anomalies but you can report and track specific errors at different parts of your application. This will help you associate more detail and context from your backend with any failing customer request.
+Monoscope automatically detects unhandled errors, API issues, and anomalies. You can also report specific errors manually to associate additional context from your backend with failing requests.
 
-To manually report specific errors at different parts of your application, use the `ReportError()` method, passing in the `context` and `error` arguments, like so:
+Use the `ReportError()` method with the request `context` and `error`:
 
 ```go
 package main
@@ -115,16 +115,14 @@ func main() {
 
 ## Monitoring Outgoing Requests
 
-Outgoing requests are external API calls you make from your API. By default, Monoscope monitors all requests users make from your application and they will all appear in the page.
+Outgoing requests are HTTP calls your server makes to external APIs. Monoscope can monitor these automatically so they appear alongside your incoming request data.
 
 ```=html
 <section class="tab-group" data-tab-group="group1">
   <button class="tab-button" data-tab="tab1">Using Monoscope</button>
   <button class="tab-button" data-tab="tab2">Using Otel instrumentation</button>
   <div id="tab1" class="tab-content">
-  To monitor outgoing HTTP requests from your application, replace the default HTTP client transport with a custom RoundTripper. This allows you to capture and send copies of all incoming and outgoing requests to Monoscope.
-
-Here's an example of the configuration with a custom RoundTripper:
+  Use `monoscope.HTTPClient()` to create an HTTP client that automatically captures outgoing request and response data, including support for field-level redaction:
 ```
 
 ```go
@@ -176,14 +174,14 @@ func main() {
   </div>
 
    <div id="tab2" class="tab-content">
-  You can also use an otel instrumentation library to monitor outgoing requests from your server, but using this instead of the Monoscope HTTP client will not log request and response bodies. To use otel outgoing request monitoring, you must first install it using the command below:
+  You can use the OpenTelemetry `otelhttp` library instead, but it only captures request metadata (no request/response bodies). Install it first:
 ```
 
 ```sh
 go get go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp
 ```
 
-Here's an example of the configuration with otel instrumentation:
+Then wrap your HTTP transport with `otelhttp.NewTransport`:
 
 ```go
 package main
@@ -222,7 +220,7 @@ func main() {
 			log.Fatalf("failed to create request: %v", err)
 		}
 
-		// Perform the request, this requests will be monitored by
+		// Perform the request (automatically traced by otelhttp)
 		resp, err := clientWithOtel.Do(req)
 		if err != nil {
 			log.Fatalf("failed to make request: %v", err)
@@ -251,13 +249,13 @@ func main() {
 
 ## OpenTelemetry Redis Instrumentation
 
-Monoscope provides an OpenTelemetry Redis instrumentation library that you can use to monitor Redis requests. To use the Redis instrumentation, you must first install it using the command below:
+Monitor Redis operations by adding the `redisotel` tracing hook. Install it first:
 
 ```sh
 go get github.com/go-redis/redis/extra/redisotel/v8
 ```
 
-Here's an example of the configuration with Redis instrumentation:
+Add the tracing hook to your Redis client:
 
 ```go
 package main
@@ -314,7 +312,7 @@ func main() {
 }
 ```
 
-All redis operations will be monitored by the OpenTelemetry SDK and can be viewed in you monoscope log explorer.
+All Redis operations will appear in your Monoscope log explorer.
 
 ## All Environment Variables
 
@@ -325,7 +323,7 @@ Set the following environment variables in your application to enable the SDK:
 | Variable Name | Description | Required | Example |
 | ----------------------------------- | ------------------------------------------------------------- | -------- | ---------------------------- |
 | `OTEL_RESOURCE_ATTRIBUTES` | Monoscope project key (`x-api-key=<YOUR_API_KEY>`) | Yes | `x-api-key=my-api-key` |
-| `OTEL_SERVICE_NAME` | The name of the service being monitored | No | `example-chi-server` |
+| `OTEL_SERVICE_NAME` | The name of the service being monitored | No | `example-gin-server` |
 | `OTEL_SERVICE_VERSION` | The version of your application or service | No | `0.0.1` |
 | `OTEL_EXPORTER_OTLP_ENDPOINT` | The grpc endpoint for the OpenTelemetry collector. | No | `otelcol.monoscope.tech:4317` |
 | `OTEL_TRACES_ENABLED` | Enable or disable tracing | No | `true` |
@@ -337,14 +335,14 @@ Set the following environment variables in your application to enable the SDK:
 
 ## All Middleware Configuration Fields
 
-The middleware configuration specifies how the Monoscope SDK should handle requests and responses. Below are the available fields:
+Pass these fields to `monoscope.Config{}` to customize middleware behavior:
 
 {class="docs-table"}
 :::
 | Field Name | Type | Description | Default Value | Example |
 | --------------------- | ---------- | ----------------------------------------------- | ------------- | ----------------------------------------- |
 | `Debug` | `bool` | Enable detailed logs during development | `false` | `true` |
-| `ServiceName` | `string` | Name of the service being monitored | - | `"example-chi-server"` |
+| `ServiceName` | `string` | Name of the service being monitored | - | `"example-gin-server"` |
 | `ServiceVersion` | `string` | Version of the service | - | `"0.0.1"` |
 | `Tags` | `[]string` | Additional tags for contextual information | `[]` | `[]string{"env:dev", "team:backend"}` |
 | `CaptureRequestBody` | `bool` | Enable capturing of request body | `false` | `true` |

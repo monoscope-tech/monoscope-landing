@@ -6300,6 +6300,9 @@
   .max-w-\[85ch\] {
     max-width: 85ch;
   }
+  .max-w-\[100vw\] {
+    max-width: 100vw;
+  }
   .max-w-\[300px\] {
     max-width: 300px;
   }

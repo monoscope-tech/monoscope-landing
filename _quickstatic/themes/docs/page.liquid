@@ -333,10 +333,16 @@
         letter-spacing: 0.05em;
       }
 
+      .docs-table {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
       .docs-table table {
         border: 1px solid var(--color-strokeWeak);
         border-radius: 8px;
         overflow: hidden;
+        min-width: 600px;
       }
 
       .docs-table table thead {
@@ -681,7 +687,7 @@
               <span class="grow px-3">Search</span>
               <kbd class="kbd kbd-sm">⌘K</kbd>
             </a>
-            <dialog id="search_modal" class="modal modal-top justify-center" hx-boost="false">
+            <dialog id="search_modal" class="modal modal-top justify-center max-w-[100vw]" hx-boost="false">
               <div id="search" class="modal-box max-w-xl w-full"></div>
               <form method="dialog" class="modal-backdrop mt-24">
                 <button>close</button>
@@ -811,7 +817,7 @@
             </nav>
           </div>
         <!-- Navigation drawer used on Mobile only -->
-        <div class="drawer fixed top-0 z-50">
+        <div class="drawer fixed top-0 z-50 max-w-[100vw] overflow-x-hidden">
           <input id="mobile-menu-drawer" type="checkbox" class="drawer-toggle">
           <div class="drawer-side">
             <label for="mobile-menu-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
