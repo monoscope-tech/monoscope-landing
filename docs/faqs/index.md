@@ -7,6 +7,7 @@ menuWeight: 6
 hideFileTree: true
 hideToc: true
 pageFullWidth: true
+hideFromNav: true
 faqs:
   - q: What programming languages are supported?
     a: We currently support 17+ web frameworks in different programming languages (Python, Golang, Javascript, PHP, C#, Java, etc.). If we don't support your framework, kindly email us at <a href="mailto:hello@monoscope.tech">hello@monoscope.tech</a> and we'll create an SDK for you ASAP!

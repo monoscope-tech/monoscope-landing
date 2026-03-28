@@ -7,6 +7,7 @@ menuWeight: 4
 hideFileTree: true
 pageFullWidth: true
 hideToc: true
+hideFromNav: true
 pages:
   - title: API Monitoring and Observability
     slug: /docs/features/api-monitoring-observability

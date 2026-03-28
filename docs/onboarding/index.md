@@ -1,5 +1,5 @@
 ---
-title: Onboarding
+title: Getting Started
 date: 2024-05-04
 updatedDate: 2025-04-23
 faLogo: circle-play

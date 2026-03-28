@@ -1,5 +1,5 @@
 ---
-title: Dashboard Guides
+title: Dashboard
 date: 2024-04-22
 updatedDate: 2024-05-28
 faLogo: chart-line
