@@ -102,23 +102,70 @@
       }
       #mainArticle h2 {
         font-weight: 500;
+        letter-spacing: -0.02em;
       }
       #mainArticle h3 {
         font-weight: 600;
+        letter-spacing: -0.015em;
       }
-      #mainArticle h4,
+      #mainArticle h4 {
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        text-transform: none;
+      }
       #mainArticle h5,
       #mainArticle h6 {
         font-weight: 500;
       }
-      /* Visual separation between major sections (skip after first) */
-      #mainArticle section + section + section > h2 {
+      /* ── Section rhythm: clear visual breaks between h2 sections ── */
+      /* Every h2-level section gets generous top spacing */
+      #mainArticle > section > section {
+        padding-top: 2rem;
+        margin-top: 1rem;
+      }
+      /* After the first two sections, add a divider line for stronger separation */
+      #mainArticle > section > section + section + section > h2 {
         border-top: 1px solid var(--color-strokeWeak);
         padding-top: 2rem;
-        margin-top: 2.5rem;
+        margin-top: 0.5rem;
+      }
+      /* First section (intro/prerequisites) gets no extra top margin */
+      #mainArticle > section > section:first-of-type {
+        padding-top: 0;
+        margin-top: 0;
       }
 
-      /* Ensure list items match body text size (prose-lg default can be smaller) */
+      /* ── Code block breathing room ── */
+      #mainArticle pre {
+        margin-top: 1.25em;
+        margin-bottom: 1.5em;
+      }
+
+      /* ── Tighter paragraph spacing for denser, more scannable docs ── */
+      #mainArticle p {
+        margin-top: 1em;
+        margin-bottom: 1em;
+      }
+
+      /* Reduce gap between heading and its first paragraph */
+      #mainArticle h2 + p,
+      #mainArticle h3 + p,
+      #mainArticle h4 + p {
+        margin-top: 0.5em;
+      }
+
+      /* h4 sub-sections: tighter internal rhythm */
+      #mainArticle > section > section > section {
+        margin-top: 1.5rem;
+      }
+
+      /* Slightly looser line-height on dark backgrounds for readability */
+      [data-theme='dark'] #mainArticle p,
+      [data-theme='dark'] #mainArticle li {
+        line-height: 1.7;
+      }
+
+      /* Ensure list items match body text size */
       #mainArticle li {
         font-size: 1.125rem;
       }
@@ -234,7 +281,7 @@
         padding: 20px 24px;
         margin: 28px 0;
         border-radius: 8px;
-        font-size: 0.9375rem;
+        font-size: 1rem;
       }
       .callout i:first-child,
       .callout > p:first-child > i:first-child {
@@ -336,6 +383,8 @@
       .docs-table {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+        margin-top: 1.25em;
+        margin-bottom: 1.75em;
       }
 
       .docs-table table {
@@ -370,7 +419,8 @@
         vertical-align: middle !important;
         padding: 12px;
         color: var(--color-textWeak);
-        font-size: 1rem;
+        font-size: 1.0625rem;
+        line-height: 1.6;
       }
       .docs-table table tbody tr td code {
         font-size: 0.8125rem;
@@ -382,6 +432,16 @@
 
       .btn {
         text-decoration: none !important;
+      }
+      #mainArticle .btn.btn-outline {
+        border-color: var(--color-strokeWeak);
+        color: var(--color-textWeak);
+        font-weight: 500;
+      }
+      #mainArticle .btn.btn-outline:hover {
+        border-color: var(--color-strokeBrand-weak);
+        color: var(--color-textStrong);
+        background-color: var(--color-fillBrand-weak);
       }
 
       /* DO NOT REMOVE - integration-footer.liquid images */
@@ -541,6 +601,7 @@
         border: 1px solid var(--color-strokeWeak); border-radius: 10px;
         text-decoration: none; transition: border-color 200ms ease, box-shadow 200ms ease;
         background: var(--color-bgRaised);
+        text-align: left;
       }
       .prev-next-card:hover {
         border-color: var(--color-strokeBrand-weak);
@@ -747,6 +808,7 @@
         </a>
         {% assign pages = file_list | where_glob: 'file_path', "./docs/*/index.md" | sort: 'frontmatter.menuWeight' %}
         {% for page in pages %}
+        {% if page.frontmatter.hideFromNav %}{% continue %}{% endif %}
         {% assign parent_doc_prefix = page.file_path | remove: "index.md" | remove_first: "." %}
         {% assign is_active = this.permalink | starts_with: parent_doc_prefix %}
         <a class="flex gap-3 sm:border-b-2 {{ is_active | ternary: 'sm:border-b-strokeBrand-strong text-textBrand-strong sm:text-current', 'border-b-transparent' }} py-2 px-1 items-center hover:text-textBrand-strong transition-colors"
@@ -860,18 +922,18 @@
         </div>
 
         <div class="flex-1 grow flex relative min-h-screen">
-          <div id="docs-page-content" class="text-center flex-1 grow px-3 py-5 pt-12 sm:px-12 sm:py-20 sm:pb-28 pb-40 divide-y divide-y-strokeWeak">
+          <div id="docs-page-content" class="text-center flex-1 grow px-3 py-5 pt-12 sm:px-12 sm:py-20 sm:pb-28 pb-40">
             <article
               class="
                 text-left pb-12 prose prose-lg prose-slate dark:prose-invert
                 prose-h1:text-4xl prose-h1:leading-tight prose-h2:text-3xl prose-h2:leading-tight
-                prose-h3:text-2xl prose-h4:text-xl prose-h5:text-lg prose-h6:text-base
+                prose-h3:text-2xl prose-h4:text-[1.375rem] prose-h5:text-lg prose-h6:text-base
                 prose-p:text-textWeak prose-p:leading-relaxed
                 prose-strong:text-textStrong prose-strong:font-semibold
                 prose-a:text-textBrand-strong prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-textBrand-weak
                 prose-img:w-full prose-img:rounded-xl prose-img:drop-shadow-md prose-img:border prose-img:border-strokeWeak
-                prose-headings:scroll-mt-40 prose-pre:p-0 prose-pre:rounded-xl
-                prose-code:text-sm prose-code:bg-fillWeak prose-code:text-textStrong prose-code:px-1 prose-code:py-0.5 prose-code:rounded
+                prose-headings:scroll-mt-40 prose-pre:p-0 prose-pre:rounded-xl prose-hr:border-strokeWeak/20 prose-hr:my-8
+                prose-code:text-[0.9em] prose-code:bg-fillWeak prose-code:text-textStrong prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
                 prose-pre:bg-transparent prose-pre:code:bg-transparent prose-code:before:content-none prose-code:after:content-none
                 before:prose-li:bg-fillBrand-strong before:prose-li:text-textBrand-strong
                 prose-blockquote:border-l-4 prose-blockquote:border-fillBrand-strong prose-blockquote:text-textWeak prose-blockquote:italic prose-blockquote:pl-4
@@ -1073,8 +1135,8 @@
         var nav = document.getElementById('prev-next-nav');
         if (!nav) return;
         var links = Array.from(document.querySelectorAll('#sidebar-nav a[href]'));
-        var current = window.location.pathname;
-        var idx = links.findIndex(function(a) { return a.getAttribute('href') === current; });
+        var current = window.location.pathname.replace(/\/$/, '');
+        var idx = links.findIndex(function(a) { return a.getAttribute('href').replace(/\/$/, '') === current; });
         if (idx === -1) return;
         var html = '';
         if (idx > 0) {

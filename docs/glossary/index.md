@@ -6,6 +6,7 @@ faLogo: book-bookmark
 menuWeight: 5
 hideFileTree: true
 pageFullWidth: true
+hideFromNav: true
 ---
 
 # Glossary
