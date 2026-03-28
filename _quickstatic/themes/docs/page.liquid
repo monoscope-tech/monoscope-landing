@@ -648,23 +648,23 @@
     <section class="sticky top-0 w-full bg-bgBase z-10 border-b border-b-strokeWeak">
       <section class="w-full flex flex-col items-center border-b border-b-strokeWeak">
         <div class="max-w-8xl w-full py-4 px-4 text-left flex justify-between items-center">
-          <a href="/" hx-boost="false" class="px-1 py-1" aria-label="Back to homepage">
-            <img class="h-7 dark:hidden" src="/assets/brand/logo_full_color.svg" alt="Monoscope full color logo">
-            <img
-              class="h-7 hidden dark:inline-block"
-              src="/assets/brand/logo_full_white.svg"
-              alt="Monoscope white logo"
-            >
-          </a>
-          <div class="flex gap-4 items-center">
-            <label for="mobile-menu-drawer" class="sm:hidden cursor-pointer p-2 hover:bg-fillWeak rounded-lg transition-colors" aria-label="Open menu">
-              <svg class="h-5 w-5 fill-current opacity-70"><use xlink:href="/assets/deps/fontawesome/solid.svg#bars"></use></svg>
+          <div class="flex items-center gap-2">
+            <label for="mobile-menu-drawer" class="sm:hidden cursor-pointer p-2.5 -ml-2 hover:bg-fillWeak rounded-lg transition-colors" aria-label="Open menu">
+              <svg class="h-5 w-5 fill-current opacity-80" viewBox="0 0 448 512"><path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/></svg>
             </label>
+            <a href="/" hx-boost="false" class="px-1 py-1" aria-label="Back to homepage">
+              <img class="h-6 dark:hidden" src="/assets/brand/logo_full_color.svg" alt="Monoscope full color logo">
+              <img
+                class="h-6 hidden dark:inline-block"
+                src="/assets/brand/logo_full_white.svg"
+                alt="Monoscope white logo"
+              >
+            </a>
+          </div>
+          <div class="flex gap-4 items-center">
             <a href="/" hx-boost="false" class="hidden sm:inline-block text-sm text-textBrand-strong whitespace-nowrap flex-shrink-0">↢&nbsp;Back to Website</a>
-            <a class="cursor-pointer sm:hidden" onClick="search_modal.showModal()" aria-label="search" title="Search">
-              <svg class="icon h-4 w-4 text-current fill-current stroke-current opacity-70">
-                <use xlink:href="/assets/deps/fontawesome/solid.svg#magnifying-glass"></use>
-              </svg>
+            <a class="cursor-pointer sm:hidden p-2 hover:bg-fillWeak rounded-lg transition-colors" onClick="search_modal.showModal()" aria-label="search" title="Search">
+              <svg class="h-5 w-5 fill-current opacity-80" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
             </a>
             <a href="https://github.com/monoscope-tech/monoscope" target="_blank" rel="noopener noreferrer" class="hidden md:flex items-center gap-2 px-3 py-1.5 border border-strokeWeak bg-bgBase hover:bg-fillWeak rounded-lg transition-all duration-200 text-xs group/gh">
               <svg class="h-3.5 w-3.5 fill-current text-textStrong" viewBox="0 0 16 16" aria-hidden="true">
@@ -834,13 +834,33 @@
                 <section class="py-5 space-y-5">
                   {{ main_menu_items }}
                 </section>
+                {% unless this.frontmatter.hideToc %}
+                {% if this.toc.size > 0 %}
+                <section class="py-5 border-t border-strokeWeak">
+                  <h3 class="font-medium text-xs text-textWeak mb-3 uppercase tracking-wider">On this page</h3>
+                  <ul class="space-y-1 text-sm">
+                    {% for toc in this.toc %}
+                      {% assign mobile_indent = "" %}
+                      {% if toc.level == 2 %}{% assign mobile_indent = "pl-2" %}
+                      {% elsif toc.level == 3 %}{% assign mobile_indent = "pl-5" %}
+                      {% elsif toc.level >= 4 %}{% assign mobile_indent = "pl-8" %}{% endif %}
+                      <li class="{{ mobile_indent }}">
+                        <label for="mobile-menu-drawer">
+                          <a href="#{{ toc.id }}" class="block py-1.5 px-3 rounded-md text-textWeak hover:text-textBrand-strong hover:bg-fillWeak transition-all">{{ toc.title }}</a>
+                        </label>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </section>
+                {% endif %}
+                {% endunless %}
               </div>
             </div>
           </div>
         </div>
 
         <div class="flex-1 grow flex relative min-h-screen">
-          <div id="docs-page-content" class="text-center flex-1 grow p-5 pt-12 sm:px-12 sm:py-20 sm:pb-28 pb-40 divide-y divide-y-strokeWeak">
+          <div id="docs-page-content" class="text-center flex-1 grow px-3 py-5 pt-12 sm:px-12 sm:py-20 sm:pb-28 pb-40 divide-y divide-y-strokeWeak">
             <article
               class="
                 text-left pb-12 prose prose-lg prose-slate dark:prose-invert
