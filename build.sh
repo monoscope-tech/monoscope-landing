@@ -42,5 +42,11 @@ make css-prod
 
 node scripts/generate-og-images.mjs
 
+# Fetch OpenAPI spec and generate API reference docs
+if [ -n "$OPENAPI_SPEC_URL" ]; then
+  curl -sf "$OPENAPI_SPEC_URL" -o assets/api/openapi.json || echo "Using cached spec"
+fi
+node scripts/generate-api-docs.mjs
+
 # Run the binary to generate the static site
 ./$BINARY_NAME build

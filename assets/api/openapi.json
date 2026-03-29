@@ -1,0 +1,263 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Monoscope API",
+    "description": "Public API for querying metrics, schema, and monitors from Monoscope.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.monoscope.tech",
+      "description": "Production"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/v1/metrics": {
+      "get": {
+        "operationId": "queryMetrics",
+        "summary": "Query Metrics",
+        "description": "Query aggregated metrics for a project. Supports filtering by time range, metric source, and custom queries.",
+        "tags": ["Metrics"],
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "query",
+            "required": true,
+            "description": "Project ID to query metrics for.",
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "data_type",
+            "in": "query",
+            "required": false,
+            "description": "Type of metric data to return (e.g. `timeseries`, `aggregate`).",
+            "schema": { "type": "string", "enum": ["timeseries", "aggregate"] }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "description": "Metric query expression. Use this for predefined metric queries.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "query_sql",
+            "in": "query",
+            "required": false,
+            "description": "Raw SQL query for advanced metric queries.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "required": false,
+            "description": "Relative time range (e.g. `1h`, `24h`, `7d`).",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "description": "Start of absolute time range (ISO 8601).",
+            "schema": { "type": "string", "format": "date-time" }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "description": "End of absolute time range (ISO 8601).",
+            "schema": { "type": "string", "format": "date-time" }
+          },
+          {
+            "name": "source",
+            "in": "query",
+            "required": false,
+            "description": "Metric source filter (e.g. `http`, `logs`, `traces`).",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Metrics data returned successfully.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/MetricsData" }
+              }
+            }
+          },
+          "401": { "description": "Missing or invalid authentication." },
+          "403": { "description": "Insufficient permissions for this project." },
+          "422": { "description": "Invalid query parameters." }
+        }
+      }
+    },
+    "/api/v1/schema": {
+      "get": {
+        "operationId": "getSchema",
+        "summary": "Get Telemetry Schema",
+        "description": "Returns the telemetry schema for a project, including all known field names, types, and cardinality estimates. Useful for building query UIs or autocomplete.",
+        "tags": ["Schema"],
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "query",
+            "required": true,
+            "description": "Project ID to retrieve the schema for.",
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Schema returned successfully.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TelemetrySchema" }
+              }
+            }
+          },
+          "401": { "description": "Missing or invalid authentication." },
+          "403": { "description": "Insufficient permissions for this project." }
+        }
+      }
+    },
+    "/api/v1/monitors": {
+      "get": {
+        "operationId": "listMonitors",
+        "summary": "List Monitors",
+        "description": "List all monitors (alerts) configured for a project. Includes status, thresholds, and notification channels.",
+        "tags": ["Monitors"],
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "query",
+            "required": true,
+            "description": "Project ID to list monitors for.",
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "description": "Filter monitors by status (`active`, `paused`, `triggered`).",
+            "schema": { "type": "string", "enum": ["active", "paused", "triggered"] }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "required": false,
+            "description": "Relative time range for monitor history (e.g. `24h`, `7d`).",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of monitors returned successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "monitors": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Monitor" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Missing or invalid authentication." },
+          "403": { "description": "Insufficient permissions for this project." }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "API Key",
+        "description": "Use your project API key as a Bearer token. Find it in **Settings > API Keys**."
+      }
+    },
+    "schemas": {
+      "MetricsData": {
+        "type": "object",
+        "properties": {
+          "series": {
+            "type": "array",
+            "description": "Array of time series data points.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "timestamp": { "type": "string", "format": "date-time", "description": "Bucket timestamp." },
+                "value": { "type": "number", "description": "Aggregated metric value." },
+                "labels": {
+                  "type": "object",
+                  "additionalProperties": { "type": "string" },
+                  "description": "Label key-value pairs for this series."
+                }
+              }
+            }
+          },
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "query": { "type": "string", "description": "The query that produced these results." },
+              "from": { "type": "string", "format": "date-time" },
+              "to": { "type": "string", "format": "date-time" },
+              "resolution": { "type": "string", "description": "Bucket resolution (e.g. `1m`, `5m`, `1h`)." }
+            }
+          }
+        }
+      },
+      "TelemetrySchema": {
+        "type": "object",
+        "properties": {
+          "fields": {
+            "type": "array",
+            "description": "List of known telemetry fields.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "description": "Fully qualified field name (e.g. `http.status_code`)." },
+                "type": { "type": "string", "enum": ["string", "number", "boolean", "timestamp"], "description": "Field data type." },
+                "cardinality": { "type": "integer", "description": "Estimated number of unique values." }
+              }
+            }
+          }
+        }
+      },
+      "Monitor": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid", "description": "Monitor unique identifier." },
+          "name": { "type": "string", "description": "Human-readable monitor name." },
+          "status": { "type": "string", "enum": ["active", "paused", "triggered"], "description": "Current monitor status." },
+          "query": { "type": "string", "description": "The metric query this monitor evaluates." },
+          "threshold": {
+            "type": "object",
+            "properties": {
+              "operator": { "type": "string", "enum": [">", ">=", "<", "<=", "=="], "description": "Comparison operator." },
+              "value": { "type": "number", "description": "Threshold value." }
+            }
+          },
+          "interval": { "type": "string", "description": "Evaluation interval (e.g. `5m`, `1h`)." },
+          "notification_channels": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "List of notification channel IDs."
+          },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" }
+        }
+      }
+    }
+  }
+}

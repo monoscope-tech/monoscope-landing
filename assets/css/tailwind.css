@@ -1506,3 +1506,200 @@ html:has(body[data-theme="dark"]) {
   50% { transform: scale(1.08) rotate(4deg); }
   100% { transform: scale(1) rotate(0deg); }
 }
+
+/* ========================================
+   API Reference Styles
+   Two-column layout, method badges, params
+   ======================================== */
+
+.api-two-col {
+  @apply grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12;
+}
+
+.api-examples {
+  @apply relative lg:sticky lg:top-20 lg:self-start;
+}
+
+.api-endpoint {
+  @apply flex items-center gap-3 py-3 px-4 rounded-lg bg-fillWeaker border border-strokeWeak font-mono text-[0.9375rem] overflow-x-auto;
+}
+
+.api-method-badge {
+  @apply inline-flex items-center justify-center px-2 py-0.5 rounded text-xs font-bold tracking-wide uppercase whitespace-nowrap leading-normal;
+}
+
+.api-method-get { @apply bg-green-500/12 text-green-700; }
+.api-method-post { @apply bg-blue-500/12 text-blue-700; }
+.api-method-put, .api-method-patch { @apply bg-yellow-500/12 text-yellow-700; }
+.api-method-delete { @apply bg-red-500/12 text-red-700; }
+
+[data-theme="dark"] .api-method-get { @apply bg-green-500/15 text-green-300; }
+[data-theme="dark"] .api-method-post { @apply bg-blue-500/15 text-blue-300; }
+[data-theme="dark"] .api-method-put, [data-theme="dark"] .api-method-patch { @apply bg-yellow-500/15 text-yellow-300; }
+[data-theme="dark"] .api-method-delete { @apply bg-red-500/15 text-red-300; }
+
+.api-sidebar-method {
+  @apply inline-flex items-center px-1.5 rounded-sm text-[0.625rem] font-bold tracking-wider uppercase leading-relaxed ml-1 shrink-0;
+}
+
+.api-sidebar-get { @apply bg-green-500/12 text-green-700; }
+.api-sidebar-post { @apply bg-blue-500/12 text-blue-700; }
+.api-sidebar-put, .api-sidebar-patch { @apply bg-yellow-500/12 text-yellow-700; }
+.api-sidebar-delete { @apply bg-red-500/12 text-red-700; }
+
+[data-theme="dark"] .api-sidebar-get { @apply bg-green-500/15 text-green-300; }
+[data-theme="dark"] .api-sidebar-post { @apply bg-blue-500/15 text-blue-300; }
+[data-theme="dark"] .api-sidebar-put, [data-theme="dark"] .api-sidebar-patch { @apply bg-yellow-500/15 text-yellow-300; }
+[data-theme="dark"] .api-sidebar-delete { @apply bg-red-500/15 text-red-300; }
+
+.api-param {
+  @apply py-3 border-b border-strokeWeak;
+}
+
+.api-param:last-child { @apply border-b-0; }
+
+.api-param-header {
+  @apply flex items-center gap-2 flex-wrap mb-1;
+}
+
+.api-param-name {
+  @apply font-mono font-semibold text-sm text-textStrong;
+}
+
+.api-type-badge {
+  @apply text-[0.6875rem] px-1.5 py-px rounded font-mono bg-fillWeak text-textWeak;
+}
+
+.api-required-badge {
+  @apply text-[0.6875rem] px-1.5 py-px rounded font-semibold bg-red-500/8 text-red-600;
+}
+
+[data-theme="dark"] .api-required-badge {
+  @apply bg-red-500/12 text-red-300;
+}
+
+.api-param-desc {
+  @apply text-[0.8125rem] text-textWeak leading-normal;
+}
+
+.api-status-badge {
+  @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold font-mono;
+}
+
+.api-status-2xx { @apply bg-green-500/10 text-green-700; }
+.api-status-4xx { @apply bg-yellow-500/10 text-yellow-700; }
+.api-status-5xx { @apply bg-red-500/10 text-red-700; }
+
+[data-theme="dark"] .api-status-2xx { @apply bg-green-500/12 text-green-300; }
+[data-theme="dark"] .api-status-4xx { @apply bg-yellow-500/12 text-yellow-300; }
+[data-theme="dark"] .api-status-5xx { @apply bg-red-500/12 text-red-300; }
+
+.api-example-panel {
+  @apply rounded-lg border border-strokeWeak overflow-hidden mb-4;
+}
+
+.api-example-panel-header {
+  @apply py-2 px-3 bg-fillWeaker border-b border-strokeWeak text-xs font-semibold text-textWeak uppercase tracking-wider;
+}
+
+.api-example-panel pre {
+  @apply !m-0 !border-0 !rounded-none !text-[0.8125rem] !leading-relaxed;
+}
+
+.api-example-panel code {
+  @apply !text-[0.8125rem];
+}
+
+.api-section-title {
+  @apply text-[0.6875rem] font-bold uppercase tracking-widest text-textWeak mb-3 pb-2 border-b border-strokeWeak;
+}
+
+.api-breadcrumb {
+  @apply text-xs font-medium text-textWeak uppercase tracking-wider mb-2;
+}
+
+.api-endpoint-bar {
+  @apply flex items-center gap-3 py-3 px-4 rounded-lg bg-fillWeaker border border-strokeWeak font-mono text-[0.9375rem] overflow-x-auto;
+}
+
+.api-endpoint-path {
+  @apply flex-1 text-sm;
+}
+
+.api-tryit-btn {
+  @apply ml-auto shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold bg-fillBrand-strong text-white cursor-pointer transition-opacity hover:opacity-85;
+}
+
+/* Language tabs inside code panel header */
+.api-lang-tabs.api-example-panel-header {
+  @apply flex gap-0 py-0 px-1;
+}
+
+.api-lang-tabs .tab-button {
+  @apply px-2.5 py-1.5 text-[0.6875rem] font-semibold uppercase tracking-wider rounded-none border-0 bg-transparent text-textWeak cursor-pointer;
+}
+
+.api-lang-tabs .tab-button.active {
+  @apply text-textStrong bg-fillWeak rounded-sm;
+}
+
+.api-response-status-tab {
+  @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold font-mono;
+}
+
+/* Try it modal */
+.api-tryit-overlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center bg-black/50 opacity-0 pointer-events-none transition-opacity;
+}
+
+.api-tryit-overlay.active {
+  @apply opacity-100 pointer-events-auto;
+}
+
+.api-tryit-modal {
+  @apply w-full max-w-xl mx-4 max-h-[85vh] flex flex-col rounded-xl border border-strokeWeak bg-bgBase shadow-xl overflow-hidden;
+}
+
+.api-tryit-header {
+  @apply flex items-center justify-between gap-3 px-5 py-4 border-b border-strokeWeak;
+}
+
+.api-tryit-title {
+  @apply flex items-center gap-2 font-mono text-sm;
+}
+
+.api-tryit-close {
+  @apply text-2xl leading-none text-textWeak cursor-pointer hover:text-textStrong bg-transparent border-0;
+}
+
+.api-tryit-body {
+  @apply flex-1 overflow-y-auto px-5 py-4;
+}
+
+.api-tryit-label {
+  @apply block text-xs font-semibold text-textWeak uppercase tracking-wider mb-1.5;
+}
+
+.api-tryit-input {
+  @apply w-full px-3 py-2 text-sm font-mono rounded-md border border-strokeWeak bg-bgSunken text-textStrong;
+}
+
+.api-tryit-input:focus {
+  @apply outline-none ring-2 ring-fillBrand-strong/30 border-fillBrand-strong;
+}
+
+.api-tryit-send {
+  @apply mt-5 w-full py-2.5 rounded-lg text-sm font-semibold bg-fillBrand-strong text-white cursor-pointer transition-opacity hover:opacity-85 border-0;
+}
+
+.api-tryit-send:disabled {
+  @apply opacity-60 cursor-wait;
+}
+
+.api-tryit-output {
+  @apply mt-2 rounded-lg border border-strokeWeak bg-fillWeaker p-3 text-xs font-mono overflow-x-auto max-h-64;
+}
+
+.api-tryit-response {
+  @apply mt-5 pt-4 border-t border-strokeWeak;
+}

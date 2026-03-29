@@ -841,21 +841,25 @@
       {% for page in pages %}
       {% assign is_in_section = this.permalink | starts_with: page.permalink %}
       {% assign is_parent_of_section = page.permalink | starts_with: this.permalink %}
+      {% capture glob_pattern1 %}.{{ page.permalink }}*/index.md{% endcapture %}
+        {% assign subpages = file_list | where_glob: 'file_path', glob_pattern1 | sort: 'frontmatter.menuWeight' %}
+        {% if subpages.size > 0 %}
       <details class="sidebar-section pl-1" {% if is_in_section or is_parent_of_section %}open{% endif %} data-section="{{ page.permalink }}">
         <summary class="flex items-center justify-between font-semibold text-sm uppercase tracking-wider pb-2 text-textStrong hover:text-textBrand-strong transition-colors">
           <a href="{{ page.permalink }}" class="flex-1">{{ page.frontmatter.title }}</a>
           <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
         </summary>
-        {% capture glob_pattern1 %}.{{ page.permalink }}*/index.md{% endcapture %}
-        {% assign subpages = file_list | where_glob: 'file_path', glob_pattern1 | sort: 'frontmatter.menuWeight' %}
-        {% if subpages.size > 0 %}
         <ul class="space-y-1 mt-1">
           {% for subpage in subpages %}
           <li>
             {% assign is_active_page = subpage.permalink | equals: this.permalink %}
             <a href="{{ subpage.permalink }}"
-               class="block py-1 px-3 rounded-md hover:bg-fillWeak hover:text-textBrand-strong transition-all duration-200 {{ is_active_page | ternary: 'text-textBrand-strong font-medium bg-fillBrand-weak', 'text-textWeak' }}">{{
-               subpage.frontmatter.title }}</a>
+               class="flex items-center py-1 px-3 rounded-md hover:bg-fillWeak hover:text-textBrand-strong transition-all duration-200 {{ is_active_page | ternary: 'text-textBrand-strong font-medium bg-fillBrand-weak', 'text-textWeak' }}">
+               <span class="flex-1">{{ subpage.frontmatter.title }}</span>
+               {% if subpage.frontmatter.httpMethod %}
+               <span class="api-sidebar-method api-sidebar-{{ subpage.frontmatter.httpMethod | downcase }}">{{ subpage.frontmatter.httpMethod }}</span>
+               {% endif %}
+            </a>
             {% capture glob_pattern2 %}.{{ subpage.permalink }}*/index.md{% endcapture %}
             {% assign subsubpages = file_list | where_glob: 'file_path', glob_pattern2 | sort %}
             {% if subsubpages.size > 0 %}
@@ -873,8 +877,13 @@
           </li>
           {% endfor %}
         </ul>
-        {% endif %}
       </details>
+        {% else %}
+      <div class="sidebar-section pl-1">
+        {% assign is_active_leaf = page.permalink | equals: this.permalink %}
+        <a href="{{ page.permalink }}" class="flex items-center font-semibold text-sm uppercase tracking-wider pb-2 transition-colors {{ is_active_leaf | ternary: 'text-textBrand-strong', 'text-textStrong hover:text-textBrand-strong' }}">{{ page.frontmatter.title }}</a>
+      </div>
+        {% endif %}
       {% endfor %}
       {% endcapture %}
           <div id="sidebar-nav" class="w-64 leading-relaxed border-r border-r-strokeWeak hidden {% unless this.frontmatter.hideFileTree %}sm:block{% endunless %}">
@@ -1095,6 +1104,7 @@
     <script defer src="/assets/deps/highlightjs/python.min.js"></script>
     <script defer src="/assets/deps/highlightjs/elixir.min.js"></script>
     <script defer src="/assets/js/tabs.js"></script>
+    <script defer src="/assets/js/api-tryit.js"></script>
     <script defer src="/assets/js/ad-tracking.js"></script>
 
     <script defer type="text/javascript">

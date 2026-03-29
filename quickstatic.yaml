@@ -139,6 +139,10 @@ docs_main_pages:
     slug: /docs/features
     icon: folder-tree
 
+  - title: API Reference
+    slug: /docs/api-reference
+    icon: code
+
 main_nav:
   - title: Documentation
     dropdown:
