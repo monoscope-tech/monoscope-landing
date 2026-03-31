@@ -30,22 +30,19 @@ npm install @monoscopetech/browser
 
 Or include it directly in your HTML using a `<script>` tag:
 
-```
-&lt;script
-src="https://unpkg.com/@monoscopetech/browser@latest/dist/monoscope.min.js"&gt;
-&lt;/script&gt;
+```html
+<script src="https://unpkg.com/@monoscopetech/browser@latest/dist/monoscope.min.js"></script>
 ```
 
 ## Quick Start
 
-Initialize Monoscope with your **project ID** and configuration:
+Initialize Monoscope with your **API key** (found in your project settings):
 
 ```javascript
 import Monoscope from "@monoscopetech/browser";
 
 const monoscope = new Monoscope({
-  projectId: "YOUR_PROJECT_ID",
-  serviceName: "my-web-app",
+  apiKey: "YOUR_API_KEY",
 });
 
 // Identify the current user
@@ -53,6 +50,13 @@ monoscope.setUser({
   id: "user-123",
   email: "user@example.com",
 });
+```
+
+On `localhost`, debug mode is auto-enabled — you'll see a status overlay and console diagnostics. Call `monoscope.test()` to verify your setup:
+
+```javascript
+const result = await monoscope.test();
+console.log(result); // { success: true, message: "Test span sent successfully." }
 ```
 
 ## React / Next.js
@@ -69,8 +73,9 @@ The `Monoscope` constructor accepts the following options:
 :::
 | Name | Type | Description |
 | --- | --- | --- |
-| `projectId` | `string` | **Required** – Your Monoscope project ID. |
-| `serviceName` | `string` | **Required** – Name of your service or application. |
+| `apiKey` | `string` | **Required** – Your Monoscope API key (found in project settings). |
+| `serviceName` | `string` | Service name. Defaults to `location.hostname`. |
+| `projectId` | `string` | Deprecated alias for `apiKey`. |
 | `exporterEndpoint` | `string` | Endpoint for exporting traces. Defaults to Monoscope's ingest endpoint. |
 | `propagateTraceHeaderCorsUrls` | `RegExp[]` | URL patterns where trace context headers should be propagated. Defaults to same-origin only. |
 | `resourceAttributes` | `Record<string, string>` | Additional OpenTelemetry resource attributes. |
@@ -154,6 +159,15 @@ Returns the current tab ID (unique per browser tab).
 const tabId = monoscope.getTabId();
 ```
 
+### `test()`
+
+Sends a test span and flushes it to verify the connection is working.
+
+```javascript
+const result = await monoscope.test();
+console.log(result.success); // true if the span was accepted
+```
+
 ### `enable()` / `disable()`
 
 Dynamically enable or disable all data collection.
@@ -220,8 +234,7 @@ Pass extra OTel instrumentations via the `instrumentations` config to extend tra
 import { LongTaskInstrumentation } from "@opentelemetry/instrumentation-long-task";
 
 const monoscope = new Monoscope({
-  projectId: "YOUR_PROJECT_ID",
-  serviceName: "my-app",
+  apiKey: "YOUR_API_KEY",
   instrumentations: [new LongTaskInstrumentation()],
 });
 ```

@@ -26,7 +26,7 @@ import { MonoscopeProvider, useMonoscope, useMonoscopeUser, MonoscopeErrorBounda
 
 function App() {
   return (
-    <MonoscopeProvider config={{ projectId: "YOUR_PROJECT_ID", serviceName: "my-react-app" }}>
+    <MonoscopeProvider config={{ apiKey: "YOUR_API_KEY" }}>
       <MonoscopeErrorBoundary fallback={<div>Something went wrong</div>}>
         <MyApp />
       </MonoscopeErrorBoundary>
@@ -55,7 +55,7 @@ import { MonoscopeProvider, MonoscopeErrorBoundary } from "@monoscopetech/browse
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <MonoscopeProvider config={{ projectId: "YOUR_PROJECT_ID", serviceName: "my-nextjs-app" }}>
+    <MonoscopeProvider config={{ apiKey: "YOUR_API_KEY" }}>
       <MonoscopeErrorBoundary fallback={<div>Something went wrong</div>}>
         {children}
       </MonoscopeErrorBoundary>
@@ -161,7 +161,7 @@ function Dashboard({ id }: { id: string }) {
 ```tsx
 <MonoscopeProvider
   config={{
-    projectId: "YOUR_PROJECT_ID",
+    apiKey: "YOUR_API_KEY",
     serviceName: "my-react-app",
     enableUserInteraction: true,
     sampleRate: 0.5,
