@@ -29,12 +29,12 @@ Kubernetes telemetry comes from two fundamentally different sources, and each re
 
 | Data | Source | Deployment |
 |------|--------|------------|
-| Pod logs (`filelog`) | Files on each node's disk (`/var/log/pods`) | **DaemonSet** — one per node |
-| Kubelet metrics (`kubeletstats`) | Local kubelet on each node | **DaemonSet** — one per node |
-| Cluster events (`k8s_events`, emitted as logs) | Kubernetes API server (cluster-global) | **Deployment**, 1 replica |
-| Cluster metrics (`k8s_cluster`) | Kubernetes API server (cluster-global) | **Deployment**, 1 replica |
+| Pod logs (`filelog`) | Files on each node's disk (`/var/log/pods`) | *DaemonSet* — one per node |
+| Kubelet metrics (`kubeletstats`) | Local kubelet on each node | *DaemonSet* — one per node |
+| Cluster events (`k8s_events`, emitted as logs) | Kubernetes API server (cluster-global) | *Deployment*, 1 replica |
+| Cluster metrics (`k8s_cluster`) | Kubernetes API server (cluster-global) | *Deployment*, 1 replica |
 
-Running everything in a single DaemonSet duplicates events and cluster metrics N times (once per node). Running everything in a single Deployment silently drops logs from every node except one. The safe pattern is to install **two** collector releases — an **agent** (DaemonSet) and a **cluster** collector (Deployment).
+Running everything in a single DaemonSet duplicates events and cluster metrics N times (once per node). Running everything in a single Deployment silently drops logs from every node except one. The safe pattern is to install *two* collector releases — an *agent* (DaemonSet) and a *cluster* collector (Deployment).
 
 ```=html
 <div class="callout">
@@ -256,7 +256,7 @@ You should see the agent running on every node and a single cluster collector po
 
 ## Sending Application Telemetry
 
-Both collectors expose OTLP on `4317` (gRPC) and `4318` (HTTP). Point your instrumented apps at the **agent** service:
+Both collectors expose OTLP on `4317` (gRPC) and `4318` (HTTP). Point your instrumented apps at the *agent* service:
 
 ```
 http://monoscope-agent-opentelemetry-collector.default.svc.cluster.local:4318
@@ -268,7 +268,7 @@ By default this `ClusterIP` Service load-balances across every agent pod cluster
 
 If you already run the [OpenTelemetry Operator](https://github.com/open-telemetry/opentelemetry-operator) — for example because you use its auto-instrumentation feature, manage everything via Argo CD / Flux, or need the Target Allocator for Prometheus sharding — you can replace the two Helm releases with two `OpenTelemetryCollector` custom resources.
 
-The same split applies: **one CR with `mode: daemonset`** for `filelog` + `kubeletstats`, and **one CR with `mode: deployment` and `replicas: 1`** for `k8s_events` + `k8s_cluster`.
+The same split applies: *one CR with `mode: daemonset`* for `filelog` + `kubeletstats`, and *one CR with `mode: deployment` and `replicas: 1`* for `k8s_events` + `k8s_cluster`.
 
 ### Install the Operator
 
