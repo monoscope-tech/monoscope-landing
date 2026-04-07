@@ -3,14 +3,14 @@ title: Integrating monoscope with Kubernetes
 ogTitle: How to Integrate monoscope with Kubernetes using OpenTelemetry Collector
 faLogo: cube
 date: 2024-06-14
-updatedDate: 2026-02-25
+updatedDate: 2026-04-07
 linkTitle: "Kubernetes"
 menuWeight: 10
 ---
 
 # Integrating monoscope with Kubernetes
 
-This guide demonstrates how to integrate monoscope with Kubernetes using the OpenTelemetry Collector for infrastructure-level API monitoring and observability without requiring code changes to your applications.
+This guide shows how to send Kubernetes logs, metrics, events, and traces to monoscope using the OpenTelemetry Collector — no application code changes required.
 
 ```=html
 <hr>
@@ -19,37 +19,238 @@ This guide demonstrates how to integrate monoscope with Kubernetes using the Ope
 ## Prerequisites
 
 - A Kubernetes cluster
-- `kubectl` CLI tool installed
-- Helm (optional, but recommended)
-- monoscope account with an API key
+- `kubectl` installed
+- Helm 3
+- A monoscope account with an API key
 
-## Deploying the OpenTelemetry Collector
+## Architecture: Why Two Collectors
 
-There are several approaches to deploy the OpenTelemetry Collector in Kubernetes. We'll cover the most common ones.
+Kubernetes telemetry comes from two fundamentally different sources, and each requires a different deployment shape:
 
-### Option 1: Using the OpenTelemetry Operator
+| Data | Source | Deployment |
+|------|--------|------------|
+| Pod logs (`filelog`) | Files on each node's disk (`/var/log/pods`) | **DaemonSet** — one per node |
+| Kubelet metrics (`kubeletstats`) | Local kubelet on each node | **DaemonSet** — one per node |
+| Cluster events (`k8s_events`) | Kubernetes API server (cluster-global) | **Deployment**, 1 replica |
+| Cluster metrics (`k8s_cluster`) | Kubernetes API server (cluster-global) | **Deployment**, 1 replica |
 
-The OpenTelemetry Operator provides a Kubernetes-native way to deploy and manage the OpenTelemetry Collector.
+Running everything in a single DaemonSet duplicates events and cluster metrics N times (once per node). Running everything in a single Deployment silently drops logs from every node except one. The safe pattern is to install **two** collector releases — an **agent** (DaemonSet) and a **cluster** collector (Deployment).
 
-1. Install cert-manager (required by the Operator):
+```=html
+<div class="callout">
+  <i class="fa-solid fa-circle-info"></i>
+  <p>This split is the OpenTelemetry community's recommended pattern. The Helm chart's <code>presets</code> auto-wire the receivers, RBAC, and host mounts — you just pick which presets belong on which release.</p>
+</div>
+```
+
+## Recommended: Helm (Two Releases)
+
+### 1. Add the Helm Repository
+
+```bash
+helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
+helm repo update
+```
+
+### 2. Create a Secret for Your API Key
+
+```bash
+kubectl create secret generic monoscope-secrets \
+  --from-literal=api-key=YOUR_API_KEY
+```
+
+### 3. Agent Collector (DaemonSet) — Logs and Node Metrics
+
+Create `values-agent.yaml`:
+
+```yaml
+mode: daemonset
+
+image:
+  repository: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-k8s
+  tag: "0.149.0"           # pin to avoid silent breaking upgrades
+command:
+  name: otelcol-k8s
+
+presets:
+  logsCollection:
+    enabled: true          # filelog — reads /var/log/pods on each node
+  kubeletMetrics:
+    enabled: true          # kubeletstats — local kubelet
+  kubernetesAttributes:
+    enabled: true          # enriches telemetry with pod/namespace metadata
+  # clusterMetrics and kubernetesEvents intentionally OFF here —
+  # they belong on the cluster collector (one replica only).
+
+extraEnvs:
+  - name: MONOSCOPE_API_KEY
+    valueFrom:
+      secretKeyRef:
+        name: monoscope-secrets
+        key: api-key
+
+config:
+  receivers:
+    otlp:
+      protocols:
+        grpc:
+          endpoint: 0.0.0.0:4317
+        http:
+          endpoint: 0.0.0.0:4318
+
+  processors:
+    batch: {}
+    memory_limiter:
+      check_interval: 1s
+      limit_mib: 4000
+      spike_limit_mib: 800
+    resource:
+      attributes:
+        - key: x-api-key
+          value: ${env:MONOSCOPE_API_KEY}
+          action: upsert
+
+  exporters:
+    otlp_grpc:
+      endpoint: "otelcol.monoscope.tech:4317"
+      tls:
+        insecure: true
+
+  service:
+    pipelines:
+      traces:
+        receivers: [otlp]
+        processors: [memory_limiter, batch, resource]
+        exporters: [otlp_grpc]
+      metrics:
+        receivers: [otlp]
+        processors: [memory_limiter, batch, resource]
+        exporters: [otlp_grpc]
+      logs:
+        receivers: [otlp]
+        processors: [memory_limiter, batch, resource]
+        exporters: [otlp_grpc]
+```
+
+Install it:
+
+```bash
+helm install monoscope-agent open-telemetry/opentelemetry-collector \
+  --values values-agent.yaml
+```
+
+### 4. Cluster Collector (Deployment) — Events and Cluster Metrics
+
+Create `values-cluster.yaml`:
+
+```yaml
+mode: deployment
+replicaCount: 1            # MUST stay 1 — k8s_events and k8s_cluster are singletons
+
+image:
+  repository: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-k8s
+  tag: "0.149.0"           # pin to avoid silent breaking upgrades
+command:
+  name: otelcol-k8s
+
+presets:
+  clusterMetrics:
+    enabled: true          # k8s_cluster — cluster-wide metrics from API server
+  kubernetesEvents:
+    enabled: true          # k8s_events — cluster-wide events from API server
+  kubernetesAttributes:
+    enabled: true
+
+extraEnvs:
+  - name: MONOSCOPE_API_KEY
+    valueFrom:
+      secretKeyRef:
+        name: monoscope-secrets
+        key: api-key
+
+config:
+  processors:
+    batch: {}
+    memory_limiter:
+      check_interval: 1s
+      limit_mib: 1000
+      spike_limit_mib: 200
+    resource:
+      attributes:
+        - key: x-api-key
+          value: ${env:MONOSCOPE_API_KEY}
+          action: upsert
+
+  exporters:
+    otlp_grpc:
+      endpoint: "otelcol.monoscope.tech:4317"
+      tls:
+        insecure: true
+
+  service:
+    pipelines:
+      metrics:
+        receivers: [k8s_cluster]
+        processors: [memory_limiter, batch, resource]
+        exporters: [otlp_grpc]
+      logs:
+        receivers: [k8s_events]
+        processors: [memory_limiter, batch, resource]
+        exporters: [otlp_grpc]
+```
+
+Install it:
+
+```bash
+helm install monoscope-cluster open-telemetry/opentelemetry-collector \
+  --values values-cluster.yaml
+```
+
+```=html
+<div class="callout">
+  <i class="fa-solid fa-circle-info"></i>
+  <p>The presets auto-configure the matching receivers and the required ClusterRole/ClusterRoleBinding for each release. <code>image.repository</code> must point to GHCR — Docker Hub images are no longer published since chart v0.122.0.</p>
+</div>
+```
+
+### 5. Verify
+
+```bash
+kubectl get pods -l app.kubernetes.io/name=opentelemetry-collector
+kubectl logs -l app.kubernetes.io/instance=monoscope-agent
+kubectl logs -l app.kubernetes.io/instance=monoscope-cluster
+```
+
+You should see the agent running on every node and a single cluster collector pod. Telemetry will start appearing in your monoscope dashboard within a minute.
+
+## Sending Application Telemetry
+
+Both collectors expose OTLP on `4317` (gRPC) and `4318` (HTTP). Point your instrumented apps at the **agent** service (it's local to each node, so latency is lowest):
+
+```
+http://monoscope-agent-opentelemetry-collector.default.svc.cluster.local:4318
+```
+
+## Advanced: OpenTelemetry Operator
+
+If you already run the [OpenTelemetry Operator](https://github.com/open-telemetry/opentelemetry-operator) — for example because you use its auto-instrumentation feature, manage everything via Argo CD / Flux, or need the Target Allocator for Prometheus sharding — you can replace the two Helm releases with two `OpenTelemetryCollector` custom resources.
+
+The same split applies: **one CR with `mode: daemonset`** for `filelog` + `kubeletstats`, and **one CR with `mode: deployment` and `replicas: 1`** for `k8s_events` + `k8s_cluster`.
+
+### Install the Operator
 
 ```bash
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
-```
-
-2. Install the OpenTelemetry Operator:
-
-```bash
 kubectl apply -f https://github.com/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml
 ```
 
-3. Create a file named `otel-collector.yaml`:
+### Agent CR (DaemonSet)
 
 ```yaml
 apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
-  name: monoscope-collector
+  name: monoscope-agent
 spec:
   mode: daemonset
   volumeMounts:
@@ -67,20 +268,20 @@ spec:
           fieldPath: spec.nodeName
   config:
     receivers:
-      k8s_cluster:
-        collection_interval: 10s
-      k8s_events:
-        namespaces: []
       filelog:
         include: [/var/log/pods/*/*/*/*.log]
         start_at: beginning
+      kubeletstats:
+        collection_interval: 10s
+        auth_type: serviceAccount
+        endpoint: ${env:K8S_NODE_NAME}:10250
+        insecure_skip_verify: true
       otlp:
         protocols:
           grpc:
             endpoint: 0.0.0.0:4317
           http:
             endpoint: 0.0.0.0:4318
-
     processors:
       batch: {}
       memory_limiter:
@@ -88,52 +289,83 @@ spec:
         limit_mib: 4000
         spike_limit_mib: 800
       k8s_attributes:
-        auth_type: "serviceAccount"
+        auth_type: serviceAccount
         passthrough: false
         filter:
           node_from_env_var: K8S_NODE_NAME
-        extract:
-          metadata:
-            - k8s.pod.name
-            - k8s.pod.uid
-            - k8s.deployment.name
-            - k8s.namespace.name
-            - k8s.node.name
-            - k8s.container.name
-      resourcedetection:
-        detectors: [env]
-        override: false
       resource:
         attributes:
           - key: x-api-key
             value: YOUR_API_KEY
             action: upsert
-
     exporters:
       otlp_grpc:
         endpoint: "otelcol.monoscope.tech:4317"
         tls:
           insecure: true
-
     service:
       pipelines:
         traces:
           receivers: [otlp]
-          processors: [k8s_attributes, memory_limiter, batch, resourcedetection, resource]
+          processors: [k8s_attributes, memory_limiter, batch, resource]
           exporters: [otlp_grpc]
         metrics:
-          receivers: [otlp, k8s_cluster]
-          processors: [k8s_attributes, memory_limiter, batch, resourcedetection, resource]
+          receivers: [otlp, kubeletstats]
+          processors: [k8s_attributes, memory_limiter, batch, resource]
           exporters: [otlp_grpc]
         logs:
-          receivers: [filelog, k8s_events, otlp]
-          processors: [k8s_attributes, memory_limiter, batch, resourcedetection, resource]
+          receivers: [filelog, otlp]
+          processors: [k8s_attributes, memory_limiter, batch, resource]
           exporters: [otlp_grpc]
 ```
 
-Replace `YOUR_API_KEY` with your actual monoscope project key.
+### Cluster CR (Deployment, 1 replica)
 
-4. Create the required RBAC permissions in a file named `otel-operator-rbac.yaml`:
+```yaml
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: monoscope-cluster
+spec:
+  mode: deployment
+  replicas: 1
+  config:
+    receivers:
+      k8s_cluster:
+        collection_interval: 10s
+      k8s_events:
+        namespaces: []
+    processors:
+      batch: {}
+      memory_limiter:
+        check_interval: 1s
+        limit_mib: 1000
+        spike_limit_mib: 200
+      resource:
+        attributes:
+          - key: x-api-key
+            value: YOUR_API_KEY
+            action: upsert
+    exporters:
+      otlp_grpc:
+        endpoint: "otelcol.monoscope.tech:4317"
+        tls:
+          insecure: true
+    service:
+      pipelines:
+        metrics:
+          receivers: [k8s_cluster]
+          processors: [memory_limiter, batch, resource]
+          exporters: [otlp_grpc]
+        logs:
+          receivers: [k8s_events]
+          processors: [memory_limiter, batch, resource]
+          exporters: [otlp_grpc]
+```
+
+### RBAC
+
+Both CRs need read access to pods, namespaces, nodes, events, and the workload APIs. Apply this once:
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -142,7 +374,7 @@ metadata:
   name: monoscope-collector
 rules:
 - apiGroups: [""]
-  resources: [pods, namespaces, nodes, events]
+  resources: [pods, namespaces, nodes, nodes/stats, nodes/metrics, services, events]
   verbs: [get, list, watch]
 - apiGroups: ["apps"]
   resources: [deployments, replicasets, daemonsets, statefulsets]
@@ -150,368 +382,30 @@ rules:
 - apiGroups: ["events.k8s.io"]
   resources: [events]
   verbs: [get, list, watch]
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: monoscope-collector
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: monoscope-collector
-subjects:
-- kind: ServiceAccount
-  name: monoscope-collector-collector
-  namespace: default
-```
-
-5. Apply the configurations:
-
-```bash
-kubectl apply -f otel-operator-rbac.yaml
-kubectl apply -f otel-collector.yaml
-```
-
-### Option 2: Using Helm
-
-1. Add the OpenTelemetry Helm repository:
-
-```bash
-helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
-helm repo update
-```
-
-2. Create a `values.yaml` file:
-
-```yaml
-mode: daemonset
-
-image:
-  repository: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-k8s
-
-command:
-  name: otelcol-k8s
-
-presets:
-  logsCollection:
-    enabled: true
-  clusterMetrics:
-    enabled: true
-  kubernetesEvents:
-    enabled: true
-  kubernetesAttributes:
-    enabled: true
-
-config:
-  receivers:
-    otlp:
-      protocols:
-        grpc:
-          endpoint: 0.0.0.0:4317
-        http:
-          endpoint: 0.0.0.0:4318
-
-  processors:
-    batch: {}
-    memory_limiter:
-      check_interval: 1s
-      limit_mib: 4000
-      spike_limit_mib: 800
-    resourcedetection:
-      detectors: [env]
-      override: false
-    resource:
-      attributes:
-        - key: x-api-key
-          value: YOUR_API_KEY
-          action: upsert
-
-  exporters:
-    otlp_grpc:
-      endpoint: "otelcol.monoscope.tech:4317"
-      tls:
-        insecure: true
-
-  service:
-    pipelines:
-      traces:
-        receivers: [otlp]
-        processors: [memory_limiter, batch, resourcedetection, resource]
-        exporters: [otlp_grpc]
-      metrics:
-        receivers: [otlp, k8s_cluster]
-        processors: [memory_limiter, batch, resourcedetection, resource]
-        exporters: [otlp_grpc]
-      logs:
-        receivers: [filelog, k8s_events, otlp]
-        processors: [memory_limiter, batch, resourcedetection, resource]
-        exporters: [otlp_grpc]
-
-serviceAccount:
-  create: true
-  name: "otel-collector"
-```
-
-```=html
-<div class="callout">
-  <i class="fa-solid fa-circle-info"></i>
-  <p><code>image.repository</code> is required since chart v0.89.0 and must point to GHCR — Docker Hub images are no longer published since chart v0.122.0. The <code>presets.clusterMetrics</code> and <code>presets.kubernetesAttributes</code> options auto-configure the <code>k8s_cluster</code> receiver, <code>k8s_attributes</code> processor, and required RBAC rules.</p>
-</div>
-```
-
-3. Install the OpenTelemetry Collector using Helm:
-
-```bash
-helm install monoscope-collector open-telemetry/opentelemetry-collector --values values.yaml
-```
-
-## Monitoring Kubernetes API Services
-
-To monitor your Kubernetes API services without code changes, you can deploy the collector with service monitoring capabilities:
-
-### Using a DaemonSet for Infrastructure Monitoring
-
-Create a file named `otel-daemonset.yaml`:
-
-```yaml
-apiVersion: apps/v1
-kind: DaemonSet
-metadata:
-  name: otel-collector
-  labels:
-    app: otel-collector
-spec:
-  selector:
-    matchLabels:
-      app: otel-collector
-  template:
-    metadata:
-      labels:
-        app: otel-collector
-    spec:
-      serviceAccountName: otel-collector
-      containers:
-      - name: otel-collector
-        image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:latest
-        args:
-        - "--config=/conf/otel-collector-config.yaml"
-        volumeMounts:
-        - name: otel-collector-config
-          mountPath: /conf
-        - name: varlogpods
-          mountPath: /var/log/pods
-          readOnly: true
-        env:
-        - name: K8S_NODE_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: spec.nodeName
-        - name: MONOSCOPE_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: monoscope-secrets
-              key: api-key
-      volumes:
-      - name: otel-collector-config
-        configMap:
-          name: otel-collector-config
-      - name: varlogpods
-        hostPath:
-          path: /var/log/pods
-```
-
-Create a ConfigMap for the collector configuration:
-
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: otel-collector-config
-data:
-  otel-collector-config.yaml: |
-    receivers:
-      # Collect Kubernetes logs
-      filelog:
-        include: [/var/log/pods/*/*/*/*.log]
-        exclude: []
-        start_at: beginning
-        operators:
-          - type: regex_parser
-            regex: '^(?P<time>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z) (?P<stream>stdout|stderr) (?P<logtag>[^ ]*) ?(?P<log>.*)$'
-            timestamp:
-              parse_from: time
-              layout: '%Y-%m-%dT%H:%M:%S.%LZ'
-            output: extract_metadata_from_filepath
-          - type: regex_parser
-            id: extract_metadata_from_filepath
-            regex: '^.*\/(?P<namespace>[^_]+)_(?P<pod_name>[^_]+)_(?P<uid>[a-f0-9\-]+)\/(?P<container_name>[^\._]+)\/(?P<restart_count>\d+).log$'
-            parse_from: attributes["log.file.path"]
-            output: move_to_resource
-          - type: resource
-            id: move_to_resource
-            resource:
-              k8s.namespace.name: EXPR(attributes.namespace)
-              k8s.pod.name: EXPR(attributes.pod_name)
-              k8s.container.name: EXPR(attributes.container_name)
-
-      # Collect Kubernetes API server metrics
-      k8s_cluster:
-        collection_interval: 10s
-        node_conditions_to_report: [Ready, MemoryPressure, DiskPressure, NetworkUnavailable]
-        allocatable_types_to_report: [cpu, memory, storage]
-      
-      # Collect metrics from kubelet
-      kubeletstats:
-        collection_interval: 10s
-        auth_type: "serviceAccount"
-        endpoint: "${K8S_NODE_NAME}:10250"
-        insecure_skip_verify: true
-        metric_groups:
-          - container
-          - pod
-          - node
-        extra_metadata_labels:
-          - container.id
-          - k8s.volume.type
-      
-      # Collect Kubernetes events
-      k8s_events:
-        namespaces: []
-
-      # Standard OTLP receiver for any instrumented applications
-      otlp:
-        protocols:
-          grpc:
-            endpoint: 0.0.0.0:4317
-          http:
-            endpoint: 0.0.0.0:4318
-
-    processors:
-      batch:
-      memory_limiter:
-        check_interval: 1s
-        limit_mib: 4000
-        spike_limit_mib: 800
-      k8s_attributes:
-        auth_type: "serviceAccount"
-        passthrough: false
-        filter:
-          node_from_env_var: K8S_NODE_NAME
-        extract:
-          metadata:
-            - k8s.pod.name
-            - k8s.pod.uid
-            - k8s.deployment.name
-            - k8s.namespace.name
-            - k8s.node.name
-            - k8s.container.name
-            - container.image.name
-      resourcedetection:
-        detectors: [env]
-        override: false
-      resource:
-        attributes:
-          - key: x-api-key
-            value: ${env:MONOSCOPE_API_KEY}
-            action: upsert
-
-    exporters:
-      otlp_grpc:
-        endpoint: "otelcol.monoscope.tech:4317"
-        tls:
-          insecure: true
-
-    service:
-      pipelines:
-        traces:
-          receivers: [otlp]
-          processors: [k8s_attributes, memory_limiter, batch, resourcedetection, resource]
-          exporters: [otlp_grpc]
-        metrics:
-          receivers: [otlp, kubeletstats, k8s_cluster]
-          processors: [k8s_attributes, memory_limiter, batch, resourcedetection, resource]
-          exporters: [otlp_grpc]
-        logs:
-          receivers: [filelog, k8s_events, otlp]
-          processors: [k8s_attributes, memory_limiter, batch, resourcedetection, resource]
-          exporters: [otlp_grpc]
-```
-
-Create the required RBAC permissions:
-
-```yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: otel-collector
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: otel-collector
-rules:
-- apiGroups: [""]
-  resources:
-  - nodes
-  - nodes/stats
-  - nodes/metrics
-  - services
-  - pods
-  - events
-  verbs: ["get", "list", "watch"]
-- apiGroups: ["apps"]
-  resources:
-  - deployments
-  - replicasets
-  - daemonsets
-  - statefulsets
-  verbs: ["get", "list", "watch"]
-- apiGroups: ["events.k8s.io"]
-  resources:
-  - events
-  verbs: ["get", "list", "watch"]
 - apiGroups: ["discovery.k8s.io"]
-  resources:
-  - endpointslices
-  verbs: ["get", "list", "watch"]
+  resources: [endpointslices]
+  verbs: [get, list, watch]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: otel-collector
+  name: monoscope-collector
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: otel-collector
+  name: monoscope-collector
 subjects:
 - kind: ServiceAccount
-  name: otel-collector
+  name: monoscope-agent-collector
   namespace: default
-```
-
-Apply the configurations:
-
-```bash
-kubectl apply -f otel-collector-config.yaml
-kubectl apply -f otel-collector-rbac.yaml
-kubectl apply -f otel-daemonset.yaml
-```
-
-Create a secret for the monoscope API key:
-
-```bash
-kubectl create secret generic monoscope-secrets --from-literal=api-key=YOUR_API_KEY
+- kind: ServiceAccount
+  name: monoscope-cluster-collector
+  namespace: default
 ```
 
 ## Monitoring API Gateways and Ingresses
 
-For monitoring Kubernetes API gateways (like Kong, Istio, or Ambassador) or Ingress controllers:
-
-1. Deploy the OpenTelemetry Collector as shown above
-
-2. Configure your API gateway to emit metrics or logs in a format the collector can ingest
-
-For example, with the Nginx Ingress Controller, first configure the collector endpoint in the controller's ConfigMap:
+For Kubernetes API gateways (Kong, Istio, Ambassador) or Ingress controllers, point them at the agent collector's OTLP endpoint. For example, with the Nginx Ingress Controller:
 
 ```yaml
 apiVersion: v1
@@ -521,11 +415,11 @@ metadata:
   namespace: ingress-nginx
 data:
   enable-opentelemetry: "true"
-  otlp-collector-host: "otel-collector.default.svc.cluster.local"
+  otlp-collector-host: "monoscope-agent-opentelemetry-collector.default.svc.cluster.local"
   otlp-collector-port: "4317"
 ```
 
-Then enable tracing on individual Ingress resources using the annotation:
+Then enable tracing per Ingress:
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -536,25 +430,9 @@ metadata:
     nginx.ingress.kubernetes.io/enable-opentelemetry: "true"
 ```
 
-## Verifying the Setup
-
-After deploying the OpenTelemetry Collector:
-
-1. Check that the collector pods are running:
-   ```bash
-   kubectl get pods -l app=otel-collector
-   ```
-
-2. Check the collector logs:
-   ```bash
-   kubectl logs -l app=otel-collector
-   ```
-
-3. Verify in your monoscope dashboard that telemetry data is being received
-
 ## Next Steps
 
-- Configure alerts in monoscope based on Kubernetes API metrics
-- Set up custom dashboards to monitor your Kubernetes cluster health
-- Correlate API performance issues with container resource usage
-- Use monoscope insights to optimize your Kubernetes deployments and resource allocation
+- Configure alerts in monoscope based on Kubernetes metrics and events
+- Build dashboards for cluster health and workload performance
+- Correlate API latency with container resource usage
+- Use monoscope insights to right-size deployments and spot regressions
