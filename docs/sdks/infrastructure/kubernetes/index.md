@@ -31,7 +31,7 @@ Kubernetes telemetry comes from two fundamentally different sources, and each re
 |------|--------|------------|
 | Pod logs (`filelog`) | Files on each node's disk (`/var/log/pods`) | **DaemonSet** — one per node |
 | Kubelet metrics (`kubeletstats`) | Local kubelet on each node | **DaemonSet** — one per node |
-| Cluster events (`k8s_events`) | Kubernetes API server (cluster-global) | **Deployment**, 1 replica |
+| Cluster events (`k8s_events`, emitted as logs) | Kubernetes API server (cluster-global) | **Deployment**, 1 replica |
 | Cluster metrics (`k8s_cluster`) | Kubernetes API server (cluster-global) | **Deployment**, 1 replica |
 
 Running everything in a single DaemonSet duplicates events and cluster metrics N times (once per node). Running everything in a single Deployment silently drops logs from every node except one. The safe pattern is to install **two** collector releases — an **agent** (DaemonSet) and a **cluster** collector (Deployment).
@@ -67,10 +67,11 @@ Create `values-agent.yaml`:
 mode: daemonset
 
 image:
+  # Pin a specific tag so chart upgrades don't silently roll a new collector.
+  # Current as of April 2026 — bump after reviewing the release notes:
+  # https://github.com/open-telemetry/opentelemetry-collector-releases/releases
   repository: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-k8s
-  tag: "0.149.0"           # pin to avoid silent breaking upgrades
-command:
-  name: otelcol-k8s
+  tag: "0.149.0"
 
 presets:
   logsCollection:
@@ -78,7 +79,7 @@ presets:
   kubeletMetrics:
     enabled: true          # kubeletstats — local kubelet
   kubernetesAttributes:
-    enabled: true          # enriches telemetry with pod/namespace metadata
+    enabled: true          # k8s_attributes processor — enriches with pod/namespace metadata
   # clusterMetrics and kubernetesEvents intentionally OFF here —
   # they belong on the cluster collector (one replica only).
 
@@ -90,6 +91,13 @@ extraEnvs:
         key: api-key
 
 config:
+  # health_check must be declared explicitly: when you override config:, the
+  # chart's default service.extensions block is replaced, and the readiness
+  # probe (port 13133) starts failing.
+  extensions:
+    health_check:
+      endpoint: 0.0.0.0:13133
+
   receivers:
     otlp:
       protocols:
@@ -111,24 +119,32 @@ config:
           action: upsert
 
   exporters:
+    # tls.insecure is safe here: the monoscope ingest endpoint terminates TLS at
+    # its load balancer; the collector connects over a plaintext-tolerant L4 path.
     otlp_grpc:
       endpoint: "otelcol.monoscope.tech:4317"
       tls:
         insecure: true
 
+  # IMPORTANT: when you override service.pipelines, you must list every receiver
+  # and processor you want active — including the ones the presets configured
+  # (filelog, kubeletstats, k8s_attributes). The chart merges receivers/processors
+  # but does NOT merge pipeline arrays. Same applies to service.extensions: it's
+  # replaced wholesale, so health_check must be re-declared here.
   service:
+    extensions: [health_check]
     pipelines:
       traces:
         receivers: [otlp]
-        processors: [memory_limiter, batch, resource]
+        processors: [k8s_attributes, memory_limiter, batch, resource]
         exporters: [otlp_grpc]
       metrics:
-        receivers: [otlp]
-        processors: [memory_limiter, batch, resource]
+        receivers: [otlp, kubeletstats]
+        processors: [k8s_attributes, memory_limiter, batch, resource]
         exporters: [otlp_grpc]
       logs:
-        receivers: [otlp]
-        processors: [memory_limiter, batch, resource]
+        receivers: [otlp, filelog]
+        processors: [k8s_attributes, memory_limiter, batch, resource]
         exporters: [otlp_grpc]
 ```
 
@@ -145,19 +161,19 @@ Create `values-cluster.yaml`:
 
 ```yaml
 mode: deployment
-replicaCount: 1            # MUST stay 1 — k8s_events and k8s_cluster are singletons
+# Must stay 1 — k8s_events and k8s_cluster don't leader-elect, so >1 replica
+# produces duplicate events and cluster metrics.
+replicaCount: 1
 
 image:
   repository: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-k8s
-  tag: "0.149.0"           # pin to avoid silent breaking upgrades
-command:
-  name: otelcol-k8s
+  tag: "0.149.0"           # see release notes before bumping
 
 presets:
   clusterMetrics:
     enabled: true          # k8s_cluster — cluster-wide metrics from API server
   kubernetesEvents:
-    enabled: true          # k8s_events — cluster-wide events from API server
+    enabled: true          # k8s_events — emits events as logs
   kubernetesAttributes:
     enabled: true
 
@@ -169,6 +185,20 @@ extraEnvs:
         key: api-key
 
 config:
+  # See agent values for why health_check must be re-declared here.
+  extensions:
+    health_check:
+      endpoint: 0.0.0.0:13133
+
+  # Receivers are declared explicitly so the pipelines below are unambiguous.
+  # The presets generate matching RBAC; the receiver blocks are merged with
+  # whatever the presets inject.
+  receivers:
+    k8s_cluster:
+      collection_interval: 10s
+    k8s_events:
+      namespaces: []
+
   processors:
     batch: {}
     memory_limiter:
@@ -185,17 +215,18 @@ config:
     otlp_grpc:
       endpoint: "otelcol.monoscope.tech:4317"
       tls:
-        insecure: true
+        insecure: true     # see note in agent values
 
   service:
+    extensions: [health_check]
     pipelines:
       metrics:
         receivers: [k8s_cluster]
-        processors: [memory_limiter, batch, resource]
+        processors: [k8s_attributes, memory_limiter, batch, resource]
         exporters: [otlp_grpc]
       logs:
         receivers: [k8s_events]
-        processors: [memory_limiter, batch, resource]
+        processors: [k8s_attributes, memory_limiter, batch, resource]
         exporters: [otlp_grpc]
 ```
 
@@ -209,7 +240,7 @@ helm install monoscope-cluster open-telemetry/opentelemetry-collector \
 ```=html
 <div class="callout">
   <i class="fa-solid fa-circle-info"></i>
-  <p>The presets auto-configure the matching receivers and the required ClusterRole/ClusterRoleBinding for each release. <code>image.repository</code> must point to GHCR — Docker Hub images are no longer published since chart v0.122.0.</p>
+  <p>The presets auto-configure the matching receivers and the required ClusterRole/ClusterRoleBinding for each release. <code>image.repository</code> must point to GHCR — official collector images are no longer published to Docker Hub.</p>
 </div>
 ```
 
@@ -217,19 +248,21 @@ helm install monoscope-cluster open-telemetry/opentelemetry-collector \
 
 ```bash
 kubectl get pods -l app.kubernetes.io/name=opentelemetry-collector
-kubectl logs -l app.kubernetes.io/instance=monoscope-agent
-kubectl logs -l app.kubernetes.io/instance=monoscope-cluster
+kubectl logs daemonset/monoscope-agent-opentelemetry-collector
+kubectl logs deployment/monoscope-cluster-opentelemetry-collector
 ```
 
-You should see the agent running on every node and a single cluster collector pod. Telemetry will start appearing in your monoscope dashboard within a minute.
+You should see the agent running on every node and a single cluster collector pod. Telemetry will start flowing to your monoscope dashboard shortly after the pods become Ready.
 
 ## Sending Application Telemetry
 
-Both collectors expose OTLP on `4317` (gRPC) and `4318` (HTTP). Point your instrumented apps at the **agent** service (it's local to each node, so latency is lowest):
+Both collectors expose OTLP on `4317` (gRPC) and `4318` (HTTP). Point your instrumented apps at the **agent** service:
 
 ```
 http://monoscope-agent-opentelemetry-collector.default.svc.cluster.local:4318
 ```
+
+By default this `ClusterIP` Service load-balances across every agent pod cluster-wide. If you want each app pod to send to the agent on its own node (lower latency, no cross-node hops), patch the Service with `spec.internalTrafficPolicy: Local`.
 
 ## Advanced: OpenTelemetry Operator
 
@@ -239,9 +272,18 @@ The same split applies: **one CR with `mode: daemonset`** for `filelog` + `kubel
 
 ### Install the Operator
 
+The OTel Operator's admission webhook requires cert-manager (or another certificate provider). Skip the first command if you already have cert-manager — or any compatible cert source — installed. For production, replace `latest` with a pinned release tag from each project.
+
 ```bash
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 kubectl apply -f https://github.com/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml
+```
+
+Create the same API key secret used by the Helm path (skip if already created):
+
+```bash
+kubectl create secret generic monoscope-secrets \
+  --from-literal=api-key=YOUR_API_KEY
 ```
 
 ### Agent CR (DaemonSet)
@@ -266,16 +308,25 @@ spec:
       valueFrom:
         fieldRef:
           fieldPath: spec.nodeName
+    - name: MONOSCOPE_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: monoscope-secrets
+          key: api-key
   config:
+    extensions:
+      health_check:
+        endpoint: 0.0.0.0:13133
     receivers:
       filelog:
-        include: [/var/log/pods/*/*/*/*.log]
-        start_at: beginning
+        # Path layout: /var/log/pods/<ns>_<pod>_<uid>/<container>/<restart>.log
+        include: [/var/log/pods/*/*/*.log]
+        start_at: end          # use 'beginning' only for first-install backfill
       kubeletstats:
         collection_interval: 10s
         auth_type: serviceAccount
         endpoint: ${env:K8S_NODE_NAME}:10250
-        insecure_skip_verify: true
+        insecure_skip_verify: true   # acceptable for dev; in production mount the kubelet CA
       otlp:
         protocols:
           grpc:
@@ -296,7 +347,7 @@ spec:
       resource:
         attributes:
           - key: x-api-key
-            value: YOUR_API_KEY
+            value: ${env:MONOSCOPE_API_KEY}
             action: upsert
     exporters:
       otlp_grpc:
@@ -304,6 +355,7 @@ spec:
         tls:
           insecure: true
     service:
+      extensions: [health_check]
       pipelines:
         traces:
           receivers: [otlp]
@@ -329,7 +381,16 @@ metadata:
 spec:
   mode: deployment
   replicas: 1
+  env:
+    - name: MONOSCOPE_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: monoscope-secrets
+          key: api-key
   config:
+    extensions:
+      health_check:
+        endpoint: 0.0.0.0:13133
     receivers:
       k8s_cluster:
         collection_interval: 10s
@@ -341,10 +402,13 @@ spec:
         check_interval: 1s
         limit_mib: 1000
         spike_limit_mib: 200
+      k8s_attributes:
+        auth_type: serviceAccount
+        passthrough: false
       resource:
         attributes:
           - key: x-api-key
-            value: YOUR_API_KEY
+            value: ${env:MONOSCOPE_API_KEY}
             action: upsert
     exporters:
       otlp_grpc:
@@ -352,20 +416,21 @@ spec:
         tls:
           insecure: true
     service:
+      extensions: [health_check]
       pipelines:
         metrics:
           receivers: [k8s_cluster]
-          processors: [memory_limiter, batch, resource]
+          processors: [k8s_attributes, memory_limiter, batch, resource]
           exporters: [otlp_grpc]
         logs:
           receivers: [k8s_events]
-          processors: [memory_limiter, batch, resource]
+          processors: [k8s_attributes, memory_limiter, batch, resource]
           exporters: [otlp_grpc]
 ```
 
 ### RBAC
 
-Both CRs need read access to pods, namespaces, nodes, events, and the workload APIs. Apply this once:
+Both CRs need read access to pods, namespaces, nodes, events, and the workload APIs. The OTel Operator creates a ServiceAccount named `<cr-name>-collector` in the CR's namespace, so the binding below targets `monoscope-agent-collector` and `monoscope-cluster-collector`. Apply this once:
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -374,10 +439,27 @@ metadata:
   name: monoscope-collector
 rules:
 - apiGroups: [""]
-  resources: [pods, namespaces, nodes, nodes/stats, nodes/metrics, services, events]
+  resources:
+    - pods
+    - namespaces
+    - nodes
+    - nodes/stats
+    - nodes/proxy
+    - services
+    - events
+    - replicationcontrollers
+    - resourcequotas
+    - persistentvolumes
+    - persistentvolumeclaims
   verbs: [get, list, watch]
 - apiGroups: ["apps"]
   resources: [deployments, replicasets, daemonsets, statefulsets]
+  verbs: [get, list, watch]
+- apiGroups: ["batch"]
+  resources: [jobs, cronjobs]
+  verbs: [get, list, watch]
+- apiGroups: ["autoscaling"]
+  resources: [horizontalpodautoscalers]
   verbs: [get, list, watch]
 - apiGroups: ["events.k8s.io"]
   resources: [events]
