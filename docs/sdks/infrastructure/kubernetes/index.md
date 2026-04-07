@@ -112,6 +112,19 @@ config:
       check_interval: 1s
       limit_mib: 4000
       spike_limit_mib: 800
+    # Declared explicitly because overriding config.processors replaces the
+    # block the kubernetesAttributes preset would have injected.
+    k8s_attributes:
+      auth_type: serviceAccount
+      passthrough: false
+      extract:
+        metadata:
+          - k8s.pod.name
+          - k8s.pod.uid
+          - k8s.deployment.name
+          - k8s.namespace.name
+          - k8s.node.name
+          - k8s.container.name
     resource:
       attributes:
         - key: x-api-key
@@ -205,6 +218,12 @@ config:
       check_interval: 1s
       limit_mib: 1000
       spike_limit_mib: 200
+    # Must be declared explicitly — overriding config.processors replaces the
+    # block the kubernetesAttributes preset would have injected, so the
+    # pipelines below would otherwise fail with a "reference error" on startup.
+    k8s_attributes:
+      auth_type: serviceAccount
+      passthrough: false
     resource:
       attributes:
         - key: x-api-key
