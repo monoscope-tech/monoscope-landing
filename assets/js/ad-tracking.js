@@ -81,10 +81,10 @@
       form.addEventListener('submit', () => track('Contact', { type: 'form' }));
     });
 
-    // Crisp chat
-    if (window.$crisp) {
-      window.$crisp.push(['on', 'message:sent', () => track('Contact', { type: 'chat' })]);
-    }
+    // Crisp chat — disabled, subscription cancelled
+    // if (window.$crisp) {
+    //   window.$crisp.push(['on', 'message:sent', () => track('Contact', { type: 'chat' })]);
+    // }
 
     // Scroll depth
     var depths = { 25: 0, 50: 0, 75: 0, 90: 0 };
