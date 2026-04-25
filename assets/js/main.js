@@ -5,11 +5,11 @@ const saveContainer = document.querySelector("#save_container");
 const startsAtContainer = document.querySelector("#starts_at");
 function priceChange() {
   const value = price_indicator.value;
-  // For Cloud + S3 plan: $199 for up to 100M events, then $2 per 1M events after that
+  // For Cloud + S3 plan: $199 for up to 100M events, then $1 per 1M events after that
   const eventsInMillions = value / 1_000_000;
   let totalPrice = 199;
   if (eventsInMillions > 100) {
-    totalPrice = 199 + ((eventsInMillions - 100) * 2);
+    totalPrice = 199 + ((eventsInMillions - 100) * 1);
   }
   
   priceContainer.innerText = "$" + totalPrice.toFixed(0);
@@ -57,10 +57,10 @@ function updateCloudPricing() {
     cloudPriceEl.innerText = "Free";
     cloudPriceDescEl.innerText = "up to 10k events/day";
   } else {
-    // $29 minimum for up to 20M events, then $2 per 1M events after that
+    // $29 minimum for up to 20M events, then $1 per 1M events after that
     let totalPrice = 29;
     if (eventsInMillions > 20) {
-      totalPrice = 29 + ((eventsInMillions - 20) * 2);
+      totalPrice = 29 + ((eventsInMillions - 20) * 1);
     }
     cloudPriceEl.innerText = "$" + totalPrice.toFixed(0);
     cloudPriceDescEl.innerText = "/month for " + eventsInMillions.toFixed(0) + "M events";
@@ -87,19 +87,19 @@ function updateCostCalculator() {
   const percentage = ((value - 20000000) / (500000000 - 20000000)) * 100;
   costCalculatorRange.style.setProperty('--value', percentage + '%');
   
-  // Cloud cost: Free up to 300k (10k/day), then $29 for up to 20M, then $2 per 1M after that
+  // Cloud cost: Free up to 300k (10k/day), then $29 for up to 20M, then $1 per 1M after that
   let cloudCost = 0;
   if (value > 300000) {
     cloudCost = 29;
     if (eventsInMillions > 20) {
-      cloudCost = 29 + ((eventsInMillions - 20) * 2);
+      cloudCost = 29 + ((eventsInMillions - 20) * 1);
     }
   }
-  
-  // S3 cost: $199 for up to 100M events, then $2 per 1M after that
+
+  // S3 cost: $199 for up to 100M events, then $1 per 1M after that
   let s3Cost = 199;
   if (eventsInMillions > 100) {
-    s3Cost = 199 + ((eventsInMillions - 100) * 2);
+    s3Cost = 199 + ((eventsInMillions - 100) * 1);
   }
   
   if (cloudCostEl) cloudCostEl.innerText = "$" + Math.round(cloudCost);
