@@ -10,6 +10,7 @@ API_URL="https://api.github.com/repos/$REPO/releases/latest"
 # Use curl to fetch the latest release data in JSON format 
 # Use grep to find the line containing the tag_name, then cut to extract the value
 TAG_NAME=$(curl -s $API_URL | grep '"tag_name":' | sed -E 's/.*"tag_name": "([^"]+)".*/\1/')
+TAG_NAME=${TAG_NAME:-"v0.1.16"}
 
 # Construct the asset name based on the provided format
 # Assuming the architecture is x86_64-unknown-linux-musl, adjust if necessary
