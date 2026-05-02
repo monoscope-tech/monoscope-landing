@@ -3,7 +3,7 @@ title: Features
 date: 2024-04-22
 updatedDate: 2024-05-07
 faLogo: folder-tree
-menuWeight: 4
+menuWeight: 5
 hideFileTree: true
 pageFullWidth: true
 hideToc: true

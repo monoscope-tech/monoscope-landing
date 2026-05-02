@@ -3,7 +3,7 @@ title: Glossary
 date: 2023-11-27
 updatedDate: 2024-08-03
 faLogo: book-bookmark
-menuWeight: 5
+menuWeight: 6
 hideFileTree: true
 pageFullWidth: true
 hideFromNav: true

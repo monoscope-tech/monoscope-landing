@@ -3,7 +3,7 @@ title: Dashboard
 date: 2024-04-22
 updatedDate: 2024-05-28
 faLogo: chart-line
-menuWeight: 3
+menuWeight: 4
 pageFullWidth: true
 hideToc: true
 pages:

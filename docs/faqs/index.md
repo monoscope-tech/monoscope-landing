@@ -3,7 +3,7 @@ title: FAQs
 date: 2024-04-22
 updatedDate: 2024-08-03
 faLogo: question
-menuWeight: 6
+menuWeight: 7
 hideFileTree: true
 hideToc: true
 pageFullWidth: true
