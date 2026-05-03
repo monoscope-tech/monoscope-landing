@@ -18,13 +18,13 @@ hideToc: true
 
 ```=html
 <div class="surface-chooser surface-chooser--equal not-prose">
-  <a href="/docs/ai/cli/" class="alt-a">
+  <a href="/docs/ai/cli/">
     <span class="label">For shells, CI, and bash-running agents</span>
     <span class="name">CLI &amp; Agents</span>
     <span class="when">A single static binary. Tabular for humans, JSON for pipes. Drop-in Claude Code skills (<code>investigate</code>, <code>triage</code>, <code>kql-reference</code>) wrap the same commands.</span>
     <span class="footer">Get the CLI <i class="fa-solid fa-arrow-right"></i></span>
   </a>
-  <a href="/docs/ai/mcp/" class="alt-b">
+  <a href="/docs/ai/mcp/">
     <span class="label">For any MCP client</span>
     <span class="name">MCP Server</span>
     <span class="when">Hosted Model Context Protocol endpoint with ~50 auto-derived REST tools plus workflow tools (<code>analyze_issue</code>, <code>find_error_patterns</code>, <code>search_events_nl</code>). No install, same API key as REST.</span>

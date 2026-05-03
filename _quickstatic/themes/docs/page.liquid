@@ -271,6 +271,59 @@
         font-size: 0.875rem;
       }
 
+      /* ── Unified docs grid: 2×N peer cells with internal dividers ── */
+      .docs-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1px;
+        background-color: var(--color-strokeWeak);
+        border: 1px solid var(--color-strokeWeak);
+        border-radius: 0.75rem;
+        overflow: hidden;
+      }
+      @media (min-width: 640px) {
+        .docs-grid { grid-template-columns: 1fr 1fr; }
+      }
+      .docs-grid__cell {
+        display: flex;
+        flex-direction: column;
+        gap: 0.625rem;
+        padding: 1.5rem 1.75rem;
+        background-color: var(--color-bgRaised);
+        text-decoration: none;
+        transition: background-color 200ms ease;
+      }
+      .docs-grid__cell:hover {
+        background-color: var(--color-fillBrand-weak);
+      }
+      .docs-grid__cell:focus-visible {
+        outline: 2px solid var(--color-strokeBrand-strong);
+        outline-offset: -2px;
+        position: relative;
+        z-index: 1;
+      }
+      .docs-grid__cell p {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1rem;
+        color: var(--color-textStrong);
+      }
+      .docs-grid__cell i {
+        color: var(--color-fillBrand-strong);
+        font-size: 1.125rem;
+      }
+      .docs-grid__cell strong {
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+      .docs-grid__cell > span {
+        color: var(--color-textWeak);
+        font-size: 0.9375rem;
+        line-height: 1.55;
+      }
+
       /* ── Surface chooser: asymmetric — primary surface featured ── */
       .surface-chooser {
         display: grid;
@@ -300,7 +353,11 @@
         grid-template-rows: auto;
         grid-template-areas: none;
       }
-      .surface-chooser--equal > a {
+      .surface-chooser--equal > a,
+      .surface-chooser--equal > a.alt-a,
+      .surface-chooser--equal > a.alt-b,
+      .surface-chooser--equal > a.primary {
+        grid-area: auto;
         padding: 1.75rem 2rem;
         gap: 0.625rem;
       }
@@ -909,12 +966,12 @@
               >
             </a>
           </div>
-          <div class="flex gap-4 items-center">
-            <a href="/" hx-boost="false" class="hidden sm:inline-block text-sm text-textBrand-strong whitespace-nowrap flex-shrink-0">↢&nbsp;Back to Website</a>
+          <div class="flex gap-2 lg:gap-3 items-center">
+            <a href="/" hx-boost="false" class="hidden xl:inline-block text-sm text-textBrand-strong whitespace-nowrap flex-shrink-0">↢&nbsp;Back to Website</a>
             <a class="cursor-pointer sm:hidden p-2 hover:bg-fillWeak rounded-lg transition-colors" onClick="search_modal.showModal()" aria-label="search" title="Search">
               <svg class="h-5 w-5 fill-current opacity-80" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
             </a>
-            <a href="https://github.com/monoscope-tech/monoscope" target="_blank" rel="noopener noreferrer" class="hidden md:flex items-center gap-2 px-3 py-1.5 border border-strokeWeak bg-bgBase hover:bg-fillWeak rounded-lg transition-all duration-200 text-xs group/gh">
+            <a href="https://github.com/monoscope-tech/monoscope" target="_blank" rel="noopener noreferrer" class="hidden lg:flex items-center gap-2 px-3 py-1.5 border border-strokeWeak bg-bgBase hover:bg-fillWeak rounded-lg transition-all duration-200 text-xs group/gh">
               <svg class="h-3.5 w-3.5 fill-current text-textStrong" viewBox="0 0 16 16" aria-hidden="true">
                 <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
               </svg>
@@ -924,7 +981,7 @@
             <a href="https://app.monoscope.tech?utm_source=docs" hx-boost="false" class="btn btn-sm bg-fillBrand-strong hover:bg-fillBrand-weak text-textInverse-strong border-0" data-tracking="docs-sign-up" data-reddit-event="SignUp">Sign Up</a>
 
             <a
-              class="input input-sm bg-fillWeak dark:bg-fillAlternate input-bordered hidden sm:flex items-center gap-2 flex-shrink min-w-0"
+              class="input input-sm bg-fillWeak dark:bg-fillAlternate input-bordered hidden sm:flex items-center gap-2 flex-shrink min-w-0 max-w-[200px]"
               onClick="search_modal.showModal()"
               aria-label="search"
               title="Search"
