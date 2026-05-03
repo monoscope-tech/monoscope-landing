@@ -9,14 +9,14 @@ menuWeight: 1
 # Install & Authenticate
 
 A single static binary on Linux and macOS, x86_64 and arm64. No runtime,
-no Docker, no package-manager dance — `curl | bash` and you're done.
+no Docker, no package-manager dance — `curl | sh` and you're done.
 
 ## Install
 
 ### One-liner (recommended)
 
 ```sh
-curl -fsSL https://monoscope.tech/install.sh | bash
+curl monoscope.tech/install.sh | sh
 ```
 
 The script:
@@ -29,13 +29,13 @@ The script:
 ### Specific version
 
 ```sh
-curl -fsSL https://monoscope.tech/install.sh | bash -s v1.2.3
+curl monoscope.tech/install.sh | sh -s v1.2.3
 ```
 
 ### Custom install location
 
 ```sh
-MONOSCOPE_INSTALL_DIR=/usr/local/bin curl -fsSL https://monoscope.tech/install.sh | bash
+MONOSCOPE_INSTALL_DIR=/usr/local/bin curl monoscope.tech/install.sh | sh
 ```
 
 ### Upgrading
@@ -45,7 +45,7 @@ is already current the script exits with `already up to date`. To force-reinstal
 the same version, pass `--force`:
 
 ```sh
-curl -fsSL https://monoscope.tech/install.sh | bash -s -- --force
+curl monoscope.tech/install.sh | sh -s -- --force
 ```
 
 ### Verify

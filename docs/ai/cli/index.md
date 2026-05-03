@@ -60,7 +60,7 @@ assertions like `monoscope metrics query '...' --assert '< 0.01'`.
 ```=html
 <div class="callout callout-tip">
   <i class="fa-solid fa-bolt"></i>
-  <p><code>curl -fsSL https://monoscope.tech/install.sh | bash</code> — drops the binary into <code>~/.local/bin</code>. Linux and macOS, x86_64 and arm64.</p>
+  <p><code>curl monoscope.tech/install.sh | sh</code> — drops the binary into <code>~/.local/bin</code>. Linux and macOS, x86_64 and arm64.</p>
 </div>
 ```
 
