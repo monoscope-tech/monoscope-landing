@@ -11,7 +11,7 @@ pageFullWidth: true
 ---
 
 ```=html
-<section class="max-w-6xl mx-auto px-2 not-prose">
+<section class="max-w-8xl mx-auto px-2 not-prose">
 
   <div class="grid md:grid-cols-2 gap-10 lg:gap-12 items-center mt-6 md:mt-10 not-prose">
     <div>
