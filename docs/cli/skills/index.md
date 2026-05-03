@@ -17,7 +17,7 @@ turn natural-language requests into well-formed CLI invocations.
 ```=html
 <div class="callout">
   <i class="fa-solid fa-lightbulb"></i>
-  <p>The skills are <strong>thin wrappers</strong> around the <code>monoscope</code> CLI — no separate API key, no MCP server, no extra runtime. If the CLI works, the skills work.</p>
+  <p>The skills are <strong>thin wrappers</strong> around the <code>monoscope</code> CLI — no separate API key, no extra runtime. If the CLI works, the skills work. Prefer wiring tools in over the network instead? Use the <a href="/docs/mcp/">MCP server</a>.</p>
 </div>
 ```
 

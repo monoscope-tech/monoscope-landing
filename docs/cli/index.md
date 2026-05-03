@@ -92,5 +92,6 @@ monoscope events search 'severity.text=="error"' --since 1h --limit 10
 ## See also
 
 - [API Reference](/docs/api-reference/) — the same endpoints the CLI calls, if you'd rather use HTTP directly.
+- [MCP Server](/docs/mcp/) — the same surface as a Model Context Protocol server for Claude Code, Cursor, and other agents.
 - [SDKs](/docs/sdks/) — instrument your apps to send data *into* Monoscope.
 - [Dashboard Guides](/docs/dashboard/) — the same workflows in the web UI.
