@@ -8,8 +8,8 @@ menuWeight: 1
 
 # Install & Authenticate
 
-The `monoscope` CLI is a single static binary — no runtime, no Docker, no
-package manager dance. It runs on Linux and macOS, x86_64 and arm64.
+A single static binary on Linux and macOS, x86_64 and arm64. No runtime,
+no Docker, no package-manager dance — `curl | bash` and you're done.
 
 ## Install
 
@@ -156,4 +156,8 @@ monoscope completion fish >> ~/.config/fish/completions/monoscope.fish
 Unknown shells exit non-zero with a clear error rather than silently emitting
 a bash script.
 
-## Next: [Command Reference →](/docs/cli/commands/)
+## See also
+
+- [Command Reference](/docs/ai/cli/commands/) — every subcommand with examples.
+- [Agentic Pipelines](/docs/ai/cli/agentic/) — the JSON contract agents rely on.
+- [MCP Server](/docs/ai/mcp/) — same surface over the network, no install required.

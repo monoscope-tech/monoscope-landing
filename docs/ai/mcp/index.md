@@ -201,5 +201,5 @@ Every tool call returns the standard MCP envelope:
 ## See also
 
 - [API Reference](/docs/api-reference/) — the same operations as raw HTTP.
-- [CLI & Agents](/docs/cli/) — terminal access to the same surface.
-- [Claude Code Skills](/docs/cli/skills/) — natural-language skills that drive the CLI; complementary to the MCP server.
+- [CLI & Agents](/docs/ai/cli/) — terminal access to the same surface.
+- [Claude Code Skills](/docs/ai/cli/skills/) — natural-language skills that drive the CLI; complementary to the MCP server.

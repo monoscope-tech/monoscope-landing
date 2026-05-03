@@ -271,6 +271,193 @@
         font-size: 0.875rem;
       }
 
+      /* ── Surface chooser: asymmetric — primary surface featured ── */
+      .surface-chooser {
+        display: grid;
+        gap: 1px;
+        background-color: var(--color-strokeWeak);
+        border: 1px solid var(--color-strokeWeak);
+        border-radius: 0.75rem;
+        overflow: hidden;
+        margin: 1.75rem 0;
+        grid-template-columns: 1.65fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas:
+          "primary alt-a"
+          "primary alt-b";
+      }
+      @media (max-width: 640px) {
+        .surface-chooser {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto;
+          grid-template-areas: none;
+        }
+      }
+      /* Equal two-up variant: parent-level chooser when surfaces are peers,
+         not asymmetric. */
+      .surface-chooser--equal {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        grid-template-areas: none;
+      }
+      .surface-chooser--equal > a {
+        padding: 1.75rem 2rem;
+        gap: 0.625rem;
+      }
+      .surface-chooser--equal .name {
+        font-size: 1.25rem;
+        letter-spacing: -0.015em;
+      }
+      @media (max-width: 640px) {
+        .surface-chooser--equal {
+          grid-template-columns: 1fr;
+        }
+      }
+      .surface-chooser > a {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1.5rem 1.75rem;
+        background-color: var(--color-bgRaised);
+        text-decoration: none;
+        transition: background-color 200ms ease;
+        min-width: 0;
+      }
+      .surface-chooser > a.primary {
+        grid-area: primary;
+        padding: 2rem 2.25rem;
+        gap: 0.75rem;
+      }
+      .surface-chooser > a.alt-a { grid-area: alt-a; }
+      .surface-chooser > a.alt-b { grid-area: alt-b; }
+      .surface-chooser > a:hover {
+        background-color: var(--color-fillBrand-weak);
+      }
+      .surface-chooser > a:focus-visible {
+        outline: 2px solid var(--color-strokeBrand-strong);
+        outline-offset: -2px;
+        position: relative;
+        z-index: 1;
+      }
+      .surface-chooser .label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--color-textWeak);
+        font-weight: 500;
+      }
+      .surface-chooser .name {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--color-textStrong);
+        letter-spacing: -0.01em;
+      }
+      .surface-chooser > a.primary .name {
+        font-size: 1.5rem;
+        letter-spacing: -0.02em;
+      }
+      .surface-chooser .when {
+        font-size: 0.875rem;
+        color: var(--color-textWeak);
+        line-height: 1.55;
+      }
+      .surface-chooser > a.primary .when {
+        font-size: 1rem;
+        max-width: 32rem;
+      }
+      .surface-chooser .footer {
+        margin-top: auto;
+        padding-top: 1rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--color-textBrand-strong);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .surface-chooser > a:hover .footer i {
+        transform: translateX(2px);
+      }
+      .surface-chooser .footer i {
+        transition: transform 200ms ease;
+        font-size: 0.75rem;
+      }
+
+      /* ── Section pathway: numbered editorial nav, replaces card grids ── */
+      .pathway {
+        display: flex;
+        flex-direction: column;
+        margin: 1.5rem 0;
+        border-top: 1px solid var(--color-strokeWeak);
+      }
+      .pathway > a {
+        display: grid;
+        grid-template-columns: 2.5rem 1fr auto;
+        align-items: baseline;
+        gap: 1.25rem;
+        padding: 1rem 0.25rem;
+        border-bottom: 1px solid var(--color-strokeWeak);
+        text-decoration: none;
+        color: inherit;
+        transition: background-color 200ms ease, padding-left 200ms ease;
+      }
+      .pathway > a:hover {
+        background-color: var(--color-fillBrand-weak);
+        padding-left: 0.75rem;
+      }
+      .pathway > a:focus-visible {
+        outline: 2px solid var(--color-strokeBrand-strong);
+        outline-offset: -2px;
+      }
+      .pathway .step {
+        font-variant-numeric: tabular-nums;
+        font-size: 0.875rem;
+        color: var(--color-textWeak);
+        font-weight: 500;
+      }
+      .pathway .title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--color-textStrong);
+        letter-spacing: -0.01em;
+      }
+      .pathway .desc {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 400;
+        color: var(--color-textWeak);
+        margin-top: 0.125rem;
+        line-height: 1.5;
+      }
+      .pathway .arrow {
+        color: var(--color-textWeak);
+        font-size: 0.875rem;
+        align-self: center;
+        transition: transform 200ms ease, color 200ms ease;
+      }
+      .pathway > a:hover .arrow {
+        color: var(--color-textBrand-strong);
+        transform: translateX(2px);
+      }
+
+      /* Respect OS reduced-motion preference: keep color/background feedback,
+         drop the translate animations. */
+      @media (prefers-reduced-motion: reduce) {
+        .surface-chooser > a,
+        .surface-chooser .footer i,
+        .pathway > a,
+        .pathway .arrow {
+          transition: none;
+        }
+        .pathway > a:hover {
+          padding-left: 0.25rem;
+        }
+        .pathway > a:hover .arrow,
+        .surface-chooser > a:hover .footer i {
+          transform: none;
+        }
+      }
+
 
       .t-white { filter: brightness(0) invert(1); }
       .t-black { filter: brightness(0); }

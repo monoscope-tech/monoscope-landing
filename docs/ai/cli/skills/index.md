@@ -8,16 +8,17 @@ menuWeight: 4
 
 # Claude Code Skills
 
-[Skills](https://docs.claude.com/en/docs/claude-code/skills) are how Claude
-Code (and other agents that support the format) get domain expertise — a
-named bundle of instructions and shell access that activates when the
-user's request matches its description. Monoscope ships three skills that
-turn natural-language requests into well-formed CLI invocations.
+Three drop-in skills that turn natural-language requests into well-formed
+CLI invocations. A
+[skill](https://docs.claude.com/en/docs/claude-code/skills) is a named
+bundle of instructions plus shell access that Claude Code loads on
+demand — when your request matches the skill's description, Claude
+applies its playbook.
 
 ```=html
 <div class="callout">
   <i class="fa-solid fa-lightbulb"></i>
-  <p>The skills are <strong>thin wrappers</strong> around the <code>monoscope</code> CLI — no separate API key, no extra runtime. If the CLI works, the skills work. Prefer wiring tools in over the network instead? Use the <a href="/docs/mcp/">MCP server</a>.</p>
+  <p>The skills are <strong>thin wrappers</strong> around the <code>monoscope</code> CLI — no separate API key, no extra runtime. If the CLI works, the skills work. Prefer wiring tools in over the network instead? Use the <a href="/docs/ai/mcp/">MCP server</a>.</p>
 </div>
 ```
 
@@ -127,6 +128,6 @@ unchanged against your private instance.
 
 ## See also
 
-- [Agentic Pipelines](/docs/cli/agentic/) — the JSON envelope contract the skills rely on.
-- [Command Reference](/docs/cli/commands/) — every command the skills can call.
-- [Skill source](https://github.com/monoscope-tech/skills) — read the actual instructions.
+- [Agentic Pipelines](/docs/ai/cli/agentic/) — the JSON envelope contract the skills rely on.
+- [Command Reference](/docs/ai/cli/commands/) — every command the skills can call.
+- [MCP Server](/docs/ai/mcp/) — wire any agent in over the network instead of a local CLI.

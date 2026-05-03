@@ -8,9 +8,9 @@ menuWeight: 2
 
 # Command Reference
 
-Every command supports `--help` for a complete flag list. Below is an
-opinionated tour grouped by use case. The full reference, including every
-flag for every subcommand, lives in the [GitHub repo](https://github.com/monoscope-tech/monoscope/blob/master/docs/cli.md).
+An opinionated tour grouped by use case. Every command supports `--help`
+for the complete flag list; the exhaustive reference lives in the
+[GitHub repo](https://github.com/monoscope-tech/monoscope/blob/master/docs/cli.md).
 
 ## Global flags
 
@@ -191,4 +191,8 @@ monoscope issues list --status open --service legacy-billing \
   | xargs -I {} monoscope issues bulk acknowledge --ids {}
 ```
 
-## Next: [Agentic Pipelines →](/docs/cli/agentic/)
+## See also
+
+- [Agentic Pipelines](/docs/ai/cli/agentic/) — JSON envelopes and the discover → search → triage chain.
+- [Claude Code Skills](/docs/ai/cli/skills/) — natural-language wrappers around these commands.
+- [Install & Authenticate](/docs/ai/cli/install/) — env vars, completions, self-hosted setup.
