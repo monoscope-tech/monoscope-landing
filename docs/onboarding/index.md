@@ -231,7 +231,7 @@ As Monoscope receives traffic, it auto-detects your API endpoints (visible in [E
 ## Next Steps
 
 ```=html
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
     <a href="/docs/sdks" class="docs-card rounded-lg">
         <p><i class="fa-solid fa-code"></i><span class="text-2xl">SDK Guides</span></p>
         <span>Native SDKs for Node.js, Python, Go, PHP, .NET, and 12+ more frameworks.</span>
@@ -240,5 +240,16 @@ As Monoscope receives traffic, it auto-detects your API endpoints (visible in [E
         <p><i class="fa-solid fa-chart-line"></i><span class="text-2xl">Dashboard Guides</span></p>
         <span>Explore endpoints, logs, anomalies, tests, and analytics in the dashboard.</span>
     </a>
+    <a href="/docs/ai/cli/" class="docs-card rounded-lg">
+        <p><i class="fa-solid fa-terminal"></i><span class="text-2xl">CLI &amp; Agents</span></p>
+        <span>Drive Monoscope from the terminal — and let Claude Code skills triage incidents end-to-end.</span>
+    </a>
+</div>
+```
+
+```=html
+<div class="callout">
+  <i class="fa-solid fa-terminal"></i>
+  <p><strong>Prefer terminal-first?</strong> Install the CLI and run <code>monoscope auth login</code> instead of clicking through the dashboard. <a href="/docs/ai/cli/install/" class="font-semibold underline">Install &amp; authenticate guide →</a></p>
 </div>
 ```

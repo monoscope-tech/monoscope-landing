@@ -8,9 +8,9 @@ menuWeight: 3
 
 # Agentic Pipelines
 
-The `monoscope` CLI is built so an LLM agent — Claude Code, Cursor, Cline,
-or anything that can run `bash` — can use it as a tool surface without any
-custom wrappers. Three properties make this work:
+Any agent that can run `bash` — Claude Code, Cursor, Cline, your own —
+can use the CLI as a tool surface without custom wrappers. Three
+properties make that work:
 
 1. **Stable JSON envelopes.** Every list command returns `{data, pagination}`. Every event command returns `{events, count, has_more, cursor}`. These shapes are documented and pinned by integration tests.
 2. **Server errors are forwarded verbatim.** A bad KQL query returns an HTTP 400 whose body includes the line/column of the parse error — the CLI surfaces that directly to stderr, no `Bad Request` blackbox.
@@ -26,7 +26,7 @@ custom wrappers. Three properties make this work:
 ## The full pipeline
 
 The canonical agentic workflow is **discover → search → context → triage**.
-This is exactly the chain the [investigate skill](/docs/cli/skills/) drives:
+This is exactly the chain the [investigate skill](/docs/ai/cli/skills/) drives:
 
 ```sh
 # 1. Discover. Facets are precomputed top-N per field — far cheaper than
@@ -159,4 +159,8 @@ at `http://localhost:8080` for local dev) and asserts on:
 
 If a wire format breaks, CI breaks before it ships.
 
-## Next: [Claude Code Skills →](/docs/cli/skills/)
+## See also
+
+- [Claude Code Skills](/docs/ai/cli/skills/) — prebuilt skills that drive this exact pipeline.
+- [MCP Server](/docs/ai/mcp/) — same primitives over the network, no CLI install needed.
+- [Command Reference](/docs/ai/cli/commands/) — every command the pipeline calls.

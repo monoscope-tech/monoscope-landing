@@ -31,9 +31,9 @@ hideToc: true
         <p><i class="fa-solid fa-code"></i> <strong>SDK Guides</strong></p>
         <span>Native SDKs and OpenTelemetry support for Go, Node.js, Python, PHP, .NET, and more.</span>
     </a>
-    <a href="/docs/cli/" class="docs-card rounded-xl">
-        <p><i class="fa-solid fa-terminal"></i> <strong>CLI &amp; Agents</strong></p>
-        <span>Run Monoscope from the terminal — and let Claude Code skills triage incidents end-to-end.</span>
+    <a href="/docs/ai/" class="docs-card rounded-xl">
+        <p><i class="fa-solid fa-robot"></i> <strong>AI</strong></p>
+        <span>The CLI, MCP server, and Claude Code skills — Monoscope's tool surface for any LLM that can run <code>bash</code>.</span>
     </a>
     <a href="/docs/dashboard/" class="docs-card rounded-xl">
         <p><i class="fa-solid fa-chart-line"></i> <strong>Dashboard Guides</strong></p>

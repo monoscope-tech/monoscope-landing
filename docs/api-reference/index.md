@@ -17,3 +17,4 @@ https://api.monoscope.tech
 
 - [Getting Started](/docs/api-reference/getting-started/) — Introduction, authentication, and rate limits
 - [Endpoints](/docs/api-reference/endpoints/) — Full endpoint reference
+- [MCP Server](/docs/api-reference/mcp/) — Same surface, exposed as a Model Context Protocol endpoint for agentic clients (Claude Code, Cursor, Cline, …)
