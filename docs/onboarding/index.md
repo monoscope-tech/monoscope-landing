@@ -12,6 +12,47 @@ pageFullWidth: true
 
 This guide walks you through setting up Monoscope: create an account, get an API key, integrate an SDK, and start monitoring your API. The whole process takes about 5 minutes.
 
+```=html
+<aside class="not-prose my-8 rounded-xl border border-strokeBrand-weak bg-fillBrand-weak/40 p-6 md:p-8" aria-labelledby="quick-path-heading">
+  <div class="flex items-baseline justify-between gap-4 mb-5">
+    <div>
+      <p class="text-xs uppercase tracking-[0.18em] font-medium text-fillBrand-strong mb-1">Quick path · 90 seconds</p>
+      <h2 id="quick-path-heading" class="text-xl md:text-2xl font-semibold tracking-tight text-textStrong m-0">In a hurry? Run these three.</h2>
+    </div>
+    <a href="#steps" class="hidden md:inline text-sm text-textWeak hover:text-fillBrand-strong shrink-0">Full guide ↓</a>
+  </div>
+
+  <ol class="space-y-5 m-0 list-none p-0">
+    <li class="flex gap-4">
+      <span class="shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-full bg-fillBrand-strong text-white text-sm font-semibold">1</span>
+      <div class="flex-1 min-w-0">
+        <p class="m-0 text-textStrong font-medium">Sign up & grab your API key</p>
+        <p class="m-0 mt-1 text-sm text-textWeak">Create an account at <a href="https://app.monoscope.tech?utm_source=docs_quickpath" class="text-fillBrand-strong hover:underline">app.monoscope.tech</a> — your default project gives you an API key on first load.</p>
+      </div>
+    </li>
+    <li class="flex gap-4">
+      <span class="shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-full bg-fillBrand-strong text-white text-sm font-semibold">2</span>
+      <div class="flex-1 min-w-0">
+        <p class="m-0 text-textStrong font-medium">Install the CLI (or pick your SDK)</p>
+        <pre class="m-0 mt-2 px-4 py-3 rounded-lg overflow-x-auto text-[13px] leading-relaxed" style="background:#0d1117;color:#e6edf3;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace">curl monoscope.tech/install.sh | sh
+monoscope auth login</pre>
+        <p class="m-0 mt-2 text-sm text-textWeak">Prefer language-native? Jump to <a href="/docs/sdks/" class="text-fillBrand-strong hover:underline">SDK Guides</a>.</p>
+      </div>
+    </li>
+    <li class="flex gap-4">
+      <span class="shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-full bg-fillBrand-strong text-white text-sm font-semibold">3</span>
+      <div class="flex-1 min-w-0">
+        <p class="m-0 text-textStrong font-medium">Send your first event</p>
+        <pre class="m-0 mt-2 px-4 py-3 rounded-lg overflow-x-auto text-[13px] leading-relaxed" style="background:#0d1117;color:#e6edf3;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace">monoscope telemetrygen --kind=trace --rate=1</pre>
+        <p class="m-0 mt-2 text-sm text-textWeak">Open the <a href="https://app.monoscope.tech" class="text-fillBrand-strong hover:underline">dashboard</a> — your event lands in seconds. That's the aha. ✓</p>
+      </div>
+    </li>
+  </ol>
+
+  <p class="mt-6 mb-0 text-sm text-textWeak md:hidden">Need more detail? <a href="#steps" class="text-fillBrand-strong hover:underline">Read the full guide below ↓</a></p>
+</aside>
+```
+
 Prefer video? Here's a walkthrough:
 
 ```=html
@@ -29,7 +70,7 @@ Prefer video? Here's a walkthrough:
 <hr />
 ```
 
-## Steps
+## Steps {#steps}
 
 1. [Create an Account](#①-create-an-account)
 2. [Create a Project](#②-create-a-new-project)

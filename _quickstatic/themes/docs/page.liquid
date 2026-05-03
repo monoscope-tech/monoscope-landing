@@ -214,8 +214,6 @@
         text-decoration: none;
         border: 1px solid var(--color-strokeWeak);
         background-color: var(--color-bgRaised);
-        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-        transition: border-color 200ms ease, box-shadow 200ms ease;
         gap: 0.75rem;
         overflow: hidden;
       }
@@ -223,23 +221,50 @@
       .docs-card {
         justify-content: flex-start;
         align-items: flex-start;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+        transition: border-color 200ms ease, box-shadow 200ms ease;
       }
 
       .docs-card-2 {
         justify-content: center;
         align-items: center;
+        transition: background-color 200ms ease, border-color 200ms ease;
       }
 
-      .docs-card:hover,
-      .docs-card-2:hover {
+      .docs-card:hover {
         border-color: var(--color-strokeBrand-weak);
         box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
+      }
+
+      .docs-card-2:hover {
+        background-color: var(--color-fillBrand-weak);
+        border-color: var(--color-strokeBrand-weak);
       }
 
       .docs-card:focus-visible,
       .docs-card-2:focus-visible {
         outline: 2px solid var(--color-strokeBrand-strong);
         outline-offset: 2px;
+      }
+
+      /* "More" / CTA variant of docs-card-2 — visually distinct from peer SDK cards */
+      .docs-card-2--more {
+        background-color: transparent;
+        border-style: dashed;
+        border-color: var(--color-strokeBrand-weak);
+      }
+      .docs-card-2--more:hover {
+        background-color: var(--color-fillBrand-weak);
+        border-style: solid;
+        border-color: var(--color-strokeBrand-strong);
+      }
+      .docs-card-2--more .more-arrow {
+        color: var(--color-fillBrand-strong);
+        font-size: 1.75rem;
+        transition: transform 200ms ease;
+      }
+      .docs-card-2--more:hover .more-arrow {
+        transform: translateX(4px);
       }
 
       .docs-card p,
@@ -580,37 +605,62 @@
         background: var(--color-fillRaised);
       }
       [data-theme='dark'] .callout-tip {
-        background-color: oklch(0.22 0.04 145);
-        border-left-color: oklch(0.65 0.18 145);
+        background-color: oklch(0.28 0.05 145);
+        border-left-color: oklch(0.7 0.18 145);
+        color: oklch(0.96 0.02 145);
+      }
+      [data-theme='dark'] .callout-tip strong,
+      [data-theme='dark'] .callout-tip a,
+      [data-theme='dark'] .callout-tip code {
+        color: oklch(0.98 0.02 145);
       }
       [data-theme='dark'] .callout-tip i:first-child,
       [data-theme='dark'] .callout-tip > p:first-child > i:first-child {
-        color: oklch(0.72 0.18 145);
+        color: oklch(0.82 0.2 145);
       }
       [data-theme='dark'] .callout-warning {
-        background-color: oklch(0.22 0.04 70);
-        border-left-color: oklch(0.75 0.15 70);
+        background-color: oklch(0.28 0.05 70);
+        border-left-color: oklch(0.78 0.15 70);
+        color: oklch(0.96 0.02 70);
+      }
+      [data-theme='dark'] .callout-warning strong,
+      [data-theme='dark'] .callout-warning a,
+      [data-theme='dark'] .callout-warning code {
+        color: oklch(0.98 0.02 70);
       }
       [data-theme='dark'] .callout-red {
         background-color: oklch(0.22 0.04 25);
         border-left-color: oklch(0.65 0.2 25) !important;
       }
       @media (prefers-color-scheme: dark) {
-        .callout-tip {
-          background-color: oklch(0.22 0.04 145);
-          border-left-color: oklch(0.65 0.18 145);
+        html:not([data-theme='light']) .callout-tip {
+          background-color: oklch(0.28 0.05 145);
+          border-left-color: oklch(0.7 0.18 145);
+          color: oklch(0.96 0.02 145);
         }
-        .callout-tip i:first-child,
-        .callout-tip > p:first-child > i:first-child {
-          color: oklch(0.72 0.18 145);
+        html:not([data-theme='light']) .callout-tip strong,
+        html:not([data-theme='light']) .callout-tip a,
+        html:not([data-theme='light']) .callout-tip code {
+          color: oklch(0.98 0.02 145);
         }
-        .callout-warning {
-          background-color: oklch(0.22 0.04 70);
-          border-left-color: oklch(0.75 0.15 70);
+        html:not([data-theme='light']) .callout-tip i:first-child,
+        html:not([data-theme='light']) .callout-tip > p:first-child > i:first-child {
+          color: oklch(0.82 0.2 145);
         }
-        .callout-red {
-          background-color: oklch(0.22 0.04 25);
-          border-left-color: oklch(0.65 0.2 25) !important;
+        html:not([data-theme='light']) .callout-warning {
+          background-color: oklch(0.28 0.05 70);
+          border-left-color: oklch(0.78 0.15 70);
+          color: oklch(0.96 0.02 70);
+        }
+        html:not([data-theme='light']) .callout-warning strong,
+        html:not([data-theme='light']) .callout-warning a,
+        html:not([data-theme='light']) .callout-warning code {
+          color: oklch(0.98 0.02 70);
+        }
+        html:not([data-theme='light']) .callout-red {
+          background-color: oklch(0.28 0.05 25);
+          border-left-color: oklch(0.7 0.2 25) !important;
+          color: oklch(0.96 0.02 25);
         }
       }
 

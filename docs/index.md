@@ -11,11 +11,15 @@ pageFullWidth: true
 ---
 
 ```=html
-<section class="max-w-8xl mx-auto px-2 not-prose">
+<style>
+  .quote-logo-mono { filter: brightness(0); }
+  [data-theme=dark] .quote-logo-mono { filter: brightness(0) invert(1); }
+</style>
+<section class="max-w-8xl mx-auto px-2 pb-24 md:pb-32 not-prose">
 
-  <div class="grid md:grid-cols-2 gap-10 lg:gap-12 items-center mt-6 md:mt-10 not-prose">
+  <div class="grid md:grid-cols-2 gap-10 lg:gap-16 items-center mt-12 md:mt-20 not-prose">
     <div>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.1]">Instrument fast. Investigate faster.</h1>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.04]">Instrument fast. Investigate faster.</h1>
       <p class="text-lg text-textWeak mt-5 max-w-md">Native SDKs for 17+ frameworks, a CLI for shells and agents, an MCP server, and a dashboard for the humans. Start wherever fits.</p>
       <div class="flex items-center gap-3 mt-8 flex-wrap">
         <a href="/docs/onboarding/" class="btn btn-primary sm:w-48">Get Started</a>
@@ -36,15 +40,26 @@ monoscope auth login
 <span style="color:rgba(230,237,243,.45)"># Add the Monoscope Claude skill</span>
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-<span style="color:rgba(230,237,243,.45)"># Then: /instrument instrument this app with Monoscope opentelemetry auto instrumentation</span></pre>
+<span style="color:rgba(230,237,243,.45)"># Then run: /instrument instrument this app with
+# Monoscope opentelemetry auto instrumentation</span></pre>
       </div>
     </aside>
   </div>
 
-  <div class="docs-grid not-prose mt-16">
+  <figure class="mt-16 md:mt-20 max-w-3xl not-prose border-l-2 border-strokeBrand-weak pl-6">
+    <blockquote class="text-textStrong font-medium tracking-tight" style="font-size:clamp(1.125rem, 1.6vw, 1.5rem); line-height:1.45;">
+      <span class="text-fillBrand-strong mr-0.5" aria-hidden="true">&ldquo;</span>The best observability tool we use today at Woodcore — monoscope notifies us about any slight change or issue that happens on the system.<span class="text-fillBrand-strong ml-0.5" aria-hidden="true">&rdquo;</span>
+    </blockquote>
+    <figcaption class="mt-4 flex items-center gap-3 text-textWeak" style="font-size:0.875rem;">
+      <img src="/assets/img/customers/woodcore-logo-full.svg" alt="Woodcore" class="h-5 w-auto opacity-50 quote-logo-mono" />
+      <span>Samuel Joseph, CEO of Woodcore</span>
+    </figcaption>
+  </figure>
+
+  <div class="docs-grid not-prose mt-20 md:mt-24">
     <a href="/docs/sdks/" class="docs-grid__cell">
       <p><i class="fa-solid fa-code"></i> <strong>SDK Guides</strong></p>
-      <span>Native SDKs for Go, Node.js, Python, PHP, .NET — and OpenTelemetry for everything else.</span>
+      <span>Install, configure, and instrument any supported framework — plus OpenTelemetry for the rest.</span>
     </a>
     <a href="/docs/ai/" class="docs-grid__cell">
       <p><i class="fa-solid fa-robot"></i> <strong>AI</strong></p>
@@ -60,7 +75,10 @@ claude plugin install monoscope-skills@monoscope-skills
     </a>
   </div>
 
-  <h2 class="text-2xl font-semibold tracking-tight mt-20 mb-2">Choose Your SDK</h2>
+  <div class="mt-24 md:mt-32 mb-8">
+    <p class="text-xs uppercase tracking-[0.18em] font-medium text-textWeak mb-3">Languages &amp; Frameworks</p>
+    <h2 class="text-3xl md:text-4xl font-semibold tracking-tight leading-[1.1]">Choose Your SDK</h2>
+  </div>
 ```
 
 ```=html
