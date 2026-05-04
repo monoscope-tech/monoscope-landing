@@ -837,6 +837,13 @@
 
       /* AI Context Menu */
       .ai-menu-wrap { position: relative; }
+      .ai-split-btn { display: inline-flex; align-items: stretch; }
+      .ai-split-primary, .ai-split-caret { background: none; }
+      .ai-split-primary:focus, .ai-split-caret:focus { outline: none; }
+      .ai-split-check { display: none; color: oklch(0.65 0.2 145); }
+      .ai-split-primary.copied .ai-split-icon { display: none; }
+      .ai-split-primary.copied .ai-split-check { display: inline-block; }
+      .ai-split-primary.copied .ai-split-label { color: oklch(0.65 0.2 145); }
       .ai-menu {
         position: absolute; right: 0; top: 100%; z-index: 50;
         min-width: 260px; margin-top: 6px;
@@ -1275,11 +1282,18 @@
                 {% endfor %}
               </nav>
               <div class="ai-menu-wrap">
-                <button id="ai-menu-trigger" type="button" title="AI & copy options"
-                  class="cursor-pointer flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-textWeak hover:text-textStrong hover:bg-fillWeak border border-strokeWeak transition-colors">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4m0 10v4M5.6 5.6l2.8 2.8m7.2 7.2l2.8 2.8M3 12h4m10 0h4M5.6 18.4l2.8-2.8m7.2-7.2l2.8-2.8"/></svg>
-                  AI
-                </button>
+                <div class="ai-split-btn">
+                  <button id="ai-copy-page" type="button" title="Copy page as Markdown"
+                    class="ai-split-primary cursor-pointer flex items-center gap-1.5 px-2.5 py-1.5 rounded-l-lg text-xs font-medium text-textWeak hover:text-textStrong hover:bg-fillWeak border border-strokeWeak transition-colors">
+                    <svg class="ai-split-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    <svg class="ai-split-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                    <span class="ai-split-label">Copy Page</span>
+                  </button>
+                  <button id="ai-menu-trigger" type="button" title="AI & copy options" aria-label="More copy options"
+                    class="ai-split-caret cursor-pointer flex items-center px-1.5 py-1.5 rounded-r-lg text-textWeak hover:text-textStrong hover:bg-fillWeak border border-l-0 border-strokeWeak transition-colors">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                  </button>
+                </div>
                 <div id="ai-menu" class="ai-menu">
                   <button class="ai-menu-item" data-action="copy-page">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
@@ -1302,20 +1316,6 @@
                   <a class="ai-menu-item" data-action="open-perplexity" target="_blank" rel="noopener noreferrer">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                     <span class="ai-menu-label">Open in Perplexity</span>
-                  </a>
-                  <div class="ai-menu-sep"></div>
-                  <button class="ai-menu-item" data-action="copy-mcp">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
-                    <span class="ai-menu-label">Copy MCP server URL<br><span class="ai-menu-sub">For AI code editors</span></span>
-                    <svg class="ai-menu-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-                  </button>
-                  <a class="ai-menu-item" data-action="connect-cursor" target="_blank" rel="noopener noreferrer">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
-                    <span class="ai-menu-label">Connect to Cursor<br><span class="ai-menu-sub">Install MCP server</span></span>
-                  </a>
-                  <a class="ai-menu-item" data-action="connect-vscode" target="_blank" rel="noopener noreferrer">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16.5 2.5L7.5 12l9 9.5 5-2.5V5z"/><path d="M7.5 12L2 8.5V15.5z" opacity=".5"/></svg>
-                    <span class="ai-menu-label">Connect to VS Code<br><span class="ai-menu-sub">Install MCP server</span></span>
                   </a>
                 </div>
               </div>
@@ -1468,13 +1468,8 @@
       function initAIMenu() {
         var trigger = document.getElementById('ai-menu-trigger');
         var menu = document.getElementById('ai-menu');
+        var copyBtn = document.getElementById('ai-copy-page');
         if (!trigger || !menu) return;
-
-        // Enable/disable MCP items
-        var mcpItems = menu.querySelectorAll('[data-action="copy-mcp"],[data-action="connect-cursor"],[data-action="connect-vscode"]');
-        mcpItems.forEach(function(el) {
-          el.classList.toggle('disabled', !docsAIConfig.mcpServerUrl);
-        });
 
         // Set AI assistant hrefs
         var pageUrl = window.location.href;
@@ -1490,14 +1485,6 @@
 
         var perplexity = menu.querySelector('[data-action="open-perplexity"]');
         if (perplexity) perplexity.href = 'https://www.perplexity.ai/search?q=' + encodeURIComponent(prompt);
-
-        // MCP deep links
-        if (docsAIConfig.mcpServerUrl) {
-          var cursorLink = menu.querySelector('[data-action="connect-cursor"]');
-          if (cursorLink) cursorLink.href = 'cursor://anysphere.cursor-deeplink/mcp/install?name=monoscope-docs&url=' + encodeURIComponent(docsAIConfig.mcpServerUrl);
-          var vscodeLink = menu.querySelector('[data-action="connect-vscode"]');
-          if (vscodeLink) vscodeLink.href = 'vscode://anysphere.cursor-deeplink/mcp/install?name=monoscope-docs&url=' + encodeURIComponent(docsAIConfig.mcpServerUrl);
-        }
 
         // Toggle
         trigger.onclick = function(e) {
@@ -1527,11 +1514,27 @@
           return '# ' + pageTitle + '\n\nSource: ' + pageUrl + '\n\n' + clone.innerText;
         }
 
-        // Copy page as markdown
+        // Copy page as markdown (primary split-button action)
+        if (copyBtn) {
+          copyBtn.onclick = function() {
+            var text = getPageMarkdown();
+            if (!text) return;
+            navigator.clipboard.writeText(text).then(function() {
+              copyBtn.classList.add('copied');
+              setTimeout(function() { copyBtn.classList.remove('copied'); }, 2000);
+            });
+          };
+        }
+
+        // Copy page as markdown (dropdown item)
         menu.querySelector('[data-action="copy-page"]').onclick = function() {
           var text = getPageMarkdown();
           if (!text) return;
-          navigator.clipboard.writeText(text).then(function() { showCopied('copy-page'); });
+          navigator.clipboard.writeText(text).then(function() {
+            var item = menu.querySelector('[data-action="copy-page"]');
+            item.classList.add('copied');
+            setTimeout(function() { item.classList.remove('copied'); }, 2000);
+          });
         };
 
         // View as markdown in new tab
@@ -1540,19 +1543,8 @@
           if (!text) return;
           var blob = new Blob([text], { type: 'text/plain' });
           window.open(URL.createObjectURL(blob), '_blank');
+          menu.classList.remove('open');
         };
-
-        // Copy MCP URL
-        menu.querySelector('[data-action="copy-mcp"]').onclick = function() {
-          if (!docsAIConfig.mcpServerUrl) return;
-          navigator.clipboard.writeText(docsAIConfig.mcpServerUrl).then(function() { showCopied('copy-mcp'); });
-        };
-
-        function showCopied(action) {
-          var item = menu.querySelector('[data-action="' + action + '"]');
-          item.classList.add('copied');
-          setTimeout(function() { item.classList.remove('copied'); }, 2000);
-        }
       }
 
       function init() {
