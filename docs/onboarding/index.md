@@ -43,7 +43,7 @@ monoscope auth login</pre>
       <span class="shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-full bg-fillBrand-strong text-white text-sm font-semibold">3</span>
       <div class="flex-1 min-w-0">
         <p class="m-0 text-textStrong font-medium">Send your first event</p>
-        <pre class="m-0 mt-2 px-4 py-3 rounded-lg overflow-x-auto text-[13px] leading-relaxed" style="background:#0d1117;color:#e6edf3;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace">monoscope telemetrygen --kind=trace --rate=1</pre>
+        <pre class="m-0 mt-2 px-4 py-3 rounded-lg overflow-x-auto text-[13px] leading-relaxed" style="background:#0d1117;color:#e6edf3;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace">monoscope send-event -m "Hello from Monoscope"</pre>
         <p class="m-0 mt-2 text-sm text-textWeak">Open the <a href="https://app.monoscope.tech" class="text-fillBrand-strong hover:underline">dashboard</a> — your event lands in seconds. That's the aha. ✓</p>
       </div>
     </li>
@@ -150,103 +150,45 @@ Need help? [Email us](mailto:hello@monoscope.tech) and we'll get you set up.
 
 ## ⑤ Test Your Integration
 
-Verify everything works by sending test data with **telemetrygen** before deploying.
+Verify everything works before deploying. No extra tools needed — the CLI handles it.
 
-### Install telemetrygen
-
-First, install the telemetrygen tool based on your operating system:
-
-```=html
-<section class="tab-group" data-tab-group="os">
-  <button class="tab-button" data-tab="macos">macOS</button>
-  <button class="tab-button" data-tab="linux">Linux</button>
-  <button class="tab-button" data-tab="windows">Windows</button>
-  <button class="tab-button" data-tab="docker">Docker</button>
-
-  <div id="macos" class="tab-content">
-    <pre><code class="language-bash"># Using Homebrew
-brew install telemetrygen
-
-# Or download directly
-curl -LO https://github.com/open-telemetry/opentelemetry-collector-contrib/releases/latest/download/telemetrygen_darwin_amd64
-chmod +x telemetrygen_darwin_amd64
-sudo mv telemetrygen_darwin_amd64 /usr/local/bin/telemetrygen</code></pre>
-  </div>
-
-  <div id="linux" class="tab-content">
-    <pre><code class="language-bash"># Download the binary
-curl -LO https://github.com/open-telemetry/opentelemetry-collector-contrib/releases/latest/download/telemetrygen_linux_amd64
-chmod +x telemetrygen_linux_amd64
-sudo mv telemetrygen_linux_amd64 /usr/local/bin/telemetrygen</code></pre>
-  </div>
-
-  <div id="windows" class="tab-content">
-    <pre><code class="language-bash"># Download from PowerShell
-Invoke-WebRequest -Uri https://github.com/open-telemetry/opentelemetry-collector-contrib/releases/latest/download/telemetrygen_windows_amd64.exe -OutFile telemetrygen.exe</code></pre>
-  </div>
-
-  <div id="docker" class="tab-content">
-    <pre><code class="language-bash"># Run using Docker
-docker run --rm -it ghcr.io/open-telemetry/opentelemetry-collector-contrib/telemetrygen:latest \
-  traces --otlp-insecure \
-  --otlp-endpoint otel.monoscope.tech:4317 \
-  --otlp-header="x-api-key=YOUR_API_KEY"</code></pre>
-  </div>
-</section>
-```
-
-### Send Test Data
-
-Once installed, you can send test traces to monoscope using your API key:
+**Single event — instant confirmation:**
 
 ```bash
-# Send test traces
-telemetrygen traces \
-  --otlp-insecure \
-  --otlp-endpoint otel.monoscope.tech:4317 \
-  --otlp-header="x-api-key=YOUR_API_KEY" \
-  --traces 10 \
-  --rate 2
+monoscope send-event -m "Hello from Monoscope"
 ```
 
-Replace `YOUR_API_KEY` with the key from [Step 3](#③-get-your-api-key).
+Open the dashboard and search for your message in the Log Explorer. If it appears, your pipeline is working end-to-end.
 
-#### Command Options
-
-- `--traces 10`: Number of traces to generate (default: 1)
-- `--rate 2`: Number of traces per second (default: 1)
-- `--duration 30s`: How long to generate traces (e.g., 30s, 1m, 5m)
-- `--service-name "test-service"`: Custom service name for the traces
-- `--span-name "test-operation"`: Custom span name for the operations
-
-### Example: Simulate Different Scenarios
+**Sustained load — stress-test the pipeline:**
 
 ```bash
-# Simulate a service with normal traffic
-telemetrygen traces \
-  --otlp-insecure \
-  --otlp-endpoint otel.monoscope.tech:4317 \
-  --otlp-header="x-api-key=YOUR_API_KEY" \
-  --service-name "payment-service" \
-  --span-name "process-payment" \
-  --duration 1m \
-  --rate 5
-
-# Simulate errors (with status codes)
-telemetrygen traces \
-  --otlp-insecure \
-  --otlp-endpoint otel.monoscope.tech:4317 \
-  --otlp-header="x-api-key=YOUR_API_KEY" \
-  --service-name "auth-service" \
-  --span-name "authenticate" \
-  --status-code "ERROR" \
-  --traces 5
+monoscope telemetrygen --kind=trace --rate=5 --count=50 --service=my-service
 ```
+
+Useful for verifying ingestion at volume before a real deploy.
+
+#### `send-event` options
+
+- `-m TEXT`: Message (repeatable — multiple `-m` lines join into one event)
+- `--level debug|info|warn|error`: Severity (default: `info`)
+- `--service NAME`: Service name shown in the dashboard
+- `-t KEY:VALUE`: Tag attribute, repeatable
+- `-e KEY:VALUE`: Extra attribute, repeatable
+- `-r KEY:VALUE`: Resource attribute (e.g. `service.version:1.2.0`), repeatable
+
+#### `telemetrygen` options
+
+- `--kind trace|log|metric`: Type of telemetry (default: `trace`)
+- `--rate N`: Events per second (default: `1`)
+- `--count N`: Total to send — omit to run continuously
+- `--service NAME`: Service name (default: `telemetrygen`)
+- `-r KEY:VALUE`: Resource attribute, repeatable
 
 ```=html
 <div class="callout">
   <i class="fa-solid fa-check-circle"></i>
-  <p>Check the <b>API Log Explorer</b> in your dashboard — test traces should appear within a few seconds.</p>
+  <p>Check the <b>API Log Explorer</b> in your dashboard — events should appear within a few seconds.</p>
 </div>
 ```
 

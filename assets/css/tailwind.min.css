@@ -6944,6 +6944,14 @@
   .rounded-xl {
     border-radius: var(--radius-xl);
   }
+  .rounded-l-lg {
+    border-top-left-radius: var(--radius-lg);
+    border-bottom-left-radius: var(--radius-lg);
+  }
+  .rounded-r-lg {
+    border-top-right-radius: var(--radius-lg);
+    border-bottom-right-radius: var(--radius-lg);
+  }
   .tabs-outline {
     & :is(.tab-active, [aria-selected="true"]):not(.tab-disabled):not([disabled]), :is(input:checked), :is(label:has(:checked)) {
       border-style: var(--tw-border-style);
@@ -6996,6 +7004,10 @@
   .border-l {
     border-left-style: var(--tw-border-style);
     border-left-width: 1px;
+  }
+  .border-l-0 {
+    border-left-style: var(--tw-border-style);
+    border-left-width: 0px;
   }
   .border-l-2 {
     border-left-style: var(--tw-border-style);
