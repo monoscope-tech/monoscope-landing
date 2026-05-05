@@ -79,6 +79,11 @@ receivers:
   filelog:
     include:
       - /var/log/postgresql/*.log
+    # Postgres emits multi-line entries for query plans, error contexts,
+    # and statements that span lines. Anchor on the timestamp prefix;
+    # every other line is a continuation.
+    multiline:
+      line_start_pattern: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}'
     operators:
       - type: regex_parser
         regex: '^(?P<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d{3} \w+) \[(?P<pid>\d+)\] (?P<user>\w+)@(?P<database>\w+) (?P<level>\w+): (?P<message>.*)$'
@@ -315,6 +320,8 @@ pgaudit.log = 'all'
 filelog:
   include:
     - /var/log/postgresql/*.log
+  multiline:
+    line_start_pattern: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}'
   operators:
     - type: regex_parser
       regex: '.*AUDIT: SESSION,.*statement: (?P<statement>.*)'

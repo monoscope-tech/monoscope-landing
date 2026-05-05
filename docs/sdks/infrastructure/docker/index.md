@@ -78,6 +78,14 @@ receivers:
   filelog:
     include:
       - /var/lib/docker/containers/*/*.log
+    # Merge stack traces and other indented continuation lines into the
+    # preceding entry. Without this, every line of a multi-line log (Java
+    # tracebacks, pretty-printed JSON, Python tracebacks) becomes its own
+    # record — useless to read and expensive to store. ^\S (non-whitespace
+    # = new entry) is the safe default; tighten to a timestamp regex if
+    # your apps log indented content that should NOT be merged.
+    multiline:
+      line_start_pattern: '^\S'
     operators:
       - type: json_parser
       - type: regex_parser

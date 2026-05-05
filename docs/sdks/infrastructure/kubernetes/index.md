@@ -121,10 +121,30 @@ config:
           endpoint: 0.0.0.0:4317
         http:
           endpoint: 0.0.0.0:4318
-    # filelog is configured by the logsCollection preset. Override start_at if
-    # you want backfill (`beginning`) instead of the chart default (`end`):
-    # filelog:
-    #   start_at: beginning
+    # filelog is configured by the logsCollection preset, which already
+    # adds the `container` operator to strip the CRI envelope. Add a
+    # `recombine` operator after it so app multi-line events (Java stack
+    # traces, Python tracebacks, pretty-printed JSON) become one record
+    # instead of N separate per-line records. Receiver-level `multiline`
+    # is the wrong layer here — it sees CRI-wrapped lines, every one of
+    # which begins with a timestamp, so it never merges. Recombine acts
+    # on the post-container body where indentation actually correlates
+    # with continuations.
+    filelog:
+      operators:
+        - id: container-parser
+          type: container
+          max_log_size: 102400
+        - id: recombine-multiline
+          type: recombine
+          combine_field: body
+          combine_with: "\n"
+          # New entry = first character is non-whitespace; indented lines
+          # are continuations. Tighten to a per-language regex if your
+          # apps log indented content that should NOT be merged.
+          is_first_entry: 'body matches "^\\S"'
+          # Keep streams from different containers from getting mixed.
+          source_identifier: attributes["log.file.path"]
 
   processors:
     batch: {}
@@ -421,6 +441,19 @@ spec:
         # Path layout: /var/log/pods/<ns>_<pod>_<uid>/<container>/<restart>.log
         include: [/var/log/pods/*/*/*.log]
         start_at: end          # use 'beginning' only for first-install backfill
+        operators:
+          - id: container-parser
+            type: container
+            max_log_size: 102400
+          # Merge app multi-line events (stack traces, pretty-printed JSON)
+          # after the CRI envelope is stripped. See the Helm path above for
+          # why this happens here and not at the receiver-level multiline.
+          - id: recombine-multiline
+            type: recombine
+            combine_field: body
+            combine_with: "\n"
+            is_first_entry: 'body matches "^\\S"'
+            source_identifier: attributes["log.file.path"]
       kubeletstats:
         collection_interval: 10s
         auth_type: serviceAccount

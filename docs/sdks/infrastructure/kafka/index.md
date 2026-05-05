@@ -147,6 +147,11 @@ receivers:
       - /var/log/kafka/kafka-request.log
     start_at: beginning
     include_file_path: true
+    # Kafka emits Java stack traces across many lines (Caused by:, \tat ...).
+    # Without multiline, every line becomes its own record. Anchor on the
+    # log-line timestamp prefix; everything else is a continuation.
+    multiline:
+      line_start_pattern: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}'
     operators:
       - type: regex_parser
         regex: '^(?P<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}) (?P<level>\w+) (?P<message>.*)'

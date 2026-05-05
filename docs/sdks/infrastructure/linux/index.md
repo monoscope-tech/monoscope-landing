@@ -69,6 +69,12 @@ receivers:
       - /var/log/messages
     start_at: beginning
     include_file_path: true
+    # Merge indented continuation lines (stack traces, multi-line errors)
+    # into the preceding entry. ^\S = "first character is non-whitespace
+    # = new entry"; whitespace-prefixed lines are continuations. Tighten
+    # to a per-source regex if your apps log indented content legitimately.
+    multiline:
+      line_start_pattern: '^\S'
     operators:
       - type: regex_parser
         regex: '^(?P<time>\\d{4}/\\d{2}/\\d{2} \\d{2}:\\d{2}:\\d{2}) \\[(?P<level>\\w+)\\] (?P<message>.*)$'
@@ -240,6 +246,8 @@ filelog:
     - /var/log/nginx/access.log
   start_at: beginning
   include_file_path: true
+  multiline:
+    line_start_pattern: '^\S'   # see top filelog block for rationale
   operators:
     - type: json_parser
     - type: timestamp
