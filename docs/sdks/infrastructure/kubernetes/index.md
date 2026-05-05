@@ -73,13 +73,29 @@ image:
   repository: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-k8s
   tag: "0.149.0"
 
+# Pod-level limits — required so the chart's GOMEMLIMIT helper activates.
+# Without limits.memory, GOMEMLIMIT is silently disabled and the Go runtime
+# can spike past memory_limiter under burst load. Tune for your workload.
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    memory: 512Mi
+
 presets:
   logsCollection:
     enabled: true          # filelog — reads /var/log/pods on each node
   kubeletMetrics:
     enabled: true          # kubeletstats — local kubelet
   kubernetesAttributes:
-    enabled: true          # k8s_attributes processor — enriches with pod/namespace metadata
+    enabled: true          # Provides RBAC + a rich metadata extractor (workload kinds,
+                           # container.image.*, k8s.cluster.uid, service.* via OTel
+                           # annotations, per-node filtering on agents). Pipelines
+                           # reference it as `k8sattributes` to match the chart's
+                           # internal alias — that alias is deprecated upstream and
+                           # logs a harmless warning until the chart maintainers
+                           # rename it.
   # clusterMetrics and kubernetesEvents intentionally OFF here —
   # they belong on the cluster collector (one replica only).
 
@@ -105,6 +121,10 @@ config:
           endpoint: 0.0.0.0:4317
         http:
           endpoint: 0.0.0.0:4318
+    # filelog is configured by the logsCollection preset. Override start_at if
+    # you want backfill (`beginning`) instead of the chart default (`end`):
+    # filelog:
+    #   start_at: beginning
 
   processors:
     batch: {}
@@ -112,19 +132,6 @@ config:
       check_interval: 1s
       limit_mib: 4000
       spike_limit_mib: 800
-    # Declared explicitly because overriding config.processors replaces the
-    # block the kubernetesAttributes preset would have injected.
-    k8s_attributes:
-      auth_type: serviceAccount
-      passthrough: false
-      extract:
-        metadata:
-          - k8s.pod.name
-          - k8s.pod.uid
-          - k8s.deployment.name
-          - k8s.namespace.name
-          - k8s.node.name
-          - k8s.container.name
     resource:
       attributes:
         - key: x-api-key
@@ -140,24 +147,24 @@ config:
         insecure: true
 
   # IMPORTANT: when you override service.pipelines, you must list every receiver
-  # and processor you want active — including the ones the presets configured
-  # (filelog, kubeletstats, k8s_attributes). The chart merges receivers/processors
-  # but does NOT merge pipeline arrays. Same applies to service.extensions: it's
-  # replaced wholesale, so health_check must be re-declared here.
+  # and processor you want active — including the ones the presets contribute
+  # (filelog, kubeletstats, k8sattributes). The chart merges receivers/processors
+  # blocks but does NOT merge pipeline arrays. Same applies to service.extensions:
+  # it's replaced wholesale, so health_check must be re-declared here.
   service:
     extensions: [health_check]
     pipelines:
       traces:
         receivers: [otlp]
-        processors: [k8s_attributes, memory_limiter, batch, resource]
+        processors: [k8sattributes, memory_limiter, batch, resource]
         exporters: [otlp_grpc]
       metrics:
         receivers: [otlp, kubeletstats]
-        processors: [k8s_attributes, memory_limiter, batch, resource]
+        processors: [k8sattributes, memory_limiter, batch, resource]
         exporters: [otlp_grpc]
       logs:
         receivers: [otlp, filelog]
-        processors: [k8s_attributes, memory_limiter, batch, resource]
+        processors: [k8sattributes, memory_limiter, batch, resource]
         exporters: [otlp_grpc]
 ```
 
@@ -182,13 +189,22 @@ image:
   repository: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-k8s
   tag: "0.149.0"           # see release notes before bumping
 
+# See agent values for the GOMEMLIMIT linkage. Cluster collector handles less
+# data, so smaller limits are usually fine.
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    memory: 256Mi
+
 presets:
   clusterMetrics:
     enabled: true          # k8s_cluster — cluster-wide metrics from API server
   kubernetesEvents:
     enabled: true          # k8s_events — emits events as logs
   kubernetesAttributes:
-    enabled: true
+    enabled: true          # See agent values for the rationale.
 
 extraEnvs:
   - name: MONOSCOPE_API_KEY
@@ -218,12 +234,6 @@ config:
       check_interval: 1s
       limit_mib: 1000
       spike_limit_mib: 200
-    # Must be declared explicitly — overriding config.processors replaces the
-    # block the kubernetesAttributes preset would have injected, so the
-    # pipelines below would otherwise fail with a "reference error" on startup.
-    k8s_attributes:
-      auth_type: serviceAccount
-      passthrough: false
     resource:
       attributes:
         - key: x-api-key
@@ -241,11 +251,11 @@ config:
     pipelines:
       metrics:
         receivers: [k8s_cluster]
-        processors: [k8s_attributes, memory_limiter, batch, resource]
+        processors: [k8sattributes, memory_limiter, batch, resource]
         exporters: [otlp_grpc]
       logs:
         receivers: [k8s_events]
-        processors: [k8s_attributes, memory_limiter, batch, resource]
+        processors: [k8sattributes, memory_limiter, batch, resource]
         exporters: [otlp_grpc]
 ```
 
@@ -267,11 +277,27 @@ helm install monoscope-cluster open-telemetry/opentelemetry-collector \
 
 ```bash
 kubectl get pods -l app.kubernetes.io/name=opentelemetry-collector
-kubectl logs daemonset/monoscope-agent-opentelemetry-collector
+# Note the `-agent` suffix — the chart appends it to the workload name in
+# DaemonSet mode, so this is NOT just `monoscope-agent-opentelemetry-collector`.
+kubectl logs daemonset/monoscope-agent-opentelemetry-collector-agent
 kubectl logs deployment/monoscope-cluster-opentelemetry-collector
 ```
 
 You should see the agent running on every node and a single cluster collector pod. Telemetry will start flowing to your monoscope dashboard shortly after the pods become Ready.
+
+Pods being healthy is necessary but not sufficient — auth failures and dropped exports are silent in the collector logs. To confirm telemetry is actually reaching monoscope, run:
+
+```bash
+monoscope events search 'resource.k8s.cluster.uid != ""' --since 5m --limit 1
+# Or in the dashboard: filter recent events by resource.k8s.namespace.name.
+```
+
+```=html
+<div class="callout">
+  <i class="fa-solid fa-circle-info"></i>
+  <p>Telemetry lands in the project that owns the API key. If your dashboard shows nothing even though pods look healthy, double-check you're viewing the project that owns <code>monoscope-secrets/api-key</code>.</p>
+</div>
+```
 
 ## Sending Application Telemetry
 
@@ -282,6 +308,60 @@ http://monoscope-agent-opentelemetry-collector.default.svc.cluster.local:4318
 ```
 
 By default this `ClusterIP` Service load-balances across every agent pod cluster-wide. If you want each app pod to send to the agent on its own node (lower latency, no cross-node hops), patch the Service with `spec.internalTrafficPolicy: Local`.
+
+## Cutting Log Cost: Filter by Service
+
+`filelog` reads every container's stdout, so log volume scales with the cluster. Drop what you don't need at the agent — a `filter` processor on `k8s.deployment.name` keeps only the services you care about:
+
+```yaml
+config:
+  processors:
+    filter/keep-services:
+      error_mode: ignore
+      logs:
+        log_record:
+          # OTTL conditions are DROP conditions; negate to make it a keep-list.
+          - 'not IsMatch(resource.attributes["k8s.deployment.name"] ?? "", "^(cart|checkout|frontend)$")'
+
+  service:
+    pipelines:
+      logs:
+        # Place after k8sattributes so the deployment name is populated.
+        processors: [k8sattributes, filter/keep-services, memory_limiter, batch, resource]
+```
+
+To verify before shipping, add a `debug` exporter to the same pipeline:
+
+```yaml
+config:
+  exporters:
+    debug:
+      verbosity: normal   # `basic` is silent at INFO log level — use `normal`
+  service:
+    pipelines:
+      logs:
+        exporters: [otlp_grpc, debug]
+```
+
+```bash
+kubectl logs -l app.kubernetes.io/instance=monoscope-agent --tail=50 -f \
+  | grep 'log records'
+# info Logs ... "log records": 12
+```
+
+The number is what's left *after* the filter. Tune the regex until it matches what you want to pay for, then drop the `debug` exporter.
+
+For namespace-wide skips, `filelog.exclude` is cheaper — the file is never opened:
+
+```yaml
+config:
+  receivers:
+    filelog:
+      include: [/var/log/pods/*/*/*.log]
+      exclude:
+        - /var/log/pods/kube-system_*/**/*.log    # path layout is
+        - /var/log/pods/*_loadgen-*/**/*.log      # <namespace>_<pod>_<uid>
+```
 
 ## Advanced: OpenTelemetry Operator
 
