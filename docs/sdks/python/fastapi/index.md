@@ -18,6 +18,25 @@ In this guide, you’ll learn how to integrate OpenTelemetry into your FastAPI a
 
 Ensure you have already completed the first three steps of the [onboarding guide](/docs/onboarding/){target="\_blank"}.
 
+## Install via Claude Code
+
+Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument this project for you. Add the marketplace, install the skill, and install our CLI:
+
+```sh
+claude plugin marketplace add monoscope-tech/skills
+claude plugin install monoscope-skills@monoscope-skills
+curl monoscope.tech/install.sh | sh
+monoscope auth login
+```
+
+Then run inside Claude Code:
+
+```
+/monoscope-skills:instrument OpenTelemetry via Monoscope into this project
+```
+
+The skill drives the CLI to wire up the SDK and verify it. Prefer a human? [Email us](mailto:hello@monoscope.tech) — happy to jump on a call or connect over Slack.
+
 ## Installation
 
 Kindly run the command below to install the monoscope fastapi sdk and necessary opentelemetry packages:
