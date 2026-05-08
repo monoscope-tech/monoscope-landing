@@ -88,7 +88,7 @@ async function bootstrap() {
     monitorAxios: axios, // Optional: Use this to monitor axios requests
   });
 
-  app.use(monoscope.middleware);
+  app.use(monoscopeClient.middleware);
 
   app.get("/", async (req, res) => {
     // This axios request get's monitored and appears in the  Monoscope explorer
@@ -105,6 +105,37 @@ async function bootstrap() {
 }
 bootstrap();
 ```
+
+## Identifying users & tenants
+
+Attach the authenticated user and tenant to every request span so you can filter, group, and search by identity in the dashboard (e.g. "all errors for `user.email = jane@acme.com`"). The cleanest pattern in NestJS is a global interceptor that runs after your auth guard has populated `req.user`. The SDK writes the values to the active request span using the standard attribute keys (`user.id`, `user.email`, `user.full_name`, `tenant.id`, `tenant.name`).
+
+```ts
+// monoscope-user.interceptor.ts
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from "@nestjs/common";
+import { setUser, setTenant } from "@monoscopetech/express";
+
+@Injectable()
+export class MonoscopeUserInterceptor implements NestInterceptor {
+  intercept(ctx: ExecutionContext, next: CallHandler) {
+    const req = ctx.switchToHttp().getRequest();
+    if (req.user) {
+      setUser({
+        id: req.user.id,
+        email: req.user.email,
+        name: req.user.fullName,
+      });
+      setTenant({ id: req.user.orgId, name: req.user.orgName });
+    }
+    return next.handle();
+  }
+}
+
+// main.ts
+app.useGlobalInterceptors(new MonoscopeUserInterceptor());
+```
+
+Order matters: `app.use(monoscopeClient.middleware)` must run before the interceptor so the request span exists, and your auth guard must populate `req.user` first. Guards run before interceptors in Nest, so this works out of the box with Passport / JWT guards. Both helpers skip undefined/null fields, so partial info is fine.
 
 ## Monoscope Middleware with for NestJs + Fastify
 

@@ -176,6 +176,28 @@ app.listen(3000, () => {
 });
 ```
 
+## Identifying users & tenants
+
+Attach the authenticated user and tenant to every request span so you can filter, group, and search by identity in the dashboard (e.g. "all errors for `user.email = jane@acme.com`"). Call `setUser` and `setTenant` from any handler or middleware that runs after your auth layer — the SDK writes them to the active request span using the standard attribute keys (`user.id`, `user.email`, `user.full_name`, `tenant.id`, `tenant.name`).
+
+```ts
+import { setUser, setTenant } from "@monoscopetech/express";
+
+app.use((req, res, next) => {
+  if (req.user) {
+    setUser({
+      id: req.user.id,
+      email: req.user.email,
+      name: req.user.fullName,
+    });
+    setTenant({ id: req.user.orgId, name: req.user.orgName });
+  }
+  next();
+});
+```
+
+Both helpers skip undefined/null fields, so partial info is fine. They must run inside a request handled by the Monoscope middleware — calls outside that scope are no-ops with a debug warning.
+
 ## Monitoring Axios requests
 
 Monoscope supports monitoring outgoing HTTP requests made using libraries like Axios. This can be done either globally or on a per-request basis.

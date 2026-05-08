@@ -136,6 +136,33 @@ async function handleRequest(req: NextRequest) {
 export const GET = withMonoscopeAppRouter(handler);
 ```
 
+## Identifying users & tenants
+
+Attach the authenticated user and tenant to every request span so you can filter, group, and search by identity in the dashboard (e.g. "all errors for `user.email = jane@acme.com`"). Call `setUser` and `setTenant` from inside a route handler that's wrapped with `withMonoscopeAppRouter` or `withMonoscopePagesRouter` — the SDK writes them to the active request span using the standard attribute keys (`user.id`, `user.email`, `user.full_name`, `tenant.id`, `tenant.name`).
+
+```ts
+import { withMonoscopeAppRouter, setUser, setTenant } from "@monoscopetech/nextjs";
+import { NextResponse } from "next/server";
+import { getSession } from "@/lib/auth";
+
+async function handler() {
+  const session = await getSession();
+  if (session?.user) {
+    setUser({
+      id: session.user.id,
+      email: session.user.email,
+      name: session.user.name,
+    });
+    setTenant({ id: session.user.orgId, name: session.user.orgName });
+  }
+  return NextResponse.json({ ok: true });
+}
+
+export const GET = withMonoscopeAppRouter(handler);
+```
+
+Both helpers skip undefined/null fields, so partial info is fine. They must run inside a handler wrapped by `withMonoscopeAppRouter`/`withMonoscopePagesRouter` — calls outside that scope are no-ops with a debug warning.
+
 ## Monitoring Axios requests
 
 Monoscope supports monitoring outgoing HTTP requests made using libraries like Axios.
