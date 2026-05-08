@@ -31,6 +31,9 @@ pages:
   - title: Python SDKs
     slug: /docs/sdks/python
     icon: /assets/img/sdk-icons/python.svg
+  - title: Flutter (OpenTelemetry)
+    slug: /docs/sdks/flutter
+    icon: /assets/img/sdk-icons/opentelemetry.svg
   - title: OpenTelemetry (Any Language)
     slug: /docs/sdks/opentelemetry
     icon: /assets/img/sdk-icons/opentelemetry.svg
