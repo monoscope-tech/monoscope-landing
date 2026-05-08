@@ -282,6 +282,48 @@ app.get("/", async (req, res) => {
 })
 ```
 
+## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)
+
+The Express middleware only covers HTTP requests. BullMQ / Bull / Agenda jobs, `node-cron` schedulers, queue consumers, and standalone CLI scripts are invisible until you wrap each handler in a span yourself. Always instrument these alongside your HTTP routes — without it, half your production work has no observability.
+
+Use the standard OpenTelemetry tracer API. Auto-instrumentation picks up downstream HTTP/database calls automatically once a parent span is active.
+
+```ts
+import { trace, SpanStatusCode } from "@opentelemetry/api";
+import { Worker } from "bullmq";
+
+const tracer = trace.getTracer("my-service-worker");
+
+new Worker("emails", async (job) => {
+  return tracer.startActiveSpan(
+    `email.${job.name}`,
+    {
+      attributes: {
+        "messaging.system": "bullmq",
+        "messaging.operation": "process",
+        "messaging.destination.name": "emails",
+        "messaging.message.id": job.id,
+        "code.function": job.name,
+      },
+    },
+    async (span) => {
+      try {
+        await sendEmail(job.data);
+        span.setStatus({ code: SpanStatusCode.OK });
+      } catch (err) {
+        span.recordException(err as Error);
+        span.setStatus({ code: SpanStatusCode.ERROR });
+        throw err;
+      } finally {
+        span.end();
+      }
+    }
+  );
+});
+```
+
+Same pattern works for `node-cron`, Agenda, raw `setInterval`, or any custom worker — wrap the handler body in `tracer.startActiveSpan`. For CLI / one-shot scripts, call `await sdk.shutdown()` (or the equivalent) before the process exits so the BatchSpanProcessor flushes; otherwise spans are dropped silently.
+
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tips</b></p>

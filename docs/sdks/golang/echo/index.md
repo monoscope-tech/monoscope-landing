@@ -88,6 +88,47 @@ The middleware configuration specifies how the Monoscope SDK should handle reque
 | `RedactResponseBody` | `[]string` | JSONPath list of response body fields to redact | `[]` | `[]string{"$.password", "$.credit_card"}` |
 :::
 
+## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)
+
+The Echo middleware only covers HTTP requests. Cron jobs (`robfig/cron`), task queues (`hibiken/asynq`, `gocraft/work`), Kafka/NATS consumers, and standalone CLI commands are invisible until you wrap each handler in a span yourself. Always cover these alongside your HTTP routes — without it, half your production work has no observability.
+
+Use the standard OpenTelemetry Go SDK; the same `TracerProvider` you configured for HTTP also instruments downstream calls (database, outbound HTTP) once a parent span is active.
+
+```go
+import (
+    "context"
+    "go.opentelemetry.io/otel"
+    "go.opentelemetry.io/otel/attribute"
+    "go.opentelemetry.io/otel/codes"
+    semconv "go.opentelemetry.io/otel/semconv/v1.26.0"
+    "go.opentelemetry.io/otel/trace"
+    "github.com/hibiken/asynq"
+)
+
+var tracer = otel.Tracer("my-service-worker")
+
+func ProcessEmail(ctx context.Context, t *asynq.Task) error {
+    ctx, span := tracer.Start(ctx, "email.send",
+        trace.WithSpanKind(trace.SpanKindConsumer),
+        trace.WithAttributes(
+            semconv.MessagingSystem("asynq"),
+            attribute.String("messaging.operation", "process"),
+            attribute.String("messaging.destination.name", t.Type()),
+            attribute.String("code.function", "ProcessEmail"),
+        ))
+    defer span.End()
+
+    if err := sendEmail(ctx, t.Payload()); err != nil {
+        span.RecordError(err)
+        span.SetStatus(codes.Error, err.Error())
+        return err
+    }
+    return nil
+}
+```
+
+The same wrapper goes around `robfig/cron` job functions, Kafka/NATS subscribers, and any goroutine-based worker. For one-shot CLI binaries, call `tp.Shutdown(ctx)` on your `TracerProvider` before `os.Exit` so the `BatchSpanProcessor` flushes; otherwise spans are dropped silently.
+
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tips</b></p>

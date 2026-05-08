@@ -340,6 +340,56 @@ The `$options` associative array accepts the following optional fields:
 | `redactRequestBody` | A list of JSONPaths from the response body to redact. |
 :::
 
+## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)
+
+The Laravel middleware only covers HTTP requests. Queued jobs (`php artisan queue:work`), scheduled tasks (`App\Console\Kernel::schedule`), Horizon supervisors, and Artisan commands are invisible until you wrap each handler in a span yourself. Always cover these alongside your HTTP routes.
+
+Use the OpenTelemetry PHP API directly. Hook into Laravel's `Queue` events for queued jobs, or wrap the handler body manually for scheduled / one-shot work.
+
+```php
+use OpenTelemetry\API\Globals;
+use OpenTelemetry\API\Trace\Span;
+use OpenTelemetry\API\Trace\StatusCode;
+use OpenTelemetry\API\Trace\SpanKind;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Queue\Events\JobProcessing;
+use Illuminate\Queue\Events\JobProcessed;
+use Illuminate\Queue\Events\JobFailed;
+
+// In a service provider's boot():
+$tracer = Globals::tracerProvider()->getTracer('my-service-worker');
+$active = [];
+
+Queue::before(function (JobProcessing $e) use ($tracer, &$active) {
+    $span = $tracer->spanBuilder($e->job->resolveName())
+        ->setSpanKind(SpanKind::KIND_CONSUMER)
+        ->setAttribute('messaging.system', $e->connectionName)
+        ->setAttribute('messaging.operation', 'process')
+        ->setAttribute('messaging.destination.name', $e->job->getQueue())
+        ->setAttribute('messaging.message.id', $e->job->getJobId())
+        ->setAttribute('code.function', $e->job->resolveName())
+        ->startSpan();
+    $active[$e->job->getJobId()] = [$span, $span->activate()];
+});
+
+Queue::after(function (JobProcessed $e) use (&$active) {
+    [$span, $scope] = $active[$e->job->getJobId()] ?? [null, null];
+    if ($span) { $span->setStatus(StatusCode::STATUS_OK); $scope->detach(); $span->end(); }
+});
+
+Queue::failing(function (JobFailed $e) use (&$active) {
+    [$span, $scope] = $active[$e->job->getJobId()] ?? [null, null];
+    if ($span) {
+        $span->recordException($e->exception);
+        $span->setStatus(StatusCode::STATUS_ERROR);
+        $scope->detach();
+        $span->end();
+    }
+});
+```
+
+For scheduled tasks (`Schedule::call(...)`) and Artisan commands, wrap the handler body in `$tracer->spanBuilder('task.name')->startSpan()` and call `$span->end()` in a `finally`. For one-shot Artisan invocations, also call `Globals::tracerProvider()->shutdown()` before exit so the BatchSpanProcessor flushes; otherwise spans are dropped silently.
+
 ```=html
 <hr />
 <a href="https://github.com/monoscope-tech/monoscope-laravel" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">

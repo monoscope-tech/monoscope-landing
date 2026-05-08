@@ -259,6 +259,49 @@ router.get("/", async () => {
 });
 ```
 
+## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)
+
+The AdonisJS middleware only covers HTTP requests. `@rlanz/bull-queue` workers, scheduled commands, and standalone Ace CLI scripts are invisible until you wrap each handler in a span yourself. Always instrument these alongside your HTTP routes.
+
+Use the standard OpenTelemetry tracer API directly inside your queue processor or scheduled command. Auto-instrumentation picks up downstream HTTP/database calls automatically once a parent span is active.
+
+```ts
+import { trace, SpanStatusCode } from "@opentelemetry/api";
+import { JobHandlerContract } from "@rlanz/bull-queue/types";
+
+const tracer = trace.getTracer("my-service-worker");
+
+export default class SendEmail implements JobHandlerContract {
+  async handle(payload: { to: string }) {
+    return tracer.startActiveSpan(
+      "email.send",
+      {
+        attributes: {
+          "messaging.system": "bullmq",
+          "messaging.operation": "process",
+          "messaging.destination.name": "emails",
+          "code.function": "SendEmail.handle",
+        },
+      },
+      async (span) => {
+        try {
+          await this.sendEmail(payload);
+          span.setStatus({ code: SpanStatusCode.OK });
+        } catch (err) {
+          span.recordException(err as Error);
+          span.setStatus({ code: SpanStatusCode.ERROR });
+          throw err;
+        } finally {
+          span.end();
+        }
+      }
+    );
+  }
+}
+```
+
+The same wrapper goes around scheduled commands and any standalone Ace task. For one-shot CLI commands, ensure the OTel SDK shuts down (`await sdk.shutdown()`) before the process exits so the BatchSpanProcessor flushes; otherwise spans are dropped silently.
+
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tips</b></p>

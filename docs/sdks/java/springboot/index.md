@@ -297,6 +297,53 @@ public class DemoApplication {
 }
 ```
 
+## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)
+
+The Spring Boot servlet filter only covers HTTP requests. The OpenTelemetry Java agent **already auto-instruments most of the rest** — including `@Scheduled`, `@KafkaListener`, `@RabbitListener`, `@JmsListener`, Spring Batch jobs, and Quartz triggers — so verify the agent is attached before doing manual work. Run with:
+
+```sh
+java -javaagent:opentelemetry-javaagent.jar -jar app.jar
+```
+
+Anything the agent doesn't cover (custom thread pools, `CommandLineRunner` startup work, manual queue consumers, `BackgroundService`-style polling beans) needs a manual span. Use the OpenTelemetry API:
+
+```java
+import io.opentelemetry.api.GlobalOpenTelemetry;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.SpanKind;
+import io.opentelemetry.api.trace.StatusCode;
+import io.opentelemetry.api.trace.Tracer;
+import io.opentelemetry.context.Scope;
+
+@Component
+public class EmailWorker {
+    private static final Tracer tracer =
+        GlobalOpenTelemetry.getTracer("my-service-worker");
+
+    public void processEmail(EmailJob job) {
+        Span span = tracer.spanBuilder("email.send")
+            .setSpanKind(SpanKind.CONSUMER)
+            .setAttribute("messaging.system", "redis")
+            .setAttribute("messaging.operation", "process")
+            .setAttribute("messaging.destination.name", "emails")
+            .setAttribute("code.function", "EmailWorker.processEmail")
+            .startSpan();
+        try (Scope scope = span.makeCurrent()) {
+            sendEmail(job);
+            span.setStatus(StatusCode.OK);
+        } catch (Exception e) {
+            span.recordException(e);
+            span.setStatus(StatusCode.ERROR);
+            throw e;
+        } finally {
+            span.end();
+        }
+    }
+}
+```
+
+For one-shot Spring Boot CLI runs (`SpringApplication.exit(...)`), the agent's shutdown hook flushes spans automatically. If you bypass it (e.g. raw `System.exit(0)`), call `OpenTelemetrySdk.getGlobalTracerProvider().shutdown()` first or you'll lose the final spans.
+
 ```=html
 <hr />
 <a href="https://github.com/monoscope-tech/monoscope-springboot" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">

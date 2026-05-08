@@ -323,6 +323,56 @@ The `client.monoscopeObservingHandler` handler accepts a required `context` fiel
 | `RedactRequestBody` | A list of JSONPaths from the response body to redact. |
 :::
 
+## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)
+
+The ASP.NET Core middleware only covers HTTP requests. `IHostedService` / `BackgroundService` workers, Quartz / Hangfire jobs, channel consumers, and standalone console hosts are invisible until you wrap each handler in a span yourself. Always cover these alongside your HTTP routes.
+
+Use a dedicated `ActivitySource` and add it to the OpenTelemetry tracer provider via `AddSource`. Then wrap each work unit in `StartActivity`:
+
+```csharp
+using System.Diagnostics;
+using Microsoft.Extensions.Hosting;
+using OpenTelemetry.Trace;
+
+// Program.cs — register the source
+var workerSource = new ActivitySource("MyService.Worker");
+builder.Services.AddOpenTelemetry().WithTracing(b => b.AddSource("MyService.Worker"));
+
+public class EmailWorker : BackgroundService
+{
+    private static readonly ActivitySource Source = new("MyService.Worker");
+
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        while (!stoppingToken.IsCancellationRequested)
+        {
+            var job = await _queue.DequeueAsync(stoppingToken);
+
+            using var activity = Source.StartActivity(
+                "email.send", ActivityKind.Consumer);
+            activity?.SetTag("messaging.system", "channel");
+            activity?.SetTag("messaging.operation", "process");
+            activity?.SetTag("messaging.destination.name", "emails");
+            activity?.SetTag("code.function", nameof(EmailWorker.ExecuteAsync));
+
+            try
+            {
+                await SendEmailAsync(job, stoppingToken);
+                activity?.SetStatus(ActivityStatusCode.Ok);
+            }
+            catch (Exception ex)
+            {
+                activity?.RecordException(ex);
+                activity?.SetStatus(ActivityStatusCode.Error, ex.Message);
+                throw;
+            }
+        }
+    }
+}
+```
+
+For one-shot console hosts (`Host.CreateApplicationBuilder` followed by a single `RunAsync`), the host's shutdown lifecycle calls `Dispose` on the OTel SDK and flushes pending spans. If you exit via `Environment.Exit`, call `tracerProvider.ForceFlush()` and `Dispose()` first or you'll lose the final spans.
+
 ```=html
 <hr />
 <a href="https://github.com/monoscope-tech/monoscope-dotnet" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">

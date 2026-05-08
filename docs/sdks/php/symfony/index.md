@@ -180,6 +180,55 @@ services:
 </div>
 ```
 
+## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)
+
+The Symfony bundle only covers HTTP requests. Symfony Messenger handlers (`messenger:consume`), scheduled commands, and Console commands are invisible until you wrap each handler in a span yourself. Always cover these alongside your HTTP routes.
+
+For **Messenger**, register a middleware that wraps each message-handling pipeline in a span:
+
+```php
+namespace App\Messenger;
+
+use OpenTelemetry\API\Globals;
+use OpenTelemetry\API\Trace\StatusCode;
+use OpenTelemetry\API\Trace\SpanKind;
+use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
+use Symfony\Component\Messenger\Middleware\StackInterface;
+use Symfony\Component\Messenger\Stamp\BusNameStamp;
+
+class TraceMiddleware implements MiddlewareInterface {
+    public function handle(Envelope $envelope, StackInterface $stack): Envelope {
+        $tracer = Globals::tracerProvider()->getTracer('my-service-worker');
+        $messageClass = get_class($envelope->getMessage());
+        $bus = $envelope->last(BusNameStamp::class)?->getBusName() ?? 'messenger';
+
+        $span = $tracer->spanBuilder($messageClass)
+            ->setSpanKind(SpanKind::KIND_CONSUMER)
+            ->setAttribute('messaging.system', 'symfony.messenger')
+            ->setAttribute('messaging.operation', 'process')
+            ->setAttribute('messaging.destination.name', $bus)
+            ->setAttribute('code.function', $messageClass)
+            ->startSpan();
+        $scope = $span->activate();
+        try {
+            $envelope = $stack->next()->handle($envelope, $stack);
+            $span->setStatus(StatusCode::STATUS_OK);
+            return $envelope;
+        } catch (\Throwable $e) {
+            $span->recordException($e);
+            $span->setStatus(StatusCode::STATUS_ERROR);
+            throw $e;
+        } finally {
+            $scope->detach();
+            $span->end();
+        }
+    }
+}
+```
+
+Wire it into `config/packages/messenger.yaml` under `framework.messenger.buses.<bus>.middleware`. For Console commands and scheduled tasks, wrap the body of `execute()` the same way and call `Globals::tracerProvider()->shutdown()` before returning so the BatchSpanProcessor flushes; otherwise spans are dropped silently.
+
 ```=html
 <hr />
 <a href="https://github.com/monoscope-tech/monoscope-symfony" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">

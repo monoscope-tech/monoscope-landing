@@ -321,6 +321,53 @@ The `observe_request()` function accepts a **required `request` argument**, and 
 | `redact_request_body` | A list of JSONPaths from the response body to redact. |
 :::
 
+## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)
+
+The Flask middleware only covers HTTP requests. Celery tasks, RQ workers, APScheduler jobs, Flask CLI commands, and standalone scripts are invisible until you instrument them yourself. Always cover these alongside your HTTP routes — without it, half your production work has no observability.
+
+For **Celery**, install the auto-instrumentation package and every task automatically gets a span:
+
+```sh
+pip install opentelemetry-instrumentation-celery
+```
+
+```python
+from celery.signals import worker_process_init
+from opentelemetry.instrumentation.celery import CeleryInstrumentor
+
+@worker_process_init.connect(weak=False)
+def init_celery_tracing(*args, **kwargs):
+    CeleryInstrumentor().instrument()
+```
+
+For **RQ, APScheduler, Flask CLI commands (`@app.cli.command`), or any custom worker**, wrap each handler in a span with the OpenTelemetry tracer API:
+
+```python
+from opentelemetry import trace
+from opentelemetry.trace.status import Status, StatusCode
+
+tracer = trace.get_tracer("my-service-worker")
+
+def process_email(payload: dict) -> None:
+    with tracer.start_as_current_span(
+        "email.send",
+        attributes={
+            "messaging.system": "rq",
+            "messaging.operation": "process",
+            "messaging.destination.name": "emails",
+            "code.function": "process_email",
+        },
+    ) as span:
+        try:
+            send_email(payload)
+        except Exception as exc:
+            span.record_exception(exc)
+            span.set_status(Status(StatusCode.ERROR))
+            raise
+```
+
+For Flask CLI commands and other one-shot scripts, call `trace.get_tracer_provider().shutdown()` before returning so the BatchSpanProcessor flushes; otherwise spans are dropped silently.
+
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>

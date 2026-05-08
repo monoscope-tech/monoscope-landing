@@ -295,6 +295,45 @@ The `$options` associative array accepts the following optional fields:
 | `redactRequestBody` | A list of JSONPaths from the response body to redact. |
 :::
 
+## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)
+
+The Slim middleware only covers HTTP requests. Standalone PHP CLIs, cron-driven scripts, and any queue consumer (Redis, RabbitMQ, custom) are invisible until you wrap each handler in a span yourself. Always cover these alongside your HTTP routes.
+
+Use the OpenTelemetry PHP API directly inside the consumer / CLI handler. Auto-instrumentation picks up downstream HTTP/database calls automatically once a parent span is active.
+
+```php
+use OpenTelemetry\API\Globals;
+use OpenTelemetry\API\Trace\StatusCode;
+use OpenTelemetry\API\Trace\SpanKind;
+
+$tracer = Globals::tracerProvider()->getTracer('my-service-worker');
+
+function processEmail(array $payload): void {
+    global $tracer;
+    $span = $tracer->spanBuilder('email.send')
+        ->setSpanKind(SpanKind::KIND_CONSUMER)
+        ->setAttribute('messaging.system', 'redis')
+        ->setAttribute('messaging.operation', 'process')
+        ->setAttribute('messaging.destination.name', 'emails')
+        ->setAttribute('code.function', 'processEmail')
+        ->startSpan();
+    $scope = $span->activate();
+    try {
+        sendEmail($payload);
+        $span->setStatus(StatusCode::STATUS_OK);
+    } catch (\Throwable $e) {
+        $span->recordException($e);
+        $span->setStatus(StatusCode::STATUS_ERROR);
+        throw $e;
+    } finally {
+        $scope->detach();
+        $span->end();
+    }
+}
+```
+
+For one-shot CLI scripts, call `Globals::tracerProvider()->shutdown()` before exit so the BatchSpanProcessor flushes; otherwise spans are dropped silently.
+
 ```=html
 <hr />
 <a href="https://github.com/monoscope-tech/monoscope-slim" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">

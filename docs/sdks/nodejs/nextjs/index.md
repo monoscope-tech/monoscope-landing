@@ -200,6 +200,49 @@ Below is the full list of options for the `observeAxios` function:
 | `redactRequestBody` | A list of JSONPaths from the request body to redact. |
 :::
 
+## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)
+
+The Next.js wrapper only covers route handlers and pages. Server Actions, Vercel Cron jobs (`/api/cron/*` triggered externally are still HTTP, but anything running outside the request cycle is not), separate worker processes, and CLI scripts are invisible until you wrap each handler in a span yourself. Always instrument these alongside your HTTP routes.
+
+Use the standard OpenTelemetry tracer API directly inside the worker / cron handler. Auto-instrumentation picks up downstream HTTP/database calls automatically once a parent span is active.
+
+```ts
+// worker.ts — separate process started via `node worker.js`
+import { trace, SpanStatusCode } from "@opentelemetry/api";
+import { Worker } from "bullmq";
+
+const tracer = trace.getTracer("my-service-worker");
+
+new Worker("emails", async (job) => {
+  return tracer.startActiveSpan(
+    `email.${job.name}`,
+    {
+      attributes: {
+        "messaging.system": "bullmq",
+        "messaging.operation": "process",
+        "messaging.destination.name": "emails",
+        "messaging.message.id": job.id,
+        "code.function": job.name,
+      },
+    },
+    async (span) => {
+      try {
+        await sendEmail(job.data);
+        span.setStatus({ code: SpanStatusCode.OK });
+      } catch (err) {
+        span.recordException(err as Error);
+        span.setStatus({ code: SpanStatusCode.ERROR });
+        throw err;
+      } finally {
+        span.end();
+      }
+    }
+  );
+});
+```
+
+For Server Actions called outside a normal request (`'use server'` in a background context), the same `tracer.startActiveSpan` wrapper applies. For CLI / one-shot scripts, call `await sdk.shutdown()` before the process exits so the BatchSpanProcessor flushes; otherwise spans are dropped silently.
+
 ```=html
 <hr />
 <a href="https://github.com/monoscope-tech/monoscope-js/tree/main/packages/nextjs" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">

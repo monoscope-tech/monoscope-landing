@@ -229,6 +229,49 @@ end
 </section>
 ```
 
+## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)
+
+The Phoenix plug only covers HTTP requests. Oban workers, Broadway pipelines, GenServer pollers, and Mix tasks are invisible until you wrap each handler in a span yourself. Always cover these alongside your HTTP routes.
+
+For **Oban**, use the official auto-instrumentation — every job automatically gets a span:
+
+```elixir
+# mix.exs
+{:opentelemetry_oban, "~> 1.1"}
+
+# application.ex — in start/2 before children:
+OpentelemetryOban.setup()
+```
+
+For **Broadway**, **GenServer pollers**, and **Mix tasks**, wrap each handler with `OpenTelemetry.Tracer`:
+
+```elixir
+require OpenTelemetry.Tracer, as: Tracer
+
+def process_email(payload) do
+  Tracer.with_span "email.send", %{
+    kind: :consumer,
+    attributes: [
+      {"messaging.system", "broadway"},
+      {"messaging.operation", "process"},
+      {"messaging.destination.name", "emails"},
+      {"code.function", "MyApp.Worker.process_email"}
+    ]
+  } do
+    try do
+      send_email(payload)
+    rescue
+      e ->
+        Tracer.record_exception(e, __STACKTRACE__)
+        Tracer.set_status(:error, Exception.message(e))
+        reraise e, __STACKTRACE__
+    end
+  end
+end
+```
+
+For Mix tasks and other one-shot processes, call `:opentelemetry.get_tracer_provider() |> :otel_tracer_provider.force_flush()` before exit so the BatchSpanProcessor flushes; otherwise spans are dropped silently.
+
 ```=html
 <hr />
 <a href="https://github.com/monoscope-tech/monoscope-phoenix" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">

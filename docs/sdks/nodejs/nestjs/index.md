@@ -176,6 +176,52 @@ An object with the following optional fields can be passed to the middleware fun
 | `monitorAxios` | Axios instance to monitor. |
 :::
 
+## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)
+
+The NestJS interceptors only cover HTTP / RPC / GraphQL requests. `@nestjs/bullmq`, `@nestjs/schedule` cron jobs, microservice consumers, and standalone scripts are invisible until you wrap each handler in a span yourself. Always instrument these alongside your HTTP routes.
+
+Use the standard OpenTelemetry tracer API directly inside the processor / scheduled method. Auto-instrumentation picks up downstream HTTP/database calls automatically once a parent span is active.
+
+```ts
+import { trace, SpanStatusCode } from "@opentelemetry/api";
+import { Processor, WorkerHost } from "@nestjs/bullmq";
+import { Job } from "bullmq";
+
+const tracer = trace.getTracer("my-service-worker");
+
+@Processor("emails")
+export class EmailProcessor extends WorkerHost {
+  async process(job: Job): Promise<void> {
+    return tracer.startActiveSpan(
+      `email.${job.name}`,
+      {
+        attributes: {
+          "messaging.system": "bullmq",
+          "messaging.operation": "process",
+          "messaging.destination.name": "emails",
+          "messaging.message.id": job.id,
+          "code.function": job.name,
+        },
+      },
+      async (span) => {
+        try {
+          await this.sendEmail(job.data);
+          span.setStatus({ code: SpanStatusCode.OK });
+        } catch (err) {
+          span.recordException(err as Error);
+          span.setStatus({ code: SpanStatusCode.ERROR });
+          throw err;
+        } finally {
+          span.end();
+        }
+      }
+    );
+  }
+}
+```
+
+The same wrapper goes around `@Cron` / `@Interval` methods from `@nestjs/schedule`, microservice `@MessagePattern` handlers, and any standalone NestJS application context script. For one-shot CLI tasks, call `app.close()` before exiting so the BatchSpanProcessor flushes; otherwise spans are dropped silently.
+
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tips</b></p>
