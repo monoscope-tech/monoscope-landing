@@ -2,7 +2,7 @@
 title: Flask
 ogTitle: Flask SDK Guide
 date: 2022-03-23
-updatedDate: 2024-07-17
+updatedDate: 2026-05-08
 menuWeight: 3
 ---
 
@@ -57,6 +57,13 @@ opentelemetry-instrument gunicorn server:app
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
   <p>The <code>{ENTER_YOUR_API_KEY_HERE}</code> demo string should be replaced with the API key generated from the Monoscope dashboard.</p>
+</div>
+```
+
+```=html
+<div class="callout">
+  <i class="fa-solid fa-circle-info"></i>
+  <p><b>Import / load order matters:</b> <code>opentelemetry-instrument</code> reads the <code>OTEL_*</code> environment variables when it starts. Export them in the same shell (or load them from a <code>.env</code> file) <i>before</i> invoking the command, otherwise the instrumentation will use defaults and your traces won't reach Monoscope.</p>
 </div>
 ```
 
@@ -251,7 +258,26 @@ if __name__ == "__main__":
   app.run(debug=True)
 ```
 
-## Monitoring Outgoing Requests
+## Identifying users & tenants
+
+Attach the authenticated user and tenant to every request span so you can filter, group, and search by identity in the dashboard (e.g. "all errors for `user.email = jane@acme.com`"). Call `set_user` and `set_tenant` from any handler or `before_request` hook that runs after your auth layer — the SDK writes them to the active request span using the standard attribute keys (`user.id`, `user.email`, `user.full_name`, `tenant.id`, `tenant.name`).
+
+```python
+from flask import g, request
+from monoscope_flask import set_user, set_tenant
+
+@app.before_request
+def attach_identity():
+    user = getattr(g, "user", None)
+    if user is None:
+        return
+    set_user({"id": user.id, "email": user.email, "name": user.full_name})
+    set_tenant({"id": user.org_id, "name": user.org_name})
+```
+
+Both helpers skip missing fields, so partial info is fine. They must run inside a request handled by the Monoscope middleware — calls outside that scope are silent no-ops.
+
+## Monitoring HTTPX requests
 
 Outgoing requests are external API calls you make from your API. By default, Monoscope monitors all requests users make from your application and they will all appear in the [API Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. However, you can separate outgoing requests from others and explore them in the [Outgoing Integrations](/docs/dashboard/dashboard-pages/outgoing-integrations/){target="\_blank"} page, alongside the incoming request that triggered them.
 

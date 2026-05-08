@@ -2,7 +2,7 @@
 title: Django
 ogTitle: Django SDK Guide
 date: 2022-03-23
-updatedDate: 2024-06-17
+updatedDate: 2026-05-08
 menuWeight: 1
 ---
 
@@ -64,6 +64,13 @@ opentelemetry-instrument daphne myapp.asgi:application
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
   <p>The <code>{ENTER_YOUR_API_KEY_HERE}</code> demo string should be replaced with the API key generated from the Monoscope dashboard.</p>
   <p>The <code>{YOUR_DJANGO_ROJECT_NAME}</code> demo string should be replaced with the name of your django project</p>
+</div>
+```
+
+```=html
+<div class="callout">
+  <i class="fa-solid fa-circle-info"></i>
+  <p><b>Import / load order matters:</b> <code>opentelemetry-instrument</code> reads the <code>OTEL_*</code> environment variables when it starts. Export them in the same shell (or load them from a <code>.env</code> file) <i>before</i> invoking the command, otherwise the instrumentation will use defaults and your traces won't reach Monoscope.</p>
 </div>
 ```
 
@@ -222,7 +229,47 @@ def hello_world(request, name):
     return JsonResponse({"Error": "Something went wrong..."})
 ```
 
-## Monitoring Outgoing Requests
+## Identifying users & tenants
+
+Attach the authenticated user and tenant to every request span so you can filter, group, and search by identity in the dashboard (e.g. "all errors for `user.email = jane@acme.com`"). Call `set_user` and `set_tenant` from a view or a custom middleware placed *after* `django.contrib.auth.middleware.AuthenticationMiddleware` so that `request.user` is populated. The SDK writes them to the active request span using the standard attribute keys (`user.id`, `user.email`, `user.full_name`, `tenant.id`, `tenant.name`).
+
+```python
+# myapp/middleware.py
+from monoscope_django import set_user, set_tenant
+
+class AttachIdentityMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        user = getattr(request, "user", None)
+        if user is not None and user.is_authenticated:
+            set_user({
+                "id": user.id,
+                "email": user.email,
+                "name": user.get_full_name() or user.username,
+            })
+            set_tenant({
+                "id": getattr(user, "org_id", None),
+                "name": getattr(user, "org_name", None),
+            })
+        return self.get_response(request)
+```
+
+In `settings.py`, list the middleware **after** `MonoscopeMiddleware` and `AuthenticationMiddleware`:
+
+```python
+MIDDLEWARE = [
+    "monoscope_django.MonoscopeMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "myapp.middleware.AttachIdentityMiddleware",
+    # ...
+]
+```
+
+Both helpers skip missing fields, so partial info is fine. Calls outside a Monoscope-handled request are silent no-ops.
+
+## Monitoring HTTPX requests
 
 Outgoing requests are external API calls you make from your API. By default, Monoscope monitors all requests users make from your application and they will all appear in the [API Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. However, you can separate outgoing requests from others and explore them in the [Outgoing Integrations](/docs/dashboard/dashboard-pages/outgoing-integrations/){target="\_blank"} page, alongside the incoming request that triggered them.
 
