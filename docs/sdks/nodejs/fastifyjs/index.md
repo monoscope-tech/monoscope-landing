@@ -171,6 +171,26 @@ fastifyServer.addHook("preHandler", async (req) => {
 
 Both helpers skip undefined/null fields, so partial info is fine. They must run inside a request handled by the Monoscope plugin — calls outside that scope are no-ops with a debug warning.
 
+## Tracking sessions
+
+If you ship the [Monoscope Browser SDK](/docs/sdks/Javascript/browser/){target="\_blank"} on your frontend, **`session.id` is propagated and tagged automatically** — no Fastify code required. The browser SDK injects the W3C `baggage` header on every outbound fetch/XHR, and the Monoscope plugin extracts it and tags the request span. The session shows up alongside backend traces under the standard OTel `session.id` attribute.
+
+For server-only sessions (background jobs, SSR without the browser SDK, or your own session scheme), set the session ID alongside user and tenant on the active request span. The three together — **who**, **which org**, **which session** — are what makes a trace searchable and replayable in the dashboard:
+
+```ts
+import { setUser, setTenant, setSession } from "@monoscopetech/fastify";
+
+fastifyServer.addHook("preHandler", async (req) => {
+  if (req.user) {
+    setUser({ id: req.user.id, email: req.user.email, name: req.user.fullName });
+    setTenant({ id: req.user.orgId, name: req.user.orgName });
+  }
+  if (req.session?.sessionId) setSession(req.session.sessionId);
+});
+```
+
+`setSession` writes the standard `session.id` attribute to the active request span. Calls outside the Monoscope plugin scope are no-ops.
+
 ## Monitoring Axios requests
 
 Monoscope supports monitoring outgoing HTTP requests made using libraries like Axios. This can be done either globally or on a per-request basis.

@@ -156,6 +156,31 @@ app.useGlobalInterceptors(new MonoscopeUserInterceptor());
 
 Order matters: `app.use(monoscopeClient.middleware)` must run before the interceptor so the request span exists, and your auth guard must populate `req.user` first. Guards run before interceptors in Nest, so this works out of the box with Passport / JWT guards. Both helpers skip undefined/null fields, so partial info is fine.
 
+## Tracking sessions
+
+If you ship the [Monoscope Browser SDK](/docs/sdks/Javascript/browser/){target="\_blank"} on your frontend, **`session.id` is propagated and tagged automatically** — no NestJS code required. The browser SDK injects the W3C `baggage` header on every outbound fetch/XHR, and the Monoscope Express middleware extracts it and tags the request span via `applySessionFromBaggage`. The session shows up alongside backend traces under the standard OTel `session.id` attribute, so you can filter, group, and replay them end-to-end.
+
+For server-only sessions (background jobs, server-rendered pages without the browser SDK, or your own session scheme), set the session ID alongside user and tenant on the active request span. The three together — **who**, **which org**, **which session** — are what makes a trace searchable and replayable in the dashboard:
+
+```ts
+import { setUser, setTenant, setSession } from "@monoscopetech/express";
+
+@Injectable()
+export class MonoscopeIdentityInterceptor implements NestInterceptor {
+  intercept(ctx: ExecutionContext, next: CallHandler) {
+    const req = ctx.switchToHttp().getRequest();
+    if (req.user) {
+      setUser({ id: req.user.id, email: req.user.email, name: req.user.fullName });
+      setTenant({ id: req.user.orgId, name: req.user.orgName });
+    }
+    if (req.session?.id) setSession(req.session.id);
+    return next.handle();
+  }
+}
+```
+
+`setSession` writes the standard `session.id` attribute to the active request span. Calls outside the Monoscope middleware scope are no-ops.
+
 ## Monoscope Middleware with for NestJs + Fastify
 
 If your NestJS app uses the Fastify adapter, you should follow our

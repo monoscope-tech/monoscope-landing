@@ -182,6 +182,31 @@ export const GET = withMonoscopeAppRouter(handler);
 
 Both helpers skip undefined/null fields, so partial info is fine. They must run inside a handler wrapped by `withMonoscopeAppRouter`/`withMonoscopePagesRouter` — calls outside that scope are no-ops with a debug warning.
 
+## Tracking sessions
+
+If you ship the [Monoscope Browser SDK](/docs/sdks/Javascript/browser/){target="\_blank"} on your frontend, **`session.id` is propagated and tagged automatically** — no Next.js code required. The browser SDK injects the W3C `baggage` header on every outbound fetch/XHR, and the Monoscope wrapper extracts it and tags the request span under the standard OTel `session.id` attribute.
+
+For server-only sessions (server components without the browser SDK, or your own session scheme), set the session ID alongside user and tenant on the active request span. The three together — **who**, **which org**, **which session** — are what makes a trace searchable and replayable in the dashboard:
+
+```ts
+import { withMonoscopeAppRouter, setUser, setTenant, setSession } from "@monoscopetech/nextjs";
+import { getSession } from "@/lib/auth";
+
+async function handler() {
+  const session = await getSession();
+  if (session?.user) {
+    setUser({ id: session.user.id, email: session.user.email, name: session.user.name });
+    setTenant({ id: session.user.orgId, name: session.user.orgName });
+  }
+  if (session?.id) setSession(session.id);
+  // ...
+}
+
+export const GET = withMonoscopeAppRouter(handler);
+```
+
+`setSession` writes the standard `session.id` attribute to the active request span. Calls outside a wrapped handler are no-ops.
+
 ## Monitoring Axios requests
 
 Monoscope supports monitoring outgoing HTTP requests made using libraries like Axios.

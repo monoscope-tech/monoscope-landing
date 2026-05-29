@@ -207,6 +207,27 @@ export default class UsersController {
 
 Both helpers skip undefined/null fields, so partial info is fine. They must run inside a request handled by the Monoscope middleware — calls outside that scope are no-ops with a debug warning.
 
+## Tracking sessions
+
+If you ship the [Monoscope Browser SDK](/docs/sdks/Javascript/browser/){target="\_blank"} on your frontend, **`session.id` is propagated and tagged automatically** — no Adonis code required. The browser SDK injects the W3C `baggage` header on every outbound fetch/XHR, and the Monoscope middleware extracts it and tags the request span under the standard OTel `session.id` attribute.
+
+For server-only sessions, set the session ID alongside user and tenant on the active request span. The three together — **who**, **which org**, **which session** — are what makes a trace searchable and replayable in the dashboard:
+
+```ts
+import { setUser, setTenant, setSession } from "@monoscopetech/adonis";
+import type { HttpContext } from "@adonisjs/core/http";
+
+async show({ auth, session }: HttpContext) {
+  const user = await auth.authenticate();
+  setUser({ id: user.id, email: user.email, name: user.fullName });
+  setTenant({ id: user.tenantId, name: user.tenantName });
+  setSession(session.sessionId);
+  // ...
+}
+```
+
+`setSession` writes the standard `session.id` attribute to the active request span. Calls outside the Monoscope middleware scope are no-ops.
+
 ## Monitoring Axios requests
 
 Monoscope supports monitoring outgoing HTTP requests made using libraries like Axios. This can be done either globally or on a per-request basis.

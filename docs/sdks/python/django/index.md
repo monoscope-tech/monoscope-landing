@@ -288,6 +288,32 @@ MIDDLEWARE = [
 
 Both helpers skip missing fields, so partial info is fine. Calls outside a Monoscope-handled request are silent no-ops.
 
+## Tracking sessions
+
+If you ship the [Monoscope Browser SDK](/docs/sdks/Javascript/browser/){target="\_blank"} on your frontend, **`session.id` is propagated and tagged automatically** — no Django code required. The browser SDK injects the W3C `baggage` header on every outbound fetch/XHR, and `MonoscopeMiddleware` extracts it and tags the request span under the standard OTel `session.id` attribute.
+
+For server-only sessions, set the session ID alongside user and tenant inside the identity middleware. The three together — **who**, **which org**, **which session** — are what makes a trace searchable and replayable in the dashboard:
+
+```python
+# myapp/middleware.py
+from monoscope_django import set_user, set_tenant, set_session
+
+class AttachIdentityMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        user = getattr(request, "user", None)
+        if user is not None and user.is_authenticated:
+            set_user({"id": user.id, "email": user.email, "name": user.get_full_name()})
+            set_tenant({"id": getattr(user, "org_id", None), "name": getattr(user, "org_name", None)})
+        if request.session.session_key:
+            set_session(request.session.session_key)
+        return self.get_response(request)
+```
+
+`set_session` writes the standard `session.id` attribute to the active request span. Calls outside a Monoscope-handled request are silent no-ops.
+
 ## Monitoring HTTPX requests
 
 Outgoing requests are external API calls you make from your API. By default, Monoscope monitors all requests users make from your application and they will all appear in the [API Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. However, you can separate outgoing requests from others and explore them in the [Outgoing Integrations](/docs/dashboard/dashboard-pages/outgoing-integrations/){target="\_blank"} page, alongside the incoming request that triggered them.
