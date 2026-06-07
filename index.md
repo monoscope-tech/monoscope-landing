@@ -705,7 +705,7 @@ platforms:
             <div>
               <p class="text-sm font-semibold text-textStrong uppercase tracking-wide mb-2">Community Edition (Free)</p>
               <ul class="space-y-2 text-base list-disc list-inside marker:text-iconSuccess">
-                <li><strong>100% open source</strong> (Apache 2.0)</li>
+                <li><strong>100% open source</strong> (AGPL 3.0)</li>
                 <li>All core monitoring features</li>
                 <li>Deploy to your own servers</li>
                 <li>Complete data control</li>
