@@ -30,7 +30,7 @@ monoscope events context --window 5m --summary \
 ```
 
 Every command emits stable JSON, surfaces the server's actual error
-message (not an opaque 4xx), and auto-switches between a Sentry-style
+message (not an opaque 4xx), and auto-switches between a coloured
 table for humans and pretty-printed JSON when stdout is piped — same
 binary backing CI assertions like `monoscope metrics query '...' --assert '< 0.01'`.
 Force a mode with `--json`, `--yaml`, or `--table`.

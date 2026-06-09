@@ -26,7 +26,7 @@ Precedence when multiple are set: `--json` > `--yaml` > `--table`.
 
 ## Output modes
 
-- **`table`** — default on a TTY. Sentry-style Unicode box-drawing renderer with
+- **`table`** — default on a TTY. Unicode box-drawing renderer with
   severity colouring, terminal-width truncation, and a pagination cue under list
   output. Keep colours when piping with `MONOSCOPE_FORCE_COLOR=1`.
 - **`json`** — default when stdout is a pipe. Pretty-printed, agent-friendly.
