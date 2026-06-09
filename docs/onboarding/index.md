@@ -34,7 +34,7 @@ This guide walks you through setting up Monoscope: create an account, get an API
       <span class="shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-full bg-fillBrand-strong text-white text-sm font-semibold">2</span>
       <div class="flex-1 min-w-0">
         <p class="m-0 text-textStrong font-medium">Install the CLI (or pick your SDK)</p>
-        <pre class="m-0 mt-2 px-4 py-3 rounded-lg overflow-x-auto text-[13px] leading-relaxed" style="background:#0d1117;color:#e6edf3;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace">curl monoscope.tech/install.sh | sh
+        <pre class="m-0 mt-2 px-4 py-3 rounded-lg overflow-x-auto text-[13px] leading-relaxed" style="background:#0d1117;color:#e6edf3;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace">curl https://monoscope.tech/install.sh | sh
 monoscope auth login</pre>
         <p class="m-0 mt-2 text-sm text-textWeak">Prefer language-native? Jump to <a href="/docs/sdks/" class="text-fillBrand-strong hover:underline">SDK Guides</a>.</p>
       </div>

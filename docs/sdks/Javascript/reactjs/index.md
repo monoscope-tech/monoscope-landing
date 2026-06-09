@@ -17,7 +17,7 @@ Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument thi
 ```sh
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-curl monoscope.tech/install.sh | sh
+curl https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 

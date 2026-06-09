@@ -63,7 +63,7 @@ The skills assume the `monoscope` binary is on your `PATH` and you're
 authenticated:
 
 ```sh
-curl monoscope.tech/install.sh | sh
+curl https://monoscope.tech/install.sh | sh
 export MONOSCOPE_API_KEY=<your-api-key>
 export MONOSCOPE_PROJECT=<your-project-uuid>
 monoscope auth status   # should report authenticated

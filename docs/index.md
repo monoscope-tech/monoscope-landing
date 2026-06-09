@@ -34,7 +34,7 @@ pageFullWidth: true
           <button class="hover:opacity-100 opacity-70 transition cursor-pointer" onclick="const p=this.closest('div.rounded-xl').querySelector('pre');navigator.clipboard.writeText(p.innerText);this.innerText='Copied';setTimeout(()=>this.innerText='Copy',1500)">Copy</button>
         </div>
         <pre class="m-0 px-5 py-4 text-[13px] leading-relaxed overflow-x-auto" style="background:transparent;color:#e6edf3;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace"><span style="color:rgba(230,237,243,.45)"># Install the CLI</span>
-curl monoscope.tech/install.sh | sh
+curl https://monoscope.tech/install.sh | sh
 monoscope auth login
 
 <span style="color:rgba(230,237,243,.45)"># Add the Monoscope Claude skill</span>
