@@ -30,9 +30,10 @@ monoscope events context --window 5m --summary \
 ```
 
 Every command emits stable JSON, surfaces the server's actual error
-message (not an opaque 4xx), and switches into agent mode under
-`MONOSCOPE_AGENT_MODE=1` — auto-set in CI, where the same binary backs
-assertions like `monoscope metrics query '...' --assert '< 0.01'`.
+message (not an opaque 4xx), and auto-switches between a Sentry-style
+table for humans and pretty-printed JSON when stdout is piped — same
+binary backing CI assertions like `monoscope metrics query '...' --assert '< 0.01'`.
+Force a mode with `--json`, `--yaml`, or `--table`.
 
 ## Three surfaces, one product
 

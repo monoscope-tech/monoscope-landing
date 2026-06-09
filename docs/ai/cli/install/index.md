@@ -93,19 +93,19 @@ monoscope auth status
 
 ```sh
 monoscope auth status     # human-readable
-monoscope --agent auth status   # JSON: {authenticated, method, api_url, project}
+monoscope --json auth status   # {authenticated, method, api_url, project}
 monoscope auth logout     # remove ~/.config/monoscope/tokens.json
 ```
 
 ```=html
 <div class="callout">
   <i class="fa-solid fa-shield-halved"></i>
-  <p><strong>Agent mode is non-interactive.</strong>
-  In <code>--agent</code> mode (or with <code>MONOSCOPE_AGENT_MODE=1</code> /
-  <code>CI=1</code> / <code>CLAUDE_CODE=1</code>),
-  <code>auth login</code> without <code>--token</code> exits non-zero rather
-  than launching a 5-minute device-code poll. Always pass a token when running
-  unattended.</p>
+  <p><strong>Non-interactive mode is auto-detected.</strong>
+  Whenever stdout isn't a TTY — or when <code>CI=1</code> /
+  <code>CLAUDE_CODE=1</code> is set, or you pass <code>--json</code> /
+  <code>--yaml</code> — <code>auth login</code> without <code>--token</code>
+  exits non-zero rather than launching a 5-minute device-code poll. Always pass
+  a token when running unattended.</p>
 </div>
 ```
 
@@ -130,7 +130,7 @@ monoscope config set project <project-uuid>
 monoscope config set api_url https://your-self-hosted-instance.example.com
 monoscope config get             # show all
 monoscope config get project     # show one value
-monoscope --agent config get     # JSON output, suitable for piping
+monoscope --json config get      # JSON output, suitable for piping
 ```
 
 Valid keys: `api_url`, `project`, `api_key`.
@@ -142,8 +142,12 @@ Valid keys: `api_url`, `project`, `api_key`.
 | `MONOSCOPE_API_KEY` | API key — takes precedence over stored token. |
 | `MONOSCOPE_PROJECT` | Default project UUID — overridable per-invocation with `--project/-p`. |
 | `MONOSCOPE_API_URL` | API base URL (default: `https://api.monoscope.tech`). Point at `http://localhost:8080` to drive a self-hosted dev server. |
-| `MONOSCOPE_AGENT_MODE` | Set to `1` to force JSON output and disable interactive prompts. Auto-detected when `CI` or `CLAUDE_CODE` is set. |
-| `MONOSCOPE_DEBUG` | Set to `1` (or pass `--debug`) to print every outgoing request URL and params to stderr. Invaluable when an agent gets a 4xx and needs to inspect what it actually sent. |
+| `MONOSCOPE_FORCE_COLOR` | Set to `1` to keep colored table output when stdout is piped (otherwise the pipe auto-detect switches to JSON). |
+| `MONOSCOPE_DEBUG` | Set to `1` (or pass `--debug`) to print every outgoing request URL and params to stderr. With `--debug`, the server also includes raw SQL / Hasql exception text under `error.details`. |
+
+Non-interactive prompts are auto-disabled whenever stdout isn't a TTY, or when
+`CI=1` / `CLAUDE_CODE=1` is set, or you pass any of `--json` / `--yaml` /
+`--table` (precedence: `--json` > `--yaml` > `--table`).
 
 ## Shell completions
 

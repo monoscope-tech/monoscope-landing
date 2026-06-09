@@ -17,15 +17,19 @@ for the complete flag list; the exhaustive reference lives in the
 | Flag | Description |
 |---|---|
 | `--project/-p <uuid>` | Override the project for this invocation. |
-| `--output/-o json\|yaml\|table` | Force output format. |
-| `--json` | Shorthand for `--output json`. |
-| `--agent` | Force JSON output (same as `MONOSCOPE_AGENT_MODE=1`). |
-| `--debug` | Print every outgoing request URL to stderr. |
+| `--json` | Emit JSON (forced anyway when stdout is piped). |
+| `--yaml` | Emit YAML. |
+| `--table` | Force pretty-printed table (overrides pipe → JSON auto-detect). |
+| `--debug` | Print every outgoing request URL to stderr (also: `MONOSCOPE_DEBUG=1`). |
+
+Precedence when multiple are set: `--json` > `--yaml` > `--table`.
 
 ## Output modes
 
-- **`table`** — default on a TTY. Human-readable aligned columns.
-- **`json`** — default when stdout is a pipe or `CI`/`CLAUDE_CODE` is set. Pretty-printed, agent-friendly.
+- **`table`** — default on a TTY. Sentry-style Unicode box-drawing renderer with
+  severity colouring, terminal-width truncation, and a pagination cue under list
+  output. Keep colours when piping with `MONOSCOPE_FORCE_COLOR=1`.
+- **`json`** — default when stdout is a pipe. Pretty-printed, agent-friendly.
 - **`yaml`** — config-friendly. Round-trips cleanly through `apply` for monitors and dashboards.
 
 ## Logs, traces, events
@@ -34,11 +38,15 @@ for the complete flag list; the exhaustive reference lives in the
 are aliases for `events` with a `--kind` filter pre-applied.
 
 ```sh
+# Bare strings are auto-rewritten to body has "..." or summary has "..."
+monoscope logs search POISON_ROW_DROPPED --since 24h
+
 # Recent errors across all services (KQL)
 monoscope events search 'severity.text=="error"' --since 1h
 
-# Service + level shorthands compose with the positional KQL query
-monoscope logs search --service checkout-api --level error --since 30m
+# Service + level shorthands compose with the positional KQL query.
+# --service is repeatable; --level normalises to upper-case.
+monoscope logs search --service checkout-api --service worker --level error --since 30m
 
 # Free-text search inside the body
 monoscope logs search 'body has "payment failed"' --since 1h
@@ -57,12 +65,21 @@ monoscope logs search 'severity.text=="error"' --first --id-only
 # Trace tree
 monoscope traces get <trace-id> --tree
 
+# Project specific fields out of a single event (no jq needed)
+monoscope events get <event-id> --field body --field summary
+monoscope events get <event-id> --show-body   # shorthand for the line above
+
 # Live tail with optional grep
 monoscope logs tail --service api --level error --grep timeout
 
 # Context window around a timestamp, with per-trace summary for triage
 monoscope events context --at 2026-04-15T10:34:22Z --window 10m --summary
 ```
+
+Long `--since` windows on `events search` / `logs search` are auto-chunked
+into 1-hour slices (override with `--chunk-hours <H>`, disable with `--no-chunk`)
+and streamed as NDJSON. Gateway errors (502/503/504, Cloudflare HTML) collapse
+into a one-liner with a "narrow `--since`" hint and one jittered retry.
 
 KQL operator reference: see the [kql-reference skill](https://github.com/monoscope-tech/skills/blob/master/skills/kql-reference/SKILL.md).
 Use `==`/`!=` (not Lucene `:`) for equality, `and`/`or` for logical, `has` for
