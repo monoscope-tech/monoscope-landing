@@ -87,6 +87,9 @@ import axios from "axios";
 const app = express();
 const monoscopeClient = Monoscope.NewClient({
   monitorAxios: axios, // Optional: Use this to monitor Axios requests
+  redactHeaders: ["Authorization"],
+  redactResponseBody: ["$.credit_card_number"],
+  redactRequestBody: ["$.password"],
 });
 
 // Add middleware for request monitoring
