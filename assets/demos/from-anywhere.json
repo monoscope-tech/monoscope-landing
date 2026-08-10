@@ -1,0 +1,1 @@
+{"w":1440,"h":900,"steps":[{"img":"ai-01.webp","wait":600},{"cursor":[48.25,13.29],"click":true},{"type":{"at":[48.25,13.29],"text":"show me requests slower than 1 second","rect":[8.47,11.56,79.57,3.47]},"caption":"Ask in plain English"},{"img":"ai-02.webp","caption":"Monoscope turns it into a query and runs it","wait":3200}]}

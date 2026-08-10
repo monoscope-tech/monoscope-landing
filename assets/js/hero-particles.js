@@ -28,10 +28,10 @@ class ObservabilityAnimation {
 
     // Pre-cached color strings to avoid string creation in render loop
     this.colorCache = {
-      healthy: { r: 34, g: 197, b: 94 },
-      normal: { r: 20, g: 184, b: 166 },
-      warning: { r: 251, g: 191, b: 36 },
-      critical: { r: 239, g: 68, b: 68 }
+      healthy: { r: 96, g: 165, b: 250 },
+      normal: { r: 0, g: 104, b: 255 },
+      warning: { r: 147, g: 197, b: 253 },
+      critical: { r: 37, g: 99, b: 235 }
     };
 
     // Trace tree state
@@ -284,10 +284,10 @@ class ObservabilityAnimation {
 
   getHealthColor(health, opacity = 1) {
     const colors = {
-      healthy: { r: 34, g: 197, b: 94 },
-      normal: { r: 20, g: 184, b: 166 },
-      warning: { r: 251, g: 191, b: 36 },
-      critical: { r: 239, g: 68, b: 68 }
+      healthy: { r: 96, g: 165, b: 250 },
+      normal: { r: 0, g: 104, b: 255 },
+      warning: { r: 147, g: 197, b: 253 },
+      critical: { r: 37, g: 99, b: 235 }
     };
     const color = colors[health] || colors.normal;
     return `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
@@ -383,7 +383,7 @@ class ObservabilityAnimation {
         this.ctx.beginPath();
         this.ctx.moveTo(fromNode.x, fromNode.y);
         this.ctx.lineTo(toNode.x, toNode.y);
-        this.ctx.strokeStyle = `rgba(20, 184, 166, ${baseOpacity})`;
+        this.ctx.strokeStyle = `rgba(0, 104, 255, ${baseOpacity})`;
         this.ctx.lineWidth = avgZ * (this.isDarkMode ? 0.8 : 1.2);
         this.ctx.stroke();
         return;
@@ -394,7 +394,7 @@ class ObservabilityAnimation {
         fromNode.x, fromNode.y, toNode.x, toNode.y
       );
       gradient.addColorStop(0, this.getHealthColor(fromNode.health, baseOpacity * 0.6));
-      gradient.addColorStop(0.5, `rgba(20, 184, 166, ${baseOpacity})`);
+      gradient.addColorStop(0.5, `rgba(0, 104, 255, ${baseOpacity})`);
       gradient.addColorStop(1, this.getHealthColor(toNode.health, baseOpacity * 0.6));
 
       this.ctx.beginPath();
@@ -413,7 +413,7 @@ class ObservabilityAnimation {
       const pulseGradient = this.ctx.createRadialGradient(
         pulseX, pulseY, 0, pulseX, pulseY, 12
       );
-      pulseGradient.addColorStop(0, `rgba(20, 184, 166, ${baseOpacity * 1.5})`);
+      pulseGradient.addColorStop(0, `rgba(0, 104, 255, ${baseOpacity * 1.5})`);
       pulseGradient.addColorStop(1, 'transparent');
 
       this.ctx.fillStyle = pulseGradient;
@@ -488,6 +488,7 @@ class ObservabilityAnimation {
 
   drawRadarSweep() {
     this.radarAngle += 0.01;
+    const rgb = this.isDarkMode ? '226, 232, 240' : '0, 0, 0';
 
     const centerX = this.logicalWidth * 0.75;
     const centerY = this.logicalHeight * 0.25;
@@ -498,9 +499,9 @@ class ObservabilityAnimation {
       // Single sweep layer
       const gradient = this.ctx.createConicGradient(this.radarAngle, centerX, centerY);
       const sweepOpacity = this.isDarkMode ? 0.12 : 0.18;
-      gradient.addColorStop(0, 'rgba(20, 184, 166, 0)');
-      gradient.addColorStop(0.02, `rgba(20, 184, 166, ${sweepOpacity})`);
-      gradient.addColorStop(0.1, 'rgba(20, 184, 166, 0)');
+      gradient.addColorStop(0, `rgba(${rgb}, 0)`);
+      gradient.addColorStop(0.02, `rgba(${rgb}, ${sweepOpacity})`);
+      gradient.addColorStop(0.1, `rgba(${rgb}, 0)`);
 
       this.ctx.fillStyle = gradient;
       this.ctx.beginPath();
@@ -512,13 +513,13 @@ class ObservabilityAnimation {
         const ringRadius = radius * i / 4;
         this.ctx.beginPath();
         this.ctx.arc(centerX, centerY, ringRadius, 0, Math.PI * 2);
-        this.ctx.strokeStyle = `rgba(20, 184, 166, 0.03)`;
+        this.ctx.strokeStyle = `rgba(${rgb}, 0.03)`;
         this.ctx.lineWidth = 0.5;
         this.ctx.stroke();
       }
 
       // Simple center dot
-      this.ctx.fillStyle = 'rgba(20, 184, 166, 0.8)';
+      this.ctx.fillStyle = `rgba(${rgb}, 0.8)`;
       this.ctx.beginPath();
       this.ctx.arc(centerX, centerY, 2, 0, Math.PI * 2);
       this.ctx.fill();
@@ -533,10 +534,10 @@ class ObservabilityAnimation {
       const gradient = this.ctx.createConicGradient(
         this.radarAngle + layerOffset, centerX, centerY
       );
-      gradient.addColorStop(0, 'rgba(20, 184, 166, 0)');
-      gradient.addColorStop(0.02, `rgba(20, 184, 166, ${layerOpacity})`);
-      gradient.addColorStop(0.08, `rgba(20, 184, 166, ${layerOpacity * 0.4})`);
-      gradient.addColorStop(0.15, 'rgba(20, 184, 166, 0)');
+      gradient.addColorStop(0, `rgba(${rgb}, 0)`);
+      gradient.addColorStop(0.02, `rgba(${rgb}, ${layerOpacity})`);
+      gradient.addColorStop(0.08, `rgba(${rgb}, ${layerOpacity * 0.4})`);
+      gradient.addColorStop(0.15, `rgba(${rgb}, 0)`);
 
       this.ctx.fillStyle = gradient;
       this.ctx.beginPath();
@@ -551,7 +552,7 @@ class ObservabilityAnimation {
 
       this.ctx.beginPath();
       this.ctx.arc(centerX, centerY, ringRadius, 0, Math.PI * 2);
-      this.ctx.strokeStyle = `rgba(20, 184, 166, ${ringOpacity})`;
+      this.ctx.strokeStyle = `rgba(${rgb}, ${ringOpacity})`;
       this.ctx.lineWidth = this.isDarkMode ? 0.5 : 0.8;
       this.ctx.stroke();
     }
@@ -560,11 +561,11 @@ class ObservabilityAnimation {
     const crossGradient = this.ctx.createLinearGradient(
       centerX - radius, centerY, centerX + radius, centerY
     );
-    crossGradient.addColorStop(0, 'rgba(20, 184, 166, 0)');
-    crossGradient.addColorStop(0.3, 'rgba(20, 184, 166, 0.04)');
-    crossGradient.addColorStop(0.5, 'rgba(20, 184, 166, 0.06)');
-    crossGradient.addColorStop(0.7, 'rgba(20, 184, 166, 0.04)');
-    crossGradient.addColorStop(1, 'rgba(20, 184, 166, 0)');
+    crossGradient.addColorStop(0, `rgba(${rgb}, 0)`);
+    crossGradient.addColorStop(0.3, `rgba(${rgb}, 0.04)`);
+    crossGradient.addColorStop(0.5, `rgba(${rgb}, 0.06)`);
+    crossGradient.addColorStop(0.7, `rgba(${rgb}, 0.04)`);
+    crossGradient.addColorStop(1, `rgba(${rgb}, 0)`);
 
     this.ctx.strokeStyle = crossGradient;
     this.ctx.lineWidth = 0.5;
@@ -582,16 +583,16 @@ class ObservabilityAnimation {
     const centerGlow = this.ctx.createRadialGradient(
       centerX, centerY, 0, centerX, centerY, 8
     );
-    centerGlow.addColorStop(0, this.isDarkMode ? 'rgba(20, 184, 166, 0.8)' : 'rgba(20, 184, 166, 1)');
-    centerGlow.addColorStop(0.5, 'rgba(20, 184, 166, 0.3)');
-    centerGlow.addColorStop(1, 'rgba(20, 184, 166, 0)');
+    centerGlow.addColorStop(0, this.isDarkMode ? `rgba(${rgb}, 0.8)` : `rgba(${rgb}, 1)`);
+    centerGlow.addColorStop(0.5, `rgba(${rgb}, 0.3)`);
+    centerGlow.addColorStop(1, `rgba(${rgb}, 0)`);
 
     this.ctx.fillStyle = centerGlow;
     this.ctx.beginPath();
     this.ctx.arc(centerX, centerY, 8, 0, Math.PI * 2);
     this.ctx.fill();
 
-    this.ctx.fillStyle = this.isDarkMode ? 'rgba(20, 184, 166, 0.9)' : 'rgba(20, 184, 166, 1)';
+    this.ctx.fillStyle = this.isDarkMode ? `rgba(${rgb}, 0.9)` : `rgba(${rgb}, 1)`;
     this.ctx.beginPath();
     this.ctx.arc(centerX, centerY, 2, 0, Math.PI * 2);
     this.ctx.fill();
@@ -1158,7 +1159,7 @@ class TraceTreeOverlay {
 
     // Create gradient for line
     const lineGradient = ctx.createLinearGradient(chartX, 0, chartX + chartWidth, 0);
-    lineGradient.addColorStop(0, `rgba(20, 184, 166, ${this.globalOpacity})`);
+    lineGradient.addColorStop(0, `rgba(0, 104, 255, ${this.globalOpacity})`);
     lineGradient.addColorStop(1, `rgba(59, 130, 246, ${this.globalOpacity})`);
 
     // Draw the line with smooth interpolation
@@ -1197,7 +1198,7 @@ class TraceTreeOverlay {
     ctx.stroke();
 
     // Glow effect on the line
-    ctx.strokeStyle = `rgba(20, 184, 166, ${0.3 * this.globalOpacity})`;
+    ctx.strokeStyle = `rgba(0, 104, 255, ${0.3 * this.globalOpacity})`;
     ctx.lineWidth = 6;
     ctx.stroke();
 
@@ -1225,8 +1226,8 @@ class TraceTreeOverlay {
       ctx.closePath();
 
       const areaGradient = ctx.createLinearGradient(0, chartY, 0, chartY + chartHeight);
-      areaGradient.addColorStop(0, `rgba(20, 184, 166, ${0.15 * this.globalOpacity})`);
-      areaGradient.addColorStop(1, `rgba(20, 184, 166, ${0.02 * this.globalOpacity})`);
+      areaGradient.addColorStop(0, `rgba(0, 104, 255, ${0.15 * this.globalOpacity})`);
+      areaGradient.addColorStop(1, `rgba(0, 104, 255, ${0.02 * this.globalOpacity})`);
       ctx.fillStyle = areaGradient;
       ctx.fill();
     }
@@ -1238,7 +1239,7 @@ class TraceTreeOverlay {
       // Outer glow
       ctx.beginPath();
       ctx.arc(finalX, finalY, 8 * dotPulse, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(20, 184, 166, ${0.3 * this.globalOpacity})`;
+      ctx.fillStyle = `rgba(0, 104, 255, ${0.3 * this.globalOpacity})`;
       ctx.fill();
 
       // Inner dot
@@ -1246,7 +1247,7 @@ class TraceTreeOverlay {
       ctx.arc(finalX, finalY, 4, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(255, 255, 255, ${this.globalOpacity})`;
       ctx.fill();
-      ctx.strokeStyle = `rgba(20, 184, 166, ${this.globalOpacity})`;
+      ctx.strokeStyle = `rgba(0, 104, 255, ${this.globalOpacity})`;
       ctx.lineWidth = 2;
       ctx.stroke();
     }

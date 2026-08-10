@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-05T00:00:00Z",
+  "title": "Design System: Monoscope Marketing & Docs",
+  "extensions": {
+    "colorMeta": {
+      "signal-blue": { "role": "primary", "displayName": "Signal Blue", "canonical": "rgb(0 104 255)", "tonalRamp": ["oklch(20% 0.13 259)", "oklch(30% 0.16 259)", "oklch(40% 0.19 259)", "oklch(50% 0.21 259)", "oklch(58% 0.21 259)", "oklch(70% 0.15 259)", "oklch(82% 0.09 259)", "oklch(94% 0.03 259)"] },
+      "ink-strong": { "role": "neutral", "displayName": "Ink Strong", "canonical": "rgba(0 6 38 / 0.9)", "tonalRamp": ["oklch(12% 0.03 263)", "oklch(22% 0.03 263)", "oklch(32% 0.025 263)", "oklch(45% 0.02 263)", "oklch(58% 0.015 263)", "oklch(72% 0.01 263)", "oklch(86% 0.006 263)", "oklch(96% 0.003 263)"] },
+      "ink-weak": { "role": "neutral", "displayName": "Ink Weak", "canonical": "rgba(0 8 51 / 0.65)", "tonalRamp": ["oklch(15% 0.025 263)", "oklch(25% 0.022 263)", "oklch(35% 0.02 263)", "oklch(48% 0.016 263)", "oklch(60% 0.012 263)", "oklch(73% 0.009 263)", "oklch(86% 0.005 263)", "oklch(95% 0.003 263)"] },
+      "base-bg": { "role": "neutral", "displayName": "Base (Cool Near-White)", "canonical": "oklch(99.1% 0.002 247)", "tonalRamp": ["oklch(16% 0.012 247)", "oklch(30% 0.01 247)", "oklch(45% 0.008 247)", "oklch(60% 0.006 247)", "oklch(75% 0.005 247)", "oklch(89% 0.004 247)", "oklch(96% 0.003 247)", "oklch(99.1% 0.002 247)"] },
+      "alternate-bg": { "role": "neutral", "displayName": "Alternate Surface", "canonical": "oklch(97.7% 0.006 247)", "tonalRamp": ["oklch(16% 0.012 247)", "oklch(30% 0.01 247)", "oklch(45% 0.009 247)", "oklch(60% 0.008 247)", "oklch(75% 0.007 247)", "oklch(88% 0.006 247)", "oklch(94% 0.006 247)", "oklch(97.7% 0.006 247)"] },
+      "dark-base-bg": { "role": "neutral", "displayName": "Deep Navy Base (dark theme)", "canonical": "oklch(14% 0.025 263)", "tonalRamp": ["oklch(14% 0.025 263)", "oklch(18% 0.025 263)", "oklch(24% 0.025 263)", "oklch(34% 0.022 263)", "oklch(46% 0.018 263)", "oklch(60% 0.014 263)", "oklch(76% 0.009 263)", "oklch(92% 0.004 263)"] },
+      "text-success": { "role": "status", "displayName": "Success", "canonical": "oklch(47.8% 0.13 162)", "tonalRamp": ["oklch(18% 0.06 162)", "oklch(28% 0.09 162)", "oklch(38% 0.11 162)", "oklch(47.8% 0.13 162)", "oklch(58% 0.12 162)", "oklch(70% 0.1 162)", "oklch(83% 0.07 162)", "oklch(94% 0.03 162)"] },
+      "text-error": { "role": "status", "displayName": "Error", "canonical": "oklch(51.3% 0.197 21)", "tonalRamp": ["oklch(20% 0.09 21)", "oklch(30% 0.13 21)", "oklch(40% 0.17 21)", "oklch(51.3% 0.197 21)", "oklch(61% 0.17 21)", "oklch(72% 0.13 21)", "oklch(84% 0.08 21)", "oklch(94% 0.03 21)"] },
+      "text-warning": { "role": "status", "displayName": "Warning", "canonical": "oklch(54.7% 0.126 69)", "tonalRamp": ["oklch(22% 0.06 69)", "oklch(32% 0.08 69)", "oklch(43% 0.1 69)", "oklch(54.7% 0.126 69)", "oklch(65% 0.12 69)", "oklch(76% 0.1 69)", "oklch(86% 0.07 69)", "oklch(95% 0.03 69)"] },
+      "text-information": { "role": "status", "displayName": "Information", "canonical": "oklch(49.3% 0.088 241)", "tonalRamp": ["oklch(20% 0.04 241)", "oklch(30% 0.06 241)", "oklch(40% 0.075 241)", "oklch(49.3% 0.088 241)", "oklch(60% 0.08 241)", "oklch(72% 0.065 241)", "oklch(84% 0.045 241)", "oklch(94% 0.02 241)"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display / h1", "purpose": "Hero headlines only; deliberately normal weight at 3rem — presence via size and the two-tone dimmed second clause, never heaviness." },
+      "headline": { "displayName": "Headline / h2", "purpose": "Section headings." },
+      "title": { "displayName": "Title / h4", "purpose": "Card and list-group titles." },
+      "body": { "displayName": "Body", "purpose": "All prose and docs content at the deliberate 14px root; keep to ~65ch." }
+    },
+    "shadows": [
+      { "name": "btn-rest", "value": "0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06)", "purpose": "Resting tactile affordance on buttons; nothing else carries a resting shadow." },
+      { "name": "btn-hover", "value": "0 4px 6px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06)", "purpose": "Hover lift feedback, paired with translateY(-1px)." },
+      { "name": "brand-glow-ring", "value": "0 1px 4px rgba(0,82,204,0.4), 0 0 0 1px rgba(0,104,255,0.3)", "purpose": "Primary buttons only; shadow tinted Signal Blue, never gray." },
+      { "name": "frame-ring-stack", "value": "0 0 0 0.5px #e4e5e9, 0 0 0 1px #e4e5e999, 0 0 0 3.5px #f9f9fb, 0 0 0 4px #f3f4f7", "purpose": "The machined bezel around screenshots and media (.light-shadow; .dark-shadow is its dark twin)." }
+    ],
+    "motion": [
+      { "name": "duration-fast", "value": "150ms", "purpose": "Button and state feedback." },
+      { "name": "duration-normal", "value": "200ms", "purpose": "Default transitions." },
+      { "name": "duration-slow", "value": "300ms", "purpose": "Larger surface transitions." },
+      { "name": "ease-smooth", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Primary exponential ease-out for all state changes." },
+      { "name": "ease-out", "value": "cubic-bezier(0.33, 1, 0.68, 1)", "purpose": "Secondary ease-out." },
+      { "name": "signal-pulse", "value": "movingline 6s ease infinite", "purpose": "Ambient traveling blue pulse in section dividers; sub-perceptual, never competes with content." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "container", "value": "1200px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Signal Blue call-to-action with blue glow ring, top-light sheen, hover lift and press compression.",
+      "html": "<button class=\"ds-btn ds-btn-primary\">Get Started for Free</button>",
+      "css": ".ds-btn { position: relative; overflow: hidden; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font: 500 0.875rem/1 InterVariable, Inter, sans-serif; padding: 12px 20px; border: none; border-radius: 0.5rem; transition: transform 150ms cubic-bezier(0.16,1,0.3,1), box-shadow 150ms cubic-bezier(0.16,1,0.3,1), background-color 150ms cubic-bezier(0.16,1,0.3,1); } .ds-btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent); pointer-events: none; } .ds-btn-primary { background: rgb(0 104 255); color: #fff; box-shadow: 0 1px 4px rgba(0,82,204,0.4), 0 0 0 1px rgba(0,104,255,0.3); } .ds-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 2px 6px rgba(0,82,204,0.5), 0 0 0 1px rgba(0,104,255,0.4); } .ds-btn-primary:active { transform: scale(0.98) translateY(1px); box-shadow: 0 1px 2px rgba(0,82,204,0.3), 0 0 0 1px rgba(0,104,255,0.2); } .ds-btn-primary:focus-visible { outline: 2px solid rgb(0 104 255); outline-offset: 3px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Quiet companion action: base surface, Signal Blue text, weak brand border, brand-tinted hover.",
+      "html": "<button class=\"ds-btn ds-btn-secondary\">Read the Docs</button>",
+      "css": ".ds-btn { position: relative; overflow: hidden; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font: 500 0.875rem/1 InterVariable, Inter, sans-serif; padding: 12px 20px; border-radius: 0.5rem; transition: transform 150ms cubic-bezier(0.16,1,0.3,1), box-shadow 150ms cubic-bezier(0.16,1,0.3,1), background-color 150ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-secondary { background: oklch(99.1% 0.002 247); color: rgb(0 104 255); border: 1px solid rgba(0,104,255,0.2); box-shadow: 0 1px 2px rgba(0,0,0,0.05), 0 0 0 1px rgba(0,104,255,0.1); } .ds-btn-secondary:hover { background: rgba(0,104,255,0.05); transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,104,255,0.2); } .ds-btn-secondary:active { transform: scale(0.98) translateY(1px); } .ds-btn-secondary:focus-visible { outline: 2px solid rgb(0 104 255); outline-offset: 3px; }"
+    },
+    {
+      "name": "Docs Callout",
+      "kind": "card",
+      "refersTo": "callout",
+      "description": "Tinted informational panel used across docs; full weak border plus 5%-alpha brand fill, never a side-stripe.",
+      "html": "<div class=\"ds-callout\"><svg class=\"ds-callout-icon\" viewBox=\"0 0 512 512\" width=\"16\" height=\"16\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z\"/></svg><p>Monoscope SDKs capture requests automatically once initialized — no per-route instrumentation needed.</p></div>",
+      "css": ".ds-callout { display: flex; gap: 12px; align-items: flex-start; background: rgba(0,104,255,0.05); border: 1px solid rgba(0,104,255,0.2); border-radius: 0.4rem; padding: 14px 16px; font: 400 14px/1.5 InterVariable, Inter, sans-serif; color: rgba(0,6,38,0.9); max-width: 65ch; } .ds-callout-icon { color: rgba(0,104,255,0.8); flex-shrink: 0; margin-top: 2px; } .ds-callout p { margin: 0; }"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": "navigation",
+      "description": "Quiet header navigation: ink-weak text brightening on hover, Signal Blue for the current page.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\" class=\"ds-nav-link ds-nav-active\">Features</a><a href=\"#\" class=\"ds-nav-link\">Pricing</a><a href=\"#\" class=\"ds-nav-link\">Docs</a><a href=\"#\" class=\"ds-nav-link\">Blog</a></nav>",
+      "css": ".ds-nav { display: flex; gap: 24px; font: 500 0.875rem/1 InterVariable, Inter, sans-serif; } .ds-nav-link { color: rgba(0,8,51,0.65); text-decoration: none; padding: 8px 0; transition: color 150ms cubic-bezier(0.16,1,0.3,1); } .ds-nav-link:hover { color: rgba(0,6,38,0.9); } .ds-nav-link:focus-visible { outline: 2px solid rgb(0 104 255); outline-offset: 3px; border-radius: 4px; } .ds-nav-active { color: rgb(0 104 255); }"
+    },
+    {
+      "name": "Framed Media Card",
+      "kind": "card",
+      "refersTo": "media-frame",
+      "description": "The machined bezel: concentric ring stack framing screenshots and video (.light-shadow).",
+      "html": "<div class=\"ds-frame\"><div class=\"ds-frame-media\">Product screenshot</div></div>",
+      "css": ".ds-frame { padding: 8px; } .ds-frame-media { display: flex; align-items: center; justify-content: center; min-height: 140px; border-radius: 0.5rem; background: oklch(97.7% 0.006 247); color: rgba(0,8,51,0.65); font: 400 13px/1.4 InterVariable, Inter, sans-serif; box-shadow: 0 0 0 0.5px #e4e5e9, 0 0 0 1px #e4e5e999, 0 0 0 3.5px #f9f9fb, 0 0 0 4px #f3f4f7; }"
+    },
+    {
+      "name": "Tab Group",
+      "kind": "chip",
+      "refersTo": "tab-group",
+      "description": "Docs language/framework switcher; selected tab carries Signal Blue.",
+      "html": "<div class=\"ds-tabs\"><button class=\"ds-tab ds-tab-active\">Node.js</button><button class=\"ds-tab\">Python</button><button class=\"ds-tab\">Go</button></div>",
+      "css": ".ds-tabs { display: inline-flex; gap: 4px; padding: 4px; background: rgba(0,21,128,0.04); border-radius: 0.5rem; } .ds-tab { border: none; cursor: pointer; background: transparent; color: rgba(0,8,51,0.65); font: 500 0.8125rem/1 InterVariable, Inter, sans-serif; padding: 8px 14px; border-radius: 0.4rem; transition: color 150ms cubic-bezier(0.16,1,0.3,1), background-color 150ms cubic-bezier(0.16,1,0.3,1); } .ds-tab:hover { color: rgba(0,6,38,0.9); } .ds-tab:focus-visible { outline: 2px solid rgb(0 104 255); outline-offset: 2px; } .ds-tab-active { background: oklch(99.1% 0.002 247); color: rgb(0 104 255); box-shadow: 0 1px 2px rgba(0,0,0,0.06); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Clear Lens",
+    "overview": "Clean. Not noisy. A lens that lets someone see all. Monoscope's surfaces exist so a developer mid-task, an SRE configuring infrastructure, or a manager comparing vendors can see the answer instantly — the design's job is to get out of the light's way. The system is light and airy by default: a near-white cool substrate, ink at 90% opacity, and exactly one voice of color. Warmth comes from precision — consistent spacing, machined feedback, refined type — never from decoration. What this system explicitly rejects: Datadog's clutter and density, ReadTheDocs' datedness, GitBook's generic personality-free flatness. The positive gravity is Stripe, Linear, Mintlify, Vercel: quiet confidence, code in the spotlight, one clear next step per view.",
+    "keyCharacteristics": [
+      "One accent (Signal Blue) on a quiet cool-neutral substrate; alpha-based inks that layer cleanly on any surface.",
+      "Flat at rest; depth appears only as feedback (hover lift, press compression, focus ring).",
+      "Fully token-driven light/dark themes via data-theme — semantic roles (bg / fill / stroke / text / icon), never raw palette values.",
+      "Small, fast motion vocabulary: 150–300ms, exponential ease-out, reduced-motion honored globally.",
+      "14px body base with a steep size-driven heading scale (normal-weight 3rem display) — density for docs, calm confidence for marketing.",
+      "Illustrative icons use a multicolor pastel-duotone system (saturated stroke over same-hue ~40% fill) — deliberate brand warmth, never flattened to Signal Blue."
+    ],
+    "rules": [
+      { "name": "The One Signal Rule (interaction)", "body": "Signal Blue is the only interactive voice of color: if something is blue and flat-filled, it acts or navigates. Illustrative icons are exempt — they use the multicolor pastel-duotone icon palette (a deliberate, owner-confirmed brand choice). Status colors remain functional-only.", "section": "colors" },
+      { "name": "The Semantic Token Rule", "body": "Never reference a raw color. Every color use goes through a role token (text-textStrong, bg-fillBrand-weak, border-strokeWeak) so both themes stay correct for free.", "section": "colors" },
+      { "name": "The 14px Rule", "body": "The root is 14px, not 16px. All rem values render 12.5% denser than stock Tailwind — deliberate docs density. Never \"fix\" it to 16px locally.", "section": "typography" },
+      { "name": "The One Family Rule", "body": "No second typeface. If a passage needs distinction, change weight or size; monospace appears only inside actual code blocks.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "No shadow on anything at rest except buttons and framed media. Cards and sections separate with background tone and hairlines.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do route every color through a semantic token (textStrong, fillBrand-weak, strokeWeak) and verify both data-theme=\"light\" and \"dark\".",
+      "Do keep Signal Blue scarce: primary action, links, focus, selection — nothing else.",
+      "Do make code blocks the most prominent object on any docs page: language label, copy button, generous surrounding whitespace.",
+      "Do use the 150/200/300ms duration tokens with --ease-smooth; every animation must already respect the global prefers-reduced-motion kill-switch.",
+      "Do frame screenshots and video with the .light-shadow / .dark-shadow ring stack.",
+      "Do keep prose at max-w-prose and pages inside the 1200px width-control container."
+    ],
+    "donts": [
+      "Don't look like Datadog — no dense multi-widget clutter, no competing accents, no dashboard-chrome aesthetics on marketing or docs surfaces.",
+      "Don't look like ReadTheDocs' dated default or GitBook's generic free tier — no personality-free gray boxes, no default-theme feel.",
+      "Don't use colored side-stripe borders (border-left > 1px) on callouts or cards; use full weak-stroke borders with tinted fills.",
+      "Don't use gradient text, glassmorphism panels, or gray drop shadows on brand elements — brand shadows are blue-tinted rings.",
+      "Don't introduce a second font family or tracked-uppercase eyebrow labels above sections.",
+      "Don't put resting shadows on cards or sections; tone and hairlines separate surfaces (The Flat-By-Default Rule).",
+      "Don't use raw hex/rgb values in markup; if a needed role token doesn't exist, add the token first."
+    ]
+  }
+}

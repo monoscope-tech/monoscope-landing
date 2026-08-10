@@ -22,6 +22,10 @@ ignore:
   - "./node_modules/**"
   - ".git"
   - "./CLAUDE.md"
+  - "./.claude/**"
+  - "./.impeccable/**"
+  - "./PRODUCT.md"
+  - "./DESIGN.md"
 
 authors:
   anthony:

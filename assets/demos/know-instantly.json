@@ -1,0 +1,1 @@
+{"w":1440,"h":900,"steps":[{"img":"issues-01.webp","caption":"Every error grouped into issues, newest first","wait":2000},{"cursor":[35.21,53.72],"click":true},{"img":"issues-02.webp","caption":"Filter to errors and jump straight into the failing trace","wait":3000}]}

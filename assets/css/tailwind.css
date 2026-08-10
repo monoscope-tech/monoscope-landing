@@ -761,15 +761,16 @@ html:has(body[data-theme="dark"]) {
 
 /* Hero section animated background styles - Simplified for cleaner look */
 .hero-gradient-mesh {
+  display: none; /* temporarily hidden for comparison */
   position: absolute;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
   background:
-    radial-gradient(ellipse 1000px 700px at 75% 20%, rgba(20, 184, 166, 0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 800px 600px at 85% 40%, rgba(139, 92, 246, 0.06) 0%, transparent 55%),
-    radial-gradient(ellipse 900px 500px at 60% 60%, rgba(6, 182, 212, 0.05) 0%, transparent 50%);
+    radial-gradient(ellipse 1000px 700px at 75% 20%, rgba(0, 0, 0, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 800px 600px at 85% 40%, rgba(0, 0, 0, 0.04) 0%, transparent 55%),
+    radial-gradient(ellipse 900px 500px at 60% 60%, rgba(0, 0, 0, 0.03) 0%, transparent 50%);
   animation: gradient-shift 45s ease-in-out infinite;
   will-change: transform;
   transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -777,9 +778,9 @@ html:has(body[data-theme="dark"]) {
 
 [data-theme="dark"] .hero-gradient-mesh {
   background:
-    radial-gradient(ellipse 1000px 700px at 75% 20%, rgba(94, 234, 212, 0.10) 0%, transparent 55%),
-    radial-gradient(ellipse 800px 600px at 85% 40%, rgba(167, 139, 250, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse 900px 500px at 60% 60%, rgba(103, 232, 249, 0.06) 0%, transparent 45%);
+    radial-gradient(ellipse 1000px 700px at 75% 20%, rgba(226, 232, 240, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 800px 600px at 85% 40%, rgba(226, 232, 240, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 900px 500px at 60% 60%, rgba(226, 232, 240, 0.04) 0%, transparent 45%);
 }
 
 @keyframes gradient-shift {

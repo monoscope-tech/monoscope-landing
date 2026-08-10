@@ -1,0 +1,9 @@
+{
+  "files": [
+    "_quickstatic/themes/default/components/foot.liquid",
+    "_quickstatic/themes/docs/page.liquid"
+  ],
+  "insertBefore": "</body>",
+  "commentSyntax": "html",
+  "cspChecked": true
+}
