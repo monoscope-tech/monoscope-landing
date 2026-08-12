@@ -1,1 +1,1 @@
-{"w":1440,"h":900,"steps":[{"img":"overview-01.webp","caption":"Golden signals for every service, out of the box","wait":2600},{"img":"overview-02.webp","scroll":true,"caption":"Service health, throughput and p95 in one table","wait":3000}]}
+{"w":1440,"h":900,"steps":[{"img":"overview-01.webp","caption":"Dashboards you didn't have to build","wait":1000},{"zoom":[28,26,1.7],"caption":"Golden signals, straight from traces","wait":1400},{"zoom":[75,26,1.7],"wait":1100},{"img":"overview-02.webp","zoom":[28,75,1.55],"caption":"Health per service, auto-built","wait":1800}]}

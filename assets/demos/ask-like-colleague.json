@@ -1,1 +1,1 @@
-{"w":1440,"h":900,"steps":[{"img":"endpoints-01.webp","caption":"Every endpoint catalogued automatically from live traffic","wait":2600},{"img":"endpoints-02.webp","caption":"Plus every API you depend on — with live volumes and health","wait":3000}]}
+{"w":1440,"h":900,"steps":[{"img":"endpoints-01.webp","zoom":[40,30,1.55],"caption":"Endpoints catalogue themselves from traffic","wait":1500},{"zoom":[76,32,1.6],"wait":1100},{"img":"endpoints-02.webp","zoom":[65,32,1.5],"caption":"…and every API you depend on","wait":1700}]}

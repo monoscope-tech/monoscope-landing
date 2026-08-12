@@ -1,0 +1,1 @@
+{"w":1440,"h":900,"steps":[{"img":"setup-01.webp","zoom":[35,55,1.4],"caption":"Use the OpenTelemetry setup you already have","wait":1700},{"img":"explorer-01.webp","zoom":[50,60,1.4],"caption":"Telemetry arrives in seconds","wait":1400},{"img":"explorer-02.webp","zoom":[76,60,1.5],"caption":"Start investigating with your own data","wait":1700}]}

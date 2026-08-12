@@ -53,7 +53,7 @@ features:
         title: Logs and Traces
         details: Query all your logs and correlate them with trace breakdowns or the requests which triggered the logs.
         learnmore: /features/api-logs-and-metrics
-        video: /assets/videos/see-everything.mp4
+        video: /assets/videos/film-signals.mp4
       - icon: activity
         id: errors
         title: Errors and Performance
@@ -566,6 +566,12 @@ platforms:
         {% endfor %}
       </div>
 
+      <!-- Get started film -->
+      <div class="pt-8 space-y-4">
+        <h3 class="text-2xl font-normal text-textStrong">Bring the telemetry you already emit</h3>
+        <demo-player src="/assets/demos/get-started.json" class="block w-full max-w-5xl rounded-lg border border-strokeBrand-strong shadow bg-fillWeaker"></demo-player>
+      </div>
+
       <!-- CTA Links -->
       <div class="flex flex-wrap gap-6 pt-5 text-textBrand">
         <a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer" class="underline underline-offset-2 hover:text-textBrand-strong" data-tracking="index-playground-2" data-reddit-event="ViewContent">Launch playground</a>
@@ -577,6 +583,7 @@ platforms:
     <div class="max-w-8xl px-3 w-full text-textWeak space-y-5">
       <h2 class="text-4xl leading-tight font-normal text-textStrong">Flexible deployment options <span class="text-textDisabled">for every company</span></h2>
       <p class="text-2xl leading-normal">Regardless of your company's size or compliance requirements, Monoscope operates <br/>within your business and regulatory constraints.</p>
+      <demo-player src="/assets/demos/data-ownership.json" class="block w-full max-w-5xl rounded-lg border border-strokeBrand-strong shadow bg-fillWeaker"></demo-player>
       <div>
         <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong" data-tracking="index-start-trial-3" data-reddit-event="SignUp">Start free trial</a>
         <a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer" class="btn btn-secondary py-3 px-6 rounded-xl" data-tracking="index-playground-3" data-reddit-event="ViewContent">Launch playground</a>

@@ -1,1 +1,1 @@
-{"w":1440,"h":900,"steps":[{"img":"reports-01.webp","caption":"A weekly digest of errors, regressions and anomalies","wait":2600},{"caption":"Delivered to your inbox every Monday morning","wait":2600}]}
+{"w":1440,"h":900,"steps":[{"img":"reports-01.webp","zoom":[60,45,1.6],"caption":"Your week, summarized","wait":1500},{"zoom":[60,68,1.55],"wait":1000},{"zoom":[62,80,1.5],"caption":"Every issue, trended — in your inbox","wait":1800}]}

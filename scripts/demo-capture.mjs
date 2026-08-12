@@ -5,7 +5,7 @@ import { createRequire } from 'node:module';
 import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 const { chromium } = createRequire(import.meta.url)(execSync('npm root -g').toString().trim() + '/playwright');
-const P = 'http://localhost:8080/p/00000000-0000-0000-0000-000000000000';
+const P = (process.env.MONOSCOPE_BASE || 'http://localhost:8080') + '/p/00000000-0000-0000-0000-000000000000';
 const OUT = new URL('../assets/demos', import.meta.url).pathname;
 const TMP = '/tmp/demo-capture-shots';
 const W = 1440, H = 900;
@@ -14,7 +14,12 @@ const browser = await chromium.launch({channel:'chrome'});
 const page = await browser.newPage({viewport:{width:W,height:H},deviceScaleFactor:2});
 page.setDefaultTimeout(25000);
 const hideScrollbars = () => page.addStyleTag({content:'::-webkit-scrollbar{display:none!important} *{scrollbar-width:none!important}'}).catch(()=>{});
-const settle = async (ms=2500) => { await page.waitForLoadState('networkidle').catch(()=>{}); await page.waitForTimeout(ms); await hideScrollbars(); };
+// Never show the demo-project login banner ("Demo Project · Explore Monoscope's features") in frames.
+const hideBanner = () => page.evaluate(() => {
+  const b = [...document.querySelectorAll('div')].filter(d => d.textContent.trim().startsWith('Demo Project') && d.textContent.includes('Start Free Trial')).at(-1);
+  if (b) b.style.display = 'none';
+}).catch(()=>{});
+const settle = async (ms=2500) => { await page.waitForLoadState('networkidle').catch(()=>{}); await page.waitForTimeout(ms); await hideScrollbars(); await hideBanner(); };
 const shot = async name => { await page.screenshot({path:`${TMP}/${name}.png`}); return `${name}.webp`; };
 const rectOf = async loc => { const b = await loc.boundingBox({timeout:8000}).catch(()=>null); return b ? [+((b.x+b.width/2)/W*100).toFixed(2), +((b.y+b.height/2)/H*100).toFixed(2)] : null; };
 const specs = {};
@@ -24,13 +29,15 @@ const specs = {};
   await page.goto(P + '/log_explorer', {waitUntil:'networkidle'}); await settle(4000);
   const steps = [{img: await shot('explorer-01'), caption:'All your logs, traces and metrics — one query away', wait:1800}];
   const row = page.locator('div,tr', {hasText:'POST'}).filter({hasText:'ms'}).last();
-  const rowAt = await rectOf(row);
+  let rowAt = await rectOf(row) || [34, 50];
+  if (rowAt[0] > 95 || rowAt[1] > 95) rowAt = [34, 50];
   steps.push({cursor:rowAt, click:true});
-  await row.click(); await settle(3000);
+  await page.mouse.click(rowAt[0] * W / 100, rowAt[1] * H / 100); await settle(3000);
   steps.push({img: await shot('explorer-02'), caption:'Click any request to open its full context', wait:2200});
   const vt = page.locator('text=View trace').first();
-  steps.push({cursor: await rectOf(vt), click:true});
-  await vt.click(); await settle(4000);
+  const vtAt = await rectOf(vt) || [74, 56];
+  steps.push({cursor: vtAt, click:true});
+  await page.mouse.click(vtAt[0] * W / 100, vtAt[1] * H / 100); await settle(4000);
   steps.push({img: await shot('explorer-03'), caption:'Jump straight into the distributed trace', wait:3000});
   specs['see-everything'] = {steps};
 }
@@ -136,7 +143,12 @@ const specs = {};
   specs['change-detection'] = {steps:[{img: await shot('changes-01'), caption:'Field-level API changes, caught the moment they ship', wait:2600},{caption:'New endpoints, removed fields, changed shapes — reviewed in one click', wait:3000}]};
 }
 
-for (const [name, spec] of Object.entries(specs)) fs.writeFileSync(`${OUT}/${name}.json`, JSON.stringify({w:W, h:H, ...spec}));
+// Specs are hand-directed storyboards (camera zooms, captions, pacing) — never overwrite one
+// that exists; this run only refreshes the frames. Delete a spec to regenerate its raw skeleton.
+for (const [name, spec] of Object.entries(specs)) {
+  if (fs.existsSync(`${OUT}/${name}.json`)) { console.log(`spec kept: ${name}.json (frames refreshed)`); continue; }
+  fs.writeFileSync(`${OUT}/${name}.json`, JSON.stringify({w:W, h:H, ...spec}));
+}
 for (const f of fs.readdirSync(TMP).filter(f => f.endsWith('.png'))) execSync(`cwebp -q 82 -m 6 "${TMP}/${f}" -o "${OUT}/img/${f.replace('.png','.webp')}"`);
 console.log('captured:', Object.keys(specs).join(', '));
 await browser.close();
