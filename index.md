@@ -1,5 +1,5 @@
 ---
-enableFreeTier: false
+enableFreeTier: true
 testimonials:
   - stat: 20x
     desc: faster <span class="underline underline-offset-4 decoration-dotted tooltip tooltip-right" data-tip="mean time to resolution">MTTR</span>
