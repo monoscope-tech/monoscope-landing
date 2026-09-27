@@ -53,7 +53,8 @@ positioning:
   market_category:
     category: "Observability, with an AI SRE built in"
     style: existing_head_to_head
-    label: "Observability + AI SRE"
+    label: "Open-source observability + AI SRE"
+    rationale: "User decision: 'API-first' boxed monoscope in with Treblle. The category is now plain observability, head-to-head with Datadog, New Relic and Sentry, plus the AI SRE layer (Polylane, Superlog) folded into one product. The category label is shared on purpose; the difference is carried by the tagline and the onlyness claim (full payloads, your bucket as the database, open source)."
     alternative: "observability built for AI debugging (only if the payloads + own-S3 argument leads; otherwise fails the swap test)"
     rationale_prev: "Keeps full observability (logs/traces/metrics) so Treblle's API-only frame loses, while starting from the request so Datadog/SigNoz breadth comparisons don't decide the deal. Rejected: 'open-source Datadog alternative' (invites a breadth fight, SigNoz owns it); 'API monitoring' (concedes logs/traces, Treblle's frame)."
   onlyness_statement: "monoscope is the only observability platform that uses your own S3 bucket as its database, and keeps the full request and response of every API call (yours and the third-party APIs you depend on) alongside your logs, traces and metrics."
@@ -99,7 +100,7 @@ messaging:
   homepage_hero_draft:
     h1: "Know what happened. Prove it. Fix it."
     section_structure: ["Know: errors, crashes, breaking API changes, logs/traces/metrics", "Prove: full payloads, your own S3 as database, the court-case receipt", "Fix: AI routines, fix PRs, pre-merge change review, Slack Q&A"]
-    sub: "monoscope catches errors, crashes and breaking API changes, and keeps the exact request and response behind each one, next to your logs, traces and metrics. Its AI investigates, opens a pull request with the fix, and tells you in Slack before your customers do."
+    sub: "Every request and response, yours and your suppliers', kept unsampled in your own bucket. An AI that reads that record and writes the fix."
     sub_alt: "Every error, crash and breaking API change, with the exact request and response that caused it. Logs, traces and metrics in one place, and AI routines that flag issues in Slack before your customers do."
   meta_description_draft: "Catch errors, crashes and breaking API changes with the exact request and response behind each, plus logs, traces, metrics and AI routines. Free to start."
 
@@ -230,5 +231,5 @@ intelligence:
 - **2026-09-27 — Hero cut to Railway density (user: "too much text").** Centered headline (72px), one line ("The exact request behind every error, and an AI that writes the fix."), two buttons, one trust line, then the tabbed product frame. Long subhead and plan paragraph removed; problem paragraph shortened.
 - **2026-09-27 — Slots ship-ready without recordings.** Know/Prove use existing product screenshots as video posters; Fix shows a mocked routine message in Slack. Platnova quote typo corrected (APItoolkit). $199 plan CTA is "Get started" (it has no trial).
 - **2026-09-27 — Hero switched to CodeRabbit layout (user).** Mono eyebrow "API-first observability", left two-line 72px headline, right column with the one-line pitch, primary button + text link, trust line; tab strip left-aligned over the product frame.
-    rationale: "User decision: 'API-first' boxed monoscope in with Treblle. The category is now plain observability, head-to-head with Datadog, New Relic and Sentry, plus the AI SRE layer (Polylane, Superlog) folded into one product. The category label is shared on purpose; the difference is carried by the tagline and the onlyness claim (full payloads, your bucket as the database, open source)."
 - **2026-09-27 — Category changed (user).** "API-first observability" → "Observability + AI SRE" (eyebrow), "Observability with an AI SRE built in" (page title, meta default, compare intro). We now compete head-to-head with Datadog/Sentry and with Polylane/Superlog, not Treblle.
+- **2026-09-27 — Hero pitch re-anchored to the onlyness claim (user: copy not based on positioning).** Now: every request and response, incoming and outgoing, unsampled, in your own bucket, AI works from that record. Eyebrow carries open source.
