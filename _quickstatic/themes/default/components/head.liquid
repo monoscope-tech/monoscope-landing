@@ -8,7 +8,7 @@
     </title>
     <meta
       name="description"
-      content="{% if this.frontmatter.description %}{{ this.frontmatter.description }}{% else %}Monoscope is an API-first monitoring and observability platform for engineers and customer support teams. We use AI to help engineering teams observe, manage, monitor, and test their backend systems and any APIs they depend on.{%- endif %}"
+      content="{% if this.frontmatter.description %}{{ this.frontmatter.description }}{% else %}Monoscope is open-source observability with an AI SRE built in. Every error, log, trace and metric comes with the exact request behind it, and the AI investigates, opens the fix and answers in Slack.{%- endif %}"
     >
     <link rel="canonical" href="https://monoscope.tech{{this.permalink}}">
     <meta charset="UTF-8">
@@ -22,7 +22,7 @@
     >
     <meta
       property="og:description"
-      content="{% if this.frontmatter.description %}{{ this.frontmatter.description }}{% else %}Monoscope is an API-first monitoring and observability platform for engineers and customer support teams. We use AI to help engineering teams observe, manage, monitor, and test their backend systems and any APIs they depend on.{%- endif %}"
+      content="{% if this.frontmatter.description %}{{ this.frontmatter.description }}{% else %}Monoscope is open-source observability with an AI SRE built in. Every error, log, trace and metric comes with the exact request behind it, and the AI investigates, opens the fix and answers in Slack.{%- endif %}"
     >
     {% assign og_parts = this.permalink | split: '/' %}{% assign og_slug = '' %}{% for p in og_parts %}{% if p != '' %}{% if og_slug != '' %}{% assign og_slug = og_slug | append: '/' %}{% endif %}{% assign og_slug = og_slug | append: p %}{% endif %}{% endfor %}{% if og_slug == '' %}{% assign og_slug = 'index' %}{% endif %}
     <meta

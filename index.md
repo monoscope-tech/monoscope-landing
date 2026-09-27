@@ -1,5 +1,5 @@
 ---
-title: API Monitoring and Observability
+title: Observability with an AI SRE built in
 description: Catch errors, crashes and breaking API changes with the exact request and response behind each, plus logs, traces, metrics and AI routines. Free to start.
 enableFreeTier: true
 testimonials:
@@ -196,7 +196,7 @@ capabilities:
   <section class="space-y-12 mt-10 sm:mt-24 w-full flex flex-col items-center">
       <div class="grid md:grid-cols-[3fr_2fr] max-w-8xl w-full gap-8 md:gap-16 px-3 items-end">
         <div class="space-y-5">
-          <p class="font-mono text-xs uppercase tracking-wider text-textBrand">API-first observability</p>
+          <p class="font-mono text-xs uppercase tracking-wider text-textBrand">Observability + AI SRE</p>
           <h1 class="text-5xl md:text-7xl font-medium tracking-tight leading-[1.05] text-balance text-textStrong">Know what happened.<br class="hidden md:block"> <span class="text-textDisabled dark:text-textWeak">Prove it. Fix it.</span></h1>
         </div>
         <div class="space-y-5 md:pb-2">

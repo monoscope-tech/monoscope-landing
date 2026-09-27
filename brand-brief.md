@@ -51,10 +51,11 @@ positioning:
   best_fit_customers:
     - { segment: "Small product teams (2-20 engineers, no dedicated SRE) whose product depends on APIs — their own and third parties'", characteristics: ["Already ship with AI coding agents, so they deploy faster than they can watch production", "Payments, fintech, logistics, marketplaces or anything integration-heavy", "A broken request means lost money or a dispute with a partner", "Laravel / Express / Django / Go stacks", "Priced out of Datadog or found SigNoz/Sentry blind to payloads"], why_they_care: "Nobody babysits monitoring, and when an integration breaks they need the exact request to fix it and to prove who broke it." }
   market_category:
-    category: "API-first observability"
-    style: existing_niche
+    category: "Observability, with an AI SRE built in"
+    style: existing_head_to_head
+    label: "Observability + AI SRE"
     alternative: "observability built for AI debugging (only if the payloads + own-S3 argument leads; otherwise fails the swap test)"
-    rationale: "Keeps full observability (logs/traces/metrics) so Treblle's API-only frame loses, while starting from the request so Datadog/SigNoz breadth comparisons don't decide the deal. Rejected: 'open-source Datadog alternative' (invites a breadth fight, SigNoz owns it); 'API monitoring' (concedes logs/traces, Treblle's frame)."
+    rationale_prev: "Keeps full observability (logs/traces/metrics) so Treblle's API-only frame loses, while starting from the request so Datadog/SigNoz breadth comparisons don't decide the deal. Rejected: 'open-source Datadog alternative' (invites a breadth fight, SigNoz owns it); 'API monitoring' (concedes logs/traces, Treblle's frame)."
   onlyness_statement: "monoscope is the only observability platform that uses your own S3 bucket as its database, and keeps the full request and response of every API call (yours and the third-party APIs you depend on) alongside your logs, traces and metrics."
   why_now: "AI coding agents let small teams ship far more code than they can watch, so APIs (theirs and suppliers') break more often, and no SRE was hired. AI can only debug what it can see: monoscope gives it the full request, the full history and the tools to act."
   pricing_constraint: "Own-S3-as-database stays a $199/month minimum for now. Messaging leads with payloads + full observability + AI routines (true on every plan); S3/data ownership is the upgrade story and the onlyness proof, not the entry hook."
@@ -229,3 +230,5 @@ intelligence:
 - **2026-09-27 — Hero cut to Railway density (user: "too much text").** Centered headline (72px), one line ("The exact request behind every error, and an AI that writes the fix."), two buttons, one trust line, then the tabbed product frame. Long subhead and plan paragraph removed; problem paragraph shortened.
 - **2026-09-27 — Slots ship-ready without recordings.** Know/Prove use existing product screenshots as video posters; Fix shows a mocked routine message in Slack. Platnova quote typo corrected (APItoolkit). $199 plan CTA is "Get started" (it has no trial).
 - **2026-09-27 — Hero switched to CodeRabbit layout (user).** Mono eyebrow "API-first observability", left two-line 72px headline, right column with the one-line pitch, primary button + text link, trust line; tab strip left-aligned over the product frame.
+    rationale: "User decision: 'API-first' boxed monoscope in with Treblle. The category is now plain observability, head-to-head with Datadog, New Relic and Sentry, plus the AI SRE layer (Polylane, Superlog) folded into one product. The category label is shared on purpose; the difference is carried by the tagline and the onlyness claim (full payloads, your bucket as the database, open source)."
+- **2026-09-27 — Category changed (user).** "API-first observability" → "Observability + AI SRE" (eyebrow), "Observability with an AI SRE built in" (page title, meta default, compare intro). We now compete head-to-head with Datadog/Sentry and with Polylane/Superlog, not Treblle.
