@@ -386,16 +386,16 @@ capabilities:
         <div class="rounded-xl border border-strokeBrand-weak p-8 flex flex-col">
           <div class="inline-block p-3 bg-fillBrand-weak rounded-full w-fit"><svg class="w-5 h-5 text-iconBrand"><use xlink:href="/assets/deps/sprite.svg#cloud"></use></svg></div>
           <div class="mt-8 mb-6">
-            <p class="text-sm font-medium text-textDisabled uppercase tracking-wide">MONOSCOPE CLOUD</p>
+            <p class="text-sm font-medium text-textDisabled uppercase tracking-wide">Monoscope Cloud</p>
             <h3 class="text-2xl font-semibold text-textStrong">Bring nothing</h3>
           </div>
 
           <ul class="space-y-3 text-lg mb-8 flex-1 list-disc list-outside ps-5 marker:text-iconBrand">
             <li>Fully managed cloud service</li>
             <li><strong>Predictable usage-based</strong> pricing</li>
-            <li>Intelligent incident alerts</li>
-            <li>Query your data in english</li>
-            <li><strong>30 days data retention</strong> included</li>
+            <li>Alerts with the failing request attached</li>
+            <li>Ask questions in plain English</li>
+            <li><strong>30 days</strong> of data retention</li>
           </ul>
 
           <div class="border-t border-strokeWeak pt-6 space-y-4">
@@ -418,15 +418,15 @@ capabilities:
           <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-fillBrand-strong text-textInverse-strong px-4 py-1 rounded-full text-sm font-medium">POPULAR</div>
           <div class="inline-block p-3 bg-fillBrand-weak rounded-full w-fit"><svg class="w-5 h-5 text-iconBrand"><use xlink:href="/assets/deps/sprite.svg#database"></use></svg></div>
           <div class="mt-8 mb-6">
-            <p class="text-sm font-medium text-textDisabled uppercase tracking-wide">MONOSCOPE CLOUD + Your own S3</p>
+            <p class="text-sm font-medium text-textDisabled uppercase tracking-wide">Monoscope Cloud + your own S3</p>
             <h3 class="text-2xl font-semibold text-textStrong">Bring your own storage</h3>
           </div>
 
           <ul class="space-y-3 text-lg mb-8 flex-1 list-disc list-outside ps-5 marker:text-iconBrand">
-            <li>Own and control all your data</li>
+            <li>Open Delta Lake and Parquet, readable by any tool</li>
             <li>Save <strong>all your data</strong> to any S3-compatible bucket</li>
-            <li><strong>Unlimited data retention</strong> period</li>
-            <li>Query years of data via Monoscope</li>
+            <li><strong>Unlimited</strong> data retention</li>
+            <li>Query years of data in monoscope, DuckDB or SQL</li>
             <li><strong>No extra cost</strong> for data retention</li>
           </ul>
 
@@ -446,7 +446,7 @@ capabilities:
           <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-fillSuccess-strong text-textInverse-strong px-4 py-1 rounded-full text-sm font-medium">OPEN SOURCE</div>
           <div class="inline-block p-3 bg-fillBrand-weak rounded-full w-fit"><svg class="w-5 h-5 text-iconBrand"><use xlink:href="/assets/deps/sprite.svg#server"></use></svg></div>
           <div class="mt-8 mb-6">
-            <p class="text-sm font-medium text-textDisabled uppercase tracking-wide">SELF-HOSTED</p>
+            <p class="text-sm font-medium text-textDisabled uppercase tracking-wide">Self-hosted</p>
             <h3 class="text-2xl font-semibold text-textStrong">Bring your own servers</h3>
           </div>
 
@@ -457,7 +457,7 @@ capabilities:
                 <li><strong>100% open source</strong> (AGPL 3.0)</li>
                 <li>All core monitoring features</li>
                 <li>Deploy to your own servers</li>
-                <li>Complete data control</li>
+                <li>Data never leaves your network</li>
               </ul>
             </div>
             <div class="pt-4">
@@ -478,7 +478,7 @@ capabilities:
             </div>
             <div class="flex flex-col gap-2">
               <a href="https://github.com/monoscope-tech/monoscope" target="_blank" rel="noopener noreferrer" class="block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium hover:bg-fillBrand-weak transition-colors" data-tracking="index-github-enterprise" data-reddit-event="ViewContent">View on GitHub</a>
-              <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" rel="noopener noreferrer" class="block text-center py-2.5 px-6 bg-transparent text-fillBrand-strong border border-fillBrand-strong rounded-lg font-medium hover:bg-fillBrand-weak hover:text-textStrong transition-colors text-sm" data-tracking="index-enterprise-demo" data-reddit-event="ScheduleDemo">Discuss Enterprise with an engineer</a>
+              <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" rel="noopener noreferrer" class="block text-center py-2.5 px-6 bg-transparent text-fillBrand-strong border border-fillBrand-strong rounded-lg font-medium hover:bg-fillBrand-weak hover:text-textStrong transition-colors text-sm" data-tracking="index-enterprise-demo" data-reddit-event="ScheduleDemo">Talk to an engineer about Enterprise</a>
             </div>
           </div>
         </div>
