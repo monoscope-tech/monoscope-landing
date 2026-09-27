@@ -11,7 +11,7 @@ faqs:
   - q: What's the difference between deployment options?
     a: <strong>Cloud:</strong> Fully managed, 30-day retention, starts free. <strong>Cloud + S3:</strong> Your data in your own S3 bucket, unlimited retention, starts at $199/month. <strong>Self-hosted:</strong> Run on your servers, complete control, free community edition or custom enterprise pricing.
   - q: Can I switch between plans?
-    a: Yes! You can upgrade or switch deployment options anytime. Moving from Cloud to Cloud + S3 is seamless—we'll help migrate your historical data. For self-hosted, our team provides migration assistance.
+    a: Yes. You can upgrade or switch deployment options anytime. When you move from Cloud to Cloud + S3, we'll help migrate your historical data. For self-hosted, our team provides migration assistance.
   - q: What counts as an event?
     a: An event includes API requests, log entries, traces, spans, and metric data points. We count all telemetry data processed by Monoscope. Unlike competitors, we never sample or drop your data—every event is stored and searchable.
   - q: Do you offer volume discounts?
@@ -111,7 +111,7 @@ faqs:
                         </p>
                         <p class="text-base text-textWeak">Includes up to 100M events, + <strong class="text-textStrong">$1 per 1M events</strong> after.</p>
                     </div>
-                    <a href="https://app.monoscope.tech" class="block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium hover:bg-fillBrand-weak transition-colors">Start free trial</a>
+                    <a href="https://app.monoscope.tech" class="block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium hover:bg-fillBrand-weak transition-colors">Get started</a>
                 </div>
             </div>
             <!-- SELF-HOSTED PLAN -->

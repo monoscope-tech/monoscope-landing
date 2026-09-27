@@ -33,7 +33,7 @@ hide-date: true
       <div class="space-y-6">
         <h2 class="text-3xl font-normal">API Monitoring</h2>
         <p class="text-lg text-textWeak">
-          With comprehensive metrics tracking, you gain deep insights into how your API interacts with your system. Monitor every call and leverage alerting and notification to ensure you catch errors before they reach your customers.
+          Metrics for every call show how your API behaves under real traffic. Alerts fire as soon as errors appear, so you catch them before they reach your customers.
         </p>
         <div class="flex gap-2 sm:gap-4">
           <a href="https://app.monoscope.tech" class="btn py-2 px-4 rounded-lg bg-fillBrand-strong text-textInverse-strong shadow text-sm">Start for free</a>
