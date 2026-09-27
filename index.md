@@ -409,12 +409,68 @@ capabilities:
     </div>
 
     <!-- DEPLOYMENT OPTIONS -->
-    <div id="deploy" class="max-w-8xl px-3 w-full space-y-8 scroll-mt-24">
+    <div id="pricing" class="max-w-8xl px-3 w-full space-y-8 scroll-mt-24">
       <div class="space-y-4 max-w-3xl">
-        <p class="text-sm font-medium uppercase tracking-wide text-textBrand">Deploy</p>
-        <h2 class="text-4xl md:text-5xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong">Run it your way</h2>
-        <p class="text-xl leading-normal text-textWeak text-pretty">Cloud, your own bucket or your own servers. Same product, same open source code.</p>
+        <p class="text-sm font-medium uppercase tracking-wide text-textBrand">Pricing</p>
+        <h2 class="text-4xl md:text-5xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong">Pay per event, not per host</h2>
+        <p class="text-xl leading-normal text-textWeak text-pretty">One price for requests, logs and spans. No host fees, no SKUs, and no sampling to make the bill fit.</p>
       </div>
+
+      <!-- Bill estimate -->
+      <div id="bill" class="rounded-2xl border border-strokeWeak bg-fillWeaker overflow-hidden">
+        <div class="p-6 md:p-8 border-b border-strokeWeak flex flex-col md:flex-row md:items-end gap-6">
+          <div class="flex-1 space-y-3">
+            <label for="bill_events" class="text-sm text-textWeak">Events per month <span class="text-textDisabled">(requests, logs and spans)</span></label>
+            <input id="bill_events" type="range" min="10" max="1000" step="10" value="100" class="range range-sm w-full" aria-describedby="bill_note">
+            <div class="flex justify-between text-xs text-textDisabled tabular-nums"><span>10M</span><span>500M</span><span>1B</span></div>
+          </div>
+          <p class="text-4xl font-medium tracking-tight tabular-nums text-textStrong md:pb-5"><span id="bill_events_label">100M</span> <span class="text-base font-normal text-textWeak">events</span></p>
+        </div>
+        <div class="p-6 md:p-8 space-y-5" id="bill_rows">
+          <div class="grid grid-cols-[9rem_1fr] md:grid-cols-[12rem_1fr] gap-4 items-center" data-vendor="datadog">
+            <span class="text-textStrong">Datadog</span>
+            <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-textDisabled"></div></div><p class="text-sm text-textWeak">approx. <span class="amount text-textStrong tabular-nums"></span> per month <span class="ratio text-textDisabled"></span></p></div>
+          </div>
+          <div class="grid grid-cols-[9rem_1fr] md:grid-cols-[12rem_1fr] gap-4 items-center" data-vendor="sentry">
+            <span class="text-textStrong">Sentry</span>
+            <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-textDisabled"></div></div><p class="text-sm text-textWeak">approx. <span class="amount text-textStrong tabular-nums"></span> per month <span class="ratio text-textDisabled"></span></p></div>
+          </div>
+          <div class="grid grid-cols-[9rem_1fr] md:grid-cols-[12rem_1fr] gap-4 items-center" data-vendor="mono">
+            <span class="text-textStrong">monoscope Cloud</span>
+            <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-fillBrand-strong"></div></div><p class="text-sm text-textWeak"><span class="amount text-textStrong tabular-nums"></span> per month, 30-day retention</p></div>
+          </div>
+          <div class="grid grid-cols-[9rem_1fr] md:grid-cols-[12rem_1fr] gap-4 items-center" data-vendor="monos3">
+            <span class="text-textStrong">monoscope + your own S3</span>
+            <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-fillBrand-strong"></div></div><p class="text-sm text-textWeak"><span class="amount text-textStrong tabular-nums"></span> per month, unlimited retention</p></div>
+          </div>
+        </div>
+        <p id="bill_note" class="px-6 md:px-8 pb-6 text-xs leading-relaxed text-textDisabled text-pretty">Estimates from public list prices, September 2026, annual billing where offered. Assumes an average event size of 1 kB and 30-day retention. Datadog: $0.10 per ingested GB plus $2.50 per million indexed logs or spans at 30-day retention; host fees not included. Sentry: Team plan $26 plus $1.60 per million spans beyond 5M; errors and replays billed separately. monoscope: Cloud is free up to 10k events a day, then $29 for 20M events and $1 per million after; Cloud + your own S3 is $199 for 100M events and $1 per million after.</p>
+      </div>
+      <script>
+      (function () {
+        const el = document.getElementById('bill_events'); if (!el) return;
+        const fmt = n => '$' + Math.round(n).toLocaleString('en-US');
+        const price = {
+          datadog: m => m * 2.50 + m * 0.10,
+          sentry:  m => 26 + Math.max(0, m - 5) * 1.60,
+          mono:    m => 29 + Math.max(0, m - 20),
+          monos3:  m => 199 + Math.max(0, m - 100),
+        };
+        function render() {
+          const m = +el.value;
+          document.getElementById('bill_events_label').textContent = m >= 1000 ? '1B' : m + 'M';
+          const cost = Object.fromEntries(Object.entries(price).map(([k, f]) => [k, f(m)]));
+          const max = Math.max(...Object.values(cost));
+          document.querySelectorAll('#bill_rows [data-vendor]').forEach(row => {
+            const k = row.dataset.vendor, c = cost[k];
+            row.querySelector('.bar').style.width = Math.max(1.5, c / max * 100) + '%';
+            row.querySelector('.amount').textContent = fmt(c);
+            const r = row.querySelector('.ratio'); if (r) r.textContent = '· ' + (c / cost.mono).toFixed(1) + '× monoscope Cloud';
+          });
+        }
+        el.addEventListener('input', render); render();
+      })();
+      </script>
       <div class="grid lg:grid-cols-3 gap-6">
         {% for pl in this.frontmatter.plans %}
         <div class="relative rounded-2xl border p-8 flex flex-col gap-8 {% if pl.featured %}border-strokeBrand-strong bg-fillBrand-weak shadow-[0_24px_64px_-32px_rgba(0,104,255,0.45)]{% else %}border-strokeWeak bg-fillWeaker{% endif %}">
