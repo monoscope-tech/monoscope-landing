@@ -289,17 +289,23 @@ capabilities:
           {% assign customers = "andela.svg,partna.svg,grovepay.svg,sameday.svg,platnova.png,payfonte.svg,thepeer.svg,blockradar-full.svg" | split: "," %}
           {% for logo in customers %}<div><img src="/assets/img/customers/{{logo}}" alt="{{logo}}"></div>{% endfor %}
         </div>
-        <div class="grid sm:grid-cols-2 md:grid-cols-5 gap-px bg-strokeWeak border border-t-0 border-strokeWeak rounded-b-xl overflow-hidden *:bg-bgBase *:p-5 text-textWeak">
+        <div class="grid sm:grid-cols-3 gap-px bg-strokeWeak border border-t-0 border-strokeWeak overflow-hidden *:bg-bgBase *:p-5 text-textWeak">
           <div><span class="text-3xl font-medium tracking-tight tabular-nums text-textStrong">5,000+</span><br/>developers</div>
           <div><span class="text-3xl font-medium tracking-tight tabular-nums text-textStrong">20x</span><br/>faster MTTR at Blockradar</div>
           <div><span class="text-3xl font-medium tracking-tight tabular-nums text-textStrong">780+</span><br/>OpenTelemetry integrations</div>
-          <div class="sm:col-span-2 space-y-3">
-            <p class="text-textStrong">"We had a major incident, and our tech support could see via APItoolkit which third-party integration partner was responsible, and could take action without needing the engineering team's help."</p>
-            <div class="flex gap-3 items-center text-sm">
-              <img class="rounded-lg grayscale w-9 h-9 object-cover" src="/assets/img/love/joshua.jpeg" alt="Joshua Chinemezum" />
-              <span><span class="text-textStrong">Joshua Chinemezum</span>, CEO of Platnova</span>
-            </div>
-          </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-px bg-strokeWeak border border-t-0 border-strokeWeak rounded-b-xl overflow-hidden *:bg-bgBase *:p-5 text-textWeak">
+          {% assign reviews = "joshua.jpeg|Joshua Chinemezum|CEO of Platnova|We had a major incident, and our tech support could see via APItoolkit which third-party integration partner was responsible, and could take action without needing the engineering team's help.;sebastian_zwach.jpeg|Sebastian Zwach|Founder of Neorent GmbH|Easy onboarding and they added an integration just for our use case, thanks again! We didn't have insights into our API load before and this helps very much." | split: ";" %}
+          {% for r in reviews %}{% assign f = r | split: "|" %}
+          <figure class="flex flex-col gap-4">
+            <a href="https://www.trustpilot.com/review/apitoolkit.io" target="_blank" rel="noopener noreferrer" class="inline-flex gap-0.5 w-fit" aria-label="Five-star review on Trustpilot">{% for i in (1..5) %}<svg class="h-4 w-4 text-[#00b67a]"><use xlink:href="/assets/deps/sprite.svg#star"></use></svg>{% endfor %}</a>
+            <blockquote class="text-textStrong text-pretty flex-1">"{{f[3]}}"</blockquote>
+            <figcaption class="flex gap-3 items-center text-sm">
+              <img class="rounded-lg grayscale w-9 h-9 object-cover" src="/assets/img/love/{{f[0]}}" alt="{{f[1]}}" />
+              <span><span class="text-textStrong">{{f[1]}}</span>, {{f[2]}}</span>
+            </figcaption>
+          </figure>
+          {% endfor %}
         </div>
       </div>
     </section>
