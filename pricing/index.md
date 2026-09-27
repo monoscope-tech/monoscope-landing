@@ -2,7 +2,7 @@
 title: Pricing
 date: 2022-03-23
 updatedDate: 2024-06-15
-enableFreeTier: false
+enableFreeTier: true
 faqs:
   - q: What's included in the free tier?
     a: The free tier includes 10,000 events per day, unlimited team members, 30 days data retention, and access to all core features including logs, traces, API documentation, and custom monitors. Perfect for hobby projects and getting started.
@@ -71,7 +71,7 @@ faqs:
                         {% endif %}
 
                     </div>
-                    <a href="https://app.monoscope.tech" class="block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium hover:bg-fillBrand-weak transition-colors">Start free trial</a>
+                    <a href="https://app.monoscope.tech" class="block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium hover:bg-fillBrand-weak transition-colors">Start for free</a>
                 </div>
             </div>
 

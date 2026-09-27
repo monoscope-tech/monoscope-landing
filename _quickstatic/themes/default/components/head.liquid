@@ -24,7 +24,7 @@
       property="og:description"
       content="{% if this.frontmatter.description %}{{ this.frontmatter.description }}{% else %}Monoscope is an API-first monitoring and observability platform for engineers and customer support teams. We use AI to help engineering teams observe, manage, monitor, and test their backend systems and any APIs they depend on.{%- endif %}"
     >
-    {% assign og_parts = this.permalink | split: '/' %}{% assign og_slug = '' %}{% for p in og_parts %}{% if p != '' %}{% if og_slug != '' %}{% assign og_slug = og_slug | append: '/' %}{% endif %}{% assign og_slug = og_slug | append: p %}{% endif %}{% endfor %}
+    {% assign og_parts = this.permalink | split: '/' %}{% assign og_slug = '' %}{% for p in og_parts %}{% if p != '' %}{% if og_slug != '' %}{% assign og_slug = og_slug | append: '/' %}{% endif %}{% assign og_slug = og_slug | append: p %}{% endif %}{% endfor %}{% if og_slug == '' %}{% assign og_slug = 'index' %}{% endif %}
     <meta
       property="og:image"
       content="{% if this.frontmatter.ogImage %}{{this.frontmatter.ogImage}}{% else %}https://monoscope.tech/assets/og/{{ og_slug }}.png{% endif %}"

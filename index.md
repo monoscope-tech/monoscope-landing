@@ -1,4 +1,6 @@
 ---
+title: API Monitoring and Observability
+description: Monitor your APIs and the third-party APIs you depend on. Catch breaking changes and errors, and search logs, traces, metrics and request payloads in one place. Free up to 10k events a day.
 enableFreeTier: true
 testimonials:
   - stat: 20x
@@ -204,7 +206,7 @@ platforms:
             </svg> Monitor performance and uptime of both APIs and external APIs</li>
           </ul>
           <div class="flex gap-2 sm:gap-4">
-            <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong" data-tracking="index-start-trial-1" data-reddit-event="SignUp">Start free trial</a>
+            <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong" data-tracking="index-start-trial-1" data-reddit-event="SignUp">Start for free</a>
             <a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer" class="btn btn-secondary py-3 px-6 rounded-xl" data-tracking="index-playground-1" data-reddit-event="ViewContent">Launch playground</a>
           </div>
           <div class="flex gap-4 items-center text-textWeak">
@@ -621,7 +623,7 @@ platforms:
       <!-- CTA Links -->
       <div class="flex flex-wrap gap-6 pt-5 text-textBrand">
         <a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer" class="underline underline-offset-2 hover:text-textBrand-strong" data-tracking="index-playground-2" data-reddit-event="ViewContent">Launch playground</a>
-        <a href="https://app.monoscope.tech" class="underline underline-offset-2 hover:text-textBrand-strong" data-tracking="index-start-trial-2" data-reddit-event="SignUp">Start free trial</a>
+        <a href="https://app.monoscope.tech" class="underline underline-offset-2 hover:text-textBrand-strong" data-tracking="index-start-trial-2" data-reddit-event="SignUp">Start for free</a>
       </div>
     </div>
 
@@ -630,7 +632,7 @@ platforms:
       <h2 class="text-4xl leading-tight font-normal text-textStrong">Flexible deployment options <span class="text-textDisabled">for every company</span></h2>
       <p class="text-2xl leading-normal">Regardless of your company's size or compliance requirements, Monoscope operates <br/>within your business and regulatory constraints.</p>
       <div>
-        <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong" data-tracking="index-start-trial-3" data-reddit-event="SignUp">Start free trial</a>
+        <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong" data-tracking="index-start-trial-3" data-reddit-event="SignUp">Start for free</a>
         <a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer" class="btn btn-secondary py-3 px-6 rounded-xl" data-tracking="index-playground-3" data-reddit-event="ViewContent">Launch playground</a>
       </div>
       <div class="grid md:grid-cols-3 gap-8 pt-5">
@@ -661,7 +663,7 @@ platforms:
                       <p class="text-base text-textWeak"><strong class="text-textStrong text-2xl">$29</strong>/month for up to 20M events, + <strong class="text-textStrong">$1 per 1M events</strong> after. Includes 20M metric datapoints (then $1 per 10M) and 2,000 session replays (then $1 per 1,000).</p>
                  {% endif %}
             </div>
-            <a href="https://app.monoscope.tech" class="btn block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium" data-tracking="index-pricing-plan" data-reddit-event="SignUp">Start free trial</a>
+            <a href="https://app.monoscope.tech" class="btn block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium" data-tracking="index-pricing-plan" data-reddit-event="SignUp">Start for free</a>
           </div>
         </div>
 

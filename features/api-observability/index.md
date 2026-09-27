@@ -17,7 +17,7 @@ hide-date: true
         Stop API issues before they stop your customers. Achieve real-time API Observability to pinpoint issues, understand root causes, and fix problems in real-time.
       </p>
       <div class="flex gap-2 sm:gap-4">
-        <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong shadow">Start free trial</a>
+        <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong shadow">Start for free</a>
         <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" class="btn py-3 px-6 rounded-xl bg-transparent border border-fillBrand-strong text-fillBrand-strong shadow">Get a demo</a>
       </div>
     </div>

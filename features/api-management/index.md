@@ -17,7 +17,7 @@ hide-date: true
         monoscope isn't just another API management tool. It's the most feature-rich solution available, offering everything you need to manage your APIs effectively.
       </p>
       <div class="flex gap-2 sm:gap-4">
-        <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong shadow">Start free trial</a>
+        <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong shadow">Start for free</a>
         <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" class="btn py-3 px-6 rounded-xl bg-transparent border border-fillBrand-strong text-fillBrand-strong shadow">Get a demo</a>
       </div>
     </div>
