@@ -194,22 +194,27 @@ capabilities:
 
 <section class="flex flex-col space-y-32 md:space-y-40 items-center relative" style="z-index: 1;">
   <section class="space-y-12 mt-10 sm:mt-24 w-full flex flex-col items-center">
-      <div class="max-w-4xl w-full px-3 flex flex-col items-center text-center gap-6">
-        <h1 class="text-5xl md:text-7xl font-medium tracking-tight leading-[1.05] text-balance text-textStrong">Know what happened. <span class="text-textDisabled dark:text-textWeak">Prove it. Fix it.</span></h1>
-        <p class="text-xl md:text-2xl leading-normal text-textWeak text-balance max-w-2xl">The exact request behind every error, and an AI that writes the fix.</p>
-        <div class="flex flex-wrap justify-center gap-3 sm:gap-4 pt-2">
-          <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong" data-tracking="index-start-trial-1" data-reddit-event="SignUp">Start for free</a>
-          <a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer" class="btn btn-secondary py-3 px-6 rounded-xl" data-tracking="index-playground-1" data-reddit-event="ViewContent">Launch playground</a>
+      <div class="grid md:grid-cols-[3fr_2fr] max-w-8xl w-full gap-8 md:gap-16 px-3 items-end">
+        <div class="space-y-5">
+          <p class="font-mono text-xs uppercase tracking-wider text-textBrand">API-first observability</p>
+          <h1 class="text-5xl md:text-7xl font-medium tracking-tight leading-[1.05] text-balance text-textStrong">Know what happened.<br class="hidden md:block"> <span class="text-textDisabled dark:text-textWeak">Prove it. Fix it.</span></h1>
         </div>
-        <a class="flex items-center gap-3 text-sm text-textWeak" href="https://www.trustpilot.com/review/apitoolkit.io" target="_blank" rel="noopener noreferrer">
-          <img src="/assets/img/trustpilot-stars-4.5.svg" class="w-24" alt="Monoscope Trustpilot Rating" />
-          <span>Free up to 10k events a day. Open source.</span>
-        </a>
+        <div class="space-y-5 md:pb-2">
+          <p class="text-lg md:text-xl leading-normal text-textWeak text-pretty">The exact request behind every error, and an AI that writes the fix.</p>
+          <div class="flex flex-wrap items-center gap-4">
+            <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong inline-flex items-center gap-2" data-tracking="index-start-trial-1" data-reddit-event="SignUp">Start for free <svg class="h-3 w-3"><use xlink:href="/assets/deps/sprite.svg#arrow-right"></use></svg></a>
+            <a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer" class="text-textStrong underline underline-offset-4 decoration-strokeWeak hover:decoration-strokeStrong" data-tracking="index-playground-1" data-reddit-event="ViewContent">Launch playground</a>
+          </div>
+          <a class="flex items-center gap-3 text-sm text-textWeak" href="https://www.trustpilot.com/review/apitoolkit.io" target="_blank" rel="noopener noreferrer">
+            <img src="/assets/img/trustpilot-stars-4.5.svg" class="w-24" alt="Monoscope Trustpilot Rating" />
+            <span>Free up to 10k events a day. Open source.</span>
+          </a>
+        </div>
       </div>
 
       <!-- Hero tabs: one recording per chapter -->
       <div class="max-w-8xl w-full px-3">
-        <div class="tabs tabs-outline gap-1 justify-center [&>.tab]:rounded-lg [&>.tab]:px-4 [&>.tab]:py-2 [&>.tab]:text-sm [&>.tab]:font-medium [&>.tab]:text-textWeak [&>.tab:hover]:text-textStrong [&>.tab]:transition-colors">
+        <div class="tabs tabs-outline gap-1 [&>.tab]:rounded-lg [&>.tab]:px-4 [&>.tab]:py-2 [&>.tab]:text-sm [&>.tab]:font-medium [&>.tab]:text-textWeak [&>.tab:hover]:text-textStrong [&>.tab]:transition-colors">
           {% for s in this.frontmatter.sections %}
           <input type="radio" name="hero_tabs" role="tab" class="tab" aria-label="0{{forloop.index}}  {{s.eyebrow}}" {% if forloop.first %}checked{% endif %} />
           <div role="tabpanel" class="tab-content pt-4 w-full">
