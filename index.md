@@ -57,6 +57,7 @@ sections:
       Errors, crashes and breaking API changes, each with the request and response
       that caused it. Logs, traces, metrics and session replay sit next to it, linked.
     recording: know.mp4
+    demo: /assets/demos/know.html
     poster: /assets/img/home/explore-012025.svg
     mock: none
     frame: app.monoscope.tech / issues
@@ -79,9 +80,10 @@ sections:
       Every request, response, log and span is kept. When a customer or a supplier
       disputes what happened, you have the evidence.
     recording: prove.mp4
+    demo: /assets/demos/prove.html
     poster: /assets/img/home/dashboard-012025.svg
     mock: none
-    frame: app.monoscope.tech / outgoing requests
+    frame: app.monoscope.tech / explorer
     brief: >-
       An outgoing request to a supplier API: the request body, the 200 response with
       its acknowledgement body, the timestamp. End on the share link. 20-25s.
@@ -117,9 +119,10 @@ sections:
       in Slack, opens pull requests with fixes and checks risky changes against
       production before they merge.
     recording: fix.mp4
+    demo: /assets/demos/fix.html
     poster: ''
     mock: slack
-    frame: 'slack / #incidents'
+    frame: app.monoscope.tech / ai / routines
     brief: >-
       Slack: a message from a routine with the root cause, the failing request and a
       PR link. Click through to the PR diff on GitHub. Then a question typed in Slack
@@ -214,6 +217,7 @@ capabilities:
 ---
 
 ```=html
+<script src="/assets/js/demo-scene.js" defer></script>
 <!-- Static background at top of page only -->
 <div class="absolute top-0 left-0 w-full pointer-events-none overflow-hidden" style="z-index: 0; height: 120vh;">
   <div class="hero-gradient-mesh"></div>
@@ -251,9 +255,9 @@ capabilities:
               <span class="font-mono text-xs text-textDisabled">{{s.frame}}</span>
             </div>
             <div class="rec relative aspect-video bg-fillWeak [&.rec-missing>.rec-brief]:flex [&.rec-missing>.rec-mock]:flex">
-              <video autoplay muted loop playsinline preload="metadata" {% if s.poster != '' %}poster="{{s.poster}}"{% endif %} class="w-full h-full object-cover object-top">
+              {% if s.demo != '' %}<demo-scene src="{{s.demo}}" class="absolute inset-0"></demo-scene>{% else %}<video autoplay muted loop playsinline preload="metadata" {% if s.poster != '' %}poster="{{s.poster}}"{% endif %} class="w-full h-full object-cover object-top">
                 <source src="/assets/videos/{{s.recording}}" type="video/mp4" onerror="this.closest('.rec').classList.add('rec-missing')">
-              </video>
+              </video>{% endif %}
               {% if s.mock == 'slack' %}
               <div class="rec-mock hidden absolute inset-0 items-center justify-center p-6 bg-[radial-gradient(ellipse_at_top,var(--color-fillBrand-weak),transparent_70%)]">
                 <div class="w-full max-w-md rounded-xl border border-strokeWeak bg-bgBase shadow-lg p-4 space-y-3 text-start text-sm">
@@ -333,9 +337,9 @@ capabilities:
               <span class="font-mono text-xs text-textDisabled">{{s.frame}}</span>
             </div>
             <div class="rec relative aspect-video bg-fillWeak [&.rec-missing>.rec-brief]:flex [&.rec-missing>.rec-mock]:flex">
-              <video autoplay muted loop playsinline preload="metadata" {% if s.poster != '' %}poster="{{s.poster}}"{% endif %} class="w-full h-full object-cover object-top">
+              {% if s.demo != '' %}<demo-scene src="{{s.demo}}" class="absolute inset-0"></demo-scene>{% else %}<video autoplay muted loop playsinline preload="metadata" {% if s.poster != '' %}poster="{{s.poster}}"{% endif %} class="w-full h-full object-cover object-top">
                 <source src="/assets/videos/{{s.recording}}" type="video/mp4" onerror="this.closest('.rec').classList.add('rec-missing')">
-              </video>
+              </video>{% endif %}
               {% if s.mock == 'slack' %}
               <div class="rec-mock hidden absolute inset-0 items-center justify-center p-6 bg-[radial-gradient(ellipse_at_top,var(--color-fillBrand-weak),transparent_70%)]">
                 <div class="w-full max-w-md rounded-xl border border-strokeWeak bg-bgBase shadow-lg p-4 space-y-3 text-start text-sm">

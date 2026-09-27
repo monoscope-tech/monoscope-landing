@@ -1,0 +1,16 @@
+<!-- 01 Know what happened: issues → the request behind one → its trace. Real dashboard screens, dark. ~13s loop. -->
+<link rel="stylesheet" href="screens/app.css">
+<section data-screen="issues" data-src="screens/issues.html"></section>
+<section data-screen="request" data-src="screens/explorer-row.html"></section>
+<section data-screen="trace" data-src="screens/explorer-trace.html"></section>
+
+<script type="application/json" data-storyboard>
+[
+  { "screen": "issues",  "caption": "Errors arrive grouped into issues", "wait": 1600 },
+  { "cursor": "a[href*='/issues/']", "click": true, "caption": "", "wait": 150 },
+  { "screen": "request", "caption": "Open one: the exact request that caused it", "focus": "text=Request", "wait": 2400 },
+  { "cursor": "text=Req Body", "click": true, "focus": "text=Req Body", "caption": "Headers, body, response, as they were", "wait": 2000 },
+  { "cursor": "text=View trace", "click": true, "caption": "", "wait": 150 },
+  { "screen": "trace",   "caption": "Trace, logs and replay, one click away", "wait": 2800 }
+]
+</script>

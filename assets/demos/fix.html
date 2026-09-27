@@ -1,0 +1,14 @@
+<!-- 03 Fix it: routines that investigate on a schedule → an investigation with the evidence → monitors. Real dashboard screens, dark. ~13s loop. -->
+<link rel="stylesheet" href="screens/app.css">
+<section data-screen="routines" data-src="screens/routines.html"></section>
+<section data-screen="chat"     data-src="screens/ai-chat.html"></section>
+<section data-screen="monitors" data-src="screens/monitors.html"></section>
+
+<script type="application/json" data-storyboard>
+[
+  { "screen": "routines", "caption": "Routines investigate on a schedule, while you sleep", "wait": 2600 },
+  { "screen": "chat",     "caption": "Root cause from the actual requests, not a summary", "wait": 3200 },
+  { "caption": "Ask it anything about your system", "wait": 1800 },
+  { "screen": "monitors", "caption": "Monitors page you before customers do", "wait": 2600 }
+]
+</script>

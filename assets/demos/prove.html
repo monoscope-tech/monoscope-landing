@@ -1,0 +1,18 @@
+<!-- 02 Prove it: outgoing calls → what you sent → what they answered → share the receipt. Real dashboard screens, dark. ~14s loop. -->
+<link rel="stylesheet" href="screens/app.css">
+<section data-screen="catalog" data-src="screens/catalog.html"></section>
+<section data-screen="sent"    data-src="screens/explorer-req.html"></section>
+<section data-screen="got"     data-src="screens/explorer-resp.html"></section>
+<section data-screen="share"   data-src="screens/explorer-share.html"></section>
+
+<script type="application/json" data-storyboard>
+[
+  { "screen": "catalog", "caption": "Every call to a supplier, kept unsampled", "wait": 1800 },
+  { "cursor": "text=Logs", "click": true, "caption": "", "wait": 150 },
+  { "screen": "sent",    "caption": "What you sent…", "focus": "text=Req Body", "wait": 2200 },
+  { "cursor": "text=Res Body", "click": true, "caption": "", "wait": 150 },
+  { "screen": "got",     "caption": "…what they answered, and when", "focus": "text=Res Body", "wait": 2400 },
+  { "cursor": "text=Share link", "click": true, "caption": "", "wait": 150 },
+  { "screen": "share",   "caption": "Send the receipt, not a description", "wait": 2600 }
+]
+</script>
