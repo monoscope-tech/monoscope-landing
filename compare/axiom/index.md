@@ -42,9 +42,9 @@ ogImage: https://raw.githubusercontent.com/monoscope/.github/main/images/compare
             <td class="font-bold text-base md:text-lg lg:text-lg text-center">Pricing</td>
             <td class="border border-blue-500 bg-slate-50 dark:bg-inherit prose text-sm md:text-base lg:text-base leading-relaxed">
                 <ul>
-                    <li>Free for up to 20k requests per month (unlimited projects).</li>
-                    <li>7 days of data retention and two team members on the free <a href="/pricing" target="_blank" rel="noopener noreferrer" class="text-slate-500">plan</a>.</li>
-                    <li>The PAYU (pay-as-you-use) plan starts at $19 per month for 400k requests.</li>
+                    <li>Free for up to 10k events per day, with 30 days of data retention and unlimited team members.</li>
+                    <li>Then $29 per month for up to 20M events, plus $1 per 1M events after.</li>
+                    <li>Store data in your own S3 bucket with unlimited retention from $199 per month. See <a href="/pricing" target="_blank" rel="noopener noreferrer" class="text-slate-500">pricing</a>.</li>
                 </ul>
             </td>
             <td class="border prose text-sm md:text-base lg:text-base leading-relaxed">
@@ -129,9 +129,9 @@ ogImage: https://raw.githubusercontent.com/monoscope/.github/main/images/compare
          <tr>
             <td class="font-bold text-base md:text-lg lg:text-lg text-center">Logs Management</td>
             <td class="border border-blue-500 bg-slate-50 dark:bg-inherit prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check-x.svg" alt="Icon that indicates this feature is not supported." />
+                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check.svg" alt="Icon that indicates this feature is supported." />
 
-                Coming soon.
+                Search logs, traces and metrics in one place, linked to the API requests that produced them.
             </td>
             <td class="border prose text-sm md:text-base lg:text-base leading-relaxed text-center">
                 <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check2.svg" alt="Icon that indicates this feature is supported." />
