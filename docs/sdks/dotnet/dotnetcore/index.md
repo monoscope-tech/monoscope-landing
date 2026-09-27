@@ -220,9 +220,9 @@ using ApiToolkit.Net;
 
 var config = new Config
 {
-  RedactHeaders = new List&lt;string&gt; { "content-type", "Authorization", "HOST" },
-  RedactRequestBody = new List&lt;string&gt; { "$.user.email", "$.user.addresses" },
-  RedactResponseBody = new List&lt;string&gt; { "$.users[*].email", "$.users[*].credit_card" }
+  RedactHeaders = new List<string> { "content-type", "Authorization", "HOST" },
+  RedactRequestBody = new List<string> { "$.user.email", "$.user.addresses" },
+  RedactResponseBody = new List<string> { "$.users[*].email", "$.users[*].credit_card" }
 };
 var client = monoscope.NewClient(config);
 
