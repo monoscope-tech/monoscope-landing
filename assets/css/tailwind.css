@@ -325,7 +325,7 @@ html:has(body[data-theme="dark"]) {
 }
 
 .btn:active {
-  transform: scale(0.98) translateY(1px);
+  transform: scale(0.96) translateY(1px);
 }
 
 @media (hover: hover) {
@@ -333,7 +333,7 @@ html:has(body[data-theme="dark"]) {
     transform: translateY(-1px);
   }
   .btn:hover:active {
-    transform: scale(0.98) translateY(1px);
+    transform: scale(0.96) translateY(1px);
   }
 }
 
@@ -1455,7 +1455,7 @@ html:has(body[data-theme="dark"]) {
 /* Ensure active states work on touch */
 .hover-lift:active,
 .hover-scale:active {
-  transform: scale(0.98);
+  transform: scale(0.96);
 }
 
 /* ========================================

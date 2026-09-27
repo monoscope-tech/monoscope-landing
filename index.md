@@ -150,6 +150,33 @@ sections:
       monoscope events context --window 5m --summary \
         --at "$(monoscope events get "$ID" | jq -r .timestamp)"
 
+plans:
+  - eyebrow: Monoscope Cloud
+    name: Bring nothing
+    icon: cloud
+    bullets: ["Fully managed, nothing to run", "Usage-based pricing you can predict", "Alerts with the failing request attached", "Ask questions in plain English", "30 days of data retention"]
+    price: Free
+    price_note: up to 10k events a day. Then $29/month for 20M events, +$1 per 1M after.
+    cta: { label: Start for free, href: "https://app.monoscope.tech", tracking: index-pricing-plan, event: SignUp }
+  - eyebrow: Monoscope Cloud + your own S3
+    name: Bring your own storage
+    icon: database
+    badge: Popular
+    featured: true
+    bullets: ["Every event written to your S3-compatible bucket", "Open Delta Lake and Parquet, readable by any tool", "Unlimited data retention at no extra cost", "Query years of data in monoscope, DuckDB or SQL", "Build audit trails for your own customers on it"]
+    price: $199
+    price_note: per month, includes 100M events, +$1 per 1M after.
+    cta: { label: Get started, href: "https://app.monoscope.tech", tracking: index-pricing-plan, event: SignUp }
+  - eyebrow: Self-hosted
+    name: Bring your own servers
+    icon: server
+    badge: Open source
+    bullets: ["100% open source, AGPL 3.0", "All core features", "Deploy to your own servers", "Data never leaves your network", "Enterprise adds SSO, SLA and priority support"]
+    price: Free
+    price_note: Community Edition. Enterprise from $500/month.
+    cta: { label: View on GitHub, href: "https://github.com/monoscope-tech/monoscope", tracking: index-github-enterprise, event: ViewContent, external: true }
+    cta2: { label: Talk to an engineer about Enterprise, href: "https://calendar.app.google/1a4HG5GZYv1sjjZG6", tracking: index-enterprise-demo, event: ScheduleDemo, external: true }
+
 capabilities:
   - icon: align-left
     title: Logs and traces
@@ -382,107 +409,32 @@ capabilities:
         <h2 class="text-4xl md:text-5xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong">Run it your way</h2>
         <p class="text-xl leading-normal text-textWeak text-pretty">Cloud, your own bucket or your own servers. Same product, same open source code.</p>
       </div>
-      <div class="grid lg:grid-cols-3 gap-8">
-        <div class="rounded-xl border border-strokeBrand-weak p-8 flex flex-col">
-          <div class="inline-block p-3 bg-fillBrand-weak rounded-full w-fit"><svg class="w-5 h-5 text-iconBrand"><use xlink:href="/assets/deps/sprite.svg#cloud"></use></svg></div>
-          <div class="mt-8 mb-6">
-            <p class="text-sm font-medium text-textDisabled uppercase tracking-wide">Monoscope Cloud</p>
-            <h3 class="text-2xl font-semibold text-textStrong">Bring nothing</h3>
+      <div class="grid lg:grid-cols-3 gap-6">
+        {% for pl in this.frontmatter.plans %}
+        <div class="relative rounded-2xl border p-8 flex flex-col gap-8 {% if pl.featured %}border-strokeBrand-strong bg-fillBrand-weak shadow-[0_24px_64px_-32px_rgba(0,104,255,0.45)]{% else %}border-strokeWeak bg-fillWeaker{% endif %}">
+          {% if pl.badge %}<span class="absolute -top-3 start-8 rounded-full px-3 py-1 text-xs font-medium uppercase tracking-wide {% if pl.featured %}bg-fillBrand-strong text-textInverse-strong{% else %}bg-bgBase border border-strokeWeak text-textWeak{% endif %}">{{pl.badge}}</span>{% endif %}
+          <div class="space-y-5">
+            <span class="inline-flex p-2.5 rounded-lg bg-fillBrand-weak"><svg class="w-5 h-5 text-iconBrand"><use xlink:href="/assets/deps/sprite.svg#{{pl.icon}}"></use></svg></span>
+            <div class="space-y-1">
+              <p class="text-xs font-medium text-textWeak uppercase tracking-wide">{{pl.eyebrow}}</p>
+              <h3 class="text-2xl font-semibold tracking-tight text-textStrong">{{pl.name}}</h3>
+            </div>
           </div>
-
-          <ul class="space-y-3 text-lg mb-8 flex-1 list-disc list-outside ps-5 marker:text-iconBrand">
-            <li>Fully managed cloud service</li>
-            <li><strong>Predictable usage-based</strong> pricing</li>
-            <li>Alerts with the failing request attached</li>
-            <li>Ask questions in plain English</li>
-            <li><strong>30 days</strong> of data retention</li>
+          <ul class="space-y-2.5 text-base text-textWeak list-disc list-outside ps-5 marker:text-iconBrand flex-1">
+            {% for b in pl.bullets %}<li>{{b}}</li>{% endfor %}
           </ul>
-
-          <div class="border-t border-strokeWeak pt-6 space-y-4">
-            <div class="space-y-2">
-              <p class="text-sm text-textDisabled uppercase tracking-wide">Pricing</p>
-                {% if this.frontmatter.enableFreeTier %}
-                      <p class="text-2xl font-semibold text-textStrong">
-                       <span id="cloud_price">Free</span> <span class="text-base font-normal text-textWeak" id="cloud_price_desc">up to 10k events/day</span>
-                      </p>
-                      <p class="text-base text-textWeak">Then <strong class="text-textStrong">$29/month</strong> for up to 20M events, + <strong class="text-textStrong">$1 per 1M events</strong> after. Includes 20M metric datapoints (then $1 per 10M) and 2,000 session replays (then $1 per 1,000).</p>
-                 {% else %}
-                      <p class="text-base text-textWeak"><strong class="text-textStrong text-2xl">$29</strong>/month for up to 20M events, + <strong class="text-textStrong">$1 per 1M events</strong> after. Includes 20M metric datapoints (then $1 per 10M) and 2,000 session replays (then $1 per 1,000).</p>
-                 {% endif %}
-            </div>
-            <a href="https://app.monoscope.tech" class="btn block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium" data-tracking="index-pricing-plan" data-reddit-event="SignUp">Start for free</a>
-          </div>
-        </div>
-
-        <div class="rounded-xl border-2 border-strokeBrand-strong bg-fillBrand-weak p-8 flex flex-col relative">
-          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-fillBrand-strong text-textInverse-strong px-4 py-1 rounded-full text-sm font-medium">POPULAR</div>
-          <div class="inline-block p-3 bg-fillBrand-weak rounded-full w-fit"><svg class="w-5 h-5 text-iconBrand"><use xlink:href="/assets/deps/sprite.svg#database"></use></svg></div>
-          <div class="mt-8 mb-6">
-            <p class="text-sm font-medium text-textDisabled uppercase tracking-wide">Monoscope Cloud + your own S3</p>
-            <h3 class="text-2xl font-semibold text-textStrong">Bring your own storage</h3>
-          </div>
-
-          <ul class="space-y-3 text-lg mb-8 flex-1 list-disc list-outside ps-5 marker:text-iconBrand">
-            <li>Open Delta Lake and Parquet, readable by any tool</li>
-            <li>Save <strong>all your data</strong> to any S3-compatible bucket</li>
-            <li><strong>Unlimited</strong> data retention</li>
-            <li>Query years of data in monoscope, DuckDB or SQL</li>
-            <li><strong>No extra cost</strong> for data retention</li>
-          </ul>
-
-          <div class="border-t border-strokeBrand-weak pt-6 space-y-4">
-            <div class="space-y-2">
-              <p class="text-sm text-textDisabled uppercase tracking-wide">Pricing</p>
-              <p class="text-2xl font-semibold text-textStrong">
-                $199<span class="text-base font-normal text-textWeak">/month starting</span>
-              </p>
-              <p class="text-base text-textWeak">Includes up to 100M events, + <strong class="text-textStrong">$1 per 1M events</strong> after.</p>
-            </div>
-            <a href="https://app.monoscope.tech" class="btn block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium" data-tracking="index-pricing-plan" data-reddit-event="SignUp">Get started</a>
-          </div>
-        </div>
-
-        <div class="rounded-xl border border-strokeWeak bg-fillWeaker p-8 flex flex-col relative">
-          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-fillSuccess-strong text-textInverse-strong px-4 py-1 rounded-full text-sm font-medium">OPEN SOURCE</div>
-          <div class="inline-block p-3 bg-fillBrand-weak rounded-full w-fit"><svg class="w-5 h-5 text-iconBrand"><use xlink:href="/assets/deps/sprite.svg#server"></use></svg></div>
-          <div class="mt-8 mb-6">
-            <p class="text-sm font-medium text-textDisabled uppercase tracking-wide">Self-hosted</p>
-            <h3 class="text-2xl font-semibold text-textStrong">Bring your own servers</h3>
-          </div>
-
-          <div class="mb-6 space-y-4">
-            <div>
-              <p class="text-sm font-semibold text-textStrong uppercase tracking-wide mb-2">Community Edition (Free)</p>
-              <ul class="space-y-2 text-base list-disc list-outside ps-5 marker:text-iconSuccess">
-                <li><strong>100% open source</strong> (AGPL 3.0)</li>
-                <li>All core monitoring features</li>
-                <li>Deploy to your own servers</li>
-                <li>Data never leaves your network</li>
-              </ul>
-            </div>
-            <div class="pt-4">
-              <p class="text-sm font-semibold text-textStrong uppercase tracking-wide mb-2">Enterprise Edition</p>
-              <ul class="space-y-2 text-base list-disc list-outside ps-5 marker:text-iconBrand">
-                <li>Premium features & integrations</li>
-                <li><strong>SSO</strong> & advanced auth</li>
-                <li><strong>Priority support</strong> & SLA</li>
-                <li>Advanced security & compliance</li>
-              </ul>
-            </div>
-          </div>
-          <div class="border-t border-strokeWeak pt-6 space-y-4 mt-auto">
-            <div class="space-y-2">
-              <p class="text-sm text-textDisabled uppercase tracking-wide">Pricing</p>
-              <p class="text-base text-textWeak">Community Edition: <strong class="text-textStrong text-2xl">Free</strong> <span class="text-sm">(forever)</span></p>
-              <p class="text-base text-textWeak">Enterprise: <strong class="text-textStrong">starts at $500/month</strong></p>
+          <div class="border-t border-strokeWeak pt-6 space-y-5">
+            <div class="space-y-1">
+              <p class="text-3xl font-medium tracking-tight tabular-nums text-textStrong">{{pl.price}}</p>
+              <p class="text-sm leading-snug text-textWeak text-pretty">{{pl.price_note}}</p>
             </div>
             <div class="flex flex-col gap-2">
-              <a href="https://github.com/monoscope-tech/monoscope" target="_blank" rel="noopener noreferrer" class="block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium hover:bg-fillBrand-weak transition-colors" data-tracking="index-github-enterprise" data-reddit-event="ViewContent">View on GitHub</a>
-              <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" rel="noopener noreferrer" class="block text-center py-2.5 px-6 bg-transparent text-fillBrand-strong border border-fillBrand-strong rounded-lg font-medium hover:bg-fillBrand-weak hover:text-textStrong transition-colors text-sm" data-tracking="index-enterprise-demo" data-reddit-event="ScheduleDemo">Talk to an engineer about Enterprise</a>
+              <a href="{{pl.cta.href}}" {% if pl.cta.external %}target="_blank" rel="noopener noreferrer"{% endif %} class="btn w-full py-3 px-6 rounded-lg bg-fillBrand-strong text-textInverse-strong font-medium" data-tracking="{{pl.cta.tracking}}" data-reddit-event="{{pl.cta.event}}">{{pl.cta.label}}</a>
+              {% if pl.cta2 %}<a href="{{pl.cta2.href}}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary w-full py-3 px-6 rounded-lg font-medium" data-tracking="{{pl.cta2.tracking}}" data-reddit-event="{{pl.cta2.event}}">{{pl.cta2.label}}</a>{% endif %}
             </div>
           </div>
         </div>
-
+        {% endfor %}
       </div>
     </div>
 
