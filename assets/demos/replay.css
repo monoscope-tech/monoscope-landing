@@ -50,3 +50,8 @@
   .rp .ev.err { background:rgb(248 113 113 / .08); }
   .rp .ev.reveal { opacity:0; } .rp .ev.reveal.in { opacity:1; transition:opacity .35s; }
   .rp .ev.err b { color:#fca5a5; }
+.rp .tabs { display:flex; gap:14px; font-size:12px; font-weight:600; color:oklch(60% .015 263); padding:0 2px; }
+.rp .tabs span { padding:4px 0; border-bottom:2px solid transparent; }
+.rp .tabs span.on { color:#fca5a5; border-bottom-color:#f87171; }
+.rp .tabs b { font-weight:500; color:oklch(70% .015 263); margin-left:4px; font-variant-numeric:tabular-nums; }
+.rp .ctl .pill { font-size:11px; padding:2px 8px; }
