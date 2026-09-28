@@ -38,9 +38,11 @@ const SCENES = {
   'explorer-resp':  { url: Q('attributes.http.request.method == "POST"'), actions: [ROW, vis(/^Res Body$/)] },
   'explorer-share': { url: Q('attributes.http.request.method == "POST"'), actions: [ROW, vis(/^Share link$/)] },
   'explorer-trace': { url: Q('attributes.http.request.method == "POST"'), actions: [ROW, vis(/View trace/)] },
-  'issue':          { url: '/issues', actions: [p => p.locator('a[href*="/issues/"]').first()] },
+  'issue':          { url: '/issues/94ae2b78-340b-4f3a-aa0e-2ee41d694858?since=7D', wait: 9000 },
   'catalog':        { url: '/api_catalog', actions: [vis(/^\s*Outgoing\s*$/)], wait: 6000 },
   'ai-chat':        { url: '/ai/e599e4f8-302f-42bf-8cc8-d6404c37e448', wait: 5000 },
+  'sessions':       { url: '/rum?tab=sessions', wait: 4000 },
+  'session':        { url: process.env.SESSION_URL || '/rum?tab=sessions', actions: process.env.SESSION_URL ? [] : [p => p.locator('a[href*="session"]').first()], wait: 6000 },
   'routines':       { url: '/ai/routines', wait: 4000 },
   'ai-changes':     { url: '/ai/4879f007-38de-4e00-8acd-370a74dfa1d1', wait: 5000 },
   'monitors':       { url: '/monitors' },
@@ -62,6 +64,8 @@ const settle = async (ms = 2500) => {
     const b = [...document.querySelectorAll('div')].filter(d => d.textContent.trim().startsWith('Demo Project') && d.textContent.includes('Start Free Trial')).at(-1);
     if (b) b.remove();
     document.querySelectorAll('.htmx-indicator, #nprogress, [id*="progress"], [class*="loading-bar"]').forEach(n => n.remove());
+    // Demo-project noise: a stored event sample that fails to load.
+    [...document.querySelectorAll('p,div,span')].filter(e => e.children.length <= 1 && /could not be loaded/.test(e.textContent)).forEach(e => e.remove());
   }).catch(() => {});
   await page.waitForTimeout(300);
 };
