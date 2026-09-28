@@ -100,7 +100,7 @@ messaging:
   homepage_hero_draft:
     h1: "Know what happened. Prove it. Fix it."
     section_structure: ["Know: errors, crashes, breaking API changes, logs/traces/metrics", "Prove: full payloads, your own S3 as database, the court-case receipt", "Fix: AI routines, fix PRs, pre-merge change review, Slack Q&A"]
-    sub: "Every request and response, yours and your suppliers', kept unsampled in your own bucket. An AI that reads that record and writes the fix."
+    sub: "Every issue comes with the exact request behind it, and everything around it: the response, the trace, what the customer saw. An AI reads it and opens the fix."
     sub_alt: "Every error, crash and breaking API change, with the exact request and response that caused it. Logs, traces and metrics in one place, and AI routines that flag issues in Slack before your customers do."
   meta_description_draft: "Catch errors, crashes and breaking API changes with the exact request and response behind each, plus logs, traces, metrics and AI routines. Free to start."
 
@@ -239,3 +239,4 @@ intelligence:
 - **2026-09-28 — Replay in Prove; Slack in Fix (user).** Shared authored screens: `screens/replay.html` (+`replay.css`) used by Know and Prove; `screens/slack.html` (+`slack.css`): routine finding with PR button, teammate question, monoscope answer with chart and actions, modelled on the Polylane/Superlog references.
 - **2026-09-28 — Bill estimator v2 (user).** Own-S3 row removed; Grafana Cloud added; inputs: events, hosts, metric series, replay sessions. monoscope meters: $1/M events, $1/10M metric datapoints, $1/1k sessions, all else included. Default (100M events, 10 hosts, 20k series, 20k sessions, 2 kB/event): Datadog 8.2×, Sentry 1.9×, Grafana 1.2×. Grafana stays close on pure ingest; the gap comes from hosts (Datadog), metric series and replay.
 - **2026-09-28 — Estimator: Grafana → Splunk (user, "not dramatic enough"); Slack scene rebuilt on Slack's dark palette + Lato with a supplier breaking-change scenario (tracking_id dropped, orders stuck) and Anthony Alaribe as the asker; 30-day retention stated for all vendors.
+- **2026-09-28 — Hero pitch (user).** "Every issue comes with the exact request behind it, and everything around it: the response, the trace, what the customer saw. An AI reads it and opens the fix." Own-bucket and never-sampled move to the trust line / Prove chapter (bucket is $199-plan only). Pitch set smaller (text-base/lg, max-w-md) so it stops competing with the headline.

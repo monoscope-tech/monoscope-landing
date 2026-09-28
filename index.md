@@ -1,6 +1,6 @@
 ---
 title: Observability with an AI SRE built in
-description: Open-source observability that keeps every request and response, yours and your suppliers', unsampled in your own bucket, with an AI SRE that investigates and writes the fix. Free to start.
+description: Open-source observability where every issue comes with the exact request behind it, the response, the trace and what the customer saw, and an AI that opens the fix. Free to start.
 enableFreeTier: true
 testimonials:
   - stat: 20x
@@ -231,14 +231,14 @@ capabilities:
           <h1 class="text-5xl md:text-7xl font-medium tracking-tight leading-[1.05] text-balance text-textStrong">Know what happened.<br class="hidden md:block"> <span class="text-textDisabled dark:text-textWeak">Prove it. Fix it.</span></h1>
         </div>
         <div class="space-y-5 md:pb-2">
-          <p class="text-lg md:text-xl leading-normal text-textWeak text-pretty">Every request and response, yours and your suppliers', kept unsampled in your own bucket. An AI that reads that record and writes the fix.</p>
+          <p class="text-base md:text-lg leading-normal text-textWeak text-pretty max-w-md">Every issue comes with the exact request behind it, and everything around it: the response, the trace, what the customer saw. An AI reads it and opens the fix.</p>
           <div class="flex flex-wrap items-center gap-4">
             <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong inline-flex items-center gap-2" data-tracking="index-start-trial-1" data-reddit-event="SignUp">Start for free <svg class="h-3 w-3"><use xlink:href="/assets/deps/sprite.svg#arrow-right"></use></svg></a>
             <a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer" class="text-textStrong underline underline-offset-4 decoration-strokeWeak hover:decoration-strokeStrong" data-tracking="index-playground-1" data-reddit-event="ViewContent">Launch playground</a>
           </div>
           <a class="flex items-center gap-3 text-sm text-textWeak" href="https://www.trustpilot.com/review/apitoolkit.io" target="_blank" rel="noopener noreferrer">
             <img src="/assets/img/trustpilot-stars-4.5.svg" class="w-24" alt="Monoscope Trustpilot Rating" />
-            <span>Free up to 10k events a day. AGPL, self-hostable.</span>
+            <span>Free up to 10k events a day. Never sampled. Open source.</span>
           </a>
         </div>
       </div>
