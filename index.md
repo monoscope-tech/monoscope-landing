@@ -71,8 +71,8 @@ sections:
         body: Errors and slow endpoints, grouped into issues, each with the full request and response as they were.
       - title: Breaking changes, yours and your suppliers'
         body: A field removed, renamed or retyped, in your endpoints or a third-party API, flagged with the request that revealed it.
-      - title: Logs, traces, metrics and replay, linked
-        body: Search with KQL or plain English, then click from a log line to the trace, the endpoint's metrics and what the user saw.
+      - title: Watch what the customer did before the error
+        body: Session replay is linked to the failing request. Scrub to the click, see the toast they saw, and the exact request it fired.
   - id: prove
     eyebrow: Prove it
     title: Never sampled. The record, not a summary of it.

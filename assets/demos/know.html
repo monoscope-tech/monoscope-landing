@@ -3,6 +3,102 @@
 <section data-screen="issues" data-src="screens/issues.html"></section>
 <section data-screen="request" data-src="screens/explorer-row.html"></section>
 <section data-screen="trace" data-src="screens/explorer-trace.html"></section>
+<!-- Session replay: authored screen (the demo project has no RUM sessions to capture). Same chrome as the app, dark. -->
+<style>
+  .rp { position:absolute; inset:0; display:grid; grid-template-columns:56px 1fr; background:oklch(14% .025 263); color:oklch(82% .02 263);
+    font:13px/1.45 InterVariable, Inter, ui-sans-serif, system-ui, sans-serif; }
+  .rp * { box-sizing:border-box; }
+  .rp .rail { border-right:1px solid rgb(255 255 255 / .08); padding-top:14px; display:flex; flex-direction:column; align-items:center; gap:14px; }
+  .rp .rail i { width:22px; height:22px; border-radius:6px; background:rgb(255 255 255 / .06); display:block; }
+  .rp .rail i.on { background:rgb(59 130 246 / .25); outline:1px solid rgb(59 130 246 / .6); }
+  .rp .main { display:grid; grid-template-rows:48px 1fr; min-width:0; }
+  .rp .top { display:flex; align-items:center; gap:12px; padding:0 20px; border-bottom:1px solid rgb(255 255 255 / .08); }
+  .rp .top h1 { margin:0; font-size:15px; font-weight:600; color:oklch(92% .01 263); }
+  .rp .mono { font-family:ui-monospace, "JetBrains Mono", Menlo, monospace; font-size:12px; }
+  .rp .pill { display:inline-flex; align-items:center; gap:6px; padding:3px 9px; border-radius:999px; font-size:11px; font-weight:500; border:1px solid rgb(255 255 255 / .1); background:rgb(255 255 255 / .04); }
+  .rp .pill.red { color:#fca5a5; border-color:rgb(248 113 113 / .35); background:rgb(248 113 113 / .1); }
+  .rp .body { display:grid; grid-template-columns:1fr 300px; gap:16px; padding:16px 20px; min-height:0; }
+  .rp .player { border:1px solid rgb(255 255 255 / .1); border-radius:10px; overflow:hidden; display:grid; grid-template-rows:1fr 44px; background:#0b0f1a; }
+  .rp .screen-cust { position:relative; background:#f6f7fb; color:#1e293b; overflow:hidden; font-size:12px; }
+  .rp .cnav { height:44px; display:flex; align-items:center; gap:18px; padding:0 20px; background:#fff; border-bottom:1px solid #e5e7eb; font-weight:600; color:#0f172a; }
+  .rp .cnav span:first-child { font-size:14px; }
+  .rp .cnav .cart { margin-left:auto; padding:4px 10px; border-radius:6px; background:#0f172a; color:#fff; font-size:11px; }
+  .rp .cbody { display:grid; grid-template-columns:1fr 260px; gap:18px; padding:18px 20px; }
+  .rp .ccard { background:#fff; border:1px solid #e5e7eb; border-radius:8px; padding:14px; }
+  .rp .ccard h3 { margin:0 0 10px; font-size:13px; }
+  .rp .field { height:30px; border:1px solid #d1d5db; border-radius:6px; margin-bottom:8px; padding:0 10px; display:flex; align-items:center; color:#334155; }
+  .rp .field.half { display:inline-flex; width:calc(50% - 4px); }
+  .rp .cbtn { height:36px; border-radius:6px; background:#4f46e5; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:600; margin-top:6px; opacity:.85; }
+  .rp .line { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid #f1f5f9; color:#475569; }
+  .rp .line.total { color:#0f172a; font-weight:600; border:0; }
+  .rp .toast { position:absolute; left:50%; bottom:18px; transform:translateX(-50%); background:#fef2f2; color:#991b1b; border:1px solid #fecaca; border-radius:8px; padding:8px 14px; font-weight:500; box-shadow:0 8px 24px rgb(0 0 0 / .12); }
+  .rp .cur { position:absolute; width:18px; height:18px; filter:drop-shadow(0 1px 2px rgb(0 0 0 / .4)); }
+  .rp .ctl { display:flex; align-items:center; gap:12px; padding:0 14px; border-top:1px solid rgb(255 255 255 / .08); color:oklch(70% .015 263); }
+  .rp .ctl .play { width:22px; height:22px; border-radius:6px; background:rgb(255 255 255 / .08); display:grid; place-items:center; }
+  .rp .tl { flex:1; position:relative; height:6px; border-radius:3px; background:rgb(255 255 255 / .1); }
+  .rp .tl .done { position:absolute; left:0; top:0; height:6px; width:62%; border-radius:3px; background:rgb(59 130 246 / .8); }
+  .rp .tl .mark { position:absolute; top:-4px; width:3px; height:14px; border-radius:2px; background:#f87171; }
+  .rp .tl .head { position:absolute; top:-4px; left:62%; width:14px; height:14px; margin-left:-7px; border-radius:50%; background:#fff; }
+  .rp .side { display:flex; flex-direction:column; gap:12px; min-height:0; }
+  .rp .card { border:1px solid rgb(255 255 255 / .08); border-radius:10px; background:rgb(255 255 255 / .025); overflow:hidden; }
+  .rp .card h2 { margin:0; padding:10px 14px; font-size:12px; font-weight:500; color:oklch(70% .015 263); border-bottom:1px solid rgb(255 255 255 / .08); }
+  .rp .kv { display:grid; grid-template-columns:86px 1fr; gap:6px 10px; padding:10px 14px; }
+  .rp .kv dt { color:oklch(60% .015 263); } .rp .kv dd { margin:0; color:oklch(88% .01 263); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .rp .ev { display:grid; grid-template-columns:52px 1fr; gap:8px; padding:7px 14px; border-bottom:1px solid rgb(255 255 255 / .05); }
+  .rp .ev .t { color:oklch(55% .01 263); }
+  .rp .ev.err { background:rgb(248 113 113 / .08); }
+  .rp .ev.err b { color:#fca5a5; }
+</style>
+<section data-screen="replay">
+  <div class="rp">
+    <aside class="rail"><i></i><i></i><i></i><i></i><i class="on"></i><i></i></aside>
+    <div class="main">
+      <div class="top"><h1>Session replay</h1><span class="mono" style="color:oklch(60% .015 263)">sess_8f3a21 · Chrome 128 · Berlin</span><span class="pill red">1 error</span><span class="pill">3 min 41 s</span><span style="margin-left:auto" class="pill">Linked to req_7Hk2m9</span></div>
+      <div class="body">
+        <div class="player">
+          <div class="screen-cust">
+            <div class="cnav"><span>Astronomy Shop</span><span>Telescopes</span><span>Binoculars</span><span>Accessories</span><span class="cart">Cart · 2</span></div>
+            <div class="cbody">
+              <div class="ccard">
+                <h3>Checkout</h3>
+                <div class="field">Jane Okafor</div>
+                <div class="field">jane@example.com</div>
+                <div class="field">Gruntaler Str. 18, 13357 Berlin</div>
+                <div class="field half">4242 4242 4242 4242</div> <div class="field half" style="margin-left:8px">09 / 28 · 123</div>
+                <div class="cbtn">Place order</div>
+              </div>
+              <div class="ccard">
+                <h3>Order summary</h3>
+                <div class="line"><span>Solar System Color Imager</span><span>€175.00</span></div>
+                <div class="line"><span>Lens cleaning kit</span><span>€21.95</span></div>
+                <div class="line"><span>Shipping</span><span>€6.90</span></div>
+                <div class="line total"><span>Total</span><span>€203.85</span></div>
+              </div>
+            </div>
+            <div class="toast">Something went wrong. Please try again.</div>
+            <svg class="cur" style="left:352px;top:272px" viewBox="0 0 24 24"><path d="M5.5 3.2l12.8 12.2-5.6.4 3.1 5.9-2.6 1.3-3-5.9-4.2 3.6z" fill="#fff" stroke="#0f172a" stroke-width="1.4" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="ctl"><span class="play">▶</span><span class="mono">02:17 / 03:41</span><div class="tl"><div class="done"></div><div class="mark" style="left:62%"></div><div class="head"></div></div><span class="mono">1×</span></div>
+        </div>
+        <div class="side">
+          <div class="card"><h2>What triggered the error</h2>
+            <dl class="kv"><dt>Action</dt><dd>Click “Place order”</dd><dt>Request</dt><dd class="mono">POST /api/checkout</dd><dt>Response</dt><dd class="mono">500 · 1.9 s</dd><dt>Error</dt><dd class="mono">status.toLowerCase is not a function</dd><dt>Deploy</dt><dd class="mono">a91f3c2</dd></dl>
+          </div>
+          <div class="card" style="flex:1;overflow:hidden"><h2>Session timeline</h2>
+            <div class="ev"><span class="t mono">00:00</span><span>Landed on /telescopes from Google</span></div>
+            <div class="ev"><span class="t mono">00:41</span><span>Added Solar System Color Imager</span></div>
+            <div class="ev"><span class="t mono">01:12</span><span>Added Lens cleaning kit</span></div>
+            <div class="ev"><span class="t mono">01:58</span><span>Opened checkout, filled address</span></div>
+            <div class="ev err"><span class="t mono">02:17</span><span><b>Clicked “Place order” → 500</b> POST /api/checkout</span></div>
+            <div class="ev"><span class="t mono">02:20</span><span>Clicked “Place order” again → 500</span></div>
+            <div class="ev"><span class="t mono">03:41</span><span>Left the site</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <script type="application/json" data-storyboard>
 [
@@ -11,6 +107,7 @@
   { "screen": "request", "caption": "Open one: the exact request that caused it", "focus": "text=Request", "wait": 2400 },
   { "cursor": "text=Req Body", "click": true, "focus": "text=Req Body", "caption": "Headers, body, response, as they were", "wait": 2000 },
   { "cursor": "text=View trace", "click": true, "caption": "", "wait": 150 },
-  { "screen": "trace",   "caption": "Trace, logs and replay, one click away", "wait": 2800 }
+  { "screen": "trace",   "caption": "The whole trace, every service it touched", "wait": 2400 },
+  { "screen": "replay",  "caption": "And what the customer was doing when it broke", "wait": 3400 }
 ]
 </script>
