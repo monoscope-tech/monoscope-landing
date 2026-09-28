@@ -422,58 +422,71 @@ capabilities:
 
       <!-- Bill estimate -->
       <div id="bill" class="rounded-2xl border border-strokeWeak bg-fillWeaker overflow-hidden">
-        <div class="p-6 md:p-8 border-b border-strokeWeak flex flex-col md:flex-row md:items-end gap-6">
-          <div class="flex-1 space-y-3">
+        <div class="p-6 md:p-8 border-b border-strokeWeak grid md:grid-cols-[1fr_auto] gap-6 md:gap-10 items-end">
+          <div class="space-y-3">
             <label for="bill_events" class="text-sm text-textWeak">Events per month <span class="text-textDisabled">(requests, logs and spans)</span></label>
             <input id="bill_events" type="range" min="10" max="1000" step="10" value="100" class="range range-sm w-full" aria-describedby="bill_note">
             <div class="flex justify-between text-xs text-textDisabled tabular-nums"><span>10M</span><span>500M</span><span>1B</span></div>
           </div>
           <p class="text-4xl font-medium tracking-tight tabular-nums text-textStrong md:pb-5"><span id="bill_events_label">100M</span> <span class="text-base font-normal text-textWeak">events</span></p>
+          <div class="md:col-span-2 grid grid-cols-3 gap-4 [&_input]:w-full [&_input]:rounded-lg [&_input]:border [&_input]:border-strokeWeak [&_input]:bg-bgBase [&_input]:px-3 [&_input]:py-2 [&_input]:text-textStrong [&_input]:tabular-nums [&_label]:text-xs [&_label]:text-textWeak [&_label]:block [&_label]:mb-1.5">
+            <div><label for="bill_hosts">Hosts</label><input id="bill_hosts" type="number" min="1" max="500" value="10"></div>
+            <div><label for="bill_series">Metric series</label><input id="bill_series" type="number" min="0" max="1000000" step="1000" value="20000"></div>
+            <div><label for="bill_sessions">Replay sessions / month</label><input id="bill_sessions" type="number" min="0" max="10000000" step="1000" value="20000"></div>
+          </div>
         </div>
         <div class="p-6 md:p-8 space-y-5" id="bill_rows">
           <p class="text-xs font-medium uppercase tracking-wide text-textDisabled">Estimated monthly bill</p>
           <div class="grid grid-cols-[9rem_1fr] md:grid-cols-[12rem_1fr] gap-4 items-center" data-vendor="datadog">
             <span class="text-textStrong">Datadog</span>
-            <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-textDisabled"></div></div><p class="text-sm text-textWeak">about <span class="amount text-textStrong tabular-nums"></span> per month <span class="ratio text-textDisabled"></span></p></div>
+            <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-textDisabled"></div></div><p class="text-sm text-textWeak">about <span class="amount text-textStrong tabular-nums"></span> per month <span class="ratio text-textDisabled"></span><span class="why block text-xs text-textDisabled"></span></p></div>
+          </div>
+          <div class="grid grid-cols-[9rem_1fr] md:grid-cols-[12rem_1fr] gap-4 items-center" data-vendor="grafana">
+            <span class="text-textStrong">Grafana Cloud</span>
+            <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-textDisabled"></div></div><p class="text-sm text-textWeak">about <span class="amount text-textStrong tabular-nums"></span> per month <span class="ratio text-textDisabled"></span><span class="why block text-xs text-textDisabled"></span></p></div>
           </div>
           <div class="grid grid-cols-[9rem_1fr] md:grid-cols-[12rem_1fr] gap-4 items-center" data-vendor="sentry">
             <span class="text-textStrong">Sentry</span>
-            <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-textDisabled"></div></div><p class="text-sm text-textWeak">about <span class="amount text-textStrong tabular-nums"></span> per month <span class="ratio text-textDisabled"></span></p></div>
+            <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-textDisabled"></div></div><p class="text-sm text-textWeak">about <span class="amount text-textStrong tabular-nums"></span> per month <span class="ratio text-textDisabled"></span><span class="why block text-xs text-textDisabled"></span></p></div>
           </div>
           <div class="grid grid-cols-[9rem_1fr] md:grid-cols-[12rem_1fr] gap-4 items-center" data-vendor="mono">
             <span class="text-textStrong">monoscope Cloud</span>
-            <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-fillBrand-strong"></div></div><p class="text-sm text-textWeak"><span class="amount text-textStrong tabular-nums"></span> per month, 30-day retention</p></div>
-          </div>
-          <div class="grid grid-cols-[9rem_1fr] md:grid-cols-[12rem_1fr] gap-4 items-center" data-vendor="monos3">
-            <span class="text-textStrong">monoscope + your own S3</span>
-            <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-fillBrand-strong"></div></div><p class="text-sm text-textWeak"><span class="amount text-textStrong tabular-nums"></span> per month, unlimited retention</p></div>
+            <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-fillBrand-strong"></div></div><p class="text-sm text-textWeak"><span class="amount text-textStrong tabular-nums"></span> per month<span class="why block text-xs text-textDisabled"></span></p></div>
           </div>
         </div>
-        <p id="bill_note" class="px-6 md:px-8 pb-6 text-xs leading-relaxed text-textDisabled text-pretty">Estimates from public list prices, September 2026, annual billing where offered. Assumes an average event size of 1 kB and 30-day retention. Datadog: $0.10 per ingested GB plus $2.50 per million indexed logs or spans at 30-day retention; host fees not included. Sentry: Team plan $26 plus $1.60 per million spans beyond 5M; errors and replays billed separately. monoscope: Cloud is free up to 10k events a day, then $29 for 20M events and $1 per million after; Cloud + your own S3 is $199 for 100M events and $1 per million after.</p>
+        <p id="bill_note" class="px-6 md:px-8 pb-6 text-xs leading-relaxed text-textDisabled text-pretty">Estimates from public list prices, September 2026, annual billing where offered, 30-day retention, 2 kB average event, one metric datapoint per series per minute. Datadog: Infrastructure $15 and APM $31 per host; logs $0.10 per GB ingested plus $2.50 per million indexed; custom metrics $5 per 100 series beyond 100 per host; RUM $0.15 plus Session Replay $2.50 per 1,000 sessions. Grafana Cloud Pro: $19 base; logs and traces $0.55 per GB (write, processing, retention); $6.50 per 1,000 active series; Frontend Observability $0.75 per 1,000 sessions beyond 50,000. Sentry: Team $26; spans $1.60 per million beyond 5M; errors at $0.29 per 1,000 assuming 0.5% of events are errors; replays $3.75 per 1,000; no metrics product. monoscope Cloud: $29 includes 20M events, 20M metric datapoints and 2,000 replay sessions; then $1 per million events, $1 per 10 million metric datapoints and $1 per 1,000 sessions. Everything else is included.</p>
       </div>
       <script>
       (function () {
-        const el = document.getElementById('bill_events'); if (!el) return;
+        const $ = id => document.getElementById(id); if (!$('bill_events')) return;
         const fmt = n => '$' + Math.round(n).toLocaleString('en-US');
+        const KB = 2, DPM = 43200; // event size in kB; datapoints per series per month at 1/min
         const price = {
-          datadog: m => m * 2.50 + m * 0.10,
-          sentry:  m => 26 + Math.max(0, m - 5) * 1.60,
-          mono:    m => 29 + Math.max(0, m - 20),
-          monos3:  m => 199 + Math.max(0, m - 100),
+          datadog: (m, h, s, r) => h * (15 + 31) + m * (0.10 * KB / 1000 * 1000 + 2.50) + Math.max(0, s - 100 * h) / 100 * 5 + r / 1000 * (0.15 + 2.50),
+          grafana: (m, h, s, r) => 19 + m * KB * 0.55 + s / 1000 * 6.50 + Math.max(0, r - 50000) / 1000 * 0.75,
+          sentry:  (m, h, s, r) => 26 + Math.max(0, m - 5) * 1.60 + m * 1e6 * 0.005 / 1000 * 0.29 + Math.max(0, r - 50) / 1000 * 3.75,
+          mono:    (m, h, s, r) => 29 + Math.max(0, m - 20) + Math.max(0, s * DPM - 20e6) / 10e6 + Math.max(0, r - 2000) / 1000,
+        };
+        const why = {
+          datadog: (m, h, s) => `${h} hosts × ($15 infra + $31 APM), ${Math.max(0, s - 100 * h).toLocaleString('en-US')} custom metric series, logs ingest + indexing, RUM + replay`,
+          grafana: () => `$19 base, logs and traces per GB, $6.50 per 1k active series, sessions beyond 50k free`,
+          sentry:  () => `spans beyond 5M, errors at 0.5% of events, replays; no metrics`,
+          mono:    () => `$29 base, events, metric datapoints and sessions beyond what's included; no host fees`,
         };
         function render() {
-          const m = +el.value;
-          document.getElementById('bill_events_label').textContent = m >= 1000 ? '1B' : m + 'M';
-          const cost = Object.fromEntries(Object.entries(price).map(([k, f]) => [k, f(m)]));
+          const m = +$('bill_events').value, h = +$('bill_hosts').value || 0, s = +$('bill_series').value || 0, r = +$('bill_sessions').value || 0;
+          $('bill_events_label').textContent = m >= 1000 ? '1B' : m + 'M';
+          const cost = Object.fromEntries(Object.entries(price).map(([k, f]) => [k, f(m, h, s, r)]));
           const max = Math.max(...Object.values(cost));
           document.querySelectorAll('#bill_rows [data-vendor]').forEach(row => {
             const k = row.dataset.vendor, c = cost[k];
             row.querySelector('.bar').style.width = Math.max(1.5, c / max * 100) + '%';
             row.querySelector('.amount').textContent = fmt(c);
-            const r = row.querySelector('.ratio'); if (r) r.textContent = '· ' + (c / cost.mono).toFixed(1) + '× the monoscope Cloud price';
+            row.querySelector('.why').textContent = why[k](m, h, s, r);
+            const ratio = row.querySelector('.ratio'); if (ratio) ratio.textContent = '· ' + (c / cost.mono).toFixed(1) + '× the monoscope Cloud price';
           });
         }
-        el.addEventListener('input', render); render();
+        ['bill_events', 'bill_hosts', 'bill_series', 'bill_sessions'].forEach(id => $(id).addEventListener('input', render)); render();
       })();
       </script>
       <div class="grid lg:grid-cols-3 gap-6">
