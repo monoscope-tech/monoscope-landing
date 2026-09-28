@@ -62,7 +62,7 @@
       if (stage) stage.style.transform = `scale(${this.clientWidth / W})`;
     }
     async _run() {
-      const html = await (await fetch(this.getAttribute('src'), { cache: 'no-cache' })).text();
+      const html = await (await fetch(this.getAttribute('src'))).text();
       const doc = new DOMParser().parseFromString(html, 'text/html');
       const stage = this.shadowRoot.querySelector('.stage');
       const base = new URL(this.getAttribute('src'), location.href);
@@ -72,7 +72,7 @@
       for (const sc of doc.querySelectorAll('[data-screen]')) {
         sc.classList.add('screen');
         if (sc.dataset.src) { // real dashboard screen snapshot, with declarative shadow roots
-          const html = await (await fetch(new URL(sc.dataset.src, base), { cache: 'no-cache' })).text();
+          const html = await (await fetch(new URL(sc.dataset.src, base))).text();
           if (sc.setHTMLUnsafe) sc.setHTMLUnsafe(html); else sc.innerHTML = html;
         }
         stage.append(sc);
