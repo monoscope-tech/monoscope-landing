@@ -101,7 +101,7 @@ const serialise = async () => await page.evaluate(async () => {
   };
   attach(document);
   document.querySelectorAll('script, link, noscript, iframe').forEach(n => n.remove());
-  document.querySelectorAll('[hx-get],[hx-post],[hx-trigger]').forEach(n => { for (const a of [...n.attributes]) if (a.name.startsWith('hx-')) n.removeAttribute(a.name); });
+  document.querySelectorAll('*').forEach(n => { for (const a of [...n.attributes]) if (a.name.startsWith('hx-') || a.name.startsWith('data-hx-') || a.name === '_' || a.name === 'autofocus' || a.name === 'autoplay') n.removeAttribute(a.name); });
   const headStyles = [...document.head.querySelectorAll('style')].map(s => s.textContent).join('\n');
   return { body: document.body.innerHTML, bodyClass: document.body.className, headStyles };
 });

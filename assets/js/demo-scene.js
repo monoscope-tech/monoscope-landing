@@ -47,6 +47,7 @@
   class DemoScene extends HTMLElement {
     connectedCallback() {
       if (this._init) return; this._init = true;
+      this.setAttribute('inert', ''); // demos are display-only: nothing inside may take focus or scroll the page
       const root = this.attachShadow({ mode: 'open' });
       root.innerHTML = `<style>${css}</style><div class="box"><div class="stage"></div><div class="caption"></div></div>`;
       this._visible = false;
@@ -72,7 +73,7 @@
       for (const sc of doc.querySelectorAll('[data-screen]')) {
         sc.classList.add('screen');
         if (sc.dataset.src) { // real dashboard screen snapshot, with declarative shadow roots
-          const html = await (await fetch(new URL(sc.dataset.src, base))).text();
+          const html = (await (await fetch(new URL(sc.dataset.src, base))).text()).replace(/\s(autofocus|autoplay)(="[^"]*")?(?=[\s>\/])/g, '').replace(/\s_="[^"]*"/g, '');
           if (sc.setHTMLUnsafe) sc.setHTMLUnsafe(html); else sc.innerHTML = html;
         }
         stage.append(sc);
