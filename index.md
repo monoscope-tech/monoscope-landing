@@ -436,13 +436,13 @@ capabilities:
           </div>
         </div>
         <div class="p-6 md:p-8 space-y-5" id="bill_rows">
-          <p class="text-xs font-medium uppercase tracking-wide text-textDisabled">Estimated monthly bill</p>
+          <p class="text-xs font-medium uppercase tracking-wide text-textDisabled">Estimated monthly bill · 30-day retention for all</p>
           <div class="grid grid-cols-[9rem_1fr] md:grid-cols-[12rem_1fr] gap-4 items-center" data-vendor="datadog">
             <span class="text-textStrong">Datadog</span>
             <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-textDisabled"></div></div><p class="text-sm text-textWeak">about <span class="amount text-textStrong tabular-nums"></span> per month <span class="ratio text-textDisabled"></span><span class="why block text-xs text-textDisabled"></span></p></div>
           </div>
-          <div class="grid grid-cols-[9rem_1fr] md:grid-cols-[12rem_1fr] gap-4 items-center" data-vendor="grafana">
-            <span class="text-textStrong">Grafana Cloud</span>
+          <div class="grid grid-cols-[9rem_1fr] md:grid-cols-[12rem_1fr] gap-4 items-center" data-vendor="splunk">
+            <span class="text-textStrong">Splunk Observability</span>
             <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-textDisabled"></div></div><p class="text-sm text-textWeak">about <span class="amount text-textStrong tabular-nums"></span> per month <span class="ratio text-textDisabled"></span><span class="why block text-xs text-textDisabled"></span></p></div>
           </div>
           <div class="grid grid-cols-[9rem_1fr] md:grid-cols-[12rem_1fr] gap-4 items-center" data-vendor="sentry">
@@ -454,7 +454,7 @@ capabilities:
             <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-fillBrand-strong"></div></div><p class="text-sm text-textWeak"><span class="amount text-textStrong tabular-nums"></span> per month<span class="why block text-xs text-textDisabled"></span></p></div>
           </div>
         </div>
-        <p id="bill_note" class="px-6 md:px-8 pb-6 text-xs leading-relaxed text-textDisabled text-pretty">Estimates from public list prices, September 2026, annual billing where offered, 30-day retention, 2 kB average event, one metric datapoint per series per minute. Datadog: Infrastructure $15 and APM $31 per host; logs $0.10 per GB ingested plus $2.50 per million indexed; custom metrics $5 per 100 series beyond 100 per host; RUM $0.15 plus Session Replay $2.50 per 1,000 sessions. Grafana Cloud Pro: $19 base; logs and traces $0.55 per GB (write, processing, retention); $6.50 per 1,000 active series; Frontend Observability $0.75 per 1,000 sessions beyond 50,000. Sentry: Team $26; spans $1.60 per million beyond 5M; errors at $0.29 per 1,000 assuming 0.5% of events are errors; replays $3.75 per 1,000; no metrics product. monoscope Cloud: $29 includes 20M events, 20M metric datapoints and 2,000 replay sessions; then $1 per million events, $1 per 10 million metric datapoints and $1 per 1,000 sessions. Everything else is included.</p>
+        <p id="bill_note" class="px-6 md:px-8 pb-6 text-xs leading-relaxed text-textDisabled text-pretty">Estimates from public list prices, September 2026, annual billing where offered, 30-day retention on every vendor, 2 kB average event, one metric datapoint per series per minute. Datadog: Infrastructure $15 and APM $31 per host; logs $0.10 per GB ingested plus $2.50 per million indexed; custom metrics $5 per 100 series beyond 100 per host; RUM $0.15 plus Session Replay $2.50 per 1,000 sessions. Splunk: Observability Cloud App & Infrastructure $60 per host; Splunk Cloud log ingest at about $12.50 per GB/day per month; RUM $14 per 10,000 sessions; custom metrics not modelled. Sentry: Team $26; spans $1.60 per million beyond 5M; errors at $0.29 per 1,000 assuming 0.5% of events are errors; replays $3.75 per 1,000; no metrics product. monoscope Cloud: $29 includes 20M events, 20M metric datapoints and 2,000 replay sessions; then $1 per million events, $1 per 10 million metric datapoints and $1 per 1,000 sessions. Everything else is included.</p>
       </div>
       <script>
       (function () {
@@ -463,13 +463,13 @@ capabilities:
         const KB = 2, DPM = 43200; // event size in kB; datapoints per series per month at 1/min
         const price = {
           datadog: (m, h, s, r) => h * (15 + 31) + m * (0.10 * KB / 1000 * 1000 + 2.50) + Math.max(0, s - 100 * h) / 100 * 5 + r / 1000 * (0.15 + 2.50),
-          grafana: (m, h, s, r) => 19 + m * KB * 0.55 + s / 1000 * 6.50 + Math.max(0, r - 50000) / 1000 * 0.75,
+          splunk:  (m, h, s, r) => h * 60 + (m * KB / 30) * 12.5 + r / 10000 * 14, // App & Infra per host; Splunk Cloud ingest per GB/day; RUM
           sentry:  (m, h, s, r) => 26 + Math.max(0, m - 5) * 1.60 + m * 1e6 * 0.005 / 1000 * 0.29 + Math.max(0, r - 50) / 1000 * 3.75,
           mono:    (m, h, s, r) => 29 + Math.max(0, m - 20) + Math.max(0, s * DPM - 20e6) / 10e6 + Math.max(0, r - 2000) / 1000,
         };
         const why = {
           datadog: (m, h, s) => `${h} hosts × ($15 infra + $31 APM), ${Math.max(0, s - 100 * h).toLocaleString('en-US')} custom metric series, logs ingest + indexing, RUM + replay`,
-          grafana: () => `$19 base, logs and traces per GB, $6.50 per 1k active series, sessions beyond 50k free`,
+          splunk:  (m, h) => `${h} hosts × $60 App & Infrastructure, log ingest at ${(m * KB / 30).toFixed(1)} GB/day, RUM per session`,
           sentry:  () => `spans beyond 5M, errors at 0.5% of events, replays; no metrics`,
           mono:    () => `$29 base, events, metric datapoints and sessions beyond what's included; no host fees`,
         };
