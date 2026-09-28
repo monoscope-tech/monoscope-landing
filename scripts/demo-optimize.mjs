@@ -103,7 +103,12 @@ for (const f of files) {
   } while (css !== prev);
   const anims = new Set([...(css + screens).matchAll(/animation(?:-name)?\s*:\s*([^;}]+)/g)].flatMap(m => m[1].split(/[\s,]+/)));
   css = css.replace(/@keyframes\s+([\w-]+)\s*\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}/g, (m, n) => anims.has(n) ? m : '');
+  css = await page.evaluate(c => { const s = new CSSStyleSheet(); s.replaceSync(c); return [...s.cssRules].map(r => r.cssText).join('\n'); }, css); // canonical serialisation
   fs.writeFileSync(DIR + 'app.css', css);
   console.log('app.css'.padEnd(20), kb(appCss), '->', kb(css));
+  // Classes and ids whose only rules were just purged have no effect either: drop them so a re-run is a no-op.
+  for (const f of files) { const t = fs.readFileSync(DIR + f, 'utf8'), own = css + t.slice(0, t.indexOf('</style>')), ok = cssTokens(own), okId = idsUsed(own);
+    fs.writeFileSync(DIR + f, t.replace(/ class="([^"]*)"/g, (m, v) => { const k = v.split(/\s+/).filter(c => ok.has(c)).join(' '); return k ? ` class="${k}"` : ''; })
+      .replace(/ id="([^"]*)"/g, (m, v) => okId.has(v) ? m : '')); }
 }
 await browser.close(); server.close();

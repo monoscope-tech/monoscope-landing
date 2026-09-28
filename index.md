@@ -218,7 +218,8 @@ capabilities:
 
 ```=html
 <script src="/assets/js/demo-scene.js" defer></script>
-{% for href in "/assets/demos/know.html,/assets/demos/screens/app.css,/assets/demos/screens/issues.html" | split: "," %}<link rel="preload" as="fetch" crossorigin href="{{href}}">{% endfor %}
+{% assign preloads = "/assets/demos/know.html,/assets/demos/screens/app.css,/assets/demos/screens/issues.html" | split: "," %}
+{% for href in preloads %}<link rel="preload" as="fetch" crossorigin href="{{href}}">{% endfor %}
 <!-- Static background at top of page only -->
 <div class="absolute top-0 left-0 w-full pointer-events-none overflow-hidden" style="z-index: 0; height: 120vh;">
   <div class="hero-gradient-mesh"></div>
@@ -246,10 +247,10 @@ capabilities:
 
       <!-- Hero tabs: one recording per chapter -->
       <div class="max-w-9xl w-full px-3">
-        <div class="tabs tabs-outline gap-1 [&>.tab]:rounded-lg [&>.tab]:px-4 [&>.tab]:py-2 [&>.tab]:text-sm [&>.tab]:font-medium [&>.tab]:text-textWeak [&>.tab:hover]:text-textStrong [&>.tab]:transition-colors">
+        <div role="group" aria-label="Product demos" class="tabs tabs-outline gap-1 [&>.tab]:rounded-lg [&>.tab]:px-4 [&>.tab]:py-2 [&>.tab]:text-sm [&>.tab]:font-medium [&>.tab]:text-textWeak [&>.tab:hover]:text-textStrong [&>.tab]:transition-colors">
           {% for s in this.frontmatter.sections %}
-          <input type="radio" name="hero_tabs" role="tab" class="tab" aria-label="0{{forloop.index}}  {{s.eyebrow}}" {% if forloop.first %}checked{% endif %} />
-          <div role="tabpanel" class="tab-content pt-4 w-full">
+          <input type="radio" name="hero_tabs" class="tab" aria-label="0{{forloop.index}}  {{s.eyebrow}}" {% if forloop.first %}checked{% endif %} />
+          <div class="tab-content pt-4 w-full">
           <div class="rounded-xl border border-strokeWeak bg-fillWeak overflow-hidden shadow-lg">
             <div class="flex items-center gap-2 px-4 py-2.5 border-b border-strokeWeak">
               <span class="flex gap-1.5"><i class="block w-2.5 h-2.5 rounded-full bg-textDisabled/40"></i><i class="block w-2.5 h-2.5 rounded-full bg-textDisabled/40"></i><i class="block w-2.5 h-2.5 rounded-full bg-textDisabled/40"></i></span>
@@ -426,7 +427,7 @@ capabilities:
         <div class="p-6 md:p-8 border-b border-strokeWeak grid md:grid-cols-[1fr_auto] gap-6 md:gap-10 items-end">
           <div class="space-y-3">
             <label for="bill_events" class="text-sm text-textWeak">Events per month <span class="text-textDisabled">(requests, logs and spans)</span></label>
-            <input id="bill_events" type="range" min="10" max="1000" step="10" value="100" class="range range-sm w-full" aria-describedby="bill_note">
+            <input id="bill_events" type="range" min="10" max="1000" step="10" value="100" class="range range-sm w-full" aria-valuetext="100 million events per month">
             <div class="flex justify-between text-xs text-textDisabled tabular-nums"><span>10M</span><span>500M</span><span>1B</span></div>
           </div>
           <p class="text-4xl font-medium tracking-tight tabular-nums text-textStrong md:pb-5"><span id="bill_events_label">100M</span> <span class="text-base font-normal text-textWeak">events</span></p>
@@ -436,6 +437,7 @@ capabilities:
             <div><label for="bill_sessions">Replay sessions / month</label><input id="bill_sessions" type="number" min="0" max="10000000" step="1000" value="20000"></div>
           </div>
         </div>
+        <p id="bill_summary" class="sr-only" role="status"></p>
         <div class="p-6 md:p-8 space-y-5" id="bill_rows">
           <p class="text-xs font-medium uppercase tracking-wide text-textDisabled">Estimated monthly bill · 30-day retention for all</p>
           <div class="grid grid-cols-[9rem_1fr] md:grid-cols-[12rem_1fr] gap-4 items-center" data-vendor="datadog">
@@ -455,7 +457,7 @@ capabilities:
             <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-fillBrand-strong"></div></div><p class="text-sm text-textWeak"><span class="amount text-textStrong tabular-nums"></span> per month<span class="why block text-xs text-textDisabled"></span></p></div>
           </div>
         </div>
-        <p id="bill_note" class="px-6 md:px-8 pb-6 text-xs leading-relaxed text-textDisabled text-pretty">Estimates from public list prices, September 2026, annual billing where offered, 30-day retention on every vendor, 2 kB average event, one metric datapoint per series per minute. Datadog: Infrastructure $15 and APM $31 per host; logs $0.10 per GB ingested plus $2.50 per million indexed; custom metrics $5 per 100 series beyond 100 per host; RUM $0.15 plus Session Replay $2.50 per 1,000 sessions. Splunk: Observability Cloud App & Infrastructure $60 per host; Splunk Cloud log ingest at about $12.50 per GB/day per month; RUM $14 per 10,000 sessions; custom metrics not modelled. Sentry: Team $26; spans $1.60 per million beyond 5M; errors at $0.29 per 1,000 assuming 0.5% of events are errors; replays $3.75 per 1,000; no metrics product. monoscope Cloud: $29 includes 20M events, 20M metric datapoints and 2,000 replay sessions; then $1 per million events, $1 per 10 million metric datapoints and $1 per 1,000 sessions. Everything else is included.</p>
+        <p id="bill_note" class="px-6 md:px-8 pb-6 text-base leading-relaxed text-textStrong text-pretty max-w-4xl">Estimates from public list prices, September 2026, annual billing where offered, 30-day retention on every vendor, 2 kB average event, one metric datapoint per series per minute. Datadog: Infrastructure $15 and APM $31 per host; logs $0.10 per GB ingested plus $2.50 per million indexed; custom metrics $5 per 100 series beyond 100 per host; RUM $0.15 plus Session Replay $2.50 per 1,000 sessions. Splunk: Observability Cloud App & Infrastructure $60 per host; Splunk Cloud log ingest at about $12.50 per GB/day per month; RUM $14 per 10,000 sessions; custom metrics not modelled. Sentry: Team $26; spans $1.60 per million beyond 5M; errors at $0.29 per 1,000 assuming 0.5% of events are errors; replays $3.75 per 1,000; no metrics product. monoscope Cloud: $29 includes 20M events, 20M metric datapoints and 2,000 replay sessions; then $1 per million events, $1 per 10 million metric datapoints and $1 per 1,000 sessions. Everything else is included.</p>
       </div>
       <script>
       (function () {
@@ -477,6 +479,7 @@ capabilities:
         function render() {
           const m = +$('bill_events').value, h = +$('bill_hosts').value || 0, s = +$('bill_series').value || 0, r = +$('bill_sessions').value || 0;
           $('bill_events_label').textContent = m >= 1000 ? '1B' : m + 'M';
+          $('bill_events').setAttribute('aria-valuetext', m >= 1000 ? '1 billion events per month' : m + ' million events per month');
           const cost = Object.fromEntries(Object.entries(price).map(([k, f]) => [k, f(m, h, s, r)]));
           const max = Math.max(...Object.values(cost));
           document.querySelectorAll('#bill_rows [data-vendor]').forEach(row => {
@@ -487,7 +490,12 @@ capabilities:
             const ratio = row.querySelector('.ratio'); if (ratio) ratio.textContent = '· ' + (c / cost.mono).toFixed(1) + '× the monoscope Cloud price';
           });
         }
-        ['bill_events', 'bill_hosts', 'bill_series', 'bill_sessions'].forEach(id => $(id).addEventListener('input', render)); render();
+        ['bill_events', 'bill_hosts', 'bill_series', 'bill_sessions'].forEach(id => {
+          $(id).addEventListener('input', render);
+          $(id).addEventListener('change', () => {
+            $('bill_summary').textContent = 'Estimated monthly bill. ' + $('bill_rows').innerText;
+          });
+        }); render();
       })();
       </script>
       <div class="grid lg:grid-cols-3 gap-6">
@@ -526,7 +534,8 @@ capabilities:
         <p class="text-xl leading-normal text-textWeak text-pretty max-w-2xl">Native SDKs for 17+ frameworks, and anything that speaks OTel: databases, queues, proxies, clouds.</p>
         <a href="/docs/sdks/" class="inline-block text-textBrand underline underline-offset-2">View all integrations</a>
       </div>
-      <div class="space-y-5 pt-5 mask-edges">
+      <button type="button" class="btn btn-secondary px-4 py-2 rounded-lg" data-marquee-toggle aria-pressed="false">Pause integrations</button>
+      <div id="integration-marquee" class="space-y-5 pt-5 mask-edges">
         <div class="flex w-full overflow-x-hidden gap-5  max-w-screen
           [&_img]:w-full
           [&>div>*]:inline-block [&>div>*]:w-24 [&>div>*]:p-3 [&>div>*]:rounded-xl

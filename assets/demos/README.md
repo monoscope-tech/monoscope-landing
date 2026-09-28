@@ -42,6 +42,8 @@ node scripts/demo-snapshot.mjs            # all scenes
 node scripts/demo-snapshot.mjs catalog ai # only these
 ```
 
+After a capture `demo-optimize.mjs` strips class tokens and ids no stylesheet mentions from generated screens, so storyboard selectors into them must use `text=`, an attribute like `a[href*=…]`, or coordinates. `app.css` is applied as an adopted stylesheet, so on a tie it now wins over a screen's own `<style>` block; the pixel check in the commit that introduced this passed, re-check if a refreshed screen looks off.
+
 Scenes are listed in `SCENES` at the top of the script: a URL under the demo project plus optional clicks to reach the state you want. Components that cannot be serialised (the results list is a closed shadow root) are captured as 2× images in place; everything else stays real HTML.
 
 **Loading:** the player fetches a demo's first screen and shows it at once; the other screens stream in behind it. Files are fetched and stylesheets parsed once per page, however many `<demo-scene>`s use them, and the homepage preloads the first demo's files.
