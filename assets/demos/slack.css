@@ -1,0 +1,38 @@
+/* Authored Slack screen: a monoscope app answering in #engineering. Dark Slack look. */
+.sl { position:absolute; inset:0; display:grid; grid-template-columns:220px 1fr; background:#1a1d21; color:#d1d2d3;
+  font:14px/1.5 InterVariable, Inter, ui-sans-serif, system-ui, sans-serif; }
+.sl * { box-sizing:border-box; }
+.sl .side { background:#19171d; border-right:1px solid rgb(255 255 255 / .08); padding:14px 12px; color:#b9bbbe; font-size:13px; }
+.sl .side .ws { font-weight:700; color:#fff; font-size:15px; margin-bottom:16px; display:flex; align-items:center; gap:6px; }
+.sl .side .ws i { width:10px; height:10px; border-radius:50%; background:#2bac76; display:inline-block; }
+.sl .side .h { color:#8d8f94; font-size:12px; margin:12px 0 6px; }
+.sl .side .ch { padding:4px 8px; border-radius:6px; }
+.sl .side .ch.on { background:#1164a3; color:#fff; }
+.sl .main { display:grid; grid-template-rows:52px 1fr 64px; min-width:0; }
+.sl .top { display:flex; align-items:center; gap:10px; padding:0 20px; border-bottom:1px solid rgb(255 255 255 / .1); font-weight:700; color:#fff; font-size:16px; }
+.sl .top small { font-weight:400; color:#8d8f94; font-size:13px; margin-left:auto; }
+.sl .feed { padding:14px 20px 0; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end; }
+.sl .msg { display:grid; grid-template-columns:38px 1fr; gap:10px; padding:8px 0; }
+.sl .av { width:38px; height:38px; border-radius:8px; background:#3b3f46; display:grid; place-items:center; font-weight:700; color:#fff; }
+.sl .av.app { background:rgb(59 130 246); }
+.sl .av.p { background:linear-gradient(135deg,#6b4fbb,#c44f7c); }
+.sl .who { font-weight:700; color:#fff; }
+.sl .who .tag { font-size:10px; font-weight:600; color:#b9bbbe; background:rgb(255 255 255 / .1); border-radius:3px; padding:1px 5px; margin-left:6px; vertical-align:middle; letter-spacing:.02em; }
+.sl .who small { font-weight:400; color:#8d8f94; font-size:12px; margin-left:6px; }
+.sl p { margin:2px 0 0; }
+.sl code { font-family:ui-monospace, "JetBrains Mono", Menlo, monospace; font-size:12px; background:rgb(255 255 255 / .08); border:1px solid rgb(255 255 255 / .08); border-radius:4px; padding:0 4px; color:#e8a0a0; }
+.sl a { color:#5aa9ff; text-decoration:none; }
+.sl .chart { margin-top:10px; width:520px; border:1px solid rgb(255 255 255 / .12); border-radius:8px; padding:10px 12px 8px; background:#121417; }
+.sl .chart .t { display:flex; justify-content:space-between; font:12px ui-monospace, Menlo, monospace; color:#8d8f94; margin-bottom:6px; }
+.sl .chart .t b { color:#f87171; font-weight:500; }
+.sl .chart svg { display:block; width:100%; height:110px; }
+.sl .chart .cap { font-size:12px; color:#8d8f94; margin-top:6px; }
+.sl .acts { display:flex; gap:8px; margin-top:10px; }
+.sl .acts span { border:1px solid rgb(255 255 255 / .2); border-radius:6px; padding:5px 12px; font-size:13px; font-weight:600; color:#fff; }
+.sl .acts span.pri { background:#fff; color:#1a1d21; border-color:#fff; }
+.sl .react { display:inline-flex; gap:4px; align-items:center; margin-top:8px; font-size:12px; border:1px solid rgb(90 169 255 / .5); background:rgb(90 169 255 / .12); border-radius:12px; padding:2px 8px; color:#c9dfff; }
+.sl .compose { margin:0 20px 14px; border:1px solid rgb(255 255 255 / .2); border-radius:8px; padding:10px 12px; color:#8d8f94; display:flex; align-items:center; }
+.sl .compose .caret { display:inline-block; width:1.5px; height:1.1em; background:#fff; margin-left:1px; animation:sl-caret 1s steps(1) infinite; }
+@keyframes sl-caret { 50% { opacity:0; } }
+.sl .reveal { opacity:0; transform:translateY(6px); }
+.sl .reveal.in { opacity:1; transform:none; transition:opacity .35s ease-out, transform .35s ease-out; }

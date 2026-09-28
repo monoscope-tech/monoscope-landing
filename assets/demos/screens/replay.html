@@ -1,0 +1,46 @@
+<div class="rp">
+    <aside class="rail"><i></i><i></i><i></i><i></i><i class="on"></i><i></i></aside>
+    <div class="main">
+      <div class="top"><h1>Session replay</h1><span class="mono" style="color:oklch(60% .015 263)">sess_8f3a21 · Chrome 128 · Berlin</span><span class="pill red">1 error</span><span class="pill">3 min 41 s</span><span style="margin-left:auto" class="pill">Linked to req_7Hk2m9</span></div>
+      <div class="body">
+        <div class="player">
+          <div class="screen-cust">
+            <div class="cnav"><span>Astronomy Shop</span><span>Telescopes</span><span>Binoculars</span><span>Accessories</span><span class="cart">Cart · 2</span></div>
+            <div class="cbody">
+              <div class="ccard">
+                <h3>Checkout</h3>
+                <div class="field">Jane Okafor</div>
+                <div class="field">jane@example.com</div>
+                <div class="field">Gruntaler Str. 18, 13357 Berlin</div>
+                <div class="field half">4242 4242 4242 4242</div> <div class="field half focus" style="margin-left:8px">09 / 28 · 123</div>
+                <div class="cbtn" style="position:relative">Place order<span class="spin reveal"></span></div>
+              </div>
+              <div class="ccard">
+                <h3>Order summary</h3>
+                <div class="line"><span>Solar System Color Imager</span><span>€175.00</span></div>
+                <div class="line"><span>Lens cleaning kit</span><span>€21.95</span></div>
+                <div class="line"><span>Shipping</span><span>€6.90</span></div>
+                <div class="line total"><span>Total</span><span>€203.85</span></div>
+              </div>
+            </div>
+            <div class="toast reveal">Something went wrong. Please try again.</div>
+          </div>
+          <div class="ctl"><span class="play">▶</span><span class="mono">02:17 / 03:41</span><div class="tl"><div class="done"></div><div class="mark" style="left:62%"></div><div class="head"></div></div><span class="mono">1×</span></div>
+        </div>
+        <div class="side">
+          <div class="card"><h2>What triggered the error</h2>
+            <dl class="kv"><dt>Action</dt><dd>Click “Place order”</dd><dt>Request</dt><dd class="mono">POST /api/checkout</dd><dt>Response</dt><dd class="mono">500 · 1.9 s</dd><dt>Error</dt><dd class="mono">status.toLowerCase is not a function</dd><dt>Deploy</dt><dd class="mono">a91f3c2</dd></dl>
+          </div>
+          <div class="card" style="flex:1;overflow:hidden"><h2>Session timeline</h2>
+            <div class="ev"><span class="t mono">00:00</span><span>Landed on /telescopes from Google</span></div>
+            <div class="ev"><span class="t mono">00:41</span><span>Added Solar System Color Imager</span></div>
+            <div class="ev"><span class="t mono">01:12</span><span>Added Lens cleaning kit</span></div>
+            <div class="ev"><span class="t mono">01:58</span><span>Opened checkout, filled address</span></div>
+            <div class="ev err reveal"><span class="t mono">02:17</span><span><b>Clicked “Place order” → 500</b> POST /api/checkout</span></div>
+            <div class="ev"><span class="t mono">02:20</span><span>Clicked “Place order” again → 500</span></div>
+            <div class="ev"><span class="t mono">03:41</span><span>Left the site</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

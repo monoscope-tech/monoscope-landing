@@ -1,0 +1,54 @@
+<div class="sl">
+  <aside class="side">
+    <div class="ws"><i></i>Astronomy Shop</div>
+    <div class="h">Channels</div>
+    <div class="ch"># general</div>
+    <div class="ch on"># engineering</div>
+    <div class="ch"># incidents</div>
+    <div class="ch"># deploys</div>
+    <div class="h">Apps</div>
+    <div class="ch">monoscope</div>
+  </aside>
+  <div class="main">
+    <div class="top"># engineering <small>monoscope is in this channel</small></div>
+    <div class="feed">
+      <div class="msg reveal" id="s1">
+        <div class="av app">m</div>
+        <div>
+          <div class="who">monoscope<span class="tag">APP</span><small>06:12</small></div>
+          <p><b>Nightly checkout routine.</b> 3.1% of <code>POST /api/checkout</code> failed since deploy <code>a91f3c2</code> (02:14). All card payments, 312 requests. Root cause: the payment provider now returns <code>status</code> as an object and <code>normalizeStatus()</code> still calls <code>.toLowerCase()</code> on it.</p>
+          <div class="acts"><span class="pri">Open PR #482</span><span>Failing request</span><span>Silence 24h</span></div>
+          <div class="react">👀 2</div>
+        </div>
+      </div>
+      <div class="msg reveal" id="s2">
+        <div class="av p">B</div>
+        <div>
+          <div class="who">boris<small>09:41</small></div>
+          <p id="q"></p>
+        </div>
+      </div>
+      <div class="msg reveal" id="s3">
+        <div class="av app">m</div>
+        <div>
+          <div class="who">monoscope<span class="tag">APP</span><small>09:41</small></div>
+          <p>Us. <a>checkout-api</a> p95 is 1.9 s, 4.6× its baseline. The time is inside <a>api.stripe.com</a>: 1.4 s per call, was 220 ms. Your code is unchanged since <code>a91f3c2</code>. 3 example requests below.</p>
+          <div class="chart">
+            <div class="t"><span>checkout-api · p95 latency · last 30m</span><b>│ stripe slowdown 09:28</b></div>
+            <svg viewBox="0 0 500 110" preserveAspectRatio="none">
+              <line x1="0" y1="30" x2="500" y2="30" stroke="rgb(255 255 255 / .08)"/><line x1="0" y1="70" x2="500" y2="70" stroke="rgb(255 255 255 / .08)"/>
+              <line x1="300" y1="0" x2="300" y2="110" stroke="#f87171" stroke-dasharray="3 3" opacity=".7"/>
+              <polyline fill="none" stroke="#e5e7eb" stroke-width="2" points="0,92 30,90 60,93 90,89 120,92 150,90 180,93 210,91 240,92 270,90 300,80 320,45 340,30 360,26 380,31 400,24 420,28 440,22 460,25 480,20 500,23"/>
+              <polygon fill="rgb(248 113 113 / .12)" points="300,110 300,80 320,45 340,30 360,26 380,31 400,24 420,28 440,22 460,25 480,20 500,23 500,110"/>
+              <text x="4" y="27" fill="#8d8f94" font-size="10" font-family="ui-monospace,Menlo,monospace">1.9 s</text>
+              <text x="4" y="98" fill="#8d8f94" font-size="10" font-family="ui-monospace,Menlo,monospace">410 ms</text>
+            </svg>
+            <div class="cap">every point after the line is a customer waiting at checkout</div>
+          </div>
+          <div class="acts"><span class="pri">View requests</span><span>Open in monoscope</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="compose">Message #engineering<span class="caret"></span></div>
+  </div>
+</div>
