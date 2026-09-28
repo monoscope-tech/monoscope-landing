@@ -125,6 +125,9 @@ for (const [name, scene] of Object.entries(SCENES)) {
   try {
     await page.goto(P + scene.url, { waitUntil: 'domcontentloaded' }); await settle(3000);
     for (const a of scene.actions || []) { if (a.custom) await a.custom(page); else await a(page).click({ timeout: 8000 }); await settle(scene.wait || 3500); }
+    // Let lazy sections finish: wait until no "Loading…" text remains (up to 25 s), then a beat for charts to draw.
+    for (let i = 0; i < 25; i++) { if (!(await page.evaluate(() => /Loading( events)?\.{3}|Loading\u2026/.test(document.body.innerText)))) break; await page.waitForTimeout(1000); }
+    await page.waitForTimeout(2000);
     await page.mouse.move(W - 4, H - 4); await page.waitForTimeout(600);
     await rasterise();
     const { body, bodyClass, headStyles } = await serialise();
