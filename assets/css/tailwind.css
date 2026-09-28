@@ -18,6 +18,7 @@
 @theme {
   /* Custom max-width */
   --max-width-8xl: 88rem;
+  --max-width-9xl: 96rem;
 
   /* Animation timing tokens */
   --duration-fast: 150ms;

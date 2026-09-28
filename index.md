@@ -225,13 +225,13 @@ capabilities:
 
 <section class="flex flex-col space-y-32 md:space-y-40 items-center relative" style="z-index: 1;">
   <section class="space-y-12 mt-10 sm:mt-24 w-full flex flex-col items-center">
-      <div class="grid md:grid-cols-[3fr_2fr] max-w-8xl w-full gap-8 md:gap-16 px-3 items-end">
+      <div class="grid md:grid-cols-[3fr_2fr] max-w-9xl w-full gap-8 md:gap-16 px-3 items-end">
         <div class="space-y-5">
           <p class="font-mono text-xs uppercase tracking-wider text-textBrand">Open-source observability + AI SRE</p>
           <h1 class="text-5xl md:text-7xl font-medium tracking-tight leading-[1.05] text-balance text-textStrong">Know what happened.<br class="hidden md:block"> <span class="text-textDisabled dark:text-textWeak">Prove it. Fix it.</span></h1>
         </div>
         <div class="space-y-5 md:pb-2">
-          <p class="text-base md:text-lg leading-normal text-textWeak text-pretty max-w-md">Every issue comes with the exact request behind it, and everything around it: the response, the trace, what the customer saw. An AI reads it and opens the fix.</p>
+          <p class="text-base md:text-lg leading-normal text-textWeak text-pretty max-w-lg">Every issue comes with the exact request behind it, and everything around it: the response, the trace, what the customer saw. An AI reads it and opens the fix.</p>
           <div class="flex flex-wrap items-center gap-4">
             <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong inline-flex items-center gap-2" data-tracking="index-start-trial-1" data-reddit-event="SignUp">Start for free <svg class="h-3 w-3"><use xlink:href="/assets/deps/sprite.svg#arrow-right"></use></svg></a>
             <a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer" class="text-textStrong underline underline-offset-4 decoration-strokeWeak hover:decoration-strokeStrong" data-tracking="index-playground-1" data-reddit-event="ViewContent">Launch playground</a>
@@ -244,7 +244,7 @@ capabilities:
       </div>
 
       <!-- Hero tabs: one recording per chapter -->
-      <div class="max-w-8xl w-full px-3">
+      <div class="max-w-9xl w-full px-3">
         <div class="tabs tabs-outline gap-1 [&>.tab]:rounded-lg [&>.tab]:px-4 [&>.tab]:py-2 [&>.tab]:text-sm [&>.tab]:font-medium [&>.tab]:text-textWeak [&>.tab:hover]:text-textStrong [&>.tab]:transition-colors">
           {% for s in this.frontmatter.sections %}
           <input type="radio" name="hero_tabs" role="tab" class="tab" aria-label="0{{forloop.index}}  {{s.eyebrow}}" {% if forloop.first %}checked{% endif %} />
@@ -288,7 +288,7 @@ capabilities:
       </div>
 
       <!-- Proof strip -->
-      <div class="max-w-8xl w-full px-3">
+      <div class="max-w-9xl w-full px-3">
         <div class="grid grid-cols-4 sm:grid-cols-8 gap-px bg-strokeWeak border border-strokeWeak rounded-t-xl overflow-hidden *:bg-bgBase *:p-5 *:flex *:items-center *:justify-center [&_img]:h-5 [&_img]:sm:h-7 [&_img]:brightness-0 [&_img]:dark:invert [&_img]:opacity-60">
           {% assign customers = "andela.svg,partna.svg,grovepay.svg,sameday.svg,platnova.png,payfonte.svg,thepeer.svg,blockradar-full.svg" | split: "," %}
           {% for logo in customers %}<div><img src="/assets/img/customers/{{logo}}" alt="{{logo}}"></div>{% endfor %}
@@ -315,7 +315,7 @@ capabilities:
     </section>
 
     <!-- Problem -->
-    <div class="max-w-8xl px-3 w-full">
+    <div class="max-w-9xl px-3 w-full">
       <div class="grid md:grid-cols-2 gap-6 md:gap-16 items-start">
         <h2 class="text-4xl md:text-5xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong">Agents ship faster than you can watch.</h2>
         <p class="text-xl leading-normal text-textWeak text-pretty md:pt-2">AI agents let a five-person team ship what took twenty. More code, more APIs touched, and nobody hired to watch them. An AI can only debug what was kept.</p>
@@ -323,7 +323,7 @@ capabilities:
     </div>
 
     {% for s in this.frontmatter.sections %}
-    <section id="{{s.id}}" class="max-w-8xl px-3 w-full space-y-10 scroll-mt-24">
+    <section id="{{s.id}}" class="max-w-9xl px-3 w-full space-y-10 scroll-mt-24">
       <div class="space-y-4 max-w-3xl">
         <p class="font-mono text-xs uppercase tracking-wider text-textBrand">0{{forloop.index}} · {{s.eyebrow}}</p>
         <h2 class="text-4xl md:text-5xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong">{{s.title}}</h2>
@@ -386,7 +386,7 @@ capabilities:
     </section>
     {% endfor %}
 
-    <div class="max-w-8xl px-3 w-full space-y-6">
+    <div class="max-w-9xl px-3 w-full space-y-6">
       <p class="text-2xl leading-normal text-textStrong max-w-2xl">See it on your own traffic. Free up to 10k events a day.</p>
       <div class="flex flex-wrap gap-3 sm:gap-4">
         <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong" data-tracking="index-start-trial-3" data-reddit-event="SignUp">Start for free</a>
@@ -395,7 +395,7 @@ capabilities:
     </div>
 
     <!-- CAPABILITIES -->
-    <div class="max-w-8xl px-3 w-full space-y-8">
+    <div class="max-w-9xl px-3 w-full space-y-8">
       <div class="space-y-4 max-w-3xl">
         <h2 class="text-4xl md:text-5xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong">Everything else you'd expect</h2>
         <p class="text-xl leading-normal text-textWeak text-pretty">The rest of the observability toolbox, so you don't need a second tool.</p>
@@ -413,7 +413,7 @@ capabilities:
     </div>
 
     <!-- DEPLOYMENT OPTIONS -->
-    <div id="pricing" class="max-w-8xl px-3 w-full space-y-8 scroll-mt-24">
+    <div id="pricing" class="max-w-9xl px-3 w-full space-y-8 scroll-mt-24">
       <div class="space-y-4 max-w-3xl">
         <p class="text-sm font-medium uppercase tracking-wide text-textBrand">Pricing</p>
         <h2 class="text-4xl md:text-5xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong">Pay per event, not per host</h2>
@@ -520,7 +520,7 @@ capabilities:
 
     <!-- INTEGRATIONS-->
     <div class="text-textWeak space-y-5 w-full flex flex-col items-center justify-center">
-      <div class="max-w-8xl px-3 w-full space-y-5">
+      <div class="max-w-9xl px-3 w-full space-y-5">
         <h2 class="text-4xl md:text-5xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong">780+ integrations, <span class="text-textDisabled">powered by OpenTelemetry</span></h2>
         <p class="text-xl leading-normal text-textWeak text-pretty max-w-2xl">Native SDKs for 17+ frameworks, and anything that speaks OTel: databases, queues, proxies, clouds.</p>
         <a href="/docs/sdks/" class="inline-block text-textBrand underline underline-offset-2">View all integrations</a>
@@ -567,7 +567,7 @@ capabilities:
     </div>
 
     <!-- REAL RESULTS FROM CUSTOMERS -->
-    <div id="results" class="max-w-8xl px-3 w-full space-y-8">
+    <div id="results" class="max-w-9xl px-3 w-full space-y-8">
       <div class="space-y-4 max-w-3xl">
         <h2 class="text-4xl md:text-5xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong">Real results for <span class="text-textDisabled">real companies</span></h2>
         <a href="https://www.trustpilot.com/review/apitoolkit.io" target="_blank" rel="noopener noreferrer" class="inline-block text-textBrand underline underline-offset-2">View all reviews</a>
