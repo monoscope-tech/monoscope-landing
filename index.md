@@ -417,7 +417,7 @@ capabilities:
       <div class="space-y-4 max-w-3xl">
         <p class="text-sm font-medium uppercase tracking-wide text-textBrand">Pricing</p>
         <h2 class="text-4xl md:text-5xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong">Pay per event, not per host</h2>
-        <p class="text-xl leading-normal text-textWeak text-pretty">One price for requests, logs and spans. No host fees, no SKUs, and no sampling to make the bill fit.</p>
+        <p class="text-xl leading-normal text-textWeak text-pretty">One price for requests, logs and spans. No host fees, no add-ons, and no sampling to make the bill fit.</p>
       </div>
 
       <!-- Bill estimate -->
@@ -431,13 +431,14 @@ capabilities:
           <p class="text-4xl font-medium tracking-tight tabular-nums text-textStrong md:pb-5"><span id="bill_events_label">100M</span> <span class="text-base font-normal text-textWeak">events</span></p>
         </div>
         <div class="p-6 md:p-8 space-y-5" id="bill_rows">
+          <p class="text-xs font-medium uppercase tracking-wide text-textDisabled">Estimated monthly bill</p>
           <div class="grid grid-cols-[9rem_1fr] md:grid-cols-[12rem_1fr] gap-4 items-center" data-vendor="datadog">
             <span class="text-textStrong">Datadog</span>
-            <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-textDisabled"></div></div><p class="text-sm text-textWeak">approx. <span class="amount text-textStrong tabular-nums"></span> per month <span class="ratio text-textDisabled"></span></p></div>
+            <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-textDisabled"></div></div><p class="text-sm text-textWeak">about <span class="amount text-textStrong tabular-nums"></span> per month <span class="ratio text-textDisabled"></span></p></div>
           </div>
           <div class="grid grid-cols-[9rem_1fr] md:grid-cols-[12rem_1fr] gap-4 items-center" data-vendor="sentry">
             <span class="text-textStrong">Sentry</span>
-            <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-textDisabled"></div></div><p class="text-sm text-textWeak">approx. <span class="amount text-textStrong tabular-nums"></span> per month <span class="ratio text-textDisabled"></span></p></div>
+            <div class="space-y-1.5"><div class="h-2 rounded-full bg-fillWeak"><div class="bar h-2 rounded-full bg-textDisabled"></div></div><p class="text-sm text-textWeak">about <span class="amount text-textStrong tabular-nums"></span> per month <span class="ratio text-textDisabled"></span></p></div>
           </div>
           <div class="grid grid-cols-[9rem_1fr] md:grid-cols-[12rem_1fr] gap-4 items-center" data-vendor="mono">
             <span class="text-textStrong">monoscope Cloud</span>
@@ -469,7 +470,7 @@ capabilities:
             const k = row.dataset.vendor, c = cost[k];
             row.querySelector('.bar').style.width = Math.max(1.5, c / max * 100) + '%';
             row.querySelector('.amount').textContent = fmt(c);
-            const r = row.querySelector('.ratio'); if (r) r.textContent = '· ' + (c / cost.mono).toFixed(1) + '× monoscope Cloud';
+            const r = row.querySelector('.ratio'); if (r) r.textContent = '· ' + (c / cost.mono).toFixed(1) + '× the monoscope Cloud price';
           });
         }
         el.addEventListener('input', render); render();
