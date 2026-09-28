@@ -1,6 +1,6 @@
 // Snapshots real dashboard screens (dark mode) as static HTML for the homepage demos.
 // Usage: node scripts/demo-snapshot.mjs [scene ...]   (needs monoscope on localhost:8080 + `npm i -g playwright`)
-// Output: assets/demos/screens/app.css (the app's CSS, once) + assets/demos/screens/<scene>.html
+// Output: assets/demos/screens/app.css (the app's CSS, once) + assets/demos/screens/<scene>.html, then demo-optimize.mjs shrinks them.
 // Each screen is the page body with shadow roots serialised declaratively, canvases rasterised and images inlined.
 import { createRequire } from 'node:module';
 import { execSync } from 'node:child_process';
@@ -109,7 +109,7 @@ const serialise = async () => await page.evaluate(async () => {
 // The app's CSS, rewritten to live inside the demo's shadow root at a fixed 1280x720 stage.
 async function appCss() {
   await page.goto(P + '/log_explorer'); await settle(1500);
-  const hrefs = await page.evaluate(() => [...document.querySelectorAll('link[rel=stylesheet], link[as=style]')].map(l => l.href));
+  const hrefs = await page.evaluate(() => [...new Set([...document.querySelectorAll('link[rel=stylesheet], link[as=style]')].map(l => l.href))]);
   let css = '';
   for (const h of hrefs) css += `\n/* ${h} */\n` + await (await page.request.get(h)).text();
   return css
@@ -137,24 +137,5 @@ for (const [name, scene] of Object.entries(SCENES)) {
   } catch (e) { console.log('FAIL', name, e.message.split('\n')[0]); }
 }
 
-// Purge app.css down to the rules the captured screens can use (class tokens present in any screen).
-{
-  const used = new Set();
-  for (const f of fs.readdirSync(OUT).filter(f => f.endsWith('.html')))
-    for (const m of fs.readFileSync(`${OUT}/${f}`, 'utf8').matchAll(/class="([^"]*)"/g)) m[1].split(/\s+/).forEach(c => c && used.add(c));
-  const css = fs.readFileSync(`${OUT}/app.css`, 'utf8');
-  const kept = await page.evaluate(([css, used]) => {
-    const U = new Set(used), sheet = new CSSStyleSheet(); sheet.replaceSync(css);
-    const unesc = s => s.replace(/\\(.)/g, '$1');
-    const ok = sel => [...sel.matchAll(/\.((?:\\.|[\w-])+)/g)].every(m => U.has(unesc(m[1])));
-    const walk = rules => [...rules].map(r => {
-      if (r.selectorText !== undefined) return r.selectorText.split(',').some(s => ok(s.trim())) ? r.cssText : '';
-      if (r.cssRules) { const inner = walk(r.cssRules).filter(Boolean).join('\n'); return inner ? r.cssText.replace(/\{[\s\S]*\}$/, '{' + inner + '}') : ''; }
-      return r.cssText;
-    }).filter(Boolean);
-    return walk(sheet.cssRules).join('\n');
-  }, [css, [...used]]);
-  fs.writeFileSync(`${OUT}/app.css`, kept);
-  console.log('app.css purged:', Math.round(css.length / 1024) + 'KB ->', Math.round(kept.length / 1024) + 'KB');
-}
 await browser.close();
+execSync('node ' + new URL('demo-optimize.mjs', import.meta.url).pathname, { stdio: 'inherit' }); // prune, strip and purge what was captured

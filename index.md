@@ -218,6 +218,7 @@ capabilities:
 
 ```=html
 <script src="/assets/js/demo-scene.js" defer></script>
+{% for href in "/assets/demos/know.html,/assets/demos/screens/app.css,/assets/demos/screens/issues.html" | split: "," %}<link rel="preload" as="fetch" crossorigin href="{{href}}">{% endfor %}
 <!-- Static background at top of page only -->
 <div class="absolute top-0 left-0 w-full pointer-events-none overflow-hidden" style="z-index: 0; height: 120vh;">
   <div class="hero-gradient-mesh"></div>

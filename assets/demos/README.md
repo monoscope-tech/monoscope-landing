@@ -1,6 +1,6 @@
 # Homepage demos
 
-Three looping product demos play in the hero tab strip and in the Know / Prove / Fix chapters. They are HTML, not video: real dashboard screens captured as DOM snapshots (dark mode), driven by a small storyboard. Crisp at any size, ~1 MB total, and every caption, click and pause is a line of JSON.
+Three looping product demos play in the hero tab strip and in the Know / Prove / Fix chapters. They are HTML, not video: real dashboard screens captured as DOM snapshots (dark mode), driven by a small storyboard. Crisp at any size, under 400 KB per demo after compression, and every caption, click and pause is a line of JSON.
 
 ## Files
 
@@ -12,6 +12,7 @@ Three looping product demos play in the hero tab strip and in the Know / Prove /
 | `index.html` | Viewer: `/assets/demos/index.html?demo=prove` (add `&step=3` to hold on a step for screenshots) |
 | `../js/demo-scene.js` | The player (`<demo-scene src="/assets/demos/know.html">`) |
 | `../../scripts/demo-snapshot.mjs` | Captures the screens from a running monoscope on `localhost:8080` |
+| `../../scripts/demo-optimize.mjs` | Shrinks captured screens and `app.css` without changing a pixel: drops hidden subtrees, dead attributes and classes, unused CSS; PNGs become WebP. Runs after every capture; safe to re-run |
 
 ## Iterating
 
@@ -42,3 +43,5 @@ node scripts/demo-snapshot.mjs catalog ai # only these
 ```
 
 Scenes are listed in `SCENES` at the top of the script: a URL under the demo project plus optional clicks to reach the state you want. Components that cannot be serialised (the results list is a closed shadow root) are captured as 2× images in place; everything else stays real HTML.
+
+**Loading:** the player fetches a demo's first screen and shows it at once; the other screens stream in behind it. Files are fetched and stylesheets parsed once per page, however many `<demo-scene>`s use them, and the homepage preloads the first demo's files.

@@ -12,14 +12,16 @@
 //   type     { target, text }; types into the element's text
 //   wait     ms to hold after the step (default 900)
 // Camera never zooms: the stage is a fixed 1280x720 design scaled to fit its box.
+// Loading: the first screen is fetched alone and shown at once; the rest stream in behind it. Fetched text and
+// parsed stylesheets are cached per URL, so the hero tab and the chapter that play the same demo share them.
 (() => {
   const W = 1280, H = 720, XFADE = 320, CURSOR = 620, CLICK = 260, CAP = 180;
   const css = `
     :host { display:block; position:relative; overflow:hidden; border-radius:inherit; background:oklch(14% .025 263); }
     .box { position:relative; width:100%; aspect-ratio:${W}/${H}; overflow:hidden; }
     .stage { position:absolute; left:0; top:0; width:${W}px; height:${H}px; transform-origin:0 0; }
-    .screen { position:absolute; inset:0; opacity:0; transition:opacity ${XFADE}ms ease; }
-    .screen.on { opacity:1; }
+    .screen { position:absolute; inset:0; opacity:0; visibility:hidden; transition:opacity ${XFADE}ms ease, visibility 0s ${XFADE}ms; }
+    .screen.on { opacity:1; visibility:visible; transition:opacity ${XFADE}ms ease; }
     .cursor { position:absolute; width:22px; height:22px; z-index:30; opacity:0; pointer-events:none;
       transition:left ${CURSOR}ms cubic-bezier(.4,.05,.2,1), top ${CURSOR}ms cubic-bezier(.4,.05,.2,1), opacity .25s, transform .12s;
       filter:drop-shadow(0 1px 2px rgb(0 0 0 / .6)); }
@@ -43,13 +45,18 @@
     .caption.on { opacity:1; }
     .box { container-type:inline-size; }`;
   const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const cache = new Map(), memo = (k, f) => cache.get(k) || (cache.set(k, f()), cache.get(k));
+  const text = url => memo(url, () => fetch(url).then(r => r.text()));
+  const sheet = url => memo('css:' + url, () => text(url).then(t => { const s = new CSSStyleSheet(); s.replaceSync(t); return s; }));
+  const playerSheet = new CSSStyleSheet(); playerSheet.replaceSync(css);
 
   class DemoScene extends HTMLElement {
     connectedCallback() {
       if (this._init) return; this._init = true;
       this.setAttribute('inert', ''); // demos are display-only: nothing inside may take focus or scroll the page
       const root = this.attachShadow({ mode: 'open' });
-      root.innerHTML = `<style>${css}</style><div class="box"><div class="stage"></div><div class="caption"></div></div>`;
+      root.adoptedStyleSheets = [playerSheet];
+      root.innerHTML = `<div class="box"><div class="stage"></div><div class="caption"></div></div>`;
       this._visible = false;
       new IntersectionObserver(es => {
         this._visible = es[0].isIntersecting;
@@ -63,24 +70,23 @@
       if (stage) stage.style.transform = `scale(${this.clientWidth / W})`;
     }
     async _run() {
-      const html = await (await fetch(this.getAttribute('src'))).text();
-      const doc = new DOMParser().parseFromString(html, 'text/html');
-      const stage = this.shadowRoot.querySelector('.stage');
-      const base = new URL(this.getAttribute('src'), location.href);
-      doc.querySelectorAll('style, link[rel="stylesheet"]').forEach(s => {
-        const n = s.cloneNode(true); if (n.href) n.href = new URL(s.getAttribute('href'), base); this.shadowRoot.prepend(n);
+      const src = this.getAttribute('src'), base = new URL(src, location.href), root = this.shadowRoot;
+      const doc = new DOMParser().parseFromString(await text(src), 'text/html');
+      const stage = root.querySelector('.stage');
+      const own = [], ext = []; // same-origin sheets are parsed once and adopted; cross-origin ones (fonts) stay <link>s
+      for (const l of doc.querySelectorAll('link[rel="stylesheet"]')) { const u = new URL(l.getAttribute('href'), base); (u.origin === location.origin ? own : ext).push(u.href); }
+      ext.forEach(href => root.prepend(Object.assign(document.createElement('link'), { rel: 'stylesheet', href })));
+      const styles = Promise.all(own.map(sheet)).then(list => { root.adoptedStyleSheets = [...list, playerSheet]; });
+      const steps = JSON.parse(doc.querySelector('[data-storyboard]').textContent);
+      const screens = [...doc.querySelectorAll('[data-screen]')], first = screens.find(sc => sc.dataset.screen === steps.find(st => st.screen)?.screen);
+      const load = sc => sc._ready ??= (sc.dataset.src ? text(new URL(sc.dataset.src, base).href) : Promise.resolve(null)).then(html => {
+        if (html !== null) { html = html.replace(/\s(autofocus|autoplay)(="[^"]*")?(?=[\s>\/])/g, '').replace(/\s_="[^"]*"/g, ''); if (sc.setHTMLUnsafe) sc.setHTMLUnsafe(html); else sc.innerHTML = html; }
       });
-      for (const sc of doc.querySelectorAll('[data-screen]')) {
-        sc.classList.add('screen');
-        if (sc.dataset.src) { // real dashboard screen snapshot, with declarative shadow roots
-          const html = (await (await fetch(new URL(sc.dataset.src, base))).text()).replace(/\s(autofocus|autoplay)(="[^"]*")?(?=[\s>\/])/g, '').replace(/\s_="[^"]*"/g, '');
-          if (sc.setHTMLUnsafe) sc.setHTMLUnsafe(html); else sc.innerHTML = html;
-        }
-        stage.append(sc);
-      }
+      for (const sc of screens) { sc.classList.add('screen'); stage.append(sc); }
+      await Promise.all([load(first), styles]); // first frame needs only its own screen and the stylesheets
+      screens.forEach(load);
       stage.insertAdjacentHTML('beforeend', `<div class="ripple"></div>
         <svg class="cursor" viewBox="0 0 24 24"><path d="M5.5 3.2l12.8 12.2-5.6.4 3.1 5.9-2.6 1.3-3-5.9-4.2 3.6z" fill="#fff" stroke="#0f172a" stroke-width="1.4" stroke-linejoin="round"/></svg>`);
-      const steps = JSON.parse(doc.querySelector('[data-storyboard]').textContent);
       // text=Label finds the smallest element whose own text is exactly Label (case-insensitive)
       const find = (root, sel) => {
         if (!sel.startsWith('text=')) return root.querySelector(sel);
@@ -91,19 +97,21 @@
         cursor = $('.cursor'), ripple = $('.ripple');
       this._fit();
       let current = null;
-      const show = name => {
+      const show = async name => {
         const next = stage.querySelector(`[data-screen="${name}"]`);
         if (next === current) return;
-        current?.classList.remove('on'); next.classList.add('on'); current = next;
+        await next._ready; current?.classList.remove('on'); next.classList.add('on'); current = next;
       };
+      // Steps mutate the current screen (focus, reveal, tab, type, swap); a pristine clone taken before the first
+      // mutation restores it when the loop restarts. Untouched screens are never copied.
+      const touch = () => { current._pristine ??= current.cloneNode(true); };
+      const reset = () => stage.querySelectorAll('.screen').forEach(el => { if (el._pristine) el.replaceChildren(...el._pristine.cloneNode(true).childNodes); });
       const center = el => { // element centre in stage px, within its screen
         const r = el.getBoundingClientRect(), s = stage.getBoundingClientRect(), k = this.clientWidth / W;
         return [(r.left - s.left) / k + r.width / 2 / k, (r.top - s.top) / k + r.height / 2 / k];
       };
-      const screens = [...stage.querySelectorAll('.screen')], initial = screens.map(el => el.innerHTML);
-      const reset = () => screens.forEach((el, i) => { el.innerHTML = initial[i]; });
       const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const still = steps.find(s => s.screen); show(still.screen);
+      await show(steps.find(s => s.screen).screen);
       if (steps[0].caption) { caption.textContent = steps[0].caption; caption.classList.add('on'); }
       if (reduced) { stage.querySelectorAll('.reveal').forEach(el => el.classList.add('in')); return; }
       const pause = async () => { while (!this._visible) await new Promise(r => this._resume = r); };
@@ -112,11 +120,12 @@
         reset();
         for (const [i, step] of steps.entries()) {
           await pause();
-          if (step.screen) show(step.screen);
+          if (step.screen) await show(step.screen);
           if (step.caption !== undefined) {
             caption.classList.remove('on'); await sleep(CAP);
             if (step.caption) { caption.textContent = step.caption; caption.classList.add('on'); }
           }
+          if (step.swap || step.tab || step.reveal || step.focus || step.type) touch();
           if (step.swap) { const [a, b] = step.swap.map(q => current.querySelector(q)); if (a) a.style.display = 'none'; if (b) b.style.display = ''; }
           if (step.tab) { const t = current.querySelector(step.tab); t?.parentElement.querySelectorAll('.tab').forEach(x => x.classList.remove('on')); t?.classList.add('on'); }
           if (step.reveal) current.querySelectorAll(step.reveal).forEach((el, n) => setTimeout(() => el.classList.add('in'), n * 90));
