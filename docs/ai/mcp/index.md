@@ -1,7 +1,7 @@
 ---
 title: MCP Server
 date: 2026-05-03
-updatedDate: 2026-05-03
+updatedDate: 2026-10-01
 faLogo: plug
 menuWeight: 4
 hideToc: false
@@ -109,7 +109,7 @@ curl -s -H "Authorization: Bearer $MONOSCOPE_API_KEY" \
 |---|---|
 | `search_events` | KQL-shaped event search (POST body — supports long queries). |
 | `list_events` | Same as `search_events` but URL-encoded query (limited to short queries). |
-| `query_metrics` | Run a metrics query with `summarize`/`bin_auto` aggregations. |
+| `query_metrics` | Run a metrics query with `summarize`/`bin_auto` aggregations. Use `rate`/`increase` for counters and `last` for gauges ([reference](/docs/dashboard/dashboard-pages/query-language/#Counter-and-Gauge-Functions)). |
 | `get_schema` | Returns the telemetry schema (column names, types, descriptions). |
 | `list_facets` | Return the top values for a given event field over a time window. |
 

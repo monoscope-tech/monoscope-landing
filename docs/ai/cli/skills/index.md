@@ -1,7 +1,7 @@
 ---
 title: Claude Code Skills
 date: 2026-05-02
-updatedDate: 2026-05-02
+updatedDate: 2026-10-01
 faLogo: robot
 menuWeight: 4
 ---
@@ -28,7 +28,7 @@ applies its playbook.
 |---|---|---|
 | **investigate** | "investigate the 500 errors", "look into payment-api errors", "what happened at 10:34?" | Runs the discover → search → context → triage chain. Uses `facets` to find services/values, `logs search` to drill in, `events context --summary` to pull the surrounding window. |
 | **triage** | "do an on-call sweep", "ack the noisy issues for X", "clear the alert queue" | Reviews open issues, log patterns, and monitors. Acknowledges, archives, mutes, or resolves with the right granularity. |
-| **kql-reference** | Any time another skill needs to write KQL | Operator/function reference for Monoscope's KQL dialect. Rarely invoked directly — other skills pull it in for query construction. |
+| **kql-reference** | Any time another skill needs to write KQL | Operator/function reference for Monoscope's KQL dialect (also on this site as the [query language reference](/docs/dashboard/dashboard-pages/query-language/)). Rarely invoked directly — other skills pull it in for query construction. |
 
 The skills are open-source and live at
 [github.com/monoscope-tech/skills](https://github.com/monoscope-tech/skills).

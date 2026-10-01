@@ -1,7 +1,7 @@
 ---
 title: AI
 date: 2026-05-03
-updatedDate: 2026-05-03
+updatedDate: 2026-10-01
 faLogo: robot
 menuWeight: 3
 pageFullWidth: true
@@ -48,6 +48,6 @@ endpoints become MCP tools without a server release.
 ```=html
 <div class="callout callout-tip">
   <i class="fa-solid fa-bolt"></i>
-  <p>Both surfaces use the same project API key and the same KQL dialect. Switching between them is configuration, not migration.</p>
+  <p>Both surfaces use the same project API key and the same <a href="/docs/dashboard/dashboard-pages/query-language/">KQL dialect</a>. Switching between them is configuration, not migration.</p>
 </div>
 ```

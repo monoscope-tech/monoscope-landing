@@ -1,7 +1,7 @@
 ---
 title: API Log Explorer
 date: 2024-04-22
-updatedDate: 2024-05-28
+updatedDate: 2026-10-01
 menuWeight: 4
 ---
 
@@ -47,7 +47,7 @@ You can manually add filters by selecting the fields and sub-fields you want and
 
 ![Screenshot of monoscope's API log explorer page](/docs/dashboard/dashboard-pages/api-log-explorer/screen-3.png)
 
-Alternatively, you can toggle the **Use editor** button, use the text editor to write the query as text and click the **Run Query** button as seen in the image below.
+Alternatively, you can toggle the **Use editor** button, use the text editor to write the query as text and click the **Run Query** button as seen in the image below. See the [query language reference](/docs/dashboard/dashboard-pages/query-language/) for every operator and function.
 
 ![Screenshot of monoscope's API log explorer page](/docs/dashboard/dashboard-pages/api-log-explorer/screen-4.png)
 

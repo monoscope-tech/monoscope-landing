@@ -1,7 +1,7 @@
 ---
 title: Glossary
 date: 2023-11-27
-updatedDate: 2024-08-03
+updatedDate: 2026-10-01
 faLogo: book-bookmark
 menuWeight: 6
 hideFileTree: true
@@ -180,6 +180,10 @@ Continuous Deployment is a software development practice where every code change
 
 Continuous Integration is a software development practice where developers frequently merge their code changes into a central repository, followed by automated builds and tests.
 
+## Counter
+
+A counter is a metric that only goes up, such as the total number of requests served (an OpenTelemetry monotonic Sum). It resets to zero when the process restarts. Query counters with `rate(value)` or `increase(value)` in the [query language](/docs/dashboard/dashboard-pages/query-language/#Counter-and-Gauge-Functions), not with `sum(value)`.
+
 ## CORS (Cross-Origin Resource Sharing)
 
 CORS is a mechanism that allows resources (such as fonts, images, and scripts) on a web page to be requested from another domain outside the domain from which the resource originated. CORS is used to prevent web pages from making unauthorized cross-origin requests and ensures that resources are only accessed by trusted origins.
@@ -196,6 +200,10 @@ A DSL (Domain Specific Language) is a programming language that is specifically 
 
 This refers to securing the endpoints or entry points of an API from unauthorized access and attacks. It involves implementing security measures like encryption, authentication, and authorization at each endpoint to safeguard the API.
 
+## Gauge
+
+A gauge is a metric that records a current value that can go up or down, such as memory use or queue depth. Query gauges with `last(value)`, `avg(value)`, or `max(value)` in the [query language](/docs/dashboard/dashboard-pages/query-language/#Counter-and-Gauge-Functions).
+
 ## GET Request
 
 A GET request is a type of HTTP request that is used to retrieve data from a server. It is commonly used when a user wants to access a web page or retrieve specific information from a database.
@@ -211,6 +219,10 @@ JSON is a lightweight data-interchange format that is easy for humans to read an
 ## JSONPath
 
 JSONPath is a query language used to select and extract data from JSON files. It provides a concise syntax that allows you to specify paths to specific elements within a JSON structure, facilitating data access and manipulation.
+
+## KQL (Kusto Query Language)
+
+KQL is a pipe-based query language for logs and metrics. Monoscope uses a subset of KQL in the Log Explorer, dashboards, alerts, the CLI, and the MCP server. See the [query language reference](/docs/dashboard/dashboard-pages/query-language/).
 
 ## Latency
 

@@ -1,7 +1,7 @@
 ---
 title: Dashboard
 date: 2024-04-22
-updatedDate: 2024-05-28
+updatedDate: 2026-10-01
 faLogo: chart-line
 menuWeight: 4
 pageFullWidth: true
@@ -39,6 +39,10 @@ pages:
     slug: /docs/dashboard/dashboard-pages/reports
     icon: chart-simple
     description: Generate and schedule analytics reports
+  - title: Query Language
+    slug: /docs/dashboard/dashboard-pages/query-language
+    icon: magnifying-glass
+    description: KQL operators, functions, and metric queries
   - title: Project Settings
     slug: /docs/dashboard/settings-pages/project-settings
     icon: gear

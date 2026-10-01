@@ -1,7 +1,7 @@
 ---
 title: Command Reference
 date: 2026-05-02
-updatedDate: 2026-05-02
+updatedDate: 2026-10-01
 faLogo: keyboard
 menuWeight: 2
 ---
@@ -81,7 +81,8 @@ into 1-hour slices (override with `--chunk-hours <H>`, disable with `--no-chunk`
 and streamed as NDJSON. Gateway errors (502/503/504, Cloudflare HTML) collapse
 into a one-liner with a "narrow `--since`" hint and one jittered retry.
 
-KQL operator reference: see the [kql-reference skill](https://github.com/monoscope-tech/skills/blob/master/skills/kql-reference/SKILL.md).
+KQL operator reference: see the [query language reference](/docs/dashboard/dashboard-pages/query-language/) or the
+[kql-reference skill](https://github.com/monoscope-tech/skills/blob/master/skills/kql-reference/SKILL.md).
 Use `==`/`!=` (not Lucene `:`) for equality, `and`/`or` for logical, `has` for
 word-search inside text fields.
 
@@ -119,7 +120,18 @@ monoscope metrics query 'summarize count()' --since 30m --assert '< 1000'
 # Sparkline charts (bin by 1m)
 monoscope metrics chart 'summarize count() by bin(timestamp, 1m)' --since 2h
 monoscope metrics chart 'summarize avg(duration) by bin(timestamp, 1m)' --watch 30s
+
+# OpenTelemetry counters: per-second rate, one series per route
+monoscope chart --source metrics 'where metric_name == "http.server.request.count" | summarize rate(value) by bin_auto(timestamp), attributes.http.route' --since 2h
+
+# Gauges: the latest value per bin, not a sum
+monoscope chart --source metrics 'where metric_name == "process.memory.usage" | summarize last(value) by bin_auto(timestamp)' --since 2h
 ```
+
+For OpenTelemetry metrics, use `rate(value)` or `increase(value)` on counters and
+`last(value)`, `avg(value)` or `max(value)` on gauges. A `sum(value)` over a
+cumulative counter adds up running totals and gives a meaningless number. See
+[Counter and Gauge Functions](/docs/dashboard/dashboard-pages/query-language/#Counter-and-Gauge-Functions).
 
 ## Services
 
