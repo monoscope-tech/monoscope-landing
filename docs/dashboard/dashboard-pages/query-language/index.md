@@ -90,13 +90,16 @@ Arithmetic works inside the argument, for example `percentiles(duration / 1e6, 5
 
 ### Counter and Gauge Functions
 
-Metric points need different aggregations depending on the metric type. These three functions are for the `metrics` source.
+Metric points need different aggregations depending on the metric type. These functions are for the `metrics` source.
 
 | Function | Use it for | Result per time bin |
 |---|---|---|
 | `rate(value)` | Counters | Per-second rate |
 | `increase(value)` | Counters | How many in the bin |
 | `last(value)` | Gauges | The last value in the bin |
+| `rateif(value, predicate)` | Counters | `rate(value)` of only the series that match |
+| `increaseif(value, predicate)` | Counters | `increase(value)` of only the series that match |
+| `lastif(value, predicate)` | Gauges | `last(value)` of only the series that match |
 
 **`rate(value)`** is a counter-aware per-second rate.
 
@@ -110,12 +113,35 @@ Metric points need different aggregations depending on the metric type. These th
 
 **`last(value)`** returns the last value in each bin. Use it for gauges such as memory in bytes, queue depth, or pressure percentages. A stat tile over `last(value)` shows the latest value, not a sum of bins.
 
+**`rateif`, `increaseif` and `lastif`** take a predicate that selects which series are added together for that one aggregate. Each series still calculates its differences from its own points, so two of these aggregates can divide each other. Write the predicate on columns that are the same for every point of a series: `metric_name`, `attributes.*` or `resource.*`. Do not filter on `value` or `timestamp` in the predicate. Keep the `where` wide enough to include every series that the aggregates use. A division by 0 gives 0.
+
+```
+// Rollup hit rate in percent: hits / (hits + misses)
+metrics
+| where metric_name in ("rollup.hits", "rollup.misses")
+| summarize hits = rateif(value, metric_name == "rollup.hits"), total = rate(value) by bin_auto(timestamp)
+| extend hit_pct = 100.0 * hits / total
+
+// The same ratio as one expression
+metrics
+| where metric_name in ("rollup.hits", "rollup.misses")
+| summarize 100.0 * rateif(value, metric_name == "rollup.hits") / rate(value) by bin_auto(timestamp)
+
+// Memory in use as a percent of the limit (two gauges)
+metrics
+| where metric_name in ("memory.used_bytes", "memory.limit_bytes")
+| summarize 100.0 * lastif(value, metric_name == "memory.used_bytes") / lastif(value, metric_name == "memory.limit_bytes") by bin_auto(timestamp)
+```
+
+An `extend` after a `summarize` calculates from the named aggregates. The calculated column is the series that a time-series chart shows. A monitor alerts on the largest of all aggregates, so write a ratio for a monitor as the only aggregate (the one-expression form).
+
 Choose the aggregation from the OpenTelemetry metric type:
 
 | Metric type | Use | Do not use |
 |---|---|---|
 | Counter (OTel Sum, monotonic) | `rate(value)`, `increase(value)` | `sum(value)` or `range(value)` over the raw cumulative values |
 | Gauge | `last(value)`, `avg(value)`, `max(value)` | `rate`, `increase` |
+| A ratio of counters or of gauges | `rateif(value, …) / rate(value)`, `lastif(value, …) / lastif(value, …)` | `sum(value)` ratios of cumulative values |
 | Histogram | `percentile`, `percentiles`, `p50` ... `p99` | |
 
 ```
