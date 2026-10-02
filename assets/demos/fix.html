@@ -1,0 +1,19 @@
+<!-- 03 Fix it: routines on a schedule → the finding lands in Slack, a teammate asks, monoscope answers → the investigation → monitors. ~19s loop. -->
+<link rel="stylesheet" href="screens/app.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap">
+<link rel="stylesheet" href="slack.css">
+<section data-screen="routines" data-src="screens/routines.html"></section>
+<section data-screen="slack"    data-src="screens/slack.html"></section>
+<section data-screen="chat"     data-src="screens/ai-chat.html"></section>
+<section data-screen="monitors" data-src="screens/monitors.html"></section>
+
+<script type="application/json" data-storyboard>
+[
+  { "screen": "routines", "caption": "Routines investigate on a schedule, while you sleep", "wait": 2200 },
+  { "screen": "slack",    "reveal": "#s1", "caption": "The finding lands in Slack, with the evidence", "wait": 2600 },
+  { "reveal": "#s2", "caption": "", "type": { "target": "#q", "text": "orders have been stuck in processing since this morning. did Acme change something?" }, "wait": 300 },
+  { "reveal": "#s3", "caption": "Ask in Slack. It answers from the actual requests", "wait": 3400 },
+  { "screen": "chat",     "caption": "Every investigation, on the record", "wait": 2400 },
+  { "screen": "monitors", "caption": "Monitors page you before customers do", "wait": 2200 }
+]
+</script>

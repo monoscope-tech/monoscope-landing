@@ -1,0 +1,48 @@
+/* Authored Slack screen on Slack's own dark-mode palette (#1A1D21 pane, #19171D sidebar, #383A3F borders, #D1D2D3 text, #1D9BD1 links) and Lato. */
+.sl { position:absolute; inset:0; display:grid; grid-template-columns:260px 1fr; background:#1A1D21; color:#D1D2D3;
+  font:15px/1.46 Lato, "Slack-Lato", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+.sl * { box-sizing:border-box; }
+.sl .side { background:#19171D; border-right:1px solid #383A3F; color:#ABABAD; font-size:15px; overflow:hidden; }
+.sl .side .ws { height:49px; display:flex; align-items:center; gap:8px; padding:0 16px; font-weight:900; color:#fff; font-size:18px; border-bottom:1px solid #383A3F; }
+.sl .side .ws i { width:10px; height:10px; border-radius:50%; background:#2BAC76; display:inline-block; margin-left:auto; }
+.sl .side .h { display:flex; align-items:center; gap:6px; padding:14px 16px 6px; font-size:15px; color:#ABABAD; }
+.sl .side .h::before { content:"▾"; font-size:11px; }
+.sl .side .ch { display:flex; align-items:center; gap:8px; padding:0 16px 0 28px; height:28px; border-radius:6px; margin:0 8px; }
+.sl .side .ch::before { content:"#"; color:#ABABAD; width:12px; }
+.sl .side .ch.on { background:#1164A3; color:#fff; }
+.sl .side .ch.on::before { color:#fff; }
+.sl .side .ch.app::before { content:""; width:12px; height:12px; border-radius:3px; background:rgb(59 130 246); }
+.sl .main { display:grid; grid-template-rows:49px 1fr auto; min-width:0; }
+.sl .top { display:flex; align-items:center; gap:8px; padding:0 20px; border-bottom:1px solid #383A3F; font-weight:900; color:#fff; font-size:18px; }
+.sl .top small { font-weight:400; color:#ABABAD; font-size:13px; margin-left:auto; display:flex; gap:14px; }
+.sl .feed { padding:8px 0 4px; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end; }
+.sl .day { display:flex; align-items:center; gap:12px; color:#ABABAD; font-size:13px; margin:6px 20px 8px; }
+.sl .day::before, .sl .day::after { content:""; flex:1; height:1px; background:#383A3F; }
+.sl .day span { border:1px solid #383A3F; border-radius:999px; padding:3px 12px; font-weight:700; color:#D1D2D3; }
+.sl .msg { display:grid; grid-template-columns:36px 1fr; gap:8px; padding:8px 20px; }
+.sl .msg:hover { background:#222529; }
+.sl .av { width:36px; height:36px; border-radius:6px; background:#3B3F46; display:grid; place-items:center; font-weight:900; color:#fff; font-size:16px; overflow:hidden; }
+.sl .av.app { background:rgb(59 130 246); }
+.sl .av.p { background:linear-gradient(135deg,#E8912D,#7C3AED); }
+.sl .who { font-weight:900; color:#fff; line-height:1.3; }
+.sl .who .tag { font-size:10px; font-weight:700; color:#D1D2D3; background:#383A3F; border-radius:2px; padding:1px 4px; margin-left:6px; vertical-align:middle; letter-spacing:.02em; }
+.sl .who small { font-weight:400; color:#ABABAD; font-size:12px; margin-left:6px; }
+.sl p { margin:2px 0 0; }
+.sl code { font-family:Monaco, Menlo, Consolas, "Courier New", monospace; font-size:12px; background:#222529; border:1px solid #383A3F; border-radius:3px; padding:1px 4px; color:#E8912D; }
+.sl a { color:#1D9BD1; text-decoration:none; }
+.sl .card { margin-top:8px; width:560px; max-width:100%; border:1px solid #383A3F; border-radius:8px; background:#222529; padding:12px 14px 10px; }
+.sl .card .t { display:flex; justify-content:space-between; font:13px Monaco, Menlo, monospace; color:#ABABAD; margin-bottom:8px; }
+.sl .card .t b { color:#E01E5A; font-weight:400; }
+.sl .card svg { display:block; width:100%; height:96px; }
+.sl .card .cap { font-size:13px; color:#ABABAD; margin-top:6px; }
+.sl .acts { display:flex; gap:8px; margin-top:10px; }
+.sl .acts span { border:1px solid #565856; border-radius:4px; padding:5px 12px; font-size:13px; font-weight:700; color:#fff; background:#1A1D21; }
+.sl .acts span.pri { background:#007A5A; border-color:#007A5A; }
+.sl .react { display:inline-flex; gap:4px; align-items:center; margin-top:8px; font-size:12px; border:1px solid #1D9BD1; background:rgb(29 155 209 / .12); border-radius:12px; padding:2px 8px; color:#D1D2D3; }
+.sl .compose { margin:0 20px 16px; border:1px solid #565856; border-radius:8px; color:#ABABAD; }
+.sl .compose .bar { display:flex; gap:12px; padding:8px 12px; border-bottom:1px solid #383A3F; font-size:14px; color:#ABABAD; font-weight:700; }
+.sl .compose .in { padding:10px 12px 12px; display:flex; align-items:center; }
+.sl .compose .caret { display:inline-block; width:1.5px; height:1.1em; background:#fff; margin-left:1px; animation:sl-caret 1s steps(1) infinite; }
+@keyframes sl-caret { 50% { opacity:0; } }
+.sl .reveal { opacity:0; transform:translateY(6px); }
+.sl .reveal.in { opacity:1; transform:none; transition:opacity .35s ease-out, transform .35s ease-out; }

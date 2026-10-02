@@ -1,0 +1,25 @@
+<!-- 02 Prove it: outgoing calls → what you sent → what they answered → share the receipt → play the session behind the request. ~17s loop. -->
+<link rel="stylesheet" href="screens/app.css">
+<link rel="stylesheet" href="replay.css">
+<section data-screen="catalog" data-src="screens/catalog.html"></section>
+<section data-screen="sent"    data-src="screens/explorer-req.html"></section>
+<section data-screen="got"     data-src="screens/explorer-resp.html"></section>
+<section data-screen="replay"  data-src="screens/replay.html"></section>
+<section data-screen="share"   data-src="screens/explorer-share.html"></section>
+
+<script type="application/json" data-storyboard>
+[
+  { "screen": "catalog", "caption": "Every call to a supplier, kept unsampled", "wait": 1700 },
+  { "cursor": "text=Logs", "click": true, "caption": "", "wait": 150 },
+  { "screen": "sent",    "caption": "What you sent…", "focus": "text=Req Body", "wait": 2000 },
+  { "cursor": "text=Res Body", "click": true, "caption": "", "wait": 150 },
+  { "screen": "got",     "caption": "…what they answered, and when", "focus": "text=Res Body", "wait": 2200 },
+  { "cursor": [33.2, 61.2], "click": true, "caption": "Press play on the request", "wait": 300 },
+  { "screen": "replay",  "caption": "What the customer saw", "wait": 800 },
+  { "cursor": ".rp .cbtn", "click": true, "reveal": ".rp .spin", "wait": 600 },
+  { "reveal": ".rp .toast, .rp .ev.err", "wait": 1800 },
+  { "cursor": "text=Linked to req_7Hk2m9", "click": true, "caption": "", "wait": 150 },
+  { "screen": "got",     "cursor": "text=Share link", "click": true, "caption": "", "wait": 150 },
+  { "screen": "share",   "caption": "Send the receipt, not a description", "wait": 2600 }
+]
+</script>

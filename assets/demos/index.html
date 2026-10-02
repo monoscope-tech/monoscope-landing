@@ -1,0 +1,21 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Demo viewer</title>
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<style>
+  body { margin: 0; padding: 32px; background: #05070d; color: #cbd5e1; font: 14px/1.5 InterVariable, Inter, system-ui, sans-serif; }
+  nav a { color: #93c5fd; margin-right: 16px; }
+  .frame { max-width: 1100px; margin: 20px 0; border-radius: 12px; border: 1px solid rgb(255 255 255 / .1); overflow: hidden; box-shadow: 0 30px 80px -30px rgb(0 0 0 / .8); }
+  .bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid rgb(255 255 255 / .1); font: 12px ui-monospace, monospace; color: #64748b; }
+  .bar i { width: 10px; height: 10px; border-radius: 50%; background: rgb(255 255 255 / .15); display: inline-block; }
+  p.help { color: #64748b; max-width: 70ch; }
+</style>
+<nav><a href="?demo=know">know</a><a href="?demo=prove">prove</a><a href="?demo=fix">fix</a></nav>
+<p class="help">Edit <code>assets/demos/&lt;name&gt;.html</code> (screens + storyboard) and reload. Add <code>&amp;step=N</code> to hold on step N for screenshots. Stage is 1280×720 and scales to the frame.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span id="label"></span></div><demo-scene id="scene"></demo-scene></div>
+<script src="/assets/js/demo-scene.js"></script>
+<script>
+  const demo = new URLSearchParams(location.search).get('demo') || 'know';
+  document.getElementById('label').textContent = demo + '.html';
+  document.getElementById('scene').setAttribute('src', '/assets/demos/' + demo + '.html');
+</script>

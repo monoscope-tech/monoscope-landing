@@ -1,11 +1,11 @@
 
     <section class=" flex flex-col items-center w-full pt-28">
       <!-- Footer CTA-->
-      <div class="max-w-8xl w-full text-textWeak space-y-10 py-20 px-3">
-        <h2 class="text-[2rem] font-normal text-textStrong leading-10"><span class="text-textBrand">Find and fix issues</span> before your customers, <br/>stakeholders or partners notice.</h2>
+      <div class="max-w-9xl w-full text-textWeak space-y-10 py-20 px-3">
+        <h2 class="text-4xl md:text-5xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong"><span class="text-textBrand">Know what happened.</span> Prove it.</h2>
         <div class="flex flex-wrap gap-3">
-          <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" class="btn px-5 py-2.5 rounded-lg bg-fillBrand-strong text-textInverse-strong font-semibold" data-tracking="footer-book-demo" data-reddit-event="ScheduleDemo">Book a demo</a>
-          <a href="https://app.monoscope.tech" class="btn btn-secondary px-5 py-2.5 rounded-lg font-normal" data-tracking="footer-start-trial" data-reddit-event="SignUp">Start 30 day free trial</a>
+          <a href="https://app.monoscope.tech" class="btn px-5 py-2.5 rounded-lg bg-fillBrand-strong text-textInverse-strong font-semibold" data-tracking="footer-start-trial" data-reddit-event="SignUp">Start for free</a>
+          <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" rel="noopener noreferrer" class="btn btn-secondary px-5 py-2.5 rounded-lg font-normal" data-tracking="footer-book-demo" data-reddit-event="ScheduleDemo">Book a demo</a>
         </div>
         {% assign social_links = "github|https://github.com/monoscope-tech,twitter|https://x.com/monoscope_tech,linkedin|https://www.linkedin.com/company/monoscope,youtube|https://www.youtube.com/@Monoscope,discord|https://discord.gg/BSFCaUHxt4" | split: "," %}
         <div class="md:space-x-8 gap-2 md:gap-0 flex md:inline-flex flex-col md:flex-row md:items-center  text-xl">
@@ -16,12 +16,12 @@
             {% endfor %}
           </div>
           <span class="text-textDisabled hidden md:block">|</span>
-          <button onclick="loadConvertKitForm('e05f719e6e')" class="group cursor-pointer text-left">Signup for our <span class="underline underline-offset-2 font-semibold text-textBrand group-hover:text-fillBrand-strong transition-colors duration-150">newsletter</span> to stay updated</button>
+          <button onclick="loadConvertKitForm('e05f719e6e')" class="group cursor-pointer text-left">Sign up for the <span class="underline underline-offset-2 font-semibold text-textBrand group-hover:text-fillBrand-strong transition-colors duration-150">newsletter</span> to stay updated</button>
         </div>
       </div>
 
 
-      <footer class="max-w-8xl border-t border-strokeWeak pt-20 pb-5 space-y-12 px-3">
+      <footer class="max-w-9xl border-t border-strokeWeak pt-20 pb-5 space-y-12 px-3">
         <!-- Logo Section -->
         <a href="/" class="py-1 block" aria-label="Back to homepage">
           <img class="h-8 dark:hidden" src="/assets/brand/logo_full_color.svg" alt="monoscope full color logo">
@@ -31,21 +31,21 @@
         <div class="grid grid-cols-2 md:grid-cols-6 gap-8">
             <!-- Navigation Columns -->
             <div class="col-span-1">
-                <h3 class="text-sm font-semibold text-textWeak mb-4">Product</h3>
-                <ul class="space-y-3 [&_a]:footer-link">
+                <h3 class="text-xs font-medium uppercase tracking-wide text-textDisabled mb-4">Product</h3>
+                <ul class="space-y-2.5 text-sm [&_a]:footer-link">
                     <li><a href="/features/error-tracking">Error Tracking</a></li>
                     <li><a href="/features/error-tracking">Breaking Changes Detection</a></li>
                     <li><a href="/features/api-logs-and-metrics/">API Logs and Metrics</a></li>
                     <li><a href="/features/api-observability/">API Observability</a></li>
                     <li><a href="/features/api-management/">API Management</a></li>
                     <li><a href="/features/api-analytics/">API Analytics</a></li>
-                    <li><a href="https://opentelemetry.io/">Opentelemetry</a></li>
+                    <li><a href="https://opentelemetry.io/">OpenTelemetry</a></li>
                 </ul>
             </div>
 
             <div class="col-span-1">
-                <h3 class="text-sm font-semibold text-textWeak mb-4">Developers and Support</h3>
-                <ul class="space-y-3 [&_a]:footer-link">
+                <h3 class="text-xs font-medium uppercase tracking-wide text-textDisabled mb-4">Developers and Support</h3>
+                <ul class="space-y-2.5 text-sm [&_a]:footer-link">
                     <li><a href="/docs/">Documentation</a></li>
                     <li><a href="/docs/onboarding/">Getting Started</a></li>
                     <li><a href="/docs/sdks/">SDK Guides</a></li>
@@ -61,21 +61,21 @@
             </div>
 
             <div class="col-span-1">
-              <h3 class="text-sm font-semibold text-textWeak mb-4">Product Comparisons</h3>
-              <ul class="space-y-3 [&_a]:footer-link">
+              <h3 class="text-xs font-medium uppercase tracking-wide text-textDisabled mb-4">Product Comparisons</h3>
+              <ul class="space-y-2.5 text-sm [&_a]:footer-link">
                   <li><a href="/compare/datadog">monoscope vs Datadog</a></li>
                   <li><a href="/compare/sentry">monoscope vs Sentry</a></li>
                   <li><a href="/compare/honeybadger">monoscope vs Honeybadger</a></li>
                   <li><a href="/compare/newrelic">monoscope vs New Relic</a></li>
-                  <li><a href="/compare/baselime">monoscope vs Baseline</a></li>
+                  <li><a href="/compare/baselime">monoscope vs Baselime</a></li>
                   <li><a href="/compare/treblle">monoscope vs Treblle</a></li>
                   <li><a href="/compare/axiom">monoscope vs Axiom</a></li>
               </ul>
             </div>
 
             <div class="col-span-1">
-              <h3 class="text-sm font-semibold text-textWeak mb-4">Company</h3>
-              <ul class="space-y-3 [&_a]:footer-link">
+              <h3 class="text-xs font-medium uppercase tracking-wide text-textDisabled mb-4">Company</h3>
+              <ul class="space-y-2.5 text-sm [&_a]:footer-link">
                   <li><a href="/about/">About</a></li>
                   <li><a href="/docs/faqs">FAQs</a></li>
                   <li><a href="/blog/">Blog</a></li>
@@ -88,8 +88,8 @@
             </div>
 
             <div class="col-span-2">
-              <h3 class="text-sm font-semibold text-textWeak mb-4">Latest recommended writeups</h3>
-              <ul class="space-y-3 [&_a]:underline [&_a]:underline-offset-2 [&_a]:footer-link">
+              <h3 class="text-xs font-medium uppercase tracking-wide text-textDisabled mb-4">Latest recommended writeups</h3>
+              <ul class="space-y-2.5 text-sm [&_a]:footer-link">
                   <li><a href="/blog/api-trends/">10 Must-Know API trends in 2024</a></li>
                   <li><a href="/blog/api-testing-automation/">Ultimate Guide to API Testing Automation</a></li>
                   <li><a href="/blog/monoscope-top-atatus-alternative/">monoscope: Top Atatus Alternative for API Monitoring</a></li>
@@ -100,37 +100,29 @@
         </div>
 
         <div class="">
-          <h3 class="text-sm font-semibold text-textWeak mb-4">Platforms</h3>
-          <div class="grid grid-cols-2 md:grid-cols-6 gap-3 *:col-span-1 [&_a]:footer-link">
+          <h3 class="text-xs font-medium uppercase tracking-wide text-textDisabled mb-4">Platforms</h3>
+          <div class="grid grid-cols-2 md:grid-cols-6 gap-x-6 gap-y-2.5 text-sm *:col-span-1 [&_a]:footer-link">
             <a href="/blog/database-monitoring/">Database Monitoring</a>
-            <a href="#">Kubernetes Monitoring</a>
             <a href="/docs/sdks/php">PHP Monitoring</a>
             <a href="/docs/sdks/dotnet">.NET Monitoring</a>
             <a href="/docs/sdks/java">Java Monitoring</a>
             <a href="/docs/sdks/nodejs">Node.js Monitoring</a>
             <a href="/docs/sdks/php/laravel/">Laravel Monitoring</a>
             <a href="/docs/sdks/php/symfony/">Symfony Monitoring</a>
-            <a href="#">CodeIgniter Monitoring</a>
             <a href="/docs/sdks/nodejs/expressjs/">Express Monitoring</a>
-            <a href="#">MySQL Monitoring</a>
-            <a href="#">PostgreSQL Monitoring</a>
-            <a href="#">Ruby Monitoring</a>
             <a href="/docs/sdks/python">Python Monitoring</a>
             <a href="/docs/sdks/golang/">Golang Monitoring</a>
             <a href="/docs/sdks/python/django/">Django Monitoring</a>
-            <a href="#">Angular Monitoring</a>
-            <a href="#">React Monitoring</a>
           </div>
-          <a href="#" class="block py-3 underline underline-offset-2 footer-link">See all platforms</a>
+          <a href="/docs/sdks/" class="inline-flex items-center gap-1.5 mt-4 text-sm footer-link">All SDKs and platforms <svg class="h-3 w-3"><use xlink:href="/assets/deps/sprite.svg#arrow-right"></use></svg></a>
         </div>
 
-        <hr/>
         <!-- Bottom Bar -->
-        <div class="mt-12 pt-8 flex flex-col gap-6">
+        <div class="border-t border-strokeWeak pt-8 flex flex-col gap-6 text-sm">
             <!-- Top row -->
             <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
-                <div class="text-gray-600 dark:text-gray-400">
-                  Copyrights (c) <span id="currentYear">2025</span> - Past 3 technologies UG. Gruntaler str. 18, 13357 Berlin, Germany
+                <div class="text-textWeak">
+                  © <span id="currentYear">2026</span> Past 3 Technologies UG. Gruntaler str. 18, 13357 Berlin, Germany
                 </div>
                 <!-- Theme Selector -->
                 <div role="tablist" class="tabs tabs-boxed tabs-outline inline-flex self-start">
@@ -155,9 +147,9 @@
             <div class="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
                 <a href="https://discord.gg/BSFCaUHxt4" target="_blank" rel="noopener noreferrer" class="group flex items-center text-textWeak hover:text-textBrand nav-link">
                     <svg class="h-5 w-5 mr-2 icon-hover"><use xlink:href="/assets/deps/sprite.svg#discord"></use></svg>
-                    Join our discord community
+                    Join the Discord community
                 </a>
-                <div class="flex items-center text-gray-600 dark:text-gray-400">
+                <div class="flex items-center text-textWeak">
                     <span class="w-2 h-2 bg-green-500 rounded-full mr-2 status-pulse"></span>
                     Status All systems operational
                 </div>

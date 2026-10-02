@@ -21,7 +21,10 @@ layouts:
 ignore:
   - "./node_modules/**"
   - ".git"
+  - "./.claude/**"
   - "./CLAUDE.md"
+  - "./brand-brief.md"
+  - "./brand/**"
 
 authors:
   anthony:

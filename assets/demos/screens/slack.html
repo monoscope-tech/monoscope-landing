@@ -1,0 +1,55 @@
+<div class="sl">
+  <aside class="side">
+    <div class="ws">Astronomy Shop<i></i></div>
+    <div class="h">Channels</div>
+    <div class="ch">general</div>
+    <div class="ch on">engineering</div>
+    <div class="ch">incidents</div>
+    <div class="ch">deploys</div>
+    <div class="h">Apps</div>
+    <div class="ch app">monoscope</div>
+  </aside>
+  <div class="main">
+    <div class="top"># engineering <small><span>☆</span><span>👤 14</span><span>monoscope is in this channel</span></small></div>
+    <div class="feed">
+      <div class="day"><span>Today</span></div>
+      <div class="msg reveal" id="s1">
+        <div class="av app">m</div>
+        <div>
+          <div class="who">monoscope<span class="tag">APP</span><small>07:54</small></div>
+          <p><b>Breaking change in a supplier API.</b> Since 07:52, <code>POST api.acme-logistics.com/v1/shipments</code> still returns <code>200</code> and <code>status: "acknowledged"</code>, but the <code>tracking_id</code> field is gone. It was present in every response for 14 months. 41 shipments so far.</p>
+          <div class="acts"><span class="pri">View the 41 requests</span><span>Diff the responses</span><span>Silence 24h</span></div>
+          <div class="react">👀 3</div>
+        </div>
+      </div>
+      <div class="msg reveal" id="s2">
+        <div class="av p">A</div>
+        <div>
+          <div class="who">Anthony Alaribe<small>09:41</small></div>
+          <p id="q"></p>
+        </div>
+      </div>
+      <div class="msg reveal" id="s3">
+        <div class="av app">m</div>
+        <div>
+          <div class="who">monoscope<span class="tag">APP</span><small>09:41</small></div>
+          <p>Yes, that's the same thing. <a>orders-service</a> reads <code>tracking_id</code> to move an order from <code>processing</code> to <code>shipped</code>; with the field missing, 41 orders never advance. Nothing changed on our side: last deploy was <code>b7e21c0</code> two days ago. I opened <a>PR #491</a> to alert when the field is absent instead of waiting. The stored request and response pairs are the evidence if Acme disputes it: <a>share link</a>.</p>
+          <div class="card">
+            <div class="t"><span>orders stuck in "processing" · today</span><b>│ tracking_id missing 07:52</b></div>
+            <svg viewBox="0 0 540 96" preserveAspectRatio="none">
+              <line x1="0" y1="30" x2="540" y2="30" stroke="#383A3F"/><line x1="0" y1="62" x2="540" y2="62" stroke="#383A3F"/>
+              <line x1="176" y1="0" x2="176" y2="96" stroke="#E01E5A" stroke-dasharray="3 3" opacity=".8"/>
+              <g fill="#565856"><rect x="20" y="84" width="14" height="6"/><rect x="50" y="86" width="14" height="4"/><rect x="80" y="84" width="14" height="6"/><rect x="110" y="86" width="14" height="4"/><rect x="140" y="85" width="14" height="5"/></g>
+              <g fill="#E01E5A"><rect x="190" y="66" width="14" height="24"/><rect x="220" y="52" width="14" height="38"/><rect x="250" y="44" width="14" height="46"/><rect x="280" y="36" width="14" height="54"/><rect x="310" y="30" width="14" height="60"/><rect x="340" y="24" width="14" height="66"/><rect x="370" y="18" width="14" height="72"/><rect x="400" y="14" width="14" height="76"/><rect x="430" y="10" width="14" height="80"/><rect x="460" y="8" width="14" height="82"/><rect x="490" y="6" width="14" height="84"/></g>
+              <text x="4" y="12" fill="#ABABAD" font-size="10" font-family="Monaco,Menlo,monospace">41</text>
+              <text x="4" y="94" fill="#ABABAD" font-size="10" font-family="Monaco,Menlo,monospace">0</text>
+            </svg>
+            <div class="cap">every bar is an order a customer paid for and is still waiting on</div>
+          </div>
+          <div class="acts"><span class="pri">Open PR #491</span><span>View requests</span><span>Open in monoscope</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="compose"><div class="bar"><span>B</span><span>I</span><span>S</span><span>⌘</span><span>⋯</span></div><div class="in">Message #engineering<span class="caret"></span></div></div>
+  </div>
+</div>
