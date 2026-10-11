@@ -1,55 +1,111 @@
 <div class="sl">
-  <aside class="side">
-    <div class="ws">Astronomy Shop<i></i></div>
-    <div class="h">Channels</div>
-    <div class="ch">general</div>
-    <div class="ch on">engineering</div>
-    <div class="ch">incidents</div>
-    <div class="ch">deploys</div>
-    <div class="h">Apps</div>
-    <div class="ch app">monoscope</div>
-  </aside>
-  <div class="main">
-    <div class="top"># engineering <small><span>☆</span><span>👤 14</span><span>monoscope is in this channel</span></small></div>
-    <div class="feed">
-      <div class="day"><span>Today</span></div>
-      <div class="msg reveal" id="s1">
-        <div class="av app">m</div>
-        <div>
-          <div class="who">monoscope<span class="tag">APP</span><small>07:54</small></div>
-          <p><b>Breaking change in a supplier API.</b> Since 07:52, <code>POST api.acme-logistics.com/v1/shipments</code> still returns <code>200</code> and <code>status: "acknowledged"</code>, but the <code>tracking_id</code> field is gone. It was present in every response for 14 months. 41 shipments so far.</p>
-          <div class="acts"><span class="pri">View the 41 requests</span><span>Diff the responses</span><span>Silence 24h</span></div>
-          <div class="react">👀 3</div>
+  <div class="tb">
+    <div class="lights"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i></div>
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+    <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>
+    <svg viewBox="0 0 24 24" style="opacity:.4"><path d="M9 6l6 6-6 6"/></svg>
+    <svg class="help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5V14M12 17h.01"/></svg>
+  </div>
+  <nav class="rail">
+    <div class="wsi">A</div>
+    <div class="nav on"><span><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3.2 3.5 10v10.3h6v-6h5v6h6V10z"/></svg></span>Home</div>
+    <div class="nav"><span><svg viewBox="0 0 24 24"><path d="M7 15.5 3.5 18V6.5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2zM9 18.5h7l4 2.5V10.5a2 2 0 0 0-2-2"/></svg></span>DMs<b>2</b></div>
+    <div class="nav"><span><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5a2.2 2.2 0 0 0 4 0"/></svg></span>Activity<b>1</b></div>
+    <div class="nav"><span><svg viewBox="0 0 24 24"><path d="M7 3.5h10v17l-5-3.5-5 3.5z"/></svg></span>Later</div>
+    <div class="nav"><span><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="5.5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="18.5" cy="12" r="1.8"/></svg></span>More</div>
+    <div class="grow"></div>
+    <div class="circle"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></svg></div>
+    <div class="circle"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div>
+    <div class="me"><img src="/assets/demos/img/maya.jpg" alt=""></div>
+  </nav>
+  <div class="body">
+    <aside class="side">
+      <div class="head">Astronomy Shop <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg>
+        <div class="icons"><svg viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4"/></svg><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"/></svg></div></div>
+      <div class="row bold"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Unreads</div>
+      <div class="row"><svg viewBox="0 0 24 24"><path d="M4 12 20 4l-4 16-4-6z"/></svg>Drafts &amp; sent</div>
+      <div class="sec">Channels</div>
+      <div class="row"><span class="hash">#</span>general</div>
+      <div class="row on"><span class="hash">#</span>engineering</div>
+      <div class="row bold"><span class="hash">#</span>incidents<span class="count">3</span></div>
+      <div class="row"><span class="hash">#</span>deploys</div>
+      <div class="row"><span class="hash">#</span>support</div>
+      <div class="sec">Direct messages</div>
+      <div class="row bold"><span class="av on"><img src="/assets/demos/img/sofia.jpg" alt=""></span>Sofia Martins<span class="count">2</span></div>
+      <div class="row"><span class="av on"><img src="/assets/demos/img/lukas.jpg" alt=""></span>Lukas Weber</div>
+      <div class="row"><span class="av"><img src="/assets/demos/img/daniel.jpg" alt=""></span>Daniel Ross</div>
+      <div class="sec">Apps</div>
+      <div class="row"><span class="av app"><img src="/static/android-chrome-192x192.png" alt=""></span>monoscope</div>
+    </aside>
+    <div class="main">
+      <div class="chead">
+        <h1># engineering <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg></h1>
+        <div class="right">
+          <div class="pill"><span class="stack"><i><img src="/assets/demos/img/sofia.jpg" alt=""></i><i><img src="/assets/demos/img/lukas.jpg" alt=""></i><i><img src="/assets/demos/img/daniel.jpg" alt=""></i></span>14</div>
+          <div class="pill"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M4 15v-3a8 8 0 0 1 16 0v3M4 15h3v5H5a1 1 0 0 1-1-1zM20 15h-3v5h2a1 1 0 0 0 1-1z"/></svg>Huddle<svg viewBox="0 0 24 24" style="width:12px;height:12px"><path d="M6 9l6 6 6-6"/></svg></div>
+          <div class="pill" style="padding:0 7px"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M6 4h12a2 2 0 0 1 2 2v8l-6 6H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM14 20v-6h6"/></svg></div>
         </div>
       </div>
-      <div class="msg reveal" id="s2">
-        <div class="av p">A</div>
-        <div>
-          <div class="who">Anthony Alaribe<small>09:41</small></div>
-          <p id="q"></p>
-        </div>
+      <div class="tabs">
+        <span><svg viewBox="0 0 24 24"><path d="M9 4h6l-1 6 4 3H6l4-3zM12 13v7"/></svg>2 Pinned <svg viewBox="0 0 24 24" style="width:10px;height:10px"><path d="M6 9l6 6 6-6"/></svg></span>
+        <span><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Runbooks <svg viewBox="0 0 24 24" style="width:10px;height:10px"><path d="M6 9l6 6 6-6"/></svg></span>
+        <span><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
       </div>
-      <div class="msg reveal" id="s3">
-        <div class="av app">m</div>
-        <div>
-          <div class="who">monoscope<span class="tag">APP</span><small>09:41</small></div>
-          <p>Yes, that's the same thing. <a>orders-service</a> reads <code>tracking_id</code> to move an order from <code>processing</code> to <code>shipped</code>; with the field missing, 41 orders never advance. Nothing changed on our side: last deploy was <code>b7e21c0</code> two days ago. I opened <a>PR #491</a> to alert when the field is absent instead of waiting. The stored request and response pairs are the evidence if Acme disputes it: <a>share link</a>.</p>
-          <div class="card">
-            <div class="t"><span>orders stuck in "processing" · today</span><b>│ tracking_id missing 07:52</b></div>
-            <svg viewBox="0 0 540 96" preserveAspectRatio="none">
-              <line x1="0" y1="30" x2="540" y2="30" stroke="#383A3F"/><line x1="0" y1="62" x2="540" y2="62" stroke="#383A3F"/>
-              <line x1="176" y1="0" x2="176" y2="96" stroke="#E01E5A" stroke-dasharray="3 3" opacity=".8"/>
-              <g fill="#565856"><rect x="20" y="84" width="14" height="6"/><rect x="50" y="86" width="14" height="4"/><rect x="80" y="84" width="14" height="6"/><rect x="110" y="86" width="14" height="4"/><rect x="140" y="85" width="14" height="5"/></g>
-              <g fill="#E01E5A"><rect x="190" y="66" width="14" height="24"/><rect x="220" y="52" width="14" height="38"/><rect x="250" y="44" width="14" height="46"/><rect x="280" y="36" width="14" height="54"/><rect x="310" y="30" width="14" height="60"/><rect x="340" y="24" width="14" height="66"/><rect x="370" y="18" width="14" height="72"/><rect x="400" y="14" width="14" height="76"/><rect x="430" y="10" width="14" height="80"/><rect x="460" y="8" width="14" height="82"/><rect x="490" y="6" width="14" height="84"/></g>
-              <text x="4" y="12" fill="#ABABAD" font-size="10" font-family="Monaco,Menlo,monospace">41</text>
-              <text x="4" y="94" fill="#ABABAD" font-size="10" font-family="Monaco,Menlo,monospace">0</text>
-            </svg>
-            <div class="cap">every bar is an order a customer paid for and is still waiting on</div>
+      <div class="feed">
+        <div class="day"><span>Today <svg viewBox="0 0 24 24" style="width:11px;height:11px"><path d="M6 9l6 6 6-6"/></svg></span></div>
+        <div class="msg reveal" id="s1">
+          <div class="pic app"><img src="/static/android-chrome-192x192.png" alt=""></div>
+          <div>
+            <div class="who"><b>monoscope</b><em>AGENT</em><time>7:54 AM</time></div>
+            <p><strong>Breaking change in a supplier API.</strong> Since 07:52, <code>POST api.acme-logistics.com/v1/shipments</code> omits <code>tracking_id</code>. It still returns <code>200</code> and <code>status: "acknowledged"</code>. Earlier responses contained the field. So far, 41 shipments are affected.</p>
+            <div class="acts"><span class="pri">View the 41 requests</span><span>Compare responses</span><span>Mute for 24 hours</span></div>
+            <div class="reacts"><span class="react"><img src="/assets/demos/img/eyes.svg" alt="" style="width:16px;height:16px">3</span><span class="react add"><svg viewBox="0 0 24 24" style="width:14px;height:14px"><circle cx="12" cy="12" r="8"/><path d="M9 10h.01M15 10h.01M9 14.5a4 4 0 0 0 6 0"/></svg></span></div>
           </div>
-          <div class="acts"><span class="pri">Open PR #491</span><span>View requests</span><span>Open in monoscope</span></div>
+        </div>
+        <div class="msg reveal" id="s2">
+          <div class="pic"><img src="/assets/demos/img/maya.jpg" alt=""></div>
+          <div>
+            <div class="who"><b>Maya Chen</b><time>9:41 AM</time></div>
+            <p id="q"></p>
+          </div>
+        </div>
+        <div class="msg reveal" id="s3">
+          <div class="pic app"><img src="/static/android-chrome-192x192.png" alt=""></div>
+          <div>
+            <div class="who"><b>monoscope</b><em>AGENT</em><time>9:41 AM</time></div>
+            <p>Yes. <a>orders-service</a> needs <code>tracking_id</code> to move orders from <code>processing</code> to <code>shipped</code>. Without this field, 41 orders remain in <code>processing</code>. The last deployment was <code>b7e21c0</code>, two days ago. I opened <a>PR #491</a> to add an alert for the missing field. You can share the stored requests and responses with Acme: <a>view shipment evidence</a>.</p>
+            <div class="file">orders-stuck-in-processing.png <svg viewBox="0 0 24 24" style="width:11px;height:11px"><path d="M6 9l6 6 6-6"/></svg></div>
+            <div class="chart">
+              <svg viewBox="0 0 430 108" font-family="Lato, Helvetica Neue, Helvetica, Arial, sans-serif" font-size="11">
+                <text x="0" y="12" fill="#ABABAD" font-weight="700">Orders stuck in "processing", today</text>
+                <line x1="0" y1="92" x2="430" y2="92" stroke="#35373B"/>
+                <line x1="122" y1="20" x2="122" y2="92" stroke="#E01E5A" stroke-dasharray="3 3"/>
+                <text x="128" y="30" fill="#E01E5A" font-weight="700">tracking_id missing from 07:52</text>
+                <g fill="#4A4D52"><rect x="8" y="88" width="16" height="4"/><rect x="36" y="88" width="16" height="4"/><rect x="64" y="88" width="16" height="4"/><rect x="92" y="88" width="16" height="4"/></g>
+                <g fill="#E01E5A"><rect x="134" y="80" width="16" height="12" rx="2"/><rect x="162" y="72" width="16" height="20" rx="2"/><rect x="190" y="65" width="16" height="27" rx="2"/><rect x="218" y="58" width="16" height="34" rx="2"/><rect x="246" y="52" width="16" height="40" rx="2"/><rect x="274" y="46" width="16" height="46" rx="2"/><rect x="302" y="41" width="16" height="51" rx="2"/><rect x="330" y="36" width="16" height="56" rx="2"/><rect x="358" y="32" width="16" height="60" rx="2"/><rect x="386" y="28" width="16" height="64" rx="2"/><rect x="414" y="25" width="16" height="67" rx="2"/></g>
+                <text x="422" y="20" fill="#F8F8F8" text-anchor="middle" font-weight="700">41</text>
+                <text x="8" y="106" fill="#ABABAD">06:00</text><text x="122" y="106" fill="#ABABAD" text-anchor="middle">07:52</text><text x="430" y="106" fill="#ABABAD" text-anchor="end">09:41</text>
+              </svg>
+            </div>
+            <div class="acts"><span class="pri">Open PR #491</span><span>View requests</span><span>Open in monoscope</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="compose">
+        <div class="in">Message #engineering<span class="caret"></span></div>
+        <div class="bar">
+          <span class="plus"><svg viewBox="0 0 24 24" style="width:15px;height:15px"><path d="M12 5v14M5 12h14"/></svg></span>
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M9 10h.01M15 10h.01M8.5 14a4.5 4.5 0 0 0 7 0"/></svg>
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5"/><path d="M15.5 12v1.5a2.5 2.5 0 0 0 5 0V12a8.5 8.5 0 1 0-3.3 6.7"/></svg>
+          <span style="font-size:14px;font-weight:700">Aa</span>
+          <span class="sep"></span>
+          <svg viewBox="0 0 24 24"><rect x="3" y="6.5" width="13" height="11" rx="2"/><path d="m16 10.5 5-3v9l-5-3"/></svg>
+          <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>
+          <span class="sep"></span>
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M14 8l-4 8"/></svg>
+          <span class="send"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M3.5 20.5 21 12 3.5 3.5 6 12z"/></svg></span>
         </div>
       </div>
     </div>
-    <div class="compose"><div class="bar"><span>B</span><span>I</span><span>S</span><span>⌘</span><span>⋯</span></div><div class="in">Message #engineering<span class="caret"></span></div></div>
   </div>
 </div>

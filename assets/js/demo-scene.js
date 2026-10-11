@@ -43,8 +43,12 @@
       white-space:nowrap; overflow:hidden; text-overflow:ellipsis; opacity:0; transition:opacity .3s;
       border:1px solid rgb(255 255 255 / .08); backdrop-filter:blur(6px); }
     .caption.on { opacity:1; }
-    .box { container-type:inline-size; }`;
-  const sleep = ms => new Promise(r => setTimeout(r, ms));
+    .box { container-type:inline-size; }
+    :host([paused]) * { animation-play-state:paused !important; }
+    /* captured app CSS sets overscroll-behavior on :host and modals; demos must never trap page scroll */
+    :host, :host *, .stage * { overscroll-behavior:auto !important; }
+    @media (prefers-reduced-motion: reduce) { *, *::after { animation:none !important; transition:none !important; } }
+    `;
   const cache = new Map(), memo = (k, f) => cache.get(k) || (cache.set(k, f()), cache.get(k));
   const text = url => memo(url, () => fetch(url).then(r => r.text()));
   const sheet = url => memo('css:' + url, () => text(url).then(t => { const s = new CSSStyleSheet(); s.replaceSync(t); return s; }));
@@ -53,10 +57,12 @@
   class DemoScene extends HTMLElement {
     connectedCallback() {
       if (this._init) return; this._init = true;
-      this.setAttribute('inert', ''); // demos are display-only: nothing inside may take focus or scroll the page
+      this._paused = matchMedia('(prefers-reduced-motion: reduce)').matches;
       const root = this.attachShadow({ mode: 'open' });
       root.adoptedStyleSheets = [playerSheet];
-      root.innerHTML = `<div class="box"><div class="stage"></div><div class="caption"></div></div>`;
+      root.innerHTML = `<div class="box"><div class="stage" inert></div><div class="caption"></div></div>`;
+      this.toggleAttribute('paused', this._paused);
+      matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', e => { if (e.matches) { this._paused = true; this.toggleAttribute('paused', true); } });
       this._visible = false;
       new IntersectionObserver(es => {
         this._visible = es[0].isIntersecting;
@@ -107,14 +113,18 @@
       const touch = () => { current._pristine ??= current.cloneNode(true); };
       const reset = () => stage.querySelectorAll('.screen').forEach(el => { if (el._pristine) el.replaceChildren(...el._pristine.cloneNode(true).childNodes); });
       const center = el => { // element centre in stage px, within its screen
-        const r = el.getBoundingClientRect(), s = stage.getBoundingClientRect(), k = this.clientWidth / W;
+        const r = el.getBoundingClientRect(), s = stage.getBoundingClientRect(), k = stage.getBoundingClientRect().width / W;
         return [(r.left - s.left) / k + r.width / 2 / k, (r.top - s.top) / k + r.height / 2 / k];
       };
-      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
       await show(steps.find(s => s.screen).screen);
       if (steps[0].caption) { caption.textContent = steps[0].caption; caption.classList.add('on'); }
-      if (reduced) { stage.querySelectorAll('.reveal').forEach(el => el.classList.add('in')); return; }
-      const pause = async () => { while (!this._visible) await new Promise(r => this._resume = r); };
+
+      const pause = async () => { while (!this._visible || this._paused) await new Promise(r => this._resume = r); };
+      // Loop length estimated from the storyboard; `progress` (0..1) and `loop` events let a host drive a loader.
+      const total = steps.reduce((t, s) => t + (s.wait ?? 900) + (s.caption !== undefined ? CAP : 0) + (s.cursor ? CURSOR + (s.click ? CLICK : 0) : 0) + (s.type ? s.type.text.length * 28 + 300 : 0), 500);
+      let elapsed = 0;
+      const sleep = async ms => { for (let remaining = ms; remaining > 0; remaining -= 50) { await pause(); await new Promise(r => setTimeout(r, Math.min(50, remaining))); elapsed += Math.min(50, remaining); this.dispatchEvent(new CustomEvent('progress', { detail: Math.min(1, elapsed / total) })); } };
       const seek = +new URLSearchParams(location.search).get('step') || 0;
       for (;;) {
         reset();
@@ -149,6 +159,7 @@
           if (seek && i === seek) await new Promise(() => {}); // hold for screenshots
         }
         cursor.style.opacity = 0; await sleep(500);
+        elapsed = 0; this.dispatchEvent(new CustomEvent('loop'));
       }
     }
   }

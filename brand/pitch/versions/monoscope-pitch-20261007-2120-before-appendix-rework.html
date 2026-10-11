@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>monoscope: Product overview</title>
+<!--
+  System
+  Story: one real incident (a supplier silently drops tracking_id) carries the document from cover to fix.
+  Color: ink #000626 (logo), brand #0068FF, paper #FFF, mist #F2F5FA, signal #E11D5C (failure).
+  Type: Inter (static 400-700) for text, JetBrains Mono for requests, timestamps and code. Scale 42/23/12/10.5/9.5/8 pt. No shadows or gradient overlays: they rasterize into grey boxes in PDF viewers.
+  Rhythm: dark cover, light pages, at most one dark element per page. 14mm margins, 6mm base gap.
+-->
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<style>
+  @font-face { font-family: Inter; src: url(fonts/Inter-400.ttf); font-weight: 400; }
+  @font-face { font-family: Inter; src: url(fonts/Inter-500.ttf); font-weight: 500; }
+  @font-face { font-family: Inter; src: url(fonts/Inter-600.ttf); font-weight: 600; }
+  @font-face { font-family: Inter; src: url(fonts/Inter-700.ttf); font-weight: 700; }
+  @font-face { font-family: "JetBrains Mono"; src: url(fonts/JetBrainsMono-400.ttf); font-weight: 400; }
+  @font-face { font-family: "JetBrains Mono"; src: url(fonts/JetBrainsMono-500.ttf); font-weight: 500; }
+  @font-face { font-family: "JetBrains Mono"; src: url(fonts/JetBrainsMono-700.ttf); font-weight: 700; }
+  @page { size: A4; margin: 0; }
+  :root {
+    --ink: #000626; --brand: #0068FF; --brand-weak: #E8F0FF; --paper: #fff; --mist: #F2F5FA; --line: #DFE4EC;
+    --text: #1D2233; --weak: #545B6E; --signal: #E11D5C; --signal-weak: #FDE8EF; --ok: #0E8A4F;
+    --on-ink-weak: #AEB8D0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, sans-serif; color: var(--text); font-size: 9.5pt; line-height: 1.55; font-feature-settings: "cv11", "ss01", "case"; font-kerning: normal; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  a { color: inherit; text-decoration: none; }
+  code, pre { font-family: "JetBrains Mono", ui-monospace, monospace; font-feature-settings: "calt" 0; }
+  code { font-size: .86em; font-weight: 500; color: var(--ink); background: var(--mist); border-radius: 1mm; padding: .2mm .9mm; }
+  pre code { background: none; padding: 0; color: inherit; }
+  .page { width: 210mm; height: 297mm; padding: 14mm 14mm 18mm; position: relative; overflow: hidden; break-after: page; display: flex; flex-direction: column; gap: 6mm; }
+  .page:last-child { break-after: auto; }
+  .page > * { flex-shrink: 0; }
+  footer { position: absolute; left: 14mm; right: 14mm; bottom: 8mm; display: flex; justify-content: space-between; font-size: 7.5pt; color: var(--weak); }
+  h1 { font-size: 42pt; line-height: 1; letter-spacing: -.045em; font-weight: 700; }
+  h2 { font-size: 23pt; line-height: 1.1; letter-spacing: -.032em; font-weight: 600; color: var(--ink); text-wrap: balance; }
+  h3 { font-size: 10.5pt; line-height: 1.3; letter-spacing: -.012em; font-weight: 600; color: var(--ink); }
+  p { text-wrap: pretty; }
+  .weak { color: var(--weak); }
+  .lead { font-size: 12pt; line-height: 1.5; letter-spacing: -.008em; color: var(--weak); max-width: 150mm; }
+  .shot { border-radius: 3mm; overflow: hidden; background: #0b0d14; outline: 1px solid rgba(0,0,0,.1); }
+  .shot img { display: block; width: 100%; object-fit: cover; object-position: top left; }
+  .shot.zoom { position: relative; aspect-ratio: 1366 / 1024; }
+  .shot.zoom img { width: var(--z, 160%); max-width: none; height: auto !important; }
+  .cap { font-size: 8pt; line-height: 1.45; color: var(--weak); margin-top: 2mm; }
+  .cap b { color: var(--ink); font-weight: 600; }
+  .time { font-family: "JetBrains Mono", monospace; font-size: 8.5pt; color: var(--brand); font-weight: 700; }
+  .grid { display: grid; gap: 6mm; }
+  header.top { display: flex; justify-content: space-between; align-items: center; }
+  header.top img { height: 5mm; }
+  header.top span { font-size: 8pt; color: var(--weak); }
+
+  /* cover */
+  .cover { padding: 0; gap: 0; }
+  .cover .band { background: var(--ink); color: #fff; padding: 14mm 14mm 0; height: 168mm; position: relative; }
+  .cover .band > * { position: relative; z-index: 1; }
+  .cover header { display: flex; justify-content: space-between; align-items: center; }
+  .cover header img { height: 6mm; }
+  .cover header span { font-size: 8pt; color: var(--on-ink-weak); }
+  .cover h1 { margin-top: 20mm; }
+  .cover h1 span { color: oklch(70% 0.015 263); }
+  .cover .lead { color: var(--on-ink-weak); margin-top: 6mm; max-width: 135mm; }
+  .cover .hero { position: absolute; left: 23mm; right: 23mm; top: 110mm; z-index: 2; }
+  .cover .hero .shot { background: transparent; outline: 0; border-radius: 12px; }
+  .cover .below { position: absolute; left: 14mm; right: 14mm; top: 238mm; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8mm; }
+  .story { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6mm; }
+  .story > div { border-top: 1.5px solid var(--ink); padding-top: 3mm; }
+  .story p { font-size: 9.5pt; line-height: 1.5; color: var(--text); margin-top: 1.2mm; }
+  .story b { color: var(--ink); }
+  .logos { display: flex; align-items: center; justify-content: space-between; gap: 4mm; }
+  .logos img { height: 3.8mm; width: auto; min-width: 0; filter: grayscale(1) brightness(0); opacity: .55; }
+
+  /* evidence illustration */
+  .compare { display: grid; grid-template-columns: 1fr 1.35fr; border-radius: 3mm; overflow: hidden; border: 1px solid var(--line); }
+  .compare > div { padding: 5mm; }
+  .compare .them { background: var(--mist); }
+  .compare .us { border-left: 1px solid var(--line); }
+  .compare h3 { font-size: 10pt; margin-bottom: 3mm; }
+  .span-row { display: flex; gap: 3mm; align-items: center; font-family: "JetBrains Mono", monospace; font-size: 8pt; font-weight: 500; background: #fff; border: 1px solid var(--line); border-radius: 1.5mm; padding: 2mm 3mm; }
+  .pill { font-family: "JetBrains Mono", monospace; font-size: 7.5pt; border-radius: 1mm; padding: .3mm 1.4mm; font-weight: 700; background: #E3F6EC; color: var(--ok); }
+  .missing { margin-top: 3.5mm; display: grid; gap: 1.8mm; font-size: 8.8pt; color: var(--weak); }
+  .missing div { display: grid; grid-template-columns: 4mm 1fr; }
+  .missing div::before { content: "×"; color: var(--signal); font-weight: 700; }
+  pre { font-size: 7.8pt; line-height: 1.6; background: #0b0f1d; color: #D7DEEE; border-radius: 2mm; padding: 3mm 3.5mm; white-space: pre; }
+  pre .k { color: #8FB6FF; } pre .s { color: #F2C27B; } pre .c { color: #7C86A2; }
+  pre .del { display: block; background: rgba(225, 29, 92, .25); color: #FFB3C9; margin: 0 -3.5mm; padding: 0 3.5mm; }
+  pre .del i { font-style: normal; color: #FF7FA3; float: right; }
+  .label { font-size: 7.5pt; font-weight: 600; color: var(--weak); margin-bottom: 1.5mm; }
+
+  /* AI page */
+  .who { display: flex; align-items: center; gap: 2mm; font-size: 8.5pt; }
+  .who i { width: 5mm; height: 5mm; border-radius: 1.2mm; background: var(--brand); color: #fff; font-style: normal; font-weight: 700; display: grid; place-items: center; font-size: 7.5pt; }
+  .flag { font-size: 7.5pt; font-weight: 600; color: var(--signal); background: var(--signal-weak); border-radius: 1mm; padding: .4mm 1.6mm; }
+  .comment p { font-size: 8.8pt; margin-top: 2mm; }
+  .comment p b { color: var(--ink); }
+  .comment .sugg { margin-top: 3mm; padding-top: 3mm; border-top: 1px dashed var(--line); }
+  .caps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm 6mm; }
+  .caps h3 { font-size: 9.5pt; }
+  .caps p { font-size: 8.5pt; color: var(--weak); margin-top: .8mm; }
+
+  /* proof + pricing */
+  .stats { display: grid; grid-template-columns: repeat(6, 1fr); border-top: 2px solid var(--ink); }
+  .stats > div { padding: 3mm 3mm 0 0; display: flex; flex-direction: column; gap: 1mm; }
+  .stats strong { font-size: 22pt; line-height: 1.1; letter-spacing: -.04em; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .stats p { font-size: 8pt; color: var(--weak); line-height: 1.3; }
+  .stats img { height: 3.8mm; width: auto; max-width: 100%; object-fit: contain; object-position: left; filter: grayscale(1) brightness(0); opacity: .55; margin-top: auto; padding-top: 1.5mm; box-sizing: content-box; }
+  figure { display: grid; gap: 2mm; align-content: start; }
+  blockquote { font-size: 11pt; line-height: 1.5; color: var(--ink); letter-spacing: -.01em; text-wrap: pretty; }
+  figcaption { font-size: 8pt; color: var(--weak); }
+  figcaption b { color: var(--ink); font-weight: 600; }
+  .bars { display: grid; gap: 2.6mm; }
+  .bars .row { display: grid; grid-template-columns: 34mm 1fr 18mm; gap: 3mm; align-items: center; font-size: 9pt; }
+  .bars .track { height: 5mm; border-radius: 1mm; background: var(--mist); overflow: hidden; }
+  .bars .fill { height: 100%; background: #B9C1D1; border-radius: 1mm; }
+  .bars .us .fill { background: var(--brand); }
+  .bars .us { font-weight: 600; color: var(--ink); }
+  .bars .n { text-align: right; font-variant-numeric: tabular-nums; }
+  .note { font-size: 7.5pt; line-height: 1.5; color: var(--weak); }
+  .step { display: grid; grid-template-columns: 6mm 1fr; gap: 2.5mm; }
+  .step b { display: grid; place-items: center; width: 5.5mm; height: 5.5mm; border-radius: 50%; background: var(--brand-weak); color: var(--brand); font-size: 7.5pt; }
+  .step p { color: var(--weak); font-size: 8.8pt; margin-top: .5mm; }
+  .cta { background: var(--ink); color: #fff; border-radius: 3mm; padding: 6mm; display: grid; grid-template-columns: 1fr auto; gap: 6mm; align-items: center; position: relative; overflow: hidden; }
+  .cta > * { position: relative; z-index: 1; }
+  .cta h2 { color: #fff; font-size: 18pt; }
+  .cta p { color: var(--on-ink-weak); margin-top: 1.5mm; }
+  .qrs { display: flex; gap: 4mm; }
+  .qr { text-align: center; font-size: 7pt; color: var(--on-ink-weak); width: 21mm; }
+  .qr div { background: #fff; border-radius: 1.5mm; padding: 1.5mm; margin-bottom: 1.5mm; }
+  .qr svg { display: block; width: 100%; height: auto; }
+  .qr strong { display: block; color: #fff; font-size: 7.5pt; font-weight: 600; white-space: nowrap; }
+
+
+  /* agents page: Claude Code terminal */
+  .term { background: #15161A; color: #D6D6D6; border-radius: 3mm; font-family: "JetBrains Mono", monospace; font-size: 7.6pt; line-height: 1.6; padding: 4.5mm 5mm 5mm; border: 1px solid #2A2C33; }
+  .term .hdr { display: flex; gap: 3mm; align-items: baseline; border: 1px solid #D97757; border-radius: 1.5mm; padding: 2mm 3mm; margin-bottom: 3.5mm; }
+  .term .hdr b { color: #D97757; font-weight: 700; }
+  .term .dim { color: #8B8D94; }
+  .term .prompt { background: #2A2B30; color: #F2F2F2; border-radius: 1mm; padding: 1.6mm 2.5mm; margin-bottom: 3mm; }
+  .term .prompt::before { content: "> "; color: #8B8D94; }
+  .term .call { margin-top: 2mm; }
+  .term .call::before { content: "● "; color: #4EBA65; }
+  .term .call b { color: #fff; font-weight: 700; }
+  .term .out { padding-left: 3.2mm; color: #A7A9B0; }
+  .term .out::before { content: "⎿  "; color: #6E7078; }
+  .term .say { margin-top: 3mm; color: #EDEDED; }
+  .term .say p:first-child::before { content: "● "; color: #F2F2F2; }
+  .term .say p + p { margin-top: 1.6mm; padding-left: 3.2mm; }
+  .term code { background: none; color: #F2C27B; padding: 0; font-size: 1em; font-weight: 400; }
+  .surfaces { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .surfaces > div { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.1fr); gap: 6mm; align-items: center; padding: 3.5mm 0; border-bottom: 1px solid var(--line); }
+  .surfaces p { font-size: 9pt; color: var(--weak); margin-top: .8mm; }
+  .surfaces.integrate > div { grid-template-columns: minmax(0,.75fr) minmax(0,1.25fr); }
+  .surfaces pre { font-size: 7.2pt; padding: 2.4mm 3mm; overflow: hidden; }
+
+  /* appendix */
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: start; padding: 2.2mm 2.5mm; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 9pt; }
+  th { font-size: 8pt; font-weight: 500; color: var(--weak); }
+  td:first-child { font-weight: 600; color: var(--ink); }
+  .kv { display: grid; grid-template-columns: 26mm 1fr 26mm 1fr; gap: 2mm 4mm; }
+  .kv dt { font-weight: 600; color: var(--ink); }
+  .kv dd { color: var(--weak); }
+</style>
+</head>
+<body>
+
+<!-- 1 · Cover -->
+<section class="page cover">
+  <div class="band">
+    <header><img src="../../assets/brand/logo_full_white.svg" alt="monoscope"><span>Observability with an AI SRE built in</span></header>
+    <h1>Know what happened.<br><span>Prove it. Fix it.</span></h1>
+    <p class="lead">When something breaks, watch a session replay of what the user saw and did. Some issues are easier to see than explain. The exact request, response and trace sit alongside the replay. monoscope’s AI investigates, reports in Slack and opens a fix for review.</p>
+  </div>
+  <div class="hero">
+    <div class="shot"><img src="img/slack-thread.png" alt="monoscope in Slack: it flags a supplier's breaking change, answers questions about checkout latency and stuck orders and opens PR #491" style="height:auto"></div>
+  </div>
+  <div class="below">
+    <div class="story">
+      <div><span class="time">07:52</span><p>A logistics supplier quietly stops sending <code>tracking_id</code>, but its API keeps returning <b>200 OK</b>, so nothing looks wrong.</p></div>
+      <div><span class="time">07:54</span><p>monoscope spots the breaking change two minutes later and posts it in Slack, with all 41 affected requests attached.</p></div>
+      <div><span class="time">09:41</span><p>When an engineer asks what’s going on, monoscope answers from the stored requests and opens PR #491.</p></div>
+    </div>
+    <div class="logos">
+      <img src="../../assets/img/customers/andela.svg" alt="Andela">
+      <img src="../../assets/img/customers/platnova.png" alt="Platnova">
+      <img src="../../assets/img/customers/payfonte.svg" alt="Payfonte">
+      <img src="../../assets/img/customers/grovepay.svg" alt="Grovepay">
+      <img src="../../assets/img/customers/sameday.svg" alt="Sameday">
+      <img src="../../assets/img/customers/thepeer.svg" alt="Thepeer">
+      <img src="../../assets/img/customers/woodcore-logo-full.svg" alt="Woodcore">
+      <img src="../../assets/img/customers/blockradar-full.svg" alt="Blockradar">
+    </div>
+  </div>
+  <footer><span>monoscope.tech · Illustrative scenario: Acme Logistics</span><span>1 / 10</span></footer>
+</section>
+
+<!-- 2 · Know and prove -->
+<section class="page">
+  <header class="top"><img src="../../assets/brand/logo_full_color.svg" alt="monoscope"><span>Know what happened. Prove it.</span></header>
+
+  <div class="grid" style="grid-template-columns: 1fr 1fr; align-items: end;">
+    <h2>A 200 OK that stranded 41 orders</h2>
+    <p class="weak" style="font-size:10.5pt">Your trace will happily show a fast, successful call. But if a supplier drops a field and you never kept the response body, there’s nothing to explain why your customer’s order is stuck.</p>
+  </div>
+
+  <div class="compare">
+    <div class="them">
+      <h3>What a typical trace keeps</h3>
+      <div class="span-row"><span>POST</span><span style="flex:1">/v1/shipments</span><span class="pill">200</span><span>182 ms</span></div>
+      <div class="missing">
+        <div>No request body</div>
+        <div>No response body</div>
+        <div>Possibly not this request at all, if it was sampled out</div>
+        <div>Nothing you can send the supplier as proof</div>
+      </div>
+    </div>
+    <div class="us">
+      <h3>What monoscope keeps for every request</h3>
+      <p class="label">Response from api.acme-logistics.com at 07:52:14.208</p>
+<pre><span class="c">HTTP/1.1 200 OK</span>
+{
+  <span class="k">"shipment_id"</span>: <span class="s">"shp_7Hk2m9"</span>,
+  <span class="k">"status"</span>: <span class="s">"acknowledged"</span>,
+<span class="del">  "tracking_id": "AX-99812-NG",  <i>missing since 07:52</i></span>  <span class="k">"eta"</span>: <span class="s">"2026-10-09"</span>
+}</pre>
+      <p class="cap"><b>monoscope notices the missing field</b>, flags it as a breaking change and links it to the trace, the logs and the customer’s session.</p>
+    </div>
+  </div>
+
+
+  <div class="grid" style="grid-template-columns: 1fr 1fr;">
+    <div>
+      <div class="shot"><img src="img/issue.png" alt="An issue in monoscope with its volume chart, evidence and AI analysis"></div>
+      <p class="cap"><b>Related errors are grouped into one issue</b>, with the evidence and an AI analysis already attached.</p>
+    </div>
+    <div>
+      <div class="shot"><img src="img/trace.png" alt="A trace waterfall across services in monoscope"></div>
+      <p class="cap"><b>From the issue, you’re one click from the full trace</b> and every service the request touched.</p>
+    </div>
+  </div>
+
+  <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div><h3>Never sampled</h3><p class="weak" style="margin-top:1mm">monoscope keeps every request, response, log and span you send, so you never have to guess which events were worth keeping.</p></div>
+    <div><h3>Evidence you can share</h3><p class="weak" style="margin-top:1mm">You can see exactly what you sent, what the supplier sent back and when, down to the millisecond, and share it all with a link.</p></div>
+    <div><h3>Your bucket is the database</h3><p class="weak" style="margin-top:1mm">On Cloud + your own S3, your data lives in your own bucket as open Delta Lake tables, and you can keep it for as long as you like.</p></div>
+  </div>
+
+  <footer><span>monoscope.tech</span><span>2 / 10</span></footer>
+</section>
+
+<!-- 3 · Replay and request evidence -->
+<section class="page" style="gap:5mm">
+  <header class="top"><img src="../../assets/brand/logo_full_color.svg" alt="monoscope"><span>Watch the session. Read the request.</span></header>
+  <div style="display:grid;gap:3mm">
+    <h2>Some issues are easier to see than explain.</h2>
+    <p class="lead">Watch a session replay of what the user saw and did when an issue occurred. Then inspect the request, response and trace.</p>
+  </div>
+  <figure>
+    <div class="shot"><img src="img/session-replay.png" alt="monoscope’s session replay player showing a recorded user session in the OpenTelemetry demo shop" style="height:auto"></div>
+    <figcaption><b>Watch the user’s screen.</b> Pause the replay, inspect their actions and open the session’s telemetry. Recorded demo session from the running product.</figcaption>
+  </figure>
+  <div class="grid" style="grid-template-columns:1fr 1fr;gap:6mm">
+    <div><h3>See the sequence</h3><p class="weak" style="margin-top:1mm">Watch the user’s actions and the screens they saw. Pause or replay the moment you need to inspect.</p></div>
+    <div><h3>Connect it to the evidence</h3><p class="weak" style="margin-top:1mm">Open the session’s telemetry to inspect the requests and traces behind the user’s experience.</p></div>
+  </div>
+  <footer><span>monoscope.tech · Product views from the demo project</span><span>3 / 10</span></footer>
+</section>
+
+<!-- 4 · Request and response -->
+<section class="page" style="gap:4mm">
+  <header class="top"><img src="../../assets/brand/logo_full_color.svg" alt="monoscope"><span>Read the request and response</span></header>
+  <h2>What your app sent, and what came back.</h2>
+  <figure>
+    <div class="shot"><img src="img/request.png" alt="The monoscope log explorer after asking AI for “checkout requests from the last hour”, with a checkout request body open"></div>
+    <figcaption><b>Ask in plain language, then read the request.</b> monoscope writes the query and shows it. The body your app sent is there, with sensitive fields redacted.</figcaption>
+  </figure>
+  <div class="grid" style="grid-template-columns:repeat(3,1fr);gap:6mm">
+    <div><h3>Read both bodies</h3><p class="weak" style="margin-top:1mm">A status code tells only part of the story. Open the request and the response, stored in full.</p></div>
+    <div><h3>Find the missing field</h3><p class="weak" style="margin-top:1mm">Compare the response with what your app expected, and see why a 200 still caused an issue.</p></div>
+    <div><h3>Share the evidence</h3><p class="weak" style="margin-top:1mm">Send the stored request and response to your team or the supplier with a link.</p></div>
+  </div>
+  <footer><span>monoscope.tech · Product views from the demo project</span><span>4 / 10</span></footer>
+</section>
+
+<!-- 5 · One trace, everything it touched -->
+<section class="page" style="gap:5mm">
+  <header class="top"><img src="../../assets/brand/logo_full_color.svg" alt="monoscope"><span>Follow the trace</span></header>
+  <div style="display:grid;gap:3mm">
+    <h2>One checkout, everything it touched.</h2>
+    <p class="lead">Open a trace in the explorer and every span and log nests under the request that started it: HTTP calls, gRPC, SQL, Redis and the logs in between.</p>
+  </div>
+  <figure>
+    <div class="shot"><img src="img/trace-tree.png" alt="The monoscope log explorer showing one checkout trace expanded as a tree: load-generator logs, HTTP and gRPC spans, a Postgres SELECT, Redis HGET calls and INFO logs"></div>
+    <figcaption><b>102 events from one checkout,</b> across 12 services, in the order they happened.</figcaption>
+  </figure>
+  <div class="grid" style="grid-template-columns:repeat(3,1fr);gap:6mm">
+    <div><h3>Spans and logs together</h3><p class="weak" style="margin-top:1mm">Logs sit under the span that wrote them, so you read them in context, not in a separate tool.</p></div>
+    <div><h3>Every query and cache call</h3><p class="weak" style="margin-top:1mm">See the SQL a service ran and the Redis keys it read, with timings for each.</p></div>
+    <div><h3>Nothing sampled out</h3><p class="weak" style="margin-top:1mm">monoscope keeps every event, so the trace you need is complete when you open it.</p></div>
+  </div>
+  <footer><span>monoscope.tech · Product views from the demo project</span><span>5 / 10</span></footer>
+</section>
+
+<!-- 6 · Fix: the AI -->
+<section class="page" style="gap:3mm">
+  <header class="top"><img src="../../assets/brand/logo_full_color.svg" alt="monoscope"><span>Fix it</span></header>
+
+  <div style="display:grid;gap:3mm">
+    <h2 style="font-size:26pt">Find the next incident before you merge.</h2>
+    <p class="lead">monoscope reviews every pull request, from engineers or coding agents, against your live production data, and shows the evidence when a change looks risky.</p>
+  </div>
+
+  <figure>
+    <div class="shot"><img src="img/github-pr.png" alt="Pull request #512 on GitHub: the author says the markPending fallback looked unreachable; monoscope requests changes because Acme omitted tracking_id in 1,284 of 61,040 responses over 30 days, shows the removed fallback line and a chart of the four incidents"></div>
+  </figure>
+
+  <div class="caps">
+    <div><h3>Answers in Slack</h3><p>Ask why checkout is slower, and get an answer from your logs, traces and deploys.</p></div>
+    <div><h3>Remembers past issues</h3><p>Recurring errors keep their history, so each investigation builds on the last.</p></div>
+    <div><h3>Finds monitoring gaps</h3><p>monoscope points out endpoints nobody’s watching and ranks alerts by impact.</p></div>
+    <div><h3>Works with your agents</h3><p>Plug it into your own agents through a hosted MCP server with about 50 tools, an agent-mode CLI or Claude Code skills.</p></div>
+    <div><h3>Shows its evidence</h3><p>Every finding links back to the requests, traces and deployments behind it, so you can check the reasoning before you merge.</p></div>
+    <div><h3>Reads the full request</h3><p>The AI works from the full request and response, along with past events and your deployment timeline, not from an error message alone.</p></div>
+  </div>
+
+  <footer><span>monoscope.tech · Illustrative review: Acme Logistics</span><span>6 / 10</span></footer>
+</section>
+
+<!-- 7 · Agents: CLI, Claude Code skills, MCP -->
+<section class="page">
+  <header class="top"><img src="../../assets/brand/logo_full_color.svg" alt="monoscope"><span>Works with your coding agents</span></header>
+
+  <div style="display:grid;gap:3mm">
+    <h2>Ask Claude Code what broke, and it reads production to find out</h2>
+    <p class="lead">If your team already works with Claude Code, Cursor or another coding agent, monoscope plugs straight in. Our open-source skills teach the agent to investigate with the monoscope CLI, so it reads the stored requests, traces and logs instead of guessing from the code.</p>
+  </div>
+
+  <div>
+    <div class="term">
+      <div class="hdr"><b>Claude Code</b><span class="dim">~/code/acme-shop</span></div>
+      <div class="prompt">investigate why orders have been stuck in processing since this morning</div>
+      <div class="call"><b>Skill</b>(monoscope-skills:investigate)</div>
+      <div class="out">Successfully loaded skill</div>
+      <div class="call"><b>Bash</b>(monoscope facets resource.service.name --top 3)</div>
+      <div class="out">orders-service 41,208 · checkout-api 18,733 · payments 9,410</div>
+      <div class="call"><b>Bash</b>(monoscope logs search 'body has "tracking_id"' --since 6h --first --id-only)</div>
+      <div class="out">evt_01JA7Q3M9X4K2R</div>
+      <div class="call"><b>Bash</b>(monoscope events context --at 2026-10-07T07:52:14Z --window 10m --summary)</div>
+      <div class="out">41 traces · orders-service → api.acme-logistics.com · 41 errors in advance()</div>
+      <div class="say">
+        <p>Orders stopped advancing at 07:52, and it isn't your code. Acme's <code>POST /v1/shipments</code> still returns <code>200</code>, but the response no longer includes <code>tracking_id</code>, so <code>advance()</code> throws in orders-service and 41 orders are stuck in processing. Your last deploy was <code>b7e21c0</code>, two days ago.</p>
+        <p>I can add a fallback that keeps these orders pending, plus an alert for when the field goes missing. Want me to open a pull request?</p>
+      </div>
+    </div>
+    <p class="cap">An example session with the investigate skill. Each step is a real monoscope CLI command.</p>
+  </div>
+
+  <div class="surfaces">
+    <div><div><h3>The monoscope CLI</h3><p>One binary that gives your terminal, your CI and your agents the same view of production, with stable JSON output for scripts.</p></div>
+<pre>curl https://monoscope.tech/install.sh | sh</pre></div>
+    <div><div><h3>Claude Code skills</h3><p>Skills for investigating incidents, on-call triage, managing monitors and dashboards, and adding instrumentation.</p></div>
+<pre>claude plugin install monoscope-skills@monoscope-skills</pre></div>
+    <div><div><h3>A hosted MCP server</h3><p>About 50 tools for Claude Desktop, Cursor or your own agents, using the same API key, with nothing to install.</p></div>
+<pre>https://api.monoscope.tech/api/v1/mcp</pre></div>
+  </div>
+
+  <footer><span>monoscope.tech · Illustrative session: Acme Logistics</span><span>7 / 10</span></footer>
+</section>
+
+<!-- 8 · Integrate: OpenTelemetry + the instrument skill -->
+<section class="page" style="gap:4mm">
+  <header class="top"><img src="../../assets/brand/logo_full_color.svg" alt="monoscope"><span>Get your data in</span></header>
+
+  <div style="display:grid;gap:3mm">
+    <h2>Send OpenTelemetry, or let your agent set it up</h2>
+    <p class="lead">monoscope takes OTLP from any OpenTelemetry SDK or collector. Our open-source skill lets your coding agent set it up and prove the data arrived.</p>
+  </div>
+
+  <div>
+    <div class="term">
+      <div class="hdr"><b>Coding agent</b><span class="dim">~/code/acme-shop</span></div>
+      <div class="prompt">instrument this project with OpenTelemetry and send it to monoscope</div>
+      <div class="call"><b>Skill</b>(monoscope-skills:instrument)</div>
+      <div class="call"><b>Read</b>(package.json)</div>
+      <div class="out">Node.js · express · undici · pg · kafkajs · bullmq</div>
+      <div class="call"><b>Bash</b>(npm install @opentelemetry/sdk-node @opentelemetry/auto-instrumentations-node @opentelemetry/instrumentation-bullmq)</div>
+      <div class="call"><b>Bash</b>(docker run -p 4317:4317 otel/opentelemetry-collector-contrib)</div>
+      <div class="out">local collector with debug exporter · 6 routes and 2 jobs triggered · every expected span found</div>
+      <div class="call"><b>Bash</b>(monoscope traces search 'resource.service.name == "orders-service"' --since 5m)</div>
+      <div class="out">✓ service registered · ✓ server spans · ✓ 6/6 routes · ✓ 2/2 jobs · ✓ logs flowing</div>
+      <div class="say">
+        <p>orders-service is instrumented and sending to monoscope:</p>
+        <p style="white-space:pre">Incoming HTTP   express   auto-instrumented   ✓
+Outgoing HTTP   undici    auto-instrumented   ✓
+SQL             pg        auto-instrumented   ✓
+Message queues  kafkajs   auto-instrumented   ✓
+Background jobs bullmq    auto-instrumented   ✓</p>
+      </div>
+    </div>
+    <p class="cap">An example session on a Node.js service. The skill runs in Claude Code, Cursor, Cline, GitHub Copilot and more.</p>
+  </div>
+
+  <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 4mm 8mm">
+    <div class="step"><b>1</b><div><h3>Plans first</h3><p>Detects your language, framework and libraries, then writes a todo list you can redirect before it edits anything.</p></div></div>
+    <div class="step"><b>2</b><div><h3>Covers five surfaces</h3><p>Incoming and outgoing HTTP, SQL, message queues and background jobs, with official auto-instrumentation where it exists.</p></div></div>
+    <div class="step"><b>3</b><div><h3>Checks locally</h3><p>Runs a local collector, calls your routes and jobs, and confirms each expected span shows up.</p></div></div>
+    <div class="step"><b>4</b><div><h3>Confirms in monoscope</h3><p>Queries monoscope with the CLI and reports pass or fail per route and job. A failed check is never reported as done.</p></div></div>
+  </div>
+
+  <div class="surfaces integrate">
+    <div><div><h3>With your coding agent</h3><p>Add the skills and the CLI, then ask your agent to instrument the project. It checks its work with the CLI.</p></div>
+<pre>npx skills add monoscope-tech/skills
+curl https://monoscope.tech/install.sh | sh</pre></div>
+    <div><div><h3>By hand, in any language</h3><p>Point any OpenTelemetry exporter at monoscope. Native SDKs for Node.js, Python, Go, PHP, Java, .NET and Elixir also capture bodies, with redaction.</p></div>
+<pre>OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
+OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
+OTEL_SERVICE_NAME="orders-service"
+OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"</pre></div>
+  </div>
+
+  <footer><span>monoscope.tech · Illustrative session: Acme Logistics</span><span>8 / 10</span></footer>
+</section>
+
+<!-- 9 · Proof, cost, next step -->
+<section class="page">
+  <header class="top"><img src="../../assets/brand/logo_full_color.svg" alt="monoscope"><span>Results and pricing</span></header>
+
+  <h2>What our customers have seen</h2>
+  <div class="stats">
+    <div><strong>20x</strong><p>faster mean time to resolution</p><img src="../../assets/img/customers/blockradar-full.svg" alt="Blockradar"></div>
+    <div><strong>70%</strong><p>less manual troubleshooting</p><img src="../../assets/img/customers/sameday.svg" alt="Sameday"></div>
+    <div><strong>9x</strong><p>fewer customer support calls</p><img src="../../assets/img/customers/platnova.png" alt="Platnova"></div>
+    <div><strong>5x</strong><p>faster incident debugging</p><img src="../../assets/img/customers/coronams-logo.svg" alt="CoronaMS"></div>
+    <div><strong>3x</strong><p>faster system recovery</p><img src="../../assets/img/customers/partna.svg" alt="Partna"></div>
+    <div><strong>500ms</strong><p>less response time on improved endpoints</p><img src="../../assets/img/customers/payfonte.svg" alt="Payfonte"></div>
+  </div>
+
+  <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 8mm">
+    <figure><blockquote>“We had a major incident, and our tech support could see via [monoscope] which third-party integration partner was responsible, and could take action without needing the engineering team's help.”</blockquote><figcaption><b>Joshua Chinemezum</b>, CEO, Platnova</figcaption></figure>
+    <figure><blockquote>“The best observability tool we use today at Woodcore, monoscope notifies us about any slight change that happens on the system.”</blockquote><figcaption><b>Samuel Joseph</b>, CEO, Woodcore</figcaption></figure>
+  </div>
+
+  <div style="display:grid;gap:4mm;margin-top:2mm">
+    <div class="grid" style="grid-template-columns: 1fr 1fr; align-items: end;">
+      <h2>Pay per event, not per host</h2>
+      <p class="weak">You pay the same rate for requests, logs and spans, with separate allowances for metrics and session replay. There are no per-host fees, so adding servers won’t change your bill.</p>
+    </div>
+    <div class="bars">
+      <div class="row"><span>Datadog</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="n">$453/mo</span></div>
+      <div class="row"><span>Splunk Observability</span><div class="track"><div class="fill" style="width:77%"></div></div><span class="n">$349/mo</span></div>
+      <div class="row"><span>Sentry, no metrics</span><div class="track"><div class="fill" style="width:42%"></div></div><span class="n">$189/mo</span></div>
+      <div class="row us"><span>monoscope Cloud</span><div class="track"><div class="fill" style="width:15%"></div></div><span class="n">$69/mo</span></div>
+    </div>
+    <p class="note">Based on an example workload of 50M events a month, 5 hosts, 2,000 metric series and 5,000 replay sessions, using September 2026 list prices and 30-day retention. You’ll find the full assumptions on page 10.</p>
+  </div>
+
+  <div class="grid" style="grid-template-columns: repeat(3, 1fr); margin-top: 1mm">
+    <div class="step"><b>1</b><div><h3>Send your telemetry</h3><p>Add our SDK, or point your existing OpenTelemetry exporter at monoscope. We support 780+ integrations.</p></div></div>
+    <div class="step"><b>2</b><div><h3>Run it side by side</h3><p>Keep your current tool running for a week or two and compare which errors and API changes each one catches.</p></div></div>
+    <div class="step"><b>3</b><div><h3>Move your services</h3><p>Once you’re happy, send the rest of your services over and retire the tools you don’t need anymore.</p></div></div>
+  </div>
+
+  <div class="cta" style="margin-top:auto">
+    <div><h2>See it on your own traffic</h2><p>You can start free with up to 10,000 events a day, no credit card needed. Or book a call, and one of our engineers will help you get set up.</p></div>
+    <div class="qrs">
+      <a class="qr" href="https://app.monoscope.tech"><div data-qr="https://app.monoscope.tech"></div><strong>Start for free</strong>app.monoscope.tech</a>
+      <a class="qr" href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer"><div data-qr="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer"></div><strong>Try the playground</strong>no signup</a>
+      <a class="qr" href="https://calendar.app.google/1a4HG5GZYv1sjjZG6"><div data-qr="https://calendar.app.google/1a4HG5GZYv1sjjZG6"></div><strong>Book a call</strong>30 minutes</a>
+    </div>
+  </div>
+
+  <footer><span><a href="mailto:hello@monoscope.tech">hello@monoscope.tech</a></span><span>9 / 10</span></footer>
+</section>
+
+<!-- 10 · Appendix -->
+<section class="page" style="gap:3.5mm">
+  <header class="top"><img src="../../assets/brand/logo_full_color.svg" alt="monoscope"><span>Appendix for security and procurement</span></header>
+
+  <h2>Where your data lives, and who’s in control of it</h2>
+  <table>
+    <thead><tr><th style="width:20%"></th><th>Cloud</th><th>Cloud + your own S3</th><th>Self-hosted</th></tr></thead>
+    <tbody>
+      <tr><td>Data stored in</td><td>monoscope-managed storage</td><td>Your S3-compatible bucket, as open Delta Lake and Parquet tables</td><td>Your servers</td></tr>
+      <tr><td>Retention</td><td>30 days</td><td>As long as you like</td><td>Your choice</td></tr>
+      <tr><td>Price</td><td>Free up to 10,000 events/day. Paid Cloud: $29/month for 20M events, then $1 per extra million.</td><td>From $199/month for 100M events. Additional events cost $1 per million.</td><td>Community Edition is free (AGPL-3.0). Enterprise starts at $500/month.</td></tr>
+    </tbody>
+  </table>
+
+  <div>
+    <h3 style="font-size:13pt;margin-bottom:3mm">Security and privacy</h3>
+    <dl class="kv">
+      <dt>GDPR</dt><dd>We’re happy to sign a data processing agreement (DPA) whenever you need one.</dd>
+      <dt>Redaction</dt><dd>The SDK strips out the headers and body fields you choose, such as <code>$.password</code>, before any data leaves your app.</dd>
+      <dt>EU data region</dt><dd>If you’d prefer, we can store your data in the EU.</dd>
+      <dt>Data ownership</dt><dd>On Cloud + your own S3, your bucket is the database, so you can query it directly with DuckDB, Spark or SQL.</dd>
+      <dt>SSO</dt><dd>Single sign-on and advanced authentication come with Enterprise.</dd>
+      <dt>Open source</dt><dd>The whole platform is open source on GitHub under AGPL-3.0, so your team can read the code that handles your data.</dd>
+    </dl>
+  </div>
+
+  <div class="grid" style="grid-template-columns: 1fr 1fr;">
+    <div><h3>Startup program</h3><p class="weak" style="margin-top:1mm">If you’re an eligible startup, we’ll cover up to $10,000 of monoscope in your first year.</p></div>
+    <div><h3>Volume pricing</h3><p class="weak" style="margin-top:1mm">Sending more than about a billion events a month? Email <a href="mailto:hello@monoscope.tech" style="color:var(--brand)">hello@monoscope.tech</a> and we’ll put together custom pricing.</p></div>
+  </div>
+
+  <div style="background:var(--mist);border-radius:3mm;padding:5mm">
+    <h3>How the cost estimate on page 9 was calculated</h3>
+    <div class="note" style="margin-top:2mm;display:grid;gap:1.5mm">
+      <p>We based these estimates on September 2026 public list prices, with annual billing where it’s offered and 30-day retention for every vendor.</p>
+      <p><b>Workload:</b> 50M events/month, 5 hosts, 2,000 metric series and 5,000 replay sessions. Each event averages 2 kB. Each metric series sends one data point per minute.</p>
+      <p><b>Datadog:</b> Infrastructure costs $15/host and APM costs $31/host. Log ingestion costs $0.10/GB. Indexed logs cost $2.50/million. Custom metrics cost $5/100 series beyond 100/host. Per 1,000 sessions, RUM costs $0.15 and Session Replay costs $2.50.</p>
+      <p><b>Splunk:</b> Observability Cloud App &amp; Infrastructure costs $60/host. Splunk Cloud log ingestion costs about $12.50/month per GB of daily ingestion. RUM costs $14/10,000 sessions. This estimate excludes custom metrics.</p>
+      <p><b>Sentry:</b> Team costs $26/month. Spans cost $1.60/million beyond 5M. Errors cost $0.29/1,000, with an assumed error rate of 0.5%. Replays cost $3.75/1,000. This estimate excludes metrics.</p>
+      <p><b>monoscope Cloud:</b> $29/month includes 20M events, 20M metric data points and 2,000 replay sessions. Additional usage costs $1/million events, $1/10M metric data points and $1/1,000 replay sessions.</p>
+      <p>Want to try your own numbers? Use the <a href="https://monoscope.tech/#pricing" style="color:var(--brand)">pricing calculator on our site</a>.</p>
+    </div>
+  </div>
+
+  <footer><span><a href="mailto:hello@monoscope.tech">hello@monoscope.tech</a> · <a href="https://monoscope.tech">monoscope.tech</a> · <a href="https://github.com/monoscope-tech/monoscope">github.com/monoscope-tech/monoscope</a></span><span>10 / 10</span></footer>
+</section>
+
+<script>
+  document.querySelectorAll('[data-qr]').forEach(el => {
+    const q = qrcode(0, 'M'); q.addData(el.dataset.qr); q.make();
+    el.innerHTML = q.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+  });
+</script>
+</body>
+</html>

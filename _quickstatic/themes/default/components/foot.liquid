@@ -21,7 +21,7 @@
       </div>
 
 
-      <footer class="max-w-9xl border-t border-strokeWeak pt-20 pb-5 space-y-12 px-3">
+      <footer class="max-w-9xl w-full px-3"><div class="border-t border-strokeWeak pt-20 pb-5 space-y-12">
         <!-- Logo Section -->
         <a href="/" class="py-1 block" aria-label="Back to homepage">
           <img class="h-8 dark:hidden" src="/assets/brand/logo_full_color.svg" alt="monoscope full color logo">
@@ -125,18 +125,18 @@
                   © <span id="currentYear">2026</span> Past 3 Technologies UG. Gruntaler str. 18, 13357 Berlin, Germany
                 </div>
                 <!-- Theme Selector -->
-                <div role="tablist" class="tabs tabs-boxed tabs-outline inline-flex self-start">
-                  <button role="tab" class="tab" data-theme-option="system" title="System theme">
+                <div role="group" aria-label="Color theme" class="tabs tabs-boxed tabs-outline inline-flex self-start">
+                  <button type="button" aria-pressed="false" class="tab" data-theme-option="system" title="System theme">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                   </button>
-                  <button role="tab" class="tab" data-theme-option="light" title="Light theme">
+                  <button type="button" aria-pressed="false" class="tab" data-theme-option="light" title="Light theme">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                     </svg>
                   </button>
-                  <button role="tab" class="tab" data-theme-option="dark" title="Dark theme">
+                  <button type="button" aria-pressed="false" class="tab" data-theme-option="dark" title="Dark theme">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                     </svg>
@@ -155,7 +155,7 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </div></footer>
   </section>
 
 <script>
@@ -165,9 +165,11 @@
   const getSystemTheme = () => matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   const applyTheme = (theme) => document.body.setAttribute('data-theme', theme === 'system' ? getSystemTheme() : theme);
   const updateTabs = (theme) => {
-    document.querySelectorAll('[data-theme-option]').forEach(btn =>
-      btn.classList.toggle('tab-active', btn.dataset.themeOption === theme)
-    );
+    document.querySelectorAll('[data-theme-option]').forEach(btn => {
+      const selected = btn.dataset.themeOption === theme;
+      btn.classList.toggle('tab-active', selected);
+      btn.setAttribute('aria-pressed', selected);
+    });
   };
 
   const currentTheme = localStorage.getItem('theme') || 'system';

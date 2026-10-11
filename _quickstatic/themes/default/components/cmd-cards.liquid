@@ -1,0 +1,12 @@
+<div class="grid {{cols}} gap-4">
+  {% for c in items %}
+  <div class="rounded-xl border border-strokeWeak p-5 flex flex-col gap-4 min-w-0">
+    <div class="space-y-1 flex-1">
+      <h3 class="text-base font-semibold text-textStrong">{{c.title}}</h3>
+      <p class="text-sm leading-relaxed text-textWeak">{{c.body}}</p>
+    </div>
+    <pre class="rounded-lg bg-[oklch(18%_0.02_263)] text-white/90 p-3 text-xs leading-relaxed font-mono overflow-x-auto"><code class="nohighlight">{{c.cmd | strip}}</code></pre>
+    <a href="{{c.link}}" class="text-sm text-textBrand underline-offset-2 hover:underline w-fit">Read the docs</a>
+  </div>
+  {% endfor %}
+</div>
