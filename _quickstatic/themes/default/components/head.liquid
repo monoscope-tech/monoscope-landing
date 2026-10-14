@@ -11,6 +11,7 @@
       content="{% if this.frontmatter.description %}{{ this.frontmatter.description }}{% else %}Monoscope is open-source observability with an AI SRE built in. Every error, log, trace and metric comes with the exact request behind it, and the AI investigates, opens the fix and answers in Slack.{%- endif %}"
     >
     <link rel="canonical" href="https://monoscope.tech{{this.permalink}}">
+    {% if this.frontmatter.noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -391,7 +392,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     data-theme="light"
     {% comment %} hx-boost="true" {% endcomment %}
     hx-ext="preload,head-support"
-    class="text-textStrong bg-bgBase"
+    class="text-textStrong bg-bgBase antialiased"
     preload
   >
     <script>

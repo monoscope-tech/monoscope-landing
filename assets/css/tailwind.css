@@ -301,15 +301,15 @@ html:has(body[data-theme="dark"]) {
   /* Text colors - Dark theme */
   --color-textBrand: oklch(70% 0.15 241);
   --color-textDisabled: oklch(60% 0.01 263);
-  --color-textError: oklch(77.2% 0.126 21);
+  --color-textError: oklch(80% 0.126 21);
   --color-textInformation: oklch(75.5% 0.098 241);
   --color-textInverseDisabled: oklch(45% 0.008 263);
   --color-textInverse-strong: oklch(20% 0.015 263);
   --color-textInverse-weak: oklch(35% 0.012 263);
   --color-textStrong: oklch(85% 0.02 263);
-  --color-textSuccess: oklch(75.3% 0.092 162);
+  --color-textSuccess: oklch(78.5% 0.092 162);
   --color-textWarning: oklch(79.5% 0.106 92);
-  --color-textWeak: oklch(70% 0.015 263);
+  --color-textWeak: oklch(77% 0.015 263);
 
   --backgroundPrimary: oklch(14% 0.025 263);
 }
@@ -1738,6 +1738,8 @@ html:has(body[data-theme="dark"]) {
   --tone-line: color-mix(in oklab, var(--tone-fill) 45%, transparent);
   --tone-panel: color-mix(in oklab, var(--tone-fill) 9%, var(--color-bgBase));
 }
+/* Dark bgBase is too dark for a 9% tint to read; lift the panel off the page instead */
+[data-theme=dark] :is(.tone-brand, .tone-success, .tone-warning, .tone-violet) { --tone-panel: color-mix(in oklab, var(--tone-fill) 6%, color-mix(in oklab, var(--color-bgRaised) 50%, var(--color-bgBase))); }
 /* Homepage hero sky; the painted horizon is an <img> anchored to the bottom */
 .hero-paint { background: linear-gradient(180deg, oklch(13% 0.04 275) 0%, oklch(17% 0.06 285) 40%, oklch(24% 0.08 295) 70%, oklch(30% 0.09 305) 100%); }
 /* Homepage inset panels: --inset is panel-to-viewport, --gutter is panel-to-content */

@@ -13,7 +13,7 @@ testimonials:
     logo: sameday.svg
     theme: Brand
     color: d3e5f0
-  - quote: "We had a major upgrade planned for our iOS/Android app... After adding monoscope to our laravel app, we could see every new route and request. It gave me and the dev team complete confidence that our users weren't being affected by our changes. <br/><br/>... became the smoothest and LEAST STRESSFUL rollouts we have ever done. Really an amazing tool and now a permanent part of our workflow. Thank you!!"
+  - quote: "We had a major upgrade planned for our iOS/Android app... After adding monoscope to our laravel app, we could see every new route and request. It gave me and the dev team complete confidence that our users weren’t being affected by our changes. <br/><br/>... became the smoothest and LEAST STRESSFUL rollouts we have ever done. Really an amazing tool and now a permanent part of our workflow. Thank you!!"
     photo: larrison_morrison.jpeg
     name: Lazarus Morrison
     title: Founder of Community Fluency
@@ -43,7 +43,7 @@ testimonials:
     logo: payfonte.svg
     theme: Brand
     color: e6fae3
-  - quote: "I fell for monoscope because it integrated effortlessly with my application and provided valuable API insights. Whenever I needed help, the team was always ready to listen and resolve any issues. That's why we pay for their service."
+  - quote: "I fell for monoscope because it integrated effortlessly with my application and provided valuable API insights. Whenever I needed help, the team was always ready to listen and resolve any issues. That’s why we pay for their service."
     photo: david_odohi.jpeg
     name: Odohi David
     title: CTO of Grovepay
@@ -69,7 +69,7 @@ sections:
     bullets:
       - title: Every error comes with its request
         body: Errors and slow endpoints, grouped into issues, each with the full request and response as they were.
-      - title: Breaking changes, yours and your suppliers'
+      - title: Breaking changes, yours and your suppliers’
         body: A field removed, renamed or retyped, in your endpoints or a third-party API, flagged with the request that revealed it.
       - title: Watch what the customer did before the error
         body: Session replay is linked to the failing request. Scrub to the click, see the toast they saw, and the exact request it fired.
@@ -148,12 +148,12 @@ sections:
         <span class="text-white/50">⎿  evt_01JA7Q3M9X4K2R</span>
       <span class="text-[#4EBA65]">●</span> <b class="text-white">Bash</b>(monoscope events context --at 2026-10-07T07:52:14Z --window 10m --summary)
         <span class="text-white/50">⎿  41 traces · orders-service → api.acme-logistics.com · 41 errors in advance()</span>
-      <span class="block whitespace-normal mt-3 text-white">● Orders stopped advancing at 07:52, and it isn't your code. Acme's <span class="text-[#F2C27B]">POST /v1/shipments</span> still returns 200, but the response no longer includes <span class="text-[#F2C27B]">tracking_id</span>, so <span class="text-[#F2C27B]">advance()</span> throws and 41 orders are stuck. Your last deploy was <span class="text-[#F2C27B]">b7e21c0</span>, two days ago. Want me to open a pull request with a fallback?</span>
+      <span class="block whitespace-normal mt-3 text-white">● Orders stopped advancing at 07:52, and it isn’t your code. Acme’s <span class="text-[#F2C27B]">POST /v1/shipments</span> still returns 200, but the response no longer includes <span class="text-[#F2C27B]">tracking_id</span>, so <span class="text-[#F2C27B]">advance()</span> throws and 41 orders are stuck. Your last deploy was <span class="text-[#F2C27B]">b7e21c0</span>, two days ago. Want me to open a pull request with a fallback?</span>
   - id: start
     tone: violet
     eyebrow: Get started
     title: Get your data in, or let your agent do it
-    lead: monoscope takes OTLP from any OpenTelemetry SDK or collector, across 780+ integrations, and costs one price per event. Here's how to start, what it costs, and how to switch.
+    lead: monoscope takes OTLP from any OpenTelemetry SDK or collector, across 780+ integrations, and costs one price per event. Here’s how to start, what it costs, and how to switch.
 
 plans:
   - eyebrow: Free
@@ -240,7 +240,7 @@ story:
   - time: "07:54"
     body: monoscope spots the breaking change two minutes later and posts it in Slack, with all 41 affected requests attached.
   - time: "09:41"
-    body: "When an engineer asks what's going on, monoscope answers from the stored requests and opens PR #491."
+    body: "When an engineer asks what’s going on, monoscope answers from the stored requests and opens PR #491."
 
 agents:
   - title: The monoscope CLI
@@ -260,7 +260,7 @@ agents:
 
 onboarding:
   - title: With your coding agent
-    body: Add the skills and the CLI, then ask your agent to instrument the project. It plans first, covers HTTP, SQL, queues and jobs, and checks every route arrived in monoscope before it says it's done.
+    body: Add the skills and the CLI, then ask your agent to instrument the project. It plans first, covers HTTP, SQL, queues and jobs, and checks every route arrived in monoscope before it says it’s done.
     cmd: |
       npx skills add monoscope-tech/skills
       curl https://monoscope.tech/install.sh | sh
@@ -280,13 +280,13 @@ switching:
   - title: Run it side by side
     body: Keep your current tool running for a week or two and compare which errors and API changes each one catches.
   - title: Move your services
-    body: Once you're happy, send the rest of your services over and retire the tools you don't need anymore.
+    body: Once you’re happy, send the rest of your services over and retire the tools you don’t need anymore.
 
 security:
   - title: GDPR
-    body: We're happy to sign a data processing agreement (DPA) whenever you need one.
+    body: We’re happy to sign a data processing agreement (DPA) whenever you need one.
   - title: EU data region
-    body: If you'd prefer, we can store your data in the EU.
+    body: If you’d prefer, we can store your data in the EU.
   - title: SSO
     body: Single sign-on and advanced authentication come with Enterprise.
   - title: Redaction
@@ -344,11 +344,11 @@ capabilities:
     <div class="relative flex flex-col items-center space-y-12 pt-16 sm:pt-28">
       <div class="grid md:grid-cols-[3fr_2fr] wrap-in gap-8 md:gap-x-16 md:gap-y-5 items-start mb-[clamp(5rem,10vw,12rem)]!">
         <div class="flex flex-col gap-5 md:contents">
-          <p class="md:col-start-1 md:row-start-1 font-mono text-xs uppercase tracking-wider text-textBrand">Open-source observability + AI SRE</p>
+          <p class="md:col-start-1 md:row-start-1 font-mono text-[12px] uppercase tracking-wider text-textBrand">Open-source observability + AI SRE</p>
           <h1 class="md:col-start-1 md:row-start-2 text-5xl md:text-7xl font-medium tracking-tight leading-tight text-balance text-textStrong">Know what happened.<br class="hidden md:block"> <span class="text-textDisabled dark:text-textWeak">Prove it. Fix it.</span></h1>
         </div>
         <div class="hero-copy md:col-start-2 md:row-start-2 space-y-6 md:pt-2">
-          <p class="text-lg md:text-xl leading-relaxed text-textWeak text-pretty max-w-[44ch]">Observability data lake and an AI SRE agent, to catch issues and continuously improve production.</p>
+          <p class="text-lg md:text-2xl leading-relaxed text-textWeak text-pretty max-w-[44ch]">Observability data lake and an AI SRE agent, to catch issues and continuously improve production.</p>
           <div class="flex flex-wrap items-center gap-x-6 gap-y-4">
             <a href="https://app.monoscope.tech" class="btn h-auto min-h-11 py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong text-base font-medium inline-flex items-center gap-2 whitespace-nowrap" data-tracking="index-start-trial-1" data-reddit-event="SignUp">Start for free <svg class="h-3 w-3" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#arrow-right"></use></svg></a>
             <a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer" class="inline-flex items-center min-h-11 text-base font-medium text-textStrong whitespace-nowrap underline underline-offset-4 [text-decoration-thickness:from-font] decoration-strokeWeak hover:decoration-strokeStrong" data-tracking="index-playground-1" data-reddit-event="ViewContent">Launch playground</a>
@@ -360,7 +360,7 @@ capabilities:
         </div>
       </div>
 
-      <!-- Hero demos: segmented tabs on the frame's top edge; the active pill fills as its demo plays, then advances -->
+      <!-- Hero demos: segmented tabs on the frame’s top edge; the active pill fills as its demo plays, then advances -->
       <div class="wrap-in pb-20 sm:pb-40" data-hero-tabs>
         <div role="tablist" aria-label="Product demos" class="relative z-10 mx-auto -mb-6 sm:-mb-7 w-fit flex items-center gap-1 rounded-xl border border-white/10 bg-[oklch(15%_0.02_285/0.92)] backdrop-blur p-1.5 shadow-[0_12px_32px_-12px_rgb(0_0_0/0.8)]">
           {% for s in this.frontmatter.sections %}{% if s.demo %}{% unless forloop.first %}<span aria-hidden="true" class="w-px h-5 bg-white/15"></span>{% endunless %}
@@ -401,8 +401,8 @@ capabilities:
       </div>
 
       <div class="w-full grid grid-cols-4 sm:grid-cols-8 gap-px bg-white/10 border-t border-white/10 *:bg-black/35 *:backdrop-blur-sm *:p-5 *:flex *:items-center *:justify-center [&_img]:h-5 [&_img]:sm:h-7 [&_img]:brightness-0 [&_img]:invert [&_img]:opacity-70">
-          {% assign customers = "andela.svg,partna.svg,grovepay.svg,sameday.svg,platnova.png,payfonte.svg,thepeer.svg,blockradar-full.svg" | split: "," %}
-          {% for logo in customers %}<div><img src="/assets/img/customers/{{logo}}" alt="{{logo}}"></div>{% endfor %}
+          {% assign customers = "Andela|andela.svg,Partna|partna.svg,Grovepay|grovepay.svg,Sameday|sameday.svg,Platnova|platnova.png,Payfonte|payfonte.svg,Thepeer|thepeer.svg,Blockradar|blockradar-full.svg" | split: "," %}
+          {% for c in customers %}{% assign cn = c | split: "|" %}<div><img src="/assets/img/customers/{{cn[1]}}" alt="{{cn[0]}}"></div>{% endfor %}
       </div>
     </div>
     </div>
@@ -415,7 +415,7 @@ capabilities:
           <div><span class="text-3xl font-medium tracking-tight tabular-nums text-textStrong">780+</span><br/>OpenTelemetry integrations</div>
         </div>
         <div class="grid md:grid-cols-2 gap-px bg-strokeWeak border border-t-0 border-strokeWeak rounded-b-xl overflow-hidden *:bg-bgBase *:p-5 text-textWeak">
-          {% assign reviews = "sebastian_zwach.jpeg|Sebastian Zwach|Founder of Neorent GmbH|Easy onboarding and they added an integration just for our use case, thanks again! We didn't have insights into our API load before and this helps very much.;joshua.jpeg|Joshua Chinemezum|CEO of Platnova|We had a major incident, and our tech support could see via APItoolkit which third-party integration partner was responsible, and could take action without needing the engineering team's help." | split: ";" %}
+          {% assign reviews = "sebastian_zwach.jpeg|Sebastian Zwach|Founder of Neorent GmbH|Easy onboarding and they added an integration just for our use case, thanks again! We didn’t have insights into our API load before and this helps very much.;joshua.jpeg|Joshua Chinemezum|CEO of Platnova|We had a major incident, and our tech support could see via APItoolkit which third-party integration partner was responsible, and could take action without needing the engineering team’s help." | split: ";" %}
           {% for r in reviews %}{% assign f = r | split: "|" %}
           <figure class="flex flex-col gap-4">
             <a href="https://www.trustpilot.com/review/apitoolkit.io" target="_blank" rel="noopener noreferrer" class="inline-flex gap-0.5 w-fit" aria-label="Five-star review on Trustpilot">{% for i in (1..5) %}<svg class="h-4 w-4 text-[#00b67a]"><use xlink:href="/assets/deps/sprite.svg#star"></use></svg>{% endfor %}</a>
@@ -440,14 +440,14 @@ capabilities:
         <div class="space-y-10">
         <div class="relative space-y-4 max-w-3xl lg:ps-12">
           <span aria-hidden="true" class="hidden lg:block absolute left-1.5 top-[7px] size-3 rounded-full border-2 border-(--tone) bg-bgBase"></span>
-          <p class="inline-flex rounded-md px-2.5 py-1 font-mono text-xs uppercase tracking-wider bg-(--tone-weak) text-(--tone)">0{{forloop.index}} · {{s.eyebrow}}</p>
+          <p class="inline-flex rounded-md px-2.5 py-1 font-mono text-[12px] uppercase tracking-wider bg-(--tone-weak) text-(--tone)">0{{forloop.index}} · {{s.eyebrow}}</p>
           <h2 class="text-4xl md:text-5xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong">{{s.title}}</h2>
           <p class="max-w-[65ch] text-lg md:text-xl leading-relaxed text-textWeak text-pretty">{{s.lead}}</p>
         </div>
         {% if s.demo %}
         <div class="feature-demo-layout grid lg:grid-cols-[minmax(0,1fr)_15rem] xl:grid-cols-[minmax(0,1fr)_18rem] gap-8 xl:gap-10 items-start">
           <div class="relative min-w-0 space-y-6">
-          <div class="rounded-xl border border-strokeWeak bg-fillWeak overflow-hidden shadow-[0_24px_64px_-32px_var(--tone-fill)]">
+          <div class="relative rounded-xl border border-strokeWeak bg-bgRaised overflow-hidden shadow-[0_24px_64px_-32px_var(--tone-fill)]">
             <div class="flex items-center gap-2 px-4 py-2.5 border-b border-strokeWeak">
               <span class="flex gap-1.5"><i class="block w-2.5 h-2.5 rounded-full bg-textDisabled/40"></i><i class="block w-2.5 h-2.5 rounded-full bg-textDisabled/40"></i><i class="block w-2.5 h-2.5 rounded-full bg-textDisabled/40"></i></span>
               <span class="font-mono text-xs text-textDisabled">{{s.frame}}</span>
@@ -480,9 +480,9 @@ capabilities:
       <!-- Problem: the incident from the Slack demo -->
       <section class="blk w-full space-y-10">
         <div class="space-y-4 max-w-3xl">
-          <p class="font-mono text-xs uppercase tracking-wider text-(--tone)">A typical Tuesday</p>
+          <p class="font-mono text-[12px] uppercase tracking-wider text-(--tone)">A typical Tuesday</p>
           <h3 class="text-3xl md:text-4xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong">A 200 OK that stranded 41 orders</h3>
-          <p class="text-xl leading-normal text-textWeak text-pretty">Your team and its coding agents ship more code against more APIs than anyone can watch. The failures that hurt don't throw. They return 200.</p>
+          <p class="text-xl leading-normal text-textWeak text-pretty">Your team and its coding agents ship more code against more APIs than anyone can watch. The failures that hurt don’t throw. They return 200.</p>
         </div>
         <ol class="grid md:grid-cols-3 gap-6">
           {% for t in this.frontmatter.story %}
@@ -496,8 +496,8 @@ capabilities:
       <!-- CAPABILITIES -->
       <div class="blk w-full space-y-8">
         <div class="space-y-4 max-w-3xl">
-          <h3 class="text-3xl md:text-4xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong">Everything else you'd expect</h3>
-          <p class="text-xl leading-normal text-textWeak text-pretty">The rest of the observability toolbox, so you don't need a second tool.</p>
+          <h3 class="text-3xl md:text-4xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong">Everything else you’d expect</h3>
+          <p class="text-xl leading-normal text-textWeak text-pretty">The rest of the observability toolbox, so you don’t need a second tool.</p>
         </div>
         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {% for c in this.frontmatter.capabilities %}
@@ -533,7 +533,7 @@ capabilities:
               <p class="px-4 py-2 text-xs font-mono text-white/50 border-b border-white/10">Response from api.acme-logistics.com at 07:52:14.208</p>
               <pre class="py-3 text-sm leading-relaxed font-mono text-white/90 overflow-x-auto [&>span]:block [&>span]:px-4"><span><span class="text-[#8FB6FF]">HTTP/1.1</span> 200 OK</span><span>{</span><span>  "shipment_id": <span class="text-[#F2C27B]">"shp_7Hk2m9"</span>,</span><span>  "status": <span class="text-[#F2C27B]">"acknowledged"</span>,</span><span class="bg-[#E11D5C]/25 text-[#FFB3C9] line-through decoration-[#FF7FA3]/60">  "tracking_id": "AX-99812-NG",</span><span>  "eta": <span class="text-[#F2C27B]">"2026-10-09"</span></span><span>}</span></pre>
             </div>
-            <p class="text-sm text-textWeak text-pretty">monoscope notices the missing field, flags it as a breaking change and links it to the trace, the logs and the customer's session.</p>
+            <p class="text-sm text-textWeak text-pretty">monoscope notices the missing field, flags it as a breaking change and links it to the trace, the logs and the customer’s session.</p>
           </div>
         </div>
       </div>
@@ -576,10 +576,10 @@ capabilities:
             [&>div>*]:border [&>div>*]:border-strokeWeak">
             {% assign icons = "postgresql.png,cloudflare.png,mongodb.png,azure-1.png,mysql.png,nginx.png,redis.png,elasticsearch.png,google-cloud.png,apache-kafka.png,kubernetes.png,prometheus-app.png,haproxy-icon.svg,docker.png" | split: "," %}
             <div class="animate-[scroll-x_60s_linear_infinite] motion-reduce:animate-none whitespace-nowrap flex w-max shrink-0 gap-5">
-              {% for ic in icons %}<div><img src="/assets/img/opentelemetry-contrib-logos/{{ic}}"/></div>{% endfor %}
+              {% for ic in icons %}<div><img src="/assets/img/opentelemetry-contrib-logos/{{ic}}" alt=""/></div>{% endfor %}
             </div>
             <div class="animate-[scroll-x_60s_linear_infinite] motion-reduce:animate-none whitespace-nowrap flex w-max shrink-0 gap-5" aria-hidden="true" >
-              {% for ic in icons %}<div><img src="/assets/img/opentelemetry-contrib-logos/{{ic}}"/></div>{% endfor %}
+              {% for ic in icons %}<div><img src="/assets/img/opentelemetry-contrib-logos/{{ic}}" alt=""/></div>{% endfor %}
             </div>
           </div>
           <div class="flex w-full overflow-x-hidden gap-5  max-w-screen
@@ -588,10 +588,10 @@ capabilities:
             [&>div>*]:border [&>div>*]:border-strokeWeak">
             {% assign icons = "statsd-receiver.png,solacereceiver.jpg,zipkin-logo.png,snowflake.png,skywalking.jpg,riak-logo.png,huawei-icon.svg,apache_zookeeper-icon.svg,rabbitmq-icon.svg,podmanio-icon.svg,apache_couchdb-icon.svg,influxdata-icon.svg,jaegertracingio-icon.svg,oracle-icon.svg,memcached-icon.svg,signalfx-icon.svg" | split: "," %}
             <div class="animate-[scroll-x_60s_linear_infinite] motion-reduce:animate-none animation-reverse  whitespace-nowrap flex w-max shrink-0 gap-5">
-              {% for ic in icons %}<div><img src="/assets/img/opentelemetry-contrib-logos/{{ic}}"/></div>{% endfor %}
+              {% for ic in icons %}<div><img src="/assets/img/opentelemetry-contrib-logos/{{ic}}" alt=""/></div>{% endfor %}
             </div>
             <div class="animate-[scroll-x_60s_linear_infinite] motion-reduce:animate-none animation-reverse whitespace-nowrap flex w-max shrink-0 gap-5" aria-hidden="true" >
-              {% for ic in icons %}<div><img src="/assets/img/opentelemetry-contrib-logos/{{ic}}"/></div>{% endfor %}
+              {% for ic in icons %}<div><img src="/assets/img/opentelemetry-contrib-logos/{{ic}}" alt=""/></div>{% endfor %}
             </div>
           </div>
           <div class=" flex w-full overflow-x-hidden gap-5  max-w-screen
@@ -600,10 +600,10 @@ capabilities:
             [&>div>*]:border [&>div>*]:border-strokeWeak">
             {% assign icons = "splunk-icon.svg,alibabacloud-icon.svg,apache_cassandra-icon.svg,logicmonitor-icon.svg,sematext-icon.svg,sentryio-icon.svg,tencent-logo.png,pulsar-logo.png,clickhouse-logo.png,coralognix.png,statsd-receiver.png,solacereceiver.jpg,zipkin-logo.png" | split: "," %}
             <div class="animate-[scroll-x_60s_linear_infinite] motion-reduce:animate-none whitespace-nowrap flex w-max shrink-0 gap-5">
-              {% for ic in icons %}<div><img src="/assets/img/opentelemetry-contrib-logos/{{ic}}"/></div>{% endfor %}
+              {% for ic in icons %}<div><img src="/assets/img/opentelemetry-contrib-logos/{{ic}}" alt=""/></div>{% endfor %}
             </div>
             <div class="animate-[scroll-x_60s_linear_infinite] motion-reduce:animate-none whitespace-nowrap flex w-max shrink-0 gap-5" aria-hidden="true" >
-              {% for ic in icons %}<div><img src="/assets/img/opentelemetry-contrib-logos/{{ic}}"/></div>{% endfor %}
+              {% for ic in icons %}<div><img src="/assets/img/opentelemetry-contrib-logos/{{ic}}" alt=""/></div>{% endfor %}
             </div>
           </div>
         </div>
@@ -731,7 +731,7 @@ capabilities:
             </div>
           </div>
           <div class="space-y-5">
-            <p class="font-mono text-xs uppercase tracking-wider text-white/50">Switching takes three steps</p>
+            <p class="font-mono text-[12px] uppercase tracking-wider text-white/50">Switching takes three steps</p>
             <ol class="grid sm:grid-cols-3 gap-6">
               {% for st in this.frontmatter.switching %}
               <li class="space-y-2">
