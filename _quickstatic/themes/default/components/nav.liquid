@@ -1,33 +1,26 @@
 <header id="header" class="w-full flex flex-col items-center top-0 left-0 right-0 sticky bg-bgBase/65 backdrop-blur-lg z-30 border-b border-strokeWeak group">
-  <nav class="group-has-[#menuInput:checked]:h-full py-2 md:py-2 flex-1 flex flex-col md:flex-row max-w-8xl px-3 w-full justify-between items-center sticky top-0 z-10">
-      <div class="flex justify-between w-full md:w-auto ">
-        <a href="/" class="py-1 md:px-0 " aria-label="Back to homepage">
+  <nav class="py-2 xl:py-2 flex-1 flex flex-col xl:flex-row max-w-9xl px-3 w-full justify-between items-center sticky top-0 z-10">
+      <div class="flex justify-between w-full xl:w-auto ">
+        <a href="/" class="py-1 xl:px-0 " aria-label="Back to homepage">
           <img class="h-6 dark:hidden" src="/assets/brand/logo_full_color.svg" alt="monoscope full color logo">
           <img class="h-6 hidden dark:inline-block" src="/assets/brand/logo_full_white.svg" alt="monoscope white logo">
         </a>
-        <label class="md:hidden p-2 hover:bg-fillBrand-weak rounded-lg transition-colors active:scale-95 cursor-pointer" aria-label="Toggle menu">
-          <svg class="h-5 w-5 text-iconWeak transition-transform">
-            <use class="block group-has-[#menuInput:checked]:hidden " xlink:href="/assets/deps/sprite.svg#menu"></use>
-            <use class="hidden group-has-[#menuInput:checked]:block " xlink:href="/assets/deps/sprite.svg#xmark"></use>
-          </svg><input type="checkbox" id="menuInput" class="hidden"/>
-        </label>
+        <button type="button" class="nav-toggle p-2 rounded-lg" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links nav-actions">
+          <svg class="h-5 w-5" aria-hidden="true"><use href="/assets/deps/sprite.svg#menu"></use></svg>
+        </button>
       </div>
       
 
-      <div class="hidden group-has-[#menuInput:checked]:flex md:flex flex-col md:flex-row pt-5 md:py-0 gap-1 md:gap-2 md:items-center w-full md:w-auto px-5 md:px-0
-                  max-md:opacity-0 max-md:group-has-[#menuInput:checked]:opacity-100
-                  max-md:translate-y-[-8px] max-md:group-has-[#menuInput:checked]:translate-y-0
-                  max-md:transition-all max-md:duration-200 max-md:ease-out">
+      <div id="nav-links" class="nav-links flex-col xl:flex-row gap-1 xl:gap-2 xl:items-center w-full xl:w-auto">
         {% for navItem in config.raw.main_nav %}
           {% if navItem.dropdown %}
-            <div class="relative group/nv">
-              <button class="flex items-center gap-1.5 px-4 py-2.5 text-textWeak hover:text-textStrong hover:bg-fillWeak rounded-lg nav-link font-normal focus-visible:ring-2 focus-visible:ring-strokeFocus focus-visible:ring-inset" title="{{navItem.title}}">
+            <details class="relative group/nv nav-disclosure">
+              <summary class="flex items-center gap-1.5 px-4 py-2.5 text-textWeak hover:text-textStrong hover:bg-fillWeak rounded-lg nav-link font-normal focus-visible:ring-2 focus-visible:ring-strokeFocus focus-visible:ring-inset" title="{{navItem.title}}">
                 {{navItem.title}}
-                <svg class="shrink-0 h-4 w-4 text-current nav-chevron group-hover/nv:rotate-180"><use xlink:href="/assets/deps/sprite.svg#chevron-down"></use></svg>
-              </button>
-              <div class="nav-dropdown md:absolute md:top-full md:left-0 md:w-[420px] md:opacity-0 md:scale-95 md:pointer-events-none md:group-hover/nv:opacity-100 md:group-hover/nv:scale-100 md:group-hover/nv:pointer-events-auto transition-all duration-200">
-                <!-- Invisible bridge to maintain hover -->
-                <div class="absolute -top-2 left-0 right-0 h-2"></div>
+                <svg class="shrink-0 h-4 w-4 text-current nav-chevron group-open/nv:rotate-180"><use xlink:href="/assets/deps/sprite.svg#chevron-down"></use></svg>
+              </summary>
+              <div class="nav-dropdown xl:absolute xl:top-full xl:left-0 xl:w-[420px]">
+
                 <div class="bg-bgBase border border-strokeWeak rounded-xl shadow-xl p-2 mt-2">
                   {% for subItem in navItem.dropdown %}
                     <a href="{{subItem.url}}" class="flex items-start gap-4 p-3 hover:bg-fillWeak active:bg-fillPress rounded-lg nav-link group/item focus-visible:ring-2 focus-visible:ring-strokeFocus focus-visible:ring-inset"
@@ -61,12 +54,12 @@
                   {% endfor %}
                 </div>
               </div>
-            </div>
+            </details>
           {% else %}
             <a href="{{navItem.url}}" class="px-4 py-2.5 text-textWeak hover:text-textStrong hover:bg-fillWeak active:bg-fillPress rounded-lg nav-link font-normal focus-visible:ring-2 focus-visible:ring-strokeFocus focus-visible:ring-inset">{{navItem.title}}</a>
           {% endif %}
         {% endfor %}
-        <a href="https://github.com/monoscope-tech/monoscope" target="_blank" rel="noopener noreferrer" class="hidden md:flex items-center gap-2 px-3 py-2 border border-strokeWeak bg-bgBase hover:bg-fillWeak active:bg-fillPress active:scale-[0.98] rounded-lg nav-link text-sm group/gh focus-visible:ring-2 focus-visible:ring-strokeFocus">
+        <a href="https://github.com/monoscope-tech/monoscope" target="_blank" rel="noopener noreferrer" class="hidden xl:flex items-center gap-2 px-3 py-2 border border-strokeWeak bg-bgBase hover:bg-fillWeak active:bg-fillPress active:scale-[0.98] rounded-lg nav-link text-sm group/gh focus-visible:ring-2 focus-visible:ring-strokeFocus">
           <svg class="h-4 w-4 fill-current text-textStrong" viewBox="0 0 16 16" aria-hidden="true">
             <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
           </svg>
@@ -74,10 +67,12 @@
           <span class="px-2 py-0.5 bg-fillWeak rounded-full text-xs font-medium text-textStrong" id="github-stars">-</span>
         </a>
       </div>
-      <div class="hidden group-has-[#menuInput:checked]:flex md:flex gap-3 items-center w-full md:w-auto px-5 md:px-0 mt-4 md:mt-0">
+      <div id="nav-actions" class="nav-actions gap-3 items-center w-full xl:w-auto flex-wrap">
         <a href="https://app.monoscope.tech" class="text-textWeak hover:text-textStrong transition-colors font-normal" data-tracking="nav-login" data-reddit-event="SignUp">Login</a>
-        <a href="https://app.monoscope.tech" class="btn btn-secondary px-5 py-2.5 rounded-lg font-normal" data-tracking="nav-start-trial" data-reddit-event="SignUp">Start free trial</a>
-        <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" class="btn px-5 py-2.5 bg-fillBrand-strong text-textInverse-strong rounded-lg font-semibold" data-tracking="nav-book-demo" data-reddit-event="ScheduleDemo">Book a demo</a>
+        <a href="https://app.monoscope.tech" class="btn px-5 py-2.5 bg-fillBrand-strong text-textInverse-strong rounded-lg font-semibold" data-tracking="nav-start-trial" data-reddit-event="SignUp">Start for free</a>
+        <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" class="btn btn-secondary px-5 py-2.5 rounded-lg font-normal" data-tracking="nav-book-demo" data-reddit-event="ScheduleDemo">Book a demo</a>
       </div>
     </nav>
 </header>
+
+<script src="/assets/js/interface.js" defer></script>

@@ -8,9 +8,10 @@
     </title>
     <meta
       name="description"
-      content="{% if this.frontmatter.description %}{{ this.frontmatter.description }}{% else %}Monoscope is an API-first monitoring and observability platform for engineers and customer support teams. We use AI to help engineering teams observe, manage, monitor, and test their backend systems and any APIs they depend on.{%- endif %}"
+      content="{% if this.frontmatter.description %}{{ this.frontmatter.description }}{% else %}Monoscope is open-source observability with an AI SRE built in. Every error, log, trace and metric comes with the exact request behind it, and the AI investigates, opens the fix and answers in Slack.{%- endif %}"
     >
     <link rel="canonical" href="https://monoscope.tech{{this.permalink}}">
+    {% if this.frontmatter.noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,9 +23,9 @@
     >
     <meta
       property="og:description"
-      content="{% if this.frontmatter.description %}{{ this.frontmatter.description }}{% else %}Monoscope is an API-first monitoring and observability platform for engineers and customer support teams. We use AI to help engineering teams observe, manage, monitor, and test their backend systems and any APIs they depend on.{%- endif %}"
+      content="{% if this.frontmatter.description %}{{ this.frontmatter.description }}{% else %}Monoscope is open-source observability with an AI SRE built in. Every error, log, trace and metric comes with the exact request behind it, and the AI investigates, opens the fix and answers in Slack.{%- endif %}"
     >
-    {% assign og_parts = this.permalink | split: '/' %}{% assign og_slug = '' %}{% for p in og_parts %}{% if p != '' %}{% if og_slug != '' %}{% assign og_slug = og_slug | append: '/' %}{% endif %}{% assign og_slug = og_slug | append: p %}{% endif %}{% endfor %}
+    {% assign og_parts = this.permalink | split: '/' %}{% assign og_slug = '' %}{% for p in og_parts %}{% if p != '' %}{% if og_slug != '' %}{% assign og_slug = og_slug | append: '/' %}{% endif %}{% assign og_slug = og_slug | append: p %}{% endif %}{% endfor %}{% if og_slug == '' %}{% assign og_slug = 'index' %}{% endif %}
     <meta
       property="og:image"
       content="{% if this.frontmatter.ogImage %}{{this.frontmatter.ogImage}}{% else %}https://monoscope.tech/assets/og/{{ og_slug }}.png{% endif %}"
@@ -391,7 +392,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     data-theme="light"
     {% comment %} hx-boost="true" {% endcomment %}
     hx-ext="preload,head-support"
-    class="text-textStrong bg-bgBase"
+    class="text-textStrong bg-bgBase antialiased"
     preload
   >
     <script>

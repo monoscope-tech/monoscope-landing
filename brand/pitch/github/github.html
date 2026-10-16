@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GitHub PR Mockup</title>
+<!-- GitHub pull request, dark mode, monoscope's review against production. Screenshot at 1366x1024: node brand/pitch/github/shoot.mjs -->
+<style>
+  @font-face { font-family: Inter; src: url(../fonts/Inter-400.ttf); font-weight: 400; }
+  @font-face { font-family: Inter; src: url(../fonts/Inter-500.ttf); font-weight: 500; }
+  @font-face { font-family: Inter; src: url(../fonts/Inter-600.ttf); font-weight: 600; }
+  @font-face { font-family: "JetBrains Mono"; src: url(../fonts/JetBrainsMono-400.ttf); font-weight: 400; }
+  :root { --bg: #0d1117; --subtle: #151b23; --line: #3d444d; --line-weak: #262c36; --fg: #f0f6fc; --muted: #9198a1;
+    --accent: #4493f8; --green: #238636; --red: #f85149; --tip: #3fb950; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1366px; height: 1024px; overflow: hidden; background: #010409; font: 15px/1.5 Inter, -apple-system, sans-serif; color: var(--fg); -webkit-font-smoothing: antialiased; }
+  svg.i { width: 16px; height: 16px; fill: currentColor; flex: none; }
+  code, .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+  p code { font-size: 13.5px; background: rgb(101 108 118 / .2); border-radius: 6px; padding: 2px 6px; }
+  .win { position: absolute; inset: 0; border: 1px solid var(--line-weak); border-radius: 12px; overflow: hidden; background: var(--bg); }
+  .chrome { height: 46px; display: flex; align-items: center; padding: 0 18px; background: #151b23; border-bottom: 1px solid var(--line-weak); position: relative; }
+  .chrome .dots { display: flex; gap: 8px; } .chrome .dots i { width: 12px; height: 12px; border-radius: 50%; background: #3d444d; }
+  .chrome .url { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; height: 30px; padding: 0 16px; border-radius: 8px; background: #0d1117; color: var(--muted); font: 13px "JetBrains Mono", monospace; }
+  .page { width: 1150px; margin: 0 auto; }
+  .head { padding: 18px 0 0; }
+  h1 { font-size: 30px; font-weight: 400; display: flex; align-items: center; gap: 12px; letter-spacing: -.01em; }
+  h1 .n { color: var(--muted); font-weight: 300; }
+  .meta { display: flex; align-items: center; gap: 10px; margin-top: 10px; color: var(--muted); font-size: 15px; }
+  .state { display: inline-flex; align-items: center; gap: 6px; background: var(--green); color: #fff; font-weight: 500; border-radius: 99px; padding: 5px 14px; }
+  .meta b { color: var(--fg); font-weight: 600; }
+  .branch { font: 13px "JetBrains Mono", monospace; color: var(--accent); background: rgb(56 139 253 / .1); border-radius: 6px; padding: 2px 7px; }
+  .tabs { display: flex; gap: 6px; margin-top: 12px; border-bottom: 1px solid var(--line-weak); }
+  .tabs span { display: flex; align-items: center; gap: 8px; padding: 10px 14px; color: var(--muted); font-size: 15px; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .tabs span.on { color: var(--fg); font-weight: 600; border-color: #f78166; }
+  .tabs em { font-style: normal; font-size: 12px; background: rgb(101 108 118 / .3); color: var(--fg); border-radius: 99px; padding: 0 7px; font-weight: 500; }
+  .tl { display: grid; grid-template-columns: 44px 1fr; gap: 16px; margin-top: 18px; }
+  .av { width: 44px; height: 44px; border-radius: 50%; background: #fff; display: grid; place-items: center; }
+  .av img { width: 34px; height: 34px; }
+  .box { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; position: relative; }
+  .box::before { content: ""; position: absolute; left: -8px; top: 16px; width: 8px; height: 14px; background: var(--line); clip-path: polygon(100% 0, 0 50%, 100% 100%); }
+  .bh { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: var(--subtle); border-bottom: 1px solid var(--line); font-size: 15px; color: var(--muted); }
+  .bh b { color: var(--fg); font-weight: 600; }
+  .bot { border: 1px solid var(--line); border-radius: 99px; font-size: 12px; padding: 0 7px; line-height: 20px; }
+  .req { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; color: var(--red); font-weight: 500; }
+  .bb { padding: 14px 20px 16px; display: grid; gap: 12px; }
+  .alert { border-left: 4px solid var(--red); padding: 2px 0 2px 16px; }
+  .alert .t { display: flex; align-items: center; gap: 8px; color: var(--red); font-weight: 500; }
+  .alert.tip { border-color: var(--tip); } .alert.tip .t { color: var(--tip); }
+  .alert p { margin-top: 4px; }
+  .card { border: 1px solid var(--line-weak); border-radius: 8px; background: #0d1117; }
+  .card .cap { padding: 12px 16px 0; font: 13px "JetBrains Mono", monospace; color: var(--fg); }
+  .card .cap span { color: var(--muted); }
+  .card svg { display: block; padding: 6px 12px 10px 4px; }
+  .diff { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .diff .f { padding: 8px 14px; background: var(--subtle); border-bottom: 1px solid var(--line); font: 13px "JetBrains Mono", monospace; display: flex; gap: 10px; align-items: center; }
+  .diff .f .c { color: var(--red); } 
+  .diff table { border-collapse: collapse; width: 100%; font: 13.5px/24px "JetBrains Mono", monospace; }
+  .diff td.n { width: 46px; text-align: right; padding-right: 10px; color: var(--muted); }
+  .diff td.x { padding-left: 10px; white-space: pre; }
+  .diff tr.del td { background: rgb(248 81 73 / .12); } .diff tr.del td.n { background: rgb(248 81 73 / .2); }
+  .av.face { background: none; overflow: hidden; } .av.face img { width: 100%; height: 100%; object-fit: cover; }
+  .desc .bb { gap: 8px; }
+  .tl + .tl { margin-top: 16px; }
+  .k { color: #ff7b72; } .fn { color: #d2a8ff; } .s { color: #a5d6ff; }
+</style>
+</head>
+<body>
+<div class="win">
+  <div class="chrome"><div class="dots"><i></i><i></i><i></i></div>
+    <div class="url"><svg class="i" viewBox="0 0 16 16" style="width:12px;height:12px"><path d="M4 4a4 4 0 0 1 8 0v2h.25c.966 0 1.75.784 1.75 1.75v5.5A1.75 1.75 0 0 1 12.25 15h-8.5A1.75 1.75 0 0 1 2 13.25v-5.5C2 6.784 2.784 6 3.75 6H4Zm8.25 3.5h-8.5a.25.25 0 0 0-.25.25v5.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-5.5a.25.25 0 0 0-.25-.25ZM10.5 6V4a2.5 2.5 0 1 0-5 0v2Z"/></svg>github.com/astronomy-shop/orders-service/pull/512</div></div>
+  <div class="page">
+    <div class="head">
+      <h1><svg class="i" viewBox="0 0 16 16" style="width:30px;height:30px"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg>orders: simplify shipment status mapping <span class="n">#512</span></h1>
+      <div class="meta"><span class="state"><svg class="i" viewBox="0 0 16 16"><path d="M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25Zm5.677-.177L9.573.677A.25.25 0 0 1 10 .854V2.5h1A2.5 2.5 0 0 1 13.5 5v5.628a2.251 2.251 0 1 1-1.5 0V5a1 1 0 0 0-1-1h-1v1.646a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354ZM3.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm0 9.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm8.25.75a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0Z"/></svg>Open</span>
+        <span><b>lukas-weber</b> wants to merge 1 commit into <span class="branch">main</span> from <span class="branch">simplify-status-mapping</span></span></div>
+      <div class="tabs"><span class="on">Conversation <em>3</em></span><span>Commits <em>1</em></span><span>Checks <em>3</em></span><span>Files changed <em>1</em></span></div>
+    </div>
+    <div class="tl desc">
+      <div class="av face"><img src="../slack/people/lukas.jpg" alt=""></div>
+      <div class="box">
+        <div class="bh"><b>lukas-weber</b>commented 18 minutes ago<span style="margin-left:auto" class="bot">Author</span></div>
+        <div class="bb">
+          <p>Collapses the three shipment status branches into one path. The <code>markPending</code> fallback looked unreachable: Acme always returns a <code>tracking_id</code> in staging, and no test covers it. Unit tests pass.</p>
+        </div>
+      </div>
+    </div>
+    <div class="tl">
+      <div class="av"><img src="../../../static/android-chrome-192x192.png" alt=""></div>
+      <div class="box">
+        <div class="bh"><b>monoscope</b><span class="bot">bot</span>reviewed against production 2 minutes ago
+          <span class="req"><svg class="i" viewBox="0 0 16 16"><path d="M1 1.75C1 .784 1.784 0 2.75 0h7.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16H2.75A1.75 1.75 0 0 1 1 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25V4.664a.25.25 0 0 0-.073-.177l-2.914-2.914a.25.25 0 0 0-.177-.073ZM8 3.25a.75.75 0 0 1 .75.75v1.5h1.5a.75.75 0 0 1 0 1.5h-1.5v1.5a.75.75 0 0 1-1.5 0V7h-1.5a.75.75 0 0 1 0-1.5h1.5V4A.75.75 0 0 1 8 3.25Zm-3 8a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75Z"/></svg>Changes requested</span></div>
+        <div class="bb">
+          <div class="alert"><div class="t"><svg class="i" viewBox="0 0 16 16"><path d="M4.47.22A.749.749 0 0 1 5 0h6c.199 0 .389.079.53.22l4.25 4.25c.141.14.22.331.22.53v6a.749.749 0 0 1-.22.53l-4.25 4.25A.749.749 0 0 1 11 16H5a.749.749 0 0 1-.53-.22L.22 11.53A.749.749 0 0 1 0 11V5c0-.199.079-.389.22-.53Zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>Caution</div>
+            <p><b style="font-weight:600">Merging this breaks shipment updates whenever Acme omits <code>tracking_id</code>.</b></p></div>
+          <p>This change drops the fallback for a missing <code>tracking_id</code>. Over the last 30 days, Acme left that field out of <b style="font-weight:600">1,284 of 61,040 responses</b>, most recently today at 07:52. Without the fallback, <code>res.tracking_id.trim()</code> throws before <code>advance()</code> runs, so those orders never reach <code>shipped</code>.</p>
+          <div class="diff">
+            <div class="f"><span>orders-service/src/shipments.ts</span><span class="c">−1</span></div>
+            <table>
+              <tr><td class="n">41</td><td class="x">  <span class="k">const</span> res = <span class="k">await</span> acme.<span class="fn">getShipment</span>(id)</td></tr>
+              <tr class="del"><td class="n">42</td><td class="x">- <span class="k">if</span> (!res.tracking_id) <span class="k">return</span> <span class="fn">markPending</span>(order)</td></tr>
+              <tr><td class="n">43</td><td class="x">  order.trackingId = res.tracking_id.<span class="fn">trim</span>()</td></tr>
+              <tr><td class="n">44</td><td class="x">  <span class="k">await</span> <span class="fn">advance</span>(order, <span class="s">"shipped"</span>)</td></tr>
+            </table>
+          </div>
+          <div class="card"><div class="cap">acme-logistics · responses without tracking_id · last 30 days <span>· 4 incidents</span></div><svg viewBox="0 0 1040 156" width="100%"><line x1="40" y1="132" x2="1040" y2="132" stroke="#262c36"/><text x="32" y="136" font-family="JetBrains Mono" font-size="11" fill="#9198a1" text-anchor="end">0</text><line x1="40" y1="79" x2="1040" y2="79" stroke="#262c36"/><text x="32" y="83" font-family="JetBrains Mono" font-size="11" fill="#9198a1" text-anchor="end">300</text><line x1="40" y1="26" x2="1040" y2="26" stroke="#262c36"/><text x="32" y="30" font-family="JetBrains Mono" font-size="11" fill="#9198a1" text-anchor="end">600</text><rect x="43.0" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="76.3" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="109.7" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="143.0" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="176.3" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="209.7" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="243.0" y="59.2" width="27.3" height="72.8" rx="2" fill="#f85149" fill-opacity="0.75"/><text x="256.7" y="53.2" font-family="JetBrains Mono" font-size="11" fill="#9198a1" fill="#f0f6fc" text-anchor="middle">412</text><text x="256.7" y="152" font-family="JetBrains Mono" font-size="11" fill="#9198a1" text-anchor="middle">Sep 14</text><rect x="276.3" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="309.7" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="343.0" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="376.3" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="409.7" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="443.0" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="476.3" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><text x="490.0" y="152" font-family="JetBrains Mono" font-size="11" fill="#9198a1" text-anchor="middle">Sep 21</text><rect x="509.7" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="543.0" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="576.3" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="609.7" y="27.8" width="27.3" height="104.2" rx="2" fill="#f85149" fill-opacity="0.75"/><text x="623.3" y="21.8" font-family="JetBrains Mono" font-size="11" fill="#9198a1" fill="#f0f6fc" text-anchor="middle">590</text><rect x="643.0" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="676.3" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="709.7" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><text x="723.3" y="152" font-family="JetBrains Mono" font-size="11" fill="#9198a1" text-anchor="middle">Sep 28</text><rect x="743.0" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="776.3" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="809.7" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="843.0" y="89.4" width="27.3" height="42.6" rx="2" fill="#f85149" fill-opacity="0.75"/><text x="856.7" y="83.4" font-family="JetBrains Mono" font-size="11" fill="#9198a1" fill="#f0f6fc" text-anchor="middle">241</text><rect x="876.3" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="909.7" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="943.0" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><text x="956.7" y="152" font-family="JetBrains Mono" font-size="11" fill="#9198a1" text-anchor="middle">Oct 5</text><rect x="976.3" y="130.5" width="27.3" height="1.5" fill="#3d444d"/><rect x="1009.7" y="124.8" width="27.3" height="7.2" rx="2" fill="#f85149" fill-opacity="1"/><text x="1023.3" y="118.8" font-family="JetBrains Mono" font-size="11" fill="#9198a1" fill="#f0f6fc" text-anchor="middle">41</text><text x="1023.3" y="152" font-family="JetBrains Mono" font-size="11" fill="#9198a1" fill="#f0f6fc" text-anchor="middle">today</text></svg></div>
+          <div class="alert tip"><div class="t"><svg class="i" viewBox="0 0 16 16"><path d="M8 1.5c-2.363 0-4 1.69-4 3.75 0 .984.424 1.625.984 2.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621 1.49a.75.75 0 0 1-1.484.211c-.04-.282-.163-.547-.37-.847a8.456 8.456 0 0 0-.542-.68c-.084-.1-.173-.205-.268-.32C3.201 7.75 2.5 6.766 2.5 5.25 2.5 2.31 4.863 0 8 0s5.5 2.31 5.5 5.25c0 1.516-.701 2.5-1.328 3.259-.095.115-.184.22-.268.319-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751 0 0 1-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848.075-.088.147-.173.213-.253.561-.679.985-1.32.985-2.304 0-2.06-1.637-3.75-4-3.75ZM5.75 12h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM6 15.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"/></svg>Worth adding to the trace</div>
+            <p>Record <code>shipment.tracking_id.present</code> on this span, so you can see at a glance whether the response included the field.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

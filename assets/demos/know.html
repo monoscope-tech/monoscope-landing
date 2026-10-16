@@ -1,0 +1,24 @@
+<!-- 01 Know what happened: issues → the issue → the request behind it → its trace → session replay. Real dashboard screens, dark. ~13s loop. -->
+<link rel="stylesheet" href="screens/app.css">
+<section data-screen="issues" data-src="screens/issues.html"></section>
+<section data-screen="issue"  data-src="screens/issue.html"></section>
+<section data-screen="request" data-src="screens/explorer-row.html"></section>
+<section data-screen="trace" data-src="screens/explorer-trace.html"></section>
+<link rel="stylesheet" href="replay.css">
+<section data-screen="replay" data-src="screens/replay.html"></section>
+
+
+<script type="application/json" data-storyboard>
+[
+  { "screen": "issues",  "caption": "Errors arrive grouped into issues", "wait": 1500 },
+  { "cursor": "a[href*='/issues/']", "click": true, "caption": "", "wait": 150 },
+  { "screen": "issue",   "caption": "What broke, how often, since when", "wait": 2200 },
+  { "screen": "request", "caption": "The exact request that caused it", "focus": "text=Request", "wait": 2000 },
+  { "cursor": "text=Req Body", "click": true, "focus": "text=Req Body", "caption": "Headers, body, response, as they were", "wait": 1800 },
+  { "cursor": "text=View trace", "click": true, "caption": "", "wait": 150 },
+  { "screen": "trace",   "caption": "The whole trace, every service it touched", "wait": 2200 },
+  { "screen": "replay",  "caption": "And what the customer was doing when it broke", "wait": 900 },
+  { "cursor": ".rp .cbtn", "click": true, "reveal": ".rp .spin", "wait": 700 },
+  { "reveal": ".rp .toast, .rp .ev.err", "caption": "They clicked Place order. It failed. You have the request.", "wait": 3200 }
+]
+</script>

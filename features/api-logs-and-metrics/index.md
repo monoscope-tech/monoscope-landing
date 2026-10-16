@@ -17,7 +17,7 @@ hide-date: true
         Observe and fix any API from API integrations or your services. Get in-depth overview of your server-side API calls, including events, pageviews, clicks, and variation calls. Verify API calls are correct and identify implementation issues instantly.
       </p>
       <div class="flex gap-2 sm:gap-4">
-        <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong shadow">Start free trial</a>
+        <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong shadow">Start for free</a>
         <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" class="btn py-3 px-6 rounded-xl bg-transparent border border-fillBrand-strong text-fillBrand-strong shadow">Get a demo</a>
       </div>
     </div>
@@ -36,7 +36,7 @@ hide-date: true
         <div class="space-y-6">
           <h2 class="text-3xl font-normal">Real-time Insights, Real-time Fixes via the Log Explorer</h2>
           <p class="text-lg text-textWeak">
-            No more waiting for problems to snowball. Identify and fix issues as they happen, ensuring flawless performance and a seamless user experience.
+            No more waiting for problems to snowball. See issues as they happen, with the request that caused them, and fix them before your users notice.
           </p>
           <div class="flex gap-2 sm:gap-4">
             <a href="https://app.monoscope.tech" class="btn py-2 px-4 rounded-lg bg-fillBrand-strong text-textInverse-strong shadow text-sm">Start for free</a>

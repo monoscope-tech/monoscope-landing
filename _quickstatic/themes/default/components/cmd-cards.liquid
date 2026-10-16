@@ -1,0 +1,27 @@
+<div class="grid {{cols}} gap-4">
+  {% for c in items %}
+  <div class="rounded-xl border border-strokeWeak p-5 flex flex-col gap-4 min-w-0">
+    <div class="space-y-1.5">
+      <h3 class="text-lg font-semibold text-textStrong">{{c.title}}</h3>
+      <p class="text-base leading-relaxed text-textWeak text-pretty">{{c.body}}</p>
+    </div>
+    <div class="relative">
+      <pre class="rounded-lg bg-[oklch(18%_0.02_263)] text-white/90 p-3 pe-12 text-[12px] leading-relaxed font-mono overflow-x-auto"><code class="nohighlight">{{c.cmd | strip}}</code></pre>
+      <button type="button" data-copy="card" aria-label="Copy command" class="group absolute top-1.5 end-1.5 grid place-items-center size-8 rounded-md text-white/60 hover:text-white hover:bg-white/10 transition-colors">
+        <svg class="col-start-1 row-start-1 size-4 transition-[opacity,scale,filter] duration-200 ease-[cubic-bezier(0.2,0,0,1)] motion-reduce:transition-none group-data-[done]:opacity-0 group-data-[done]:scale-25 group-data-[done]:blur-[4px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <svg class="col-start-1 row-start-1 size-4 text-[#9BE9A8] opacity-0 scale-25 blur-[4px] transition-[opacity,scale,filter] duration-200 ease-[cubic-bezier(0.2,0,0,1)] motion-reduce:transition-none group-data-[done]:opacity-100 group-data-[done]:scale-100 group-data-[done]:blur-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+        <span role="status" class="sr-only"></span>
+      </button>
+    </div>
+    <a href="{{c.link}}" class="mt-auto text-sm text-textBrand underline-offset-2 hover:underline w-fit">{% if c.link_label %}{{c.link_label}}{% else %}Read the docs{% endif %}</a>
+  </div>
+  {% endfor %}
+</div>
+<script>
+window.__cardCopy || document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-copy="card"]'); if (!b) return;
+  try { await navigator.clipboard.writeText(b.parentElement.querySelector('code').innerText.trim()); } catch { return; }
+  const s = b.querySelector('[role=status]'); b.dataset.done = ''; s.textContent = 'Copied';
+  clearTimeout(b.t); b.t = setTimeout(() => { delete b.dataset.done; s.textContent = ''; }, 1500);
+}); window.__cardCopy = true;
+</script>
