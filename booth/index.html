@@ -259,6 +259,11 @@ $("entry").addEventListener("submit", e => {
   });
 });
 
+// Until a real key is set the collector still answers 200, so block entries instead of dropping them.
+if (API_KEY.startsWith("YOUR_")) {
+  $("submit").disabled = true; $("submit").textContent = "Entries open shortly";
+  $("error").textContent = "The draw isn't open yet. Ask at the booth."; $("error").hidden = false;
+}
 // A finished entry shows its ticket again on reload; an unsent one is retried.
 const done = store.get("booth-done"), pending = store.get("booth-pending");
 if (done) showResult(done); else if (pending) submit(pending);
