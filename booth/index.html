@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Win a monoscope tee</title>
+<meta name="description" content="Answer four questions at the monoscope booth and enter the draw for a tee.">
+<link rel="icon" href="/assets/img/logo_mini.svg">
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<style>
+:root {
+  --navy: #000626; --blue: #0068FF; --blue-weak: rgb(0 104 255 / .08);
+  --bg: #F2F5FA; --surface: #FFFFFF; --text: #000626; --muted: rgb(0 6 38 / .62);
+  --line: rgb(0 6 38 / .12); --line-strong: rgb(0 6 38 / .28);
+  --ok: oklch(47.8% .13 162); --ok-weak: oklch(47.8% .13 162 / .1);
+  --bad: oklch(51.3% .197 21); --bad-weak: oklch(51.3% .197 21 / .08);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: oklch(16.4% .012 263); --surface: oklch(20.5% .016 263); --text: oklch(97% .005 247);
+    --muted: oklch(97% .005 247 / .66); --line: oklch(100% 0 0 / .12); --line-strong: oklch(100% 0 0 / .3);
+    --blue: #3D8BFF; --blue-weak: rgb(61 139 255 / .14); --ok: oklch(76% .14 162); --ok-weak: oklch(76% .14 162 / .14);
+    --bad: oklch(72% .16 21); --bad-weak: oklch(72% .16 21 / .14);
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 16px/1.5 InterVariable, Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-feature-settings: "cv11", "ss01"; -webkit-font-smoothing: antialiased;
+  padding: env(safe-area-inset-top, 0px) 16px calc(env(safe-area-inset-bottom, 0px) + 48px);
+}
+main { max-width: 34rem; margin: 0 auto; display: grid; gap: 28px; }
+header { display: grid; gap: 14px; padding-top: 28px; }
+header img { height: 26px; width: auto; display: block; }
+[hidden] { display: none !important; }
+h1 { font-size: clamp(2rem, 9vw, 2.6rem); line-height: 1.05; letter-spacing: -.03em; font-weight: 750; margin: 6px 0 0; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); font-size: 17px; text-wrap: pretty; }
+.trace { width: 100%; height: auto; color: var(--blue); overflow: visible; }
+.trace circle { fill: var(--surface); stroke: currentColor; stroke-width: 3; transition: fill .2s cubic-bezier(.2,0,0,1); }
+.trace circle.on { fill: currentColor; }
+.progress { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; margin-top: -6px; }
+form, .card { display: grid; gap: 28px; }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; display: grid; gap: 10px; }
+legend { padding: 0; margin-bottom: 10px; font-weight: 650; font-size: 18px; line-height: 1.35; text-wrap: balance; }
+.eyebrow { display: block; font: 600 12px/1 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--blue); margin-bottom: 8px; }
+.opt { position: relative; display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 12px; background: var(--surface); box-shadow: 0 0 0 1px var(--line); cursor: pointer; transition: box-shadow .15s, background-color .15s; }
+.opt:has(input:checked) { box-shadow: 0 0 0 2px var(--blue); background: var(--blue-weak); }
+.opt:has(input:focus-visible) { outline: 2px solid var(--blue); outline-offset: 3px; }
+.opt input { appearance: none; flex: none; width: 20px; height: 20px; margin: 1px 0 0; border-radius: 50%; border: 2px solid var(--line-strong); background: var(--surface); transition: border-color .15s; }
+.opt input[type=checkbox] { border-radius: 6px; }
+.opt input:checked { border: 6px solid var(--blue); }
+.opt input[type=checkbox]:checked { border: 0; background: var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/14px no-repeat; }
+.opt input:focus { outline: none; }
+.section-head { display: grid; gap: 4px; padding-top: 12px; border-top: 1px solid var(--line); }
+.section-head h2 { margin: 16px 0 0; font-size: 22px; letter-spacing: -.02em; }
+.section-head p { margin: 0; color: var(--muted); }
+label.field { display: grid; gap: 6px; font-weight: 600; font-size: 15px; }
+label.field span.hint { font-weight: 400; color: var(--muted); }
+input[type=text], input[type=email], select {
+  width: 100%; font: inherit; font-size: 16px; color: var(--text); background: var(--surface);
+  border: 0; border-radius: 10px; padding: 13px 14px; box-shadow: 0 0 0 1px var(--line-strong); transition: box-shadow .15s;
+}
+input[type=text]:focus, input[type=email]:focus, select:focus { outline: none; box-shadow: 0 0 0 2px var(--blue); }
+input:user-invalid, select:user-invalid { box-shadow: 0 0 0 2px var(--bad); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips .opt { padding: 10px 14px; align-items: center; }
+.chips .opt input { margin: 0; }
+.consent { font-weight: 400; font-size: 15px; color: var(--muted); }
+button {
+  font: inherit; font-weight: 650; font-size: 17px; border: 0; border-radius: 12px; padding: 16px 20px; cursor: pointer;
+  background: var(--blue); color: #fff; transition: scale .15s cubic-bezier(.2,0,0,1), opacity .15s; touch-action: manipulation;
+}
+button:active { scale: .96; }
+button:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+button[disabled] { opacity: .6; cursor: progress; }
+button.ghost { background: transparent; color: var(--blue); box-shadow: 0 0 0 1px var(--line-strong); }
+.error { margin: 0; padding: 12px 14px; border-radius: 10px; background: var(--bad-weak); color: var(--bad); font-weight: 550; }
+.prize { margin: 0; color: var(--muted); font-size: 14px; text-align: center; text-wrap: balance; }
+/* result */
+.result h1 { font-size: clamp(2.4rem, 11vw, 3.2rem); }
+.ticket { display: grid; gap: 4px; justify-items: center; padding: 22px 16px; border-radius: 16px; background: var(--blue); color: #fff; text-align: center; }
+.ticket .code { font: 700 clamp(2rem, 11vw, 2.75rem)/1.1 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .06em; }
+.ticket small { opacity: .85; font-size: 14px; }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat { padding: 14px 16px; border-radius: 12px; background: var(--surface); box-shadow: 0 0 0 1px var(--line); }
+.stat b { display: block; font-size: 28px; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.stat span { color: var(--muted); font-size: 14px; }
+.review { display: grid; gap: 10px; padding: 0; margin: 0; list-style: none; }
+.review li { padding: 14px 16px; border-radius: 12px; background: var(--surface); box-shadow: 0 0 0 1px var(--line); display: grid; gap: 6px; }
+.review .q { font-weight: 600; }
+.review .verdict { font-weight: 600; font-size: 14px; }
+.review .right .verdict { color: var(--ok); }
+.review .wrong .verdict { color: var(--bad); }
+.review p { margin: 0; color: var(--muted); font-size: 15px; }
+.next { display: grid; gap: 10px; }
+.next a { display: block; text-align: center; text-decoration: none; font-weight: 650; padding: 15px 20px; border-radius: 12px; color: var(--blue); box-shadow: 0 0 0 1px var(--line-strong); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <picture><source srcset="/assets/brand/logo_full_white.svg" media="(prefers-color-scheme: dark)"><img src="/assets/brand/logo_full_color.svg" alt="monoscope"></picture>
+    <h1>Win a monoscope tee</h1>
+    <p class="lede">Answer four quick questions and leave your details. Everyone who finishes enters the draw, and four out of four earns you a second entry.</p>
+    <svg class="trace" viewBox="0 0 320 40" aria-hidden="true">
+      <path d="M2 6v28M2 20h40c18 0 22-12 40-12h70c20 0 22 14 44 14h70c18 0 22-10 40-10h12M318 6v28" fill="none" stroke="currentColor" stroke-width="3"/>
+    </svg>
+    <div class="progress" id="progress" aria-live="polite">0 of 4 answered</div>
+  </header>
+
+  <form id="entry" novalidate>
+    <div id="quiz" style="display:grid;gap:28px"></div>
+
+    <div class="section-head">
+      <h2>Where should we send your prize?</h2>
+      <p>We only email you if you win, plus one follow-up after the conference.</p>
+    </div>
+    <label class="field">Name <input id="name" name="name" type="text" autocomplete="name" required></label>
+    <label class="field">Work email <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required></label>
+    <label class="field">Company <input id="company" name="company" type="text" autocomplete="organization" required></label>
+    <label class="field">Your role
+      <select id="role" name="role" required>
+        <option value="">Choose one</option>
+        <option>Backend or full-stack engineer</option>
+        <option>DevOps, SRE or platform engineer</option>
+        <option>Engineering manager or lead</option>
+        <option>CTO or founder</option>
+        <option>Something else</option>
+      </select>
+    </label>
+    <fieldset>
+      <legend style="font-size:15px;margin-bottom:4px">What do you use for observability today? <span class="hint" style="font-weight:400;color:var(--muted)">Optional</span></legend>
+      <div class="chips" id="tools"></div>
+    </fieldset>
+    <label class="opt consent"><input id="consent" name="consent" type="checkbox" required> Email me if I win, and send me one follow-up from monoscope.</label>
+
+    <p class="error" id="error" role="alert" hidden></p>
+    <button type="submit" id="submit">Enter the draw</button>
+    <p class="prize">Winners are drawn at the booth. Tees and other perks while stocks last.</p>
+  </form>
+
+  <section class="card result" id="result" hidden aria-live="polite"></section>
+</main>
+
+<script>
+// Each entry is sent to monoscope as one OTLP span (service "booth", span "booth.entry").
+const API_KEY = "YOUR_BROWSER_API_KEY";
+const EVENT = new URLSearchParams(location.search).get("at") || "booth";
+
+const QUIZ = [
+  { q: "A supplier drops a field from its response but still returns 200 OK. What does monoscope keep that a sampled trace doesn't?",
+    a: ["Only the status code and latency", "The exact request and response body", "A screenshot of the dashboard", "Nothing, the trace stays green"], c: 1,
+    why: "monoscope keeps the request and response for every call, yours and your suppliers', so the missing field is right there." },
+  { q: "When monoscope's AI finds the root cause, what does it hand you?",
+    a: ["A pull request with the fix", "A PDF incident report", "A restart of production", "A louder alert"], c: 0,
+    why: "It opens a PR and posts the request that proves it. You review it, your CI runs, and nothing merges on its own." },
+  { q: "Where can your telemetry live?",
+    a: ["Only in our cloud", "On the engineer's laptop", "In your own S3 bucket, as open Delta Lake and Parquet", "In a spreadsheet"], c: 2,
+    why: "Add your own bucket and every event lands there in open formats. Query it with DuckDB, Spark or SQL." },
+  { q: "How many events a day can you send monoscope for free?",
+    a: ["100", "10,000", "1,000", "None, it's a 14-day trial"], c: 1,
+    why: "Free up to 10k events a day with no credit card. It's open source too, so you can self-host." },
+];
+const TOOLS = ["Datadog", "Grafana", "Sentry", "New Relic", "Elastic", "Honeycomb", "SigNoz", "Nothing yet"];
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+const opt = (type, name, value, text) => `<label class="opt"><input type="${type}" name="${name}" value="${esc(value)}"${type === "radio" ? " required" : ""}><span>${esc(text)}</span></label>`;
+
+$("quiz").innerHTML = QUIZ.map((x, i) =>
+  `<fieldset><legend><span class="eyebrow">Question ${i + 1} of 4</span>${esc(x.q)}</legend>${x.a.map((a, j) => opt("radio", "q" + i, j, a)).join("")}</fieldset>`).join("");
+$("tools").innerHTML = TOOLS.map(t => opt("checkbox", "tools", t, t)).join("");
+
+// Light one trace node per answered question.
+const svg = document.querySelector(".trace"), xs = [42, 152, 266, 306];
+svg.insertAdjacentHTML("beforeend", xs.map((x, i) => `<circle cx="${x}" cy="${[20, 8, 22, 12][i]}" r="6"/>`).join(""));
+const answers = () => QUIZ.map((_, i) => { const r = document.querySelector(`input[name=q${i}]:checked`); return r ? +r.value : null; });
+$("entry").addEventListener("change", () => {
+  const a = answers(), n = a.filter(v => v !== null).length;
+  svg.querySelectorAll("circle").forEach((c, i) => c.classList.toggle("on", a[i] !== null));
+  $("progress").textContent = `${n} of 4 answered`;
+});
+
+const hex = n => Array.from(crypto.getRandomValues(new Uint8Array(n)), b => b.toString(16).padStart(2, "0")).join("");
+const newCode = () => "MS-" + Array.from(crypto.getRandomValues(new Uint8Array(4)), b => "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[b % 32]).join("");
+const attr = (key, v) => ({ key, value: typeof v === "number" ? { intValue: v } : { stringValue: String(v) } });
+
+async function send(entry) {
+  const now = BigInt(Date.now()) * 1000000n;
+  const body = { resourceSpans: [{
+    resource: { attributes: [attr("service.name", "booth"), attr("x-api-key", API_KEY)] },
+    scopeSpans: [{ scope: { name: "booth-form" }, spans: [{
+      traceId: hex(16), spanId: hex(8), name: "booth.entry", kind: 1,
+      startTimeUnixNano: String(now), endTimeUnixNano: String(now + 1000000n),
+      attributes: Object.entries(entry).map(([k, v]) => attr("booth." + k, v)),
+    }] }],
+  }] };
+  const res = await fetch("https://otelcol.monoscope.tech/v1/traces", {
+    method: "POST", keepalive: true,
+    headers: { "Content-Type": "application/json", "x-api-key": API_KEY }, body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(res.status);
+}
+
+const store = { get: k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+                set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch {} } };
+
+function showResult(entry) {
+  const a = entry.answers.split(",").map(Number);
+  $("entry").hidden = true;
+  document.querySelector("header .lede").hidden = $("progress").hidden = true; svg.setAttribute("hidden", "");
+  document.querySelector("header h1").hidden = true;
+  $("result").hidden = false;
+  $("result").innerHTML = `
+    <h1>You're in, ${esc(entry.name.split(" ")[0])}.</h1>
+    <div class="ticket"><small>Your entry code</small><div class="code">${entry.code}</div><small>Show this screen at the booth to collect your perk.</small></div>
+    <div class="stats"><div class="stat"><b>${entry.score} of 4</b><span>correct</span></div><div class="stat"><b>${entry.entries}</b><span>${entry.entries > 1 ? "entries in the draw" : "entry in the draw"}</span></div></div>
+    <ol class="review">${QUIZ.map((x, i) => `<li class="${a[i] === x.c ? "right" : "wrong"}"><span class="q">${esc(x.q)}</span>
+      <span class="verdict">${a[i] === x.c ? "Correct: " : "Answer: "}${esc(x.a[x.c])}</span><p>${esc(x.why)}</p></li>`).join("")}</ol>
+    <div class="next"><a href="https://monoscope.tech/?utm_source=booth&utm_medium=qr&utm_campaign=${encodeURIComponent(EVENT)}" rel="noopener noreferrer" target="_blank">Try monoscope free</a></div>`;
+  window.scrollTo({ top: 0 });
+}
+
+async function submit(entry) {
+  const btn = $("submit");
+  btn.disabled = true; btn.textContent = "Sending…"; $("error").hidden = true;
+  store.set("booth-pending", entry);
+  try {
+    await send(entry);
+    store.set("booth-pending", null); store.set("booth-done", entry);
+    showResult(entry);
+  } catch {
+    $("error").textContent = "We couldn't send your entry. Check your connection and tap the button again. Your answers are saved.";
+    $("error").hidden = false;
+  } finally { btn.disabled = false; btn.textContent = "Enter the draw"; }
+}
+
+$("entry").addEventListener("submit", e => {
+  e.preventDefault();
+  const f = e.target;
+  if (!f.checkValidity()) {
+    $("error").textContent = answers().includes(null) ? "Answer all four questions to enter." : "Fill in your name, work email, company and role, and tick the consent box.";
+    $("error").hidden = false;
+    f.querySelector(":invalid")?.focus();
+    return;
+  }
+  const a = answers(), score = a.filter((v, i) => v === QUIZ[i].c).length;
+  const pending = store.get("booth-pending");
+  submit({
+    code: pending?.code || newCode(), event: EVENT, name: $("name").value.trim(), email: $("email").value.trim().toLowerCase(),
+    company: $("company").value.trim(), role: $("role").value, tools: [...f.querySelectorAll("input[name=tools]:checked")].map(i => i.value).join(", "),
+    score, entries: score === 4 ? 2 : 1, answers: a.join(","),
+  });
+});
+
+// A finished entry shows its ticket again on reload; an unsent one is retried.
+const done = store.get("booth-done"), pending = store.get("booth-pending");
+if (done) showResult(done); else if (pending) submit(pending);
+</script>
+</body>
+</html>
