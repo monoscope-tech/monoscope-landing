@@ -142,7 +142,7 @@ button.ghost { background: transparent; color: var(--blue); box-shadow: 0 0 0 1p
 
     <p class="error" id="error" role="alert" hidden></p>
     <button type="submit" id="submit">Enter the draw</button>
-    <p class="prize">Winners are drawn at the booth. Tees and other perks while stocks last.</p>
+    <p class="prize">We draw winners tomorrow at the booth and email them. Prizes are limited.</p>
   </form>
 
   <section class="card result" id="result" hidden aria-live="polite"></section>
@@ -218,8 +218,8 @@ function showResult(entry) {
   document.querySelector("header h1").hidden = true;
   $("result").hidden = false;
   $("result").innerHTML = `
-    <h1>You're in, ${esc(entry.name.split(" ")[0])}.</h1>
-    <div class="ticket"><small>Your entry code</small><div class="code">${entry.code}</div><small>Show this screen at the booth to collect your perk.</small></div>
+    <h1>You're in the draw, ${esc(entry.name.split(" ")[0])}.</h1>
+    <div class="ticket"><small>Your entry code</small><div class="code">${entry.code}</div><small>We draw winners tomorrow at the booth and email them. Keep this code: if it's drawn, show it to collect your prize.</small></div>
     <div class="stats"><div class="stat"><b>${entry.score} of 4</b><span>correct</span></div><div class="stat"><b>${entry.entries}</b><span>${entry.entries > 1 ? "entries in the draw" : "entry in the draw"}</span></div></div>
     <ol class="review">${QUIZ.map((x, i) => `<li class="${a[i] === x.c ? "right" : "wrong"}"><span class="q">${esc(x.q)}</span>
       <span class="verdict">${a[i] === x.c ? "Correct: " : "Answer: "}${esc(x.a[x.c])}</span><p>${esc(x.why)}</p></li>`).join("")}</ol>
