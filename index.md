@@ -973,7 +973,7 @@ capabilities:
     {% endif %}
     </section>
     {% if s.id == 'prove' %}
-    <section data-theme="dark" class="tone-brand relative w-full text-textStrong mt-(--inset)">
+    <section data-theme="dark" class="tone-brand relative w-full bg-transparent! text-textStrong mt-(--inset)">
       <div aria-hidden="true" class="hero-paint absolute inset-y-0 left-1/2 -translate-x-1/2 panel-w rounded-[2rem] overflow-hidden ring-1 ring-white/10"><img src="/assets/img/home/art/pricing-night.webp" alt="" loading="lazy" data-art data-lamp="0.767,0.17" class="absolute inset-x-0 bottom-0 w-full h-56 md:h-80 object-cover object-right-bottom [mask-image:linear-gradient(to_top,black_30%,rgb(0_0_0/.8)_44%,rgb(0_0_0/.52)_58%,rgb(0_0_0/.26)_72%,rgb(0_0_0/.09)_86%,transparent)]"></div>
       <div class="relative wrap max-w-[80rem] pt-24 md:pt-32 pb-56 md:pb-80 space-y-14">
       <div class="space-y-6 max-w-3xl lg:max-w-none [&>p:first-child]:mb-3.5">
