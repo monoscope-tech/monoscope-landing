@@ -1,0 +1,44 @@
+{
+  "captured": "2026-10-27",
+  "sources": {
+    "requests": {
+      "source": "Monoscope demo project /log_explorer; cart service incoming POST /{param}/GetCart",
+      "view": "Native request summary and body tabs with an illustrative 500 error response: code, message and collapsed details object",
+      "note": "App-native UI adapted at user request with sample error response values; this payload is illustrative rather than a captured production event."
+    },
+    "api-catalog": {
+      "source": "Monoscope demo project /endpoints?host=frontend&request_type=Incoming",
+      "view": "Two native /api/cart rows with methods and Schema actions; other columns omitted"
+    },
+    "session-replay": {
+      "source": "Monoscope demo project session replay: Demo shopper 515b8dd7, October 27, 2026, 5:05 PM",
+      "view": "Actual recorded OpenTelemetry demo storefront inside the native replay player, with recording header, timeline and playback controls",
+      "note": "Restored the original screen-inclusive product capture; no request from a different session overlaid"
+    },
+    "ai-sre": {
+      "source": "Monoscope demo project /ai/757db319-a5b3-431c-bd47-bedb08f33cf3",
+      "view": "Actual investigation prompt, first finding and native 8 tool calls disclosure; unrelated findings omitted"
+    },
+    "monitors": {
+      "source": "Monoscope demo project /monitors",
+      "view": "Three actual monitor rows with native names, status indicators and thresholds; query excerpts and unrelated columns omitted for readability"
+    },
+    "metrics": {
+      "source": "Monoscope demo project /dashboards/6f5ee51d-900d-455c-99d9-2f62e6c023b8",
+      "view": "Live Request Latency Percentiles widget resized to 336 \u00d7 201; full title preserved, redundant summary and menu omitted"
+    },
+    "alerts": {
+      "source": "assets/demos/screens/slack.html and assets/demos/slack.css",
+      "view": "Existing authored homepage notification, enlarged with sender, message and primary action"
+    },
+    "s3": {
+      "source": "Root index.md, Prove chapter DuckDB example; docs/dashboard/settings-pages/s3-storage/index.md",
+      "view": "Documented direct query workflow; no connected-bucket state implied"
+    }
+  },
+  "presentation": {
+    "canvas": "1280 \u00d7 800 (360 \u00d7 225 logical pixels)",
+    "framing": "Shared 12px logical inset and #141617 product surface; native UI fragments resized to fit",
+    "replay": "Actual recording identity, storefront, progress bar, recording time and native playback controls; native play icon shown in the paused state"
+  }
+}

@@ -8,16 +8,16 @@ hideToc: true
 pages:
   - title: Docker
     slug: /docs/sdks/infrastructure/docker
-    icon: /assets/img/framework-logos/docker-icon.svg
+    icon: /assets/img/framework-logos/docker.svg
   - title: Kubernetes
     slug: /docs/sdks/infrastructure/kubernetes
-    icon: /assets/img/framework-logos/kubernetes-icon.svg
+    icon: /assets/img/framework-logos/kubernetes.svg
   - title: Linux
     slug: /docs/sdks/infrastructure/linux
-    icon: /assets/img/framework-logos/linux-icon.svg
+    icon: /assets/img/framework-logos/linux.svg
   - title: Kafka
     slug: /docs/sdks/infrastructure/kafka
-    icon: /assets/img/framework-logos/kafka-icon.svg
+    icon: /assets/img/framework-logos/kafka.svg
 ---
 
 # Infrastructure SDKs

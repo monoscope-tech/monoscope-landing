@@ -1,0 +1,16 @@
+<!-- 03 Fix (lp/b): a Slack thread into the pull request. The routine posts the finding, a teammate asks, monoscope answers and opens PR #491; its production check passes against the stored responses. ~17s loop. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap">
+<link rel="stylesheet" href="slack.css">
+<section data-screen="slack"    data-src="screens/slack.html"></section>
+<section data-screen="pr"       data-src="screens/github-pr.html"></section>
+
+<script type="application/json" data-storyboard>
+[
+  { "screen": "slack", "reveal": "#s1", "wait": 2200 },
+  { "reveal": "#s2", "type": { "target": "#q", "text": "orders have been stuck in processing since this morning. did Acme change something?" }, "wait": 300 },
+  { "reveal": "#s3", "wait": 1800 },
+  { "cursor": "text=Open PR #491", "click": true, "wait": 100 },
+  { "screen": "pr", "wait": 1800 },
+  { "reveal": ".ck", "wait": 3100 }
+]
+</script>

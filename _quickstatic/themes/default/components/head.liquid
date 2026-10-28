@@ -8,9 +8,10 @@
     </title>
     <meta
       name="description"
-      content="{% if this.frontmatter.description %}{{ this.frontmatter.description }}{% else %}Monoscope is an API-first monitoring and observability platform for engineers and customer support teams. We use AI to help engineering teams observe, manage, monitor, and test their backend systems and any APIs they depend on.{%- endif %}"
+      content="{% if this.frontmatter.description %}{{ this.frontmatter.description }}{% else %}Monoscope is open-source observability with an AI SRE built in. Every error, log, trace and metric comes with the exact request behind it, and the AI investigates, opens the fix and answers in Slack.{%- endif %}"
     >
     <link rel="canonical" href="https://monoscope.tech{{this.permalink}}">
+    {% if this.frontmatter.noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,9 +23,9 @@
     >
     <meta
       property="og:description"
-      content="{% if this.frontmatter.description %}{{ this.frontmatter.description }}{% else %}Monoscope is an API-first monitoring and observability platform for engineers and customer support teams. We use AI to help engineering teams observe, manage, monitor, and test their backend systems and any APIs they depend on.{%- endif %}"
+      content="{% if this.frontmatter.description %}{{ this.frontmatter.description }}{% else %}Monoscope is open-source observability with an AI SRE built in. Every error, log, trace and metric comes with the exact request behind it, and the AI investigates, opens the fix and answers in Slack.{%- endif %}"
     >
-    {% assign og_parts = this.permalink | split: '/' %}{% assign og_slug = '' %}{% for p in og_parts %}{% if p != '' %}{% if og_slug != '' %}{% assign og_slug = og_slug | append: '/' %}{% endif %}{% assign og_slug = og_slug | append: p %}{% endif %}{% endfor %}
+    {% assign og_parts = this.permalink | split: '/' %}{% assign og_slug = '' %}{% for p in og_parts %}{% if p != '' %}{% if og_slug != '' %}{% assign og_slug = og_slug | append: '/' %}{% endif %}{% assign og_slug = og_slug | append: p %}{% endif %}{% endfor %}{% if og_slug == '' %}{% assign og_slug = 'index' %}{% endif %}
     <meta
       property="og:image"
       content="{% if this.frontmatter.ogImage %}{{this.frontmatter.ogImage}}{% else %}https://monoscope.tech/assets/og/{{ og_slug }}.png{% endif %}"
@@ -71,7 +72,6 @@
     <link rel="stylesheet" href="/assets/css/tailwind.min.css?v=1">
     <script defer src="/assets/js/main.js"></script>
     <script defer src="/assets/js/ad-tracking.js"></script>
-    <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
     <script>
 function cycleRadioButtons(name, direction) {
   const radios = document.getElementsByName(name);
@@ -151,9 +151,9 @@ document.addEventListener('DOMContentLoaded', () => {
     <script defer src="/assets/deps/htmx/head-support.js"></script>
     <script defer src="https://unpkg.com/hyperscript.org@0.9.12"></script>
 
-    <script src="https://f.convertkit.com/ckjs/ck.5.js"></script>
+    <script defer src="https://f.convertkit.com/ckjs/ck.5.js"></script>
     <!-- Convertkit newsletter scroll popup form (permanent) -->
-    <script data-uid="e05f719e6e" src="https://monoscope.kit.com/e05f719e6e/index.js"></script>
+    <script defer data-uid="e05f719e6e" src="https://monoscope.kit.com/e05f719e6e/index.js"></script>
 
     <link
       rel="preload"
@@ -163,6 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
       type="image/webp"
     >
 
+    {% unless config.dev %}
     <!-- Amplitude (with GA Events Forwarder) -->
     <script type="text/javascript">
       !function(){"use strict";!function(e,t){var r=e.amplitude||{_q:[],_iq:{}};if(r.invoked)e.console&&console.error&&console.error("Amplitude snippet has been loaded.");else{var n=function(e,t){e.prototype[t]=function(){return this._q.push({name:t,args:Array.prototype.slice.call(arguments,0)}),this}},s=function(e,t,r){return function(n){e._q.push({name:t,args:Array.prototype.slice.call(r,0),resolve:n})}},o=function(e,t,r){e[t]=function(){if(r)return{promise:new Promise(s(e,t,Array.prototype.slice.call(arguments)))}}},i=function(e){for(var t=0;t<m.length;t++)o(e,m[t],!1);for(var r=0;r<y.length;r++)o(e,y[r],!0)};r.invoked=!0;var a=t.createElement("script");a.type="text/javascript",a.crossOrigin="anonymous",a.src="https://cdn.amplitude.com/libs/plugin-ga-events-forwarder-browser-0.2.0-min.js.gz",a.onload=function(){e.gaEventsForwarder&&e.gaEventsForwarder.plugin&&e.amplitude.add(e.gaEventsForwarder.plugin())};var c=t.createElement("script");c.type="text/javascript",c.integrity="sha384-HpnlFSsUOQTaqmMKb6/PqZKVOBEpRji3JNLr81x6XElQ4bkquzRyG/F8rY8IDMuw",c.crossOrigin="anonymous",c.async=!0,c.src="https://cdn.amplitude.com/libs/analytics-browser-2.2.1-min.js.gz",c.onload=function(){e.amplitude.runQueuedFunctions||console.log("[Amplitude] Error: could not load SDK")};var u=t.getElementsByTagName("script")[0];u.parentNode.insertBefore(a,u),u.parentNode.insertBefore(c,u);for(var p=function(){return this._q=[],this},d=["add","append","clearAll","prepend","set","setOnce","unset","preInsert","postInsert","remove","getUserProperties"],l=0;l<d.length;l++)n(p,d[l]);r.Identify=p;for(var g=function(){return this._q=[],this},v=["getEventProperties","setProductId","setQuantity","setPrice","setRevenue","setRevenueType","setEventProperties"],f=0;f<v.length;f++)n(g,v[f]);r.Revenue=g;var m=["getDeviceId","setDeviceId","getSessionId","setSessionId","getUserId","setUserId","setOptOut","setTransport","reset","extendSession"],y=["init","add","remove","track","logEvent","identify","groupIdentify","setGroup","revenue","flush"];i(r),r.createInstance=function(e){return r._iq[e]={_q:[]},i(r._iq[e]),r._iq[e]},e.amplitude=r}}(window,document)}();
@@ -385,13 +386,14 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     window.websiteTracker = { appId: "66f1f1ed596af3065a8f94f7" }
     </script>
     <!-- End Apollo Website Tracker -->
+    {% endunless %}
   </head>
 
   <body
     data-theme="light"
     {% comment %} hx-boost="true" {% endcomment %}
     hx-ext="preload,head-support"
-    class="text-textStrong bg-bgBase"
+    class="text-textStrong bg-bgBase antialiased"
     preload
   >
     <script>

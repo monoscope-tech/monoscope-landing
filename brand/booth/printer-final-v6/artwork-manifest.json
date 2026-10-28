@@ -1,0 +1,108 @@
+{
+  "units": "mm",
+  "scale": "1:1",
+  "bleed": 0,
+  "colors": {
+    "ink": "#000626",
+    "blue": "#0068FF",
+    "white": "#FFFFFF"
+  },
+  "panels": [
+    {
+      "name": "01-backdrop-3000x2400mm",
+      "width": 3000,
+      "height": 2400
+    },
+    {
+      "name": "02-table-front-1800x950mm",
+      "width": 1800,
+      "height": 950
+    },
+    {
+      "name": "03-table-left-750x950mm",
+      "width": 750,
+      "height": 950
+    },
+    {
+      "name": "04-table-right-750x950mm",
+      "width": 750,
+      "height": 950
+    },
+    {
+      "name": "05-table-top-1800x750mm-plain-white",
+      "width": 1800,
+      "height": 750
+    },
+    {
+      "name": "06-table-back-1800x950mm-plain-blue",
+      "width": 1800,
+      "height": 950
+    }
+  ],
+  "copy": [
+    {
+      "value": "Observability data lake",
+      "x": 275,
+      "y": 540,
+      "width": 2525,
+      "size": 214,
+      "weight": 700
+    },
+    {
+      "value": "+ AI SRE agents",
+      "x": 275,
+      "y": 790,
+      "width": 2525,
+      "size": 214,
+      "weight": 700
+    },
+    {
+      "value": "Catch issues and continuously improve production.",
+      "x": 275,
+      "y": 1110,
+      "width": 2525,
+      "size": 98,
+      "weight": 400
+    },
+    {
+      "value": "monoscopehq.com",
+      "x": 0,
+      "y": 740,
+      "width": 1800,
+      "size": 60,
+      "weight": 400
+    },
+    {
+      "value": "Monoscope / printer artwork",
+      "x": 80,
+      "y": 40,
+      "width": 1640,
+      "size": 40,
+      "weight": 600
+    },
+    {
+      "value": "Backdrop 3000 × 2400 mm · Table front 1800 × 950 mm",
+      "x": 80,
+      "y": 104,
+      "width": 1640,
+      "size": 26,
+      "weight": 400
+    },
+    {
+      "value": "Flat layout proof — table shown in front for composition only.",
+      "x": 560,
+      "y": 1530,
+      "width": 1160,
+      "size": 24,
+      "weight": 400
+    },
+    {
+      "value": "Full-size panel PDFs supplied separately. Supplier must confirm fit.",
+      "x": 560,
+      "y": 1580,
+      "width": 1160,
+      "size": 24,
+      "weight": 400
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+Scope and Coverage
+
+Mode: full. Scope: six static printed booth panel designs and their digital
+previews. Stack: SVG geometry, Satori outlines from the existing Inter font
+files, original Monoscope vector logo, Resvg previews, librsvg PDF export.
+Existing navy/blue/white brand colors and the user-approved copy are retained.
+Web interaction states are outside this print-artwork scope.
+
+| Domain | Evidence inspected | Result |
+| --- | --- | --- |
+| Accessibility | Printed reading order, text contrast, absence of color-only instructions; SVG titles | Clear within print scope; keyboard/screen-reader PDF behavior is not claimed |
+| Layout | Backdrop and front PDF renderings, panel previews, shared text edge, margins and table-height clearance | Clear |
+| Writing | build.mjs:28–35; exact approved headline, one-line benefit and monoscopehq.com | Clear |
+| Typography | Inter 400/600 source faces, outlined PDF renderings, two headline lines and one benefit line | Clear |
+| Colors | build.mjs:11 and 68–73; solid navy on white and white on blue | Clear for digital source; physical output requires a color proof |
+| UI polish | Original vector symbols, corrected bracket-to-trace connection, side node positions and mirrored panels | Clear within static graphic scope |
+
+Findings
+
+No actionable interface findings remain within the static artwork scope.
+The earlier white-v1 files contain outdated wording and are superseded by
+this printer-v2 package. This package includes the plural agents, single-line
+benefit, corrected left trace start, and monoscopehq.com.
+
+Considered but Rejected
+
+| Location | Candidate | Rejected because |
+| --- | --- | --- |
+| build.mjs:30 | Wrap the benefit into two lines | The user explicitly requested one line; it fits with a clear right margin |
+| build.mjs:11 | Add another accent or convert to OKLCH | Existing hex brand tokens are consistent; additional colors add no useful distinction |
+| build.mjs:28–29 | Make the headline one long line | Two lines preserve readable scale and the user's accepted composition |
+| build.mjs:53 | Bake in an arbitrary fabric bleed or CMYK conversion | Hardware, cloth pattern and printer profile are unknown; the supplier must supply these production settings |
+
+Verification
+
+Passed:
+- node brand/booth/printer-v2/build.mjs: generated six full-size vector PDFs,
+  six SVG originals and panel previews without errors.
+- pdfinfo on all six PDFs: one page each; media dimensions match the stated
+  millimetres at 72 points per inch, within PDF metadata rounding.
+- pdffonts on all six PDFs: no font objects; lettering is vector outlines.
+- pdfimages -list on all six PDFs: no raster images embedded.
+- Source guard: no SVG text or image elements in any print panel.
+- pdftocairo -png -singlefile -scale-to 1800 on backdrop PDF: inspected
+  rendered result; complete copy, no truncation, no line before left bracket.
+- pdftocairo -png -singlefile -scale-to 1400 on front PDF: inspected rendered
+  result; centered original mark and exact monoscopehq.com address.
+- Resvg previews: inspected the backdrop, front, side graphic, and combined
+  proof. Side nodes are centered on the path. Panel graphics are independent.
+- Digital WCAG luminance-ratio calculation: solid navy #000626 on white
+  19.92:1; white on blue #0068FF 4.75:1. Both exceed the 4.5:1 normal-text
+  reference. These are source-color checks, not print accessibility claims.
+- Colors are valid sRGB hex values; no P3 or out-of-sRGB colors introduced.
+
+Not verified:
+- APCA was not measured; this package uses WCAG ratios as a digital reference.
+- Physical fabric color, lighting, stretch, viewing distance, seams and
+  hardware fit require the supplier's imposed proof and material sample.
+- PDF/X, CMYK output intent and bleed are intentionally not supplied without
+  the printer's profile/template. See START-HERE.txt for production handling.
+- Screen-reader, keyboard, loading, error, responsive and dynamic-value tests
+  are not applicable to the printed panels and were not claimed.
+
+Verdict
+
+Approve — static artwork handoff. Manufacture only after supplier template
+mapping and a size/color proof, as specified in START-HERE.txt.

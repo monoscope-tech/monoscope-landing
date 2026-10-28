@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>monoscope: Product Overview</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<style>
+  @font-face { font-family: Inter; src: url(../../assets/fonts/Inter-Regular.ttf); font-weight: 400; }
+  @font-face { font-family: Inter; src: url(../../assets/fonts/Inter-Bold.ttf); font-weight: 600 700; }
+  a { color: inherit; text-decoration: none; }
+  @page { size: A4; margin: 0; }
+  :root {
+    --brand: #0068FF; --brand-weak: #EAF2FF; --ink: #000626; --text: #1F2433; --weak: #5B6275; --faint: #8A90A0;
+    --line: #E4E7EE; --fill: #F6F8FB;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, sans-serif; color: var(--text); font-size: 9.5pt; line-height: 1.45; -webkit-print-color-adjust: exact; print-color-adjust: exact; font-feature-settings: "cv11", "ss01"; }
+  .page { width: 210mm; height: 297mm; padding: 13mm 15mm 18mm; position: relative; overflow: hidden; break-after: page; display: flex; flex-direction: column; gap: 6mm; }
+  .page:last-child { break-after: auto; }
+  header { display: flex; justify-content: space-between; align-items: center; }
+  header img { height: 5.2mm; }
+  header span, footer { font-size: 7.5pt; color: var(--faint); }
+  footer { position: absolute; left: 15mm; right: 15mm; bottom: 8mm; display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 2.5mm; }
+  .eyebrow { font-size: 7.5pt; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--brand); }
+  h1 { font-size: 30pt; line-height: 1.05; letter-spacing: -.025em; font-weight: 600; color: var(--ink); margin: 2.5mm 0 3mm; }
+  h2 { font-size: 15pt; line-height: 1.2; letter-spacing: -.015em; font-weight: 600; color: var(--ink); }
+  h3 { font-size: 10pt; font-weight: 600; color: var(--ink); margin-bottom: 1mm; }
+  .lead { font-size: 11.5pt; line-height: 1.45; color: var(--weak); max-width: 150mm; text-wrap: pretty; }
+  .muted { color: var(--weak); }
+  .cols { display: grid; gap: 6mm; }
+  .c3 { grid-template-columns: repeat(3, 1fr); }
+  .c2 { grid-template-columns: 1fr 1fr; }
+  .shot { border-radius: 3mm; overflow: hidden; border: 1px solid #1d2233; box-shadow: 0 6mm 14mm -8mm rgba(0, 104, 255, .35); background: #0b0d14; }
+  .shot img { display: block; width: 100%; object-fit: cover; }
+  .cap { font-size: 7.5pt; color: var(--faint); margin-top: 2mm; }
+  .problem { border-top: 2px solid var(--ink); padding-top: 2.5mm; }
+  .problem p, .pillar p, .step p { color: var(--weak); text-wrap: pretty; }
+  .pillar { background: var(--fill); border-radius: 2.5mm; padding: 4mm; }
+  .pillar .eyebrow { margin-bottom: 1.5mm; }
+  .pillar ul { list-style: none; margin-top: 2mm; display: grid; gap: 1.6mm; }
+  .pillar li { padding-left: 3.5mm; position: relative; color: var(--text); font-size: 8.5pt; }
+  .pillar li::before { content: ""; position: absolute; left: 0; top: 1.8mm; width: 1.4mm; height: 1.4mm; border-radius: 50%; background: var(--brand); }
+  .step { display: grid; grid-template-columns: 7mm 1fr; gap: 2.5mm; }
+  .step b { display: grid; place-items: center; width: 6mm; height: 6mm; border-radius: 50%; background: var(--brand-weak); color: var(--brand); font-size: 8pt; }
+  .stats { display: grid; grid-template-columns: repeat(6, 1fr); border: 1px solid var(--line); border-radius: 2.5mm; overflow: hidden; }
+  .stats > div { padding: 3.5mm 3mm; border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 1mm; justify-content: space-between; }
+  .stats > div:last-child { border-right: 0; }
+  .stats strong { font-size: 17pt; letter-spacing: -.02em; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .stats p { font-size: 7.5pt; color: var(--weak); line-height: 1.3; }
+  .stats img { height: 3.6mm; width: auto; max-width: 100%; object-fit: contain; object-position: left; filter: grayscale(1) brightness(0); opacity: .55; margin-top: 1.5mm; }
+  blockquote { font-size: 9.5pt; color: var(--text); text-wrap: pretty; }
+  figure { border-left: 2px solid var(--brand); padding-left: 4mm; }
+  figcaption { font-size: 7.5pt; color: var(--weak); margin-top: 1.5mm; }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th, td { text-align: left; padding: 2mm 2.5mm; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 7pt; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); }
+  td.n { text-align: right; white-space: nowrap; }
+  tr.us td { background: var(--brand-weak); color: var(--ink); font-weight: 600; }
+  .bar { height: 1.6mm; border-radius: 1mm; background: #C9CEDA; }
+  tr.us .bar { background: var(--brand); }
+  .note { font-size: 6.8pt; line-height: 1.4; color: var(--faint); text-wrap: pretty; }
+  .cta { background: var(--ink); color: #fff; border-radius: 3mm; padding: 5mm 6mm; display: grid; grid-template-columns: 1fr auto; gap: 6mm; align-items: center; }
+  .cta h2 { color: #fff; }
+  .cta p { color: #B9C0D4; margin-top: 1.5mm; }
+  .qrs { display: flex; gap: 5mm; }
+  .qr { text-align: center; font-size: 7pt; color: #B9C0D4; width: 19mm; }
+  .qr div { background: #fff; border-radius: 1.5mm; padding: 1.5mm; margin-bottom: 1.5mm; }
+  .qr svg { display: block; width: 100%; height: auto; }
+  .qr strong { display: block; color: #fff; font-size: 7.5pt; font-weight: 600; }
+  .logos { display: flex; align-items: center; justify-content: space-between; gap: 5mm; padding: 1mm 0; }
+  .logos img { height: 4.2mm; width: auto; filter: grayscale(1) brightness(0); opacity: .5; }
+  .kv { display: grid; grid-template-columns: 26mm 1fr 26mm 1fr; gap: 1.5mm 4mm; }
+  .kv dt { font-weight: 600; color: var(--ink); }
+  .kv dd { color: var(--weak); }
+  .box { border: 1px solid var(--line); border-radius: 2.5mm; padding: 4mm 5mm; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 8pt; background: var(--fill); padding: .2mm 1mm; border-radius: 1mm; color: var(--ink); }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1: the pitch -->
+<section class="page">
+  <header><img src="../../assets/brand/logo_full_color.svg" alt="monoscope"><span>Product overview · <a href="https://monoscope.tech">monoscope.tech</a></span></header>
+
+  <div>
+    <p class="eyebrow">Observability with an AI SRE built in</p>
+    <h1>Know what happened.<br>Prove it. Fix it.</h1>
+    <p class="lead">Every issue comes with the exact request behind it, and everything around it: the response, the trace, what the customer saw. An AI reads it and opens the fix.</p>
+  </div>
+
+  <div class="cols c3">
+    <div class="problem"><h3>You hear it from customers first</h3><p>A payment fails and the first alert is a support ticket. By the time engineering looks, the logs are partial and the request is gone.</p></div>
+    <div class="problem"><h3>The trace was sampled. The body was never stored.</h3><p>Most APM tools sample traces and drop request bodies to control cost. So you reproduce the bug instead of reading it.</p></div>
+    <div class="problem"><h3>A supplier broke it, and you can't prove it</h3><p>The partner API returned <code>200 OK</code> and never did the work. Without the request and the response, it's your word against theirs.</p></div>
+  </div>
+
+  <div>
+    <div class="shot"><img src="img/request.png" alt="monoscope Explorer showing the request and response body of one API call" style="height:72mm;object-position:center 92%"></div>
+    <p class="cap">The exact request behind an issue: headers, request body, response, trace and logs, as they were.</p>
+  </div>
+
+  <div class="cols c3">
+    <div class="pillar">
+      <p class="eyebrow">Know</p>
+      <h3>Every error, with the exact request behind it</h3>
+      <ul>
+        <li>Errors and slow endpoints grouped into issues, each with the full request and response</li>
+        <li>Breaking changes in your APIs and your suppliers' APIs, flagged with the request that showed them</li>
+        <li>Session replay linked to the failing request</li>
+      </ul>
+    </div>
+    <div class="pillar">
+      <p class="eyebrow">Prove</p>
+      <h3>Never sampled. The record, not a summary of it.</h3>
+      <ul>
+        <li>Every request, response, log and span is kept</li>
+        <li>What you sent, what the supplier answered and when, to the millisecond</li>
+        <li>Share any request with a link instead of describing it</li>
+      </ul>
+    </div>
+    <div class="pillar">
+      <p class="eyebrow">Fix</p>
+      <h3>An AI that reads the actual request</h3>
+      <ul>
+        <li>Routines investigate on a schedule and post the root cause in Slack</li>
+        <li>Opens a pull request with the fix, with the evidence attached</li>
+        <li>Reviews risky changes against production data before they merge</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer><span>monoscope · Know what happened. Prove it. Fix it.</span><span>1 / 3</span></footer>
+</section>
+
+<!-- PAGE 2: how, proof, cost, next step -->
+<section class="page">
+  <header><img src="../../assets/brand/logo_full_color.svg" alt="monoscope"><span>Product overview · <a href="https://monoscope.tech">monoscope.tech</a></span></header>
+
+  <div style="display:grid;gap:3.5mm">
+    <div><p class="eyebrow">How it works</p><h2 style="margin-top:1mm">Live in an afternoon, on the instrumentation you have</h2></div>
+    <div class="cols c3">
+      <div class="step"><b>1</b><div><h3>Send your telemetry</h3><p>Add the SDK, or point your existing OpenTelemetry exporter at monoscope. 780+ integrations, no proprietary agent.</p></div></div>
+      <div class="step"><b>2</b><div><h3>Issues arrive with evidence</h3><p>Errors, regressions and breaking API changes, each with the request, response, trace and logs.</p></div></div>
+      <div class="step"><b>3</b><div><h3>AI investigates and acts</h3><p>It finds the root cause, tells you in Slack and opens the pull request. You review it with the request in front of you.</p></div></div>
+    </div>
+  </div>
+
+  <div style="display:grid;gap:4mm">
+    <div style="display:flex;justify-content:space-between;align-items:baseline"><h2>What teams see after switching</h2><span class="muted" style="font-size:8pt">5,000+ developers use monoscope</span></div>
+    <div class="stats">
+      <div><strong>20x</strong><p>faster mean time to resolution</p><img src="../../assets/img/customers/blockradar-full.svg" alt="Blockradar"></div>
+      <div><strong>70%</strong><p>less manual troubleshooting</p><img src="../../assets/img/customers/sameday.svg" alt="Sameday"></div>
+      <div><strong>9x</strong><p>fewer customer support calls</p><img src="../../assets/img/customers/platnova.png" alt="Platnova"></div>
+      <div><strong>5x</strong><p>faster incident debugging</p><img src="../../assets/img/customers/coronams-logo.svg" alt="CoronaMS"></div>
+      <div><strong>3x</strong><p>faster system recovery</p><img src="../../assets/img/customers/partna.svg" alt="Partna"></div>
+      <div><strong>500ms</strong><p>cut from improved endpoints</p><img src="../../assets/img/customers/payfonte.svg" alt="Payfonte"></div>
+    </div>
+    <div class="cols c2">
+      <figure><blockquote>“We had a major incident, and our tech support could see via [monoscope] which third-party integration partner was responsible, and could take action without needing the engineering team's help.”</blockquote><figcaption><strong style="color:var(--ink)">Joshua Chinemezum</strong> · CEO, Platnova</figcaption></figure>
+      <figure><blockquote>“The best observability tool we use today at Woodcore, monoscope notifies us about any slight change that happens on the system.”</blockquote><figcaption><strong style="color:var(--ink)">Samuel Joseph</strong> · CEO, Woodcore</figcaption></figure>
+    </div>
+  </div>
+
+  <div style="display:grid;gap:3mm">
+    <div><p class="eyebrow">Pricing</p><h2 style="margin-top:1mm">Pay per event, not per host</h2><p class="muted" style="margin-top:1mm">One price for requests, logs and spans. No host fees, no add-ons, and no sampling to make the bill fit.</p></div>
+    <table>
+      <thead><tr><th style="width:28%">A small team, per month</th><th>Estimated bill</th><th class="n">Monthly</th><th class="n">Yearly</th></tr></thead>
+      <tbody>
+        <tr><td>Datadog</td><td><div class="bar" style="width:100%"></div></td><td class="n">$453</td><td class="n">$5,439</td></tr>
+        <tr><td>Splunk Observability</td><td><div class="bar" style="width:77%"></div></td><td class="n">$349</td><td class="n">$4,184</td></tr>
+        <tr><td>Sentry <span class="muted" style="font-size:7.5pt">(no metrics)</span></td><td><div class="bar" style="width:42%"></div></td><td class="n">$189</td><td class="n">$2,269</td></tr>
+        <tr class="us"><td>monoscope Cloud</td><td><div class="bar" style="width:15%"></div></td><td class="n">$69</td><td class="n">$824</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Workload: 50M events a month (requests, logs and spans), 5 hosts, 2,000 metric series, 5,000 replay sessions, 30-day retention on every vendor. Public list prices, September 2026. Full assumptions on page 3.</p>
+  </div>
+
+  <div class="cta">
+    <div><h2>See it on your own traffic</h2><p>Free up to 10,000 events a day, with no credit card. Or talk it through with an engineer and we'll set it up with you.</p></div>
+    <div class="qrs">
+      <div class="qr"><div data-qr="https://app.monoscope.tech"></div><a href="https://app.monoscope.tech"><strong>Start for free</strong>app.monoscope.tech</a></div>
+      <div class="qr"><div data-qr="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer"></div><a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer"><strong>Playground</strong>no signup</a></div>
+      <div class="qr"><div data-qr="https://calendar.app.google/1a4HG5GZYv1sjjZG6"></div><a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6"><strong>Book a call</strong>30 minutes</a></div>
+    </div>
+  </div>
+
+  <footer><span><a href="mailto:hello@monoscope.tech">hello@monoscope.tech</a> · <a href="https://monoscope.tech">monoscope.tech</a></span><span>2 / 3</span></footer>
+</section>
+
+<!-- PAGE 3: appendix for security and procurement -->
+<section class="page">
+  <header><img src="../../assets/brand/logo_full_color.svg" alt="monoscope"><span>Appendix · Security, deployment and pricing</span></header>
+
+  <div><p class="eyebrow">For your security and procurement review</p><h2 style="margin-top:1mm">Where your data lives, and who controls it</h2></div>
+
+  <table>
+    <thead><tr><th style="width:22%"></th><th>Cloud</th><th>Cloud + your own S3</th><th>Self-hosted</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Data stored in</strong></td><td>monoscope-managed storage</td><td>Your S3-compatible bucket, as open Delta Lake and Parquet tables</td><td>Your servers</td></tr>
+      <tr><td><strong>Retention</strong></td><td>30 days</td><td>Unlimited, at no extra cost</td><td>Your choice</td></tr>
+      <tr><td><strong>Price</strong></td><td>Free up to 10k events/day, then $29/month for 20M events and $1 per extra million</td><td>From $199/month for 100M events, then $1 per extra million</td><td>Community Edition free (AGPL-3.0). Enterprise from $500/month</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box">
+    <h3>Security and privacy</h3>
+    <dl class="kv" style="margin-top:3mm">
+      <dt>GDPR</dt><dd>We sign a data processing agreement (DPA) on request.</dd>
+      <dt>Redaction</dt><dd>Strip headers and body fields such as <code>$.password</code> by JSONPath in the SDK, before data leaves your app.</dd>
+      <dt>EU data region</dt><dd>Host your data in the EU.</dd>
+      <dt>Data ownership</dt><dd>On the own-S3 plan, the database is your bucket. Query it with DuckDB, Spark or SQL.</dd>
+      <dt>SSO</dt><dd>Single sign-on and advanced auth on Enterprise.</dd>
+      <dt>Open source</dt><dd>The full platform is AGPL-3.0 on GitHub, so your team can audit the code that handles your data.</dd>
+    </dl>
+  </div>
+
+  <div class="cols" style="grid-template-columns: 1.4fr 1fr; gap: 8mm">
+    <div>
+      <h3>Switching without a cutover</h3>
+      <div style="display:grid;gap:1.5mm;margin-top:2mm">
+        <div class="step"><b>1</b><p>Point a copy of your OpenTelemetry exporter at monoscope, or add the SDK to one service.</p></div>
+        <div class="step"><b>2</b><p>Run it next to your current tool for one to two weeks and compare what each one caught.</p></div>
+        <div class="step"><b>3</b><p>Move the rest of your services and retire what you no longer need.</p></div>
+      </div>
+    </div>
+    <div style="display:grid;gap:4mm;align-content:start">
+      <div><h3>Startup program</h3><p class="muted">Eligible startups get up to $10,000 of monoscope covered in their first year.</p></div>
+      <div><h3>Volume pricing</h3><p class="muted">Custom pricing above about 1 billion events a month. Email <a href="mailto:hello@monoscope.tech" style="color:var(--brand)">hello@monoscope.tech</a>.</p></div>
+    </div>
+  </div>
+
+  <div class="box" style="background:var(--fill);border:0;padding:3.5mm 5mm">
+    <h3>How the cost estimate on page 2 was calculated</h3>
+    <p class="note" style="font-size:7.3pt;margin-top:1.5mm;color:var(--weak)">Estimates from public list prices, September 2026, annual billing where offered, 30-day retention on every vendor, 2 kB average event, one metric datapoint per series per minute. Datadog: Infrastructure $15 and APM $31 per host; logs $0.10 per GB ingested plus $2.50 per million indexed; custom metrics $5 per 100 series beyond 100 per host; RUM $0.15 plus Session Replay $2.50 per 1,000 sessions. Splunk: Observability Cloud App &amp; Infrastructure $60 per host; Splunk Cloud log ingest at about $12.50 per GB/day per month; RUM $14 per 10,000 sessions; custom metrics not modelled. Sentry: Team $26; spans $1.60 per million beyond 5M; errors at $0.29 per 1,000 assuming 0.5% of events are errors; replays $3.75 per 1,000; no metrics product. monoscope Cloud: $29 includes 20M events, 20M metric datapoints and 2,000 replay sessions; then $1 per million events, $1 per 10 million metric datapoints and $1 per 1,000 sessions. Everything else is included. Workload priced: 50M events a month, 5 hosts, 2,000 metric series, 5,000 replay sessions. Run your own numbers at <a href="https://monoscope.tech/#pricing" style="color:var(--brand)">monoscope.tech/#pricing</a>.</p>
+  </div>
+
+  <footer><span><a href="mailto:hello@monoscope.tech">hello@monoscope.tech</a> · <a href="https://monoscope.tech">monoscope.tech</a> · <a href="https://github.com/monoscope-tech/monoscope">github.com/monoscope-tech/monoscope</a></span><span>3 / 3</span></footer>
+</section>
+
+<script>
+  document.querySelectorAll('[data-qr]').forEach(el => {
+    const q = qrcode(0, 'M'); q.addData(el.dataset.qr); q.make();
+    el.innerHTML = q.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+MONOSCOPE FINAL V6 — VERIFICATION
+
+Approved artwork: review/backdrop-v6.svg, with product-first headline.
+Final SVG and PNG match the approved V6 files byte for byte.
+Headline: Observability data lake / + AI SRE agents.
+Subtitle: Catch issues and continuously improve production. (one line)
+Table URL: monoscopehq.com.
+Trace: ten nodes, diameter 86 mm; line thickness 18 mm; no convergence.
+
+All six PDFs passed pdfinfo dimensional checks at full size (1:1).
+All lettering is outlined. pdffonts reports no font objects.
+pdfimages -list reports no raster images in any panel PDF.
+Backdrop PDF was independently rendered with pdftocairo and visually checked.
+
+Source color reference checks:
+Navy text on white: WCAG ratio 19.92:1, APCA Lc 105.7.
+Original 90% navy logo on white: WCAG ratio 16.13:1, APCA Lc 103.0.
+White URL on blue: WCAG ratio 4.75:1, APCA |Lc| 77.3.
+Source colors remain #000626, #0068FF and #FFFFFF.
+Physical fabric output and hardware fit require the supplier's proof.
+See START-HERE.txt for dimensions, bleed/seam and color handling.
+
+Supersedes all earlier printer packages. V7 benefit-first design is excluded.

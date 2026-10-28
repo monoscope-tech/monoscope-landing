@@ -2,16 +2,16 @@
 title: Pricing
 date: 2022-03-23
 updatedDate: 2024-06-15
-enableFreeTier: false
+enableFreeTier: true
 faqs:
   - q: What's included in the free tier?
     a: The free tier includes 10,000 events per day, unlimited team members, 30 days data retention, and access to all core features including logs, traces, API documentation, and custom monitors. Perfect for hobby projects and getting started.
   - q: How does pricing scale with usage?
-    a: After the free tier, you pay $29/month for up to 20M events, then $1 per million events after that. The plan also includes 20M metric datapoints (then $1 per 10M) and 2,000 session replays (then $1 per 1,000). For example, 50M events/month costs $59 ($29 base + $30 for 30M extra events). With Cloud + S3, it's $199/month for up to 100M events, then $1 per million events after that, plus you get unlimited data retention.
+    a: After the free tier, you pay $29/month for up to 20M events, then $1 per million events after that. The plan also includes 20M metric datapoints (then $1 per 10M) and 2,000 session replays (then $1 per 1,000). For example, 50M events/month costs $59 ($29 base + $30 for 30M extra events). If you want everything written to your own S3 bucket with unlimited retention, add $199/month.
   - q: What's the difference between deployment options?
-    a: <strong>Cloud:</strong> Fully managed, 30-day retention, starts free. <strong>Cloud + S3:</strong> Your data in your own S3 bucket, unlimited retention, starts at $199/month. <strong>Self-hosted:</strong> Run on your servers, complete control, free community edition or custom enterprise pricing.
+    a: <strong>Free:</strong> 10k events a day, 30-day retention, no credit card. <strong>Cloud:</strong> Fully managed, $29/month for 20M events, then $1 per million. Add your own S3 bucket for $199/month to keep every event in your bucket with unlimited retention. <strong>Self-hosted:</strong> Run on your servers, complete control, free community edition or custom enterprise pricing.
   - q: Can I switch between plans?
-    a: Yes! You can upgrade or switch deployment options anytime. Moving from Cloud to Cloud + S3 is seamless—we'll help migrate your historical data. For self-hosted, our team provides migration assistance.
+    a: Yes. You can upgrade or switch deployment options anytime. When you turn on your own bucket, we'll help migrate your historical data into it. For self-hosted, our team provides migration assistance.
   - q: What counts as an event?
     a: An event includes API requests, log entries, traces, spans, and metric data points. We count all telemetry data processed by Monoscope. Unlike competitors, we never sample or drop your data—every event is stored and searchable.
   - q: Do you offer volume discounts?
@@ -32,8 +32,33 @@ faqs:
     <div class="max-w-8xl mx-auto px-3">
         <section class="w-full grid grid-cols-1 md:grid-cols-3 gap-8 pt-5 pb-12">
 
+            {% if this.frontmatter.enableFreeTier %}
+            <!-- FREE -->
+            <div class="rounded-xl border border-strokeWeak p-8 flex flex-col">
+                <div class="inline-block p-3 bg-fillBrand-weak rounded-full w-fit"><svg class="w-5 h-5 text-iconBrand"><use xlink:href="/assets/deps/sprite.svg#zap"></use></svg></div>
+                <div class="mt-8 mb-6">
+                    <p class="text-sm font-medium text-textDisabled dark:text-textWeak uppercase tracking-wide">FREE</p>
+                    <h3 class="text-2xl font-semibold text-textStrong">Try it on real traffic</h3>
+                </div>
+                <ul class="space-y-3 text-lg mb-8 flex-1 list-disc list-inside marker:text-iconBrand">
+                    <li><strong>10k events a day</strong></li>
+                    <li>All core features</li>
+                    <li>Unlimited team members</li>
+                    <li><strong>30 days data retention</strong></li>
+                    <li>No credit card</li>
+                </ul>
+                <div class="border-t border-strokeWeak pt-6 space-y-4 mt-auto">
+                    <div class="space-y-2">
+                        <p class="text-sm text-textDisabled uppercase tracking-wide">Pricing</p>
+                        <p class="text-2xl font-semibold text-textStrong">Free <span class="text-base font-normal text-textWeak">up to 10k events/day, forever</span></p>
+                    </div>
+                    <a href="https://app.monoscope.tech" class="block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium hover:bg-fillBrand-weak transition-colors">Start for free</a>
+                </div>
+            </div>
+            {% endif %}
+
             <!-- MONOSCOPE CLOUD -->
-            <div class="rounded-xl border border-strokeBrand-weak p-8 flex flex-col">
+            <div class="rounded-xl border-2 border-strokeBrand-strong bg-fillBrand-weak p-8 flex flex-col">
                 <div class="inline-block p-3 bg-fillBrand-weak rounded-full w-fit"><svg class="w-5 h-5 text-iconBrand"><use xlink:href="/assets/deps/sprite.svg#cloud"></use></svg></div>
                 <div class="mt-8 mb-6">
                     <p class="text-sm font-medium text-textDisabled dark:text-textWeak uppercase tracking-wide">MONOSCOPE CLOUD</p>
@@ -45,57 +70,12 @@ faqs:
                     <li><strong>Predictable usage-based</strong> pricing</li>
                     <li>Intelligent incident alerts</li>
                     <li>Query your data in english</li>
-                    <li><strong>30 days data retention</strong> included</li>
+                    <li><strong>30 days data retention</strong> included, or unlimited in your own bucket</li>
                 </ul>
 
                 <div class="mb-8">
                     <p class="text-sm text-textDisabled mb-2">Estimate your monthly cost</p>
-                    <input type="range" min="0" max="495000000" step="10000000" value="0" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range" id="cloud_price_range">
-                    <div class="flex justify-between text-sm text-textWeak mt-1">
-                        <span>Free</span>
-                        <span>250M</span>
-                        <span>500M events</span>
-                    </div>
-                </div>
-
-                <div class="border-t border-strokeWeak pt-6 space-y-4">
-                    <div class="space-y-2">
-                        <p class="text-sm text-textDisabled uppercase tracking-wide">Pricing</p>
-                         {% if this.frontmatter.enableFreeTier %}
-                             <p class="text-2xl font-semibold text-textStrong">
-                            <span id="cloud_price">Free</span> <span class="text-base font-normal text-textWeak" id="cloud_price_desc">up to 10k events/day</span>
-                            </p>
-                              <p class="text-base text-textWeak">Then <strong class="text-textStrong">$29/month</strong> for up to 20M events, + <strong class="text-textStrong">$1 per 1M events</strong> after. Includes 20M metric datapoints (then $1 per 10M) and 2,000 session replays (then $1 per 1,000).</p>
-                         {% else %}
-                            <p class="text-base text-textWeak"><strong class="text-textStrong text-2xl">$29</strong>/month for up to 20M events, + <strong class="text-textStrong">$1 per 1M events</strong> after. Includes 20M metric datapoints (then $1 per 10M) and 2,000 session replays (then $1 per 1,000).</p>
-                        {% endif %}
-
-                    </div>
-                    <a href="https://app.monoscope.tech" class="block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium hover:bg-fillBrand-weak transition-colors">Start free trial</a>
-                </div>
-            </div>
-
-
-           <!-- CLOUD + S3 PLAN -->
-            <div class="rounded-xl border-2 border-strokeBrand-strong bg-fillBrand-weak p-8 flex flex-col relative">
-                <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-fillBrand-strong text-textInverse-strong px-4 py-1 rounded-full text-sm font-medium">POPULAR</div>
-                <div class="inline-block p-3 bg-fillBrand-weak rounded-full w-fit"><svg class="w-5 h-5 text-iconBrand"><use xlink:href="/assets/deps/sprite.svg#database"></use></svg></div>
-                <div class="mt-8 mb-6">
-                    <p class="text-sm font-medium text-textDisabled dark:text-textWeak uppercase tracking-wide">MONOSCOPE CLOUD + Your own S3</p>
-                    <h3 class="text-2xl font-semibold text-textStrong">Bring your own storage</h3>
-                </div>
-
-                <ul class="space-y-3 text-lg mb-8 flex-1 list-disc list-inside marker:text-iconBrand">
-                    <li>Own and control all your data</li>
-                    <li>Save <strong>all your data</strong> to any S3-compatible bucket</li>
-                    <li><strong>Unlimited data retention</strong> period</li>
-                    <li>Query years of data via monoscope</li>
-                    <li><strong>No extra cost</strong> for data retention</li>
-                </ul>
-
-                <div class="mb-8">
-                    <p class="text-sm text-textDisabled mb-2">Estimate your monthly cost</p>
-                    <input type="range" min="20000000" max="495000000" step="10000000" value="100000000" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range" id="price_range">
+                    <input type="range" min="20000000" max="500000000" step="10000000" value="20000000" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range" id="cloud_price_range" aria-label="Events per month">
                     <div class="flex justify-between text-sm text-textWeak mt-1">
                         <span>20M</span>
                         <span>250M</span>
@@ -103,17 +83,26 @@ faqs:
                     </div>
                 </div>
 
-                <div class="border-t border-strokeBrand-weak pt-6 space-y-4">
+                <label for="cloud_bucket" class="mb-8 flex gap-3 rounded-lg border border-strokeWeak bg-fillWeaker p-4 cursor-pointer has-checked:border-strokeBrand-strong has-checked:bg-fillBrand-weak">
+                    <input type="checkbox" id="cloud_bucket" class="checkbox checkbox-sm mt-1">
+                    <span class="space-y-1">
+                        <span class="block font-semibold text-textStrong">Write to your own S3 bucket <span class="font-normal text-textWeak">+$199/month</span></span>
+                        <span class="block text-sm text-textWeak">Every event lands in your S3-compatible bucket as open Delta Lake and Parquet tables. Unlimited retention, queryable from monoscope, DuckDB or Spark.</span>
+                    </span>
+                </label>
+
+                <div class="border-t border-strokeWeak pt-6 space-y-4">
                     <div class="space-y-2">
                         <p class="text-sm text-textDisabled uppercase tracking-wide">Pricing</p>
-                        <p class="text-2xl font-semibold text-textStrong">
-                            <span id="price">$199</span><span class="text-base font-normal text-textWeak" id="num_requests">/month starting</span>
-                        </p>
-                        <p class="text-base text-textWeak">Includes up to 100M events, + <strong class="text-textStrong">$1 per 1M events</strong> after.</p>
+                        <p class="text-2xl font-semibold text-textStrong"><span id="cloud_price">$29</span> <span class="text-base font-normal text-textWeak" id="cloud_price_desc">/month for 20M events</span></p>
+                        <p class="text-base text-textWeak"><strong class="text-textStrong">$29/month</strong> for up to 20M events, + <strong class="text-textStrong">$1 per 1M events</strong> after. Includes 20M metric datapoints (then $1 per 10M) and 2,000 session replays (then $1 per 1,000). Your own bucket is <strong class="text-textStrong">+$199/month</strong>.</p>
+
                     </div>
-                    <a href="https://app.monoscope.tech" class="block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium hover:bg-fillBrand-weak transition-colors">Start free trial</a>
+                    <a href="https://app.monoscope.tech" class="block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium hover:bg-fillBrand-weak transition-colors">Get started</a>
                 </div>
             </div>
+
+
             <!-- SELF-HOSTED PLAN -->
             <div class="rounded-xl border border-strokeWarning-weak bg-fillWarning-weak p-8 flex flex-col relative">
                 <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-fillSuccess-strong text-textInverse-strong px-4 py-1 rounded-full text-sm font-medium">OPEN SOURCE</div>
@@ -169,58 +158,52 @@ faqs:
                         <thead class="bg-fillWeak">
                             <tr>
                                 <th class="text-left p-4 font-semibold text-textStrong">Features</th>
+                                <th class="text-center p-4 font-semibold text-textStrong">Free</th>
                                 <th class="text-center p-4 font-semibold text-textStrong">Monoscope Cloud</th>
-                                <th class="text-center p-4 font-semibold text-textStrong bg-fillBrand-weak">Cloud + Your own S3</th>
                                 <th class="text-center p-4 font-semibold text-textStrong">Self-Hosted</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
                             <tr class="hover:bg-fillWeak">
-                                <td class="p-4 text-textWeak">Events per month</td>
-                                <td class="p-4 text-center">
-                                  {% if this.frontmatter.enableFreeTier %}
-                                    10k/day free, then unlimited
-                                  {% else %}
-                                    Unlimited
-                                  {% endif %}
-                                </td>
-                                <td class="p-4 text-center bg-fillBrand-weak">Unlimited</td>
+                                <td class="p-4 text-textWeak">Events</td>
+                                <td class="p-4 text-center">10k a day</td>
+                                <td class="p-4 text-center">Unlimited, $1 per 1M after 20M</td>
                                 <td class="p-4 text-center">Unlimited</td>
                             </tr>
                             <tr class="hover:bg-fillWeak">
                                 <td class="p-4 text-textWeak">Data retention</td>
                                 <td class="p-4 text-center">30 days</td>
-                                <td class="p-4 text-center bg-fillBrand-weak font-semibold text-textStrong">Unlimited</td>
+                                <td class="p-4 text-center">30 days, or unlimited in your own bucket (+$199/mo)</td>
                                 <td class="p-4 text-center">Custom</td>
                             </tr>
                             <tr class="hover:bg-fillWeak">
                                 <td class="p-4 text-textWeak">Team members</td>
                                 <td class="p-4 text-center">Unlimited</td>
-                                <td class="p-4 text-center bg-fillBrand-weak">Unlimited</td>
+                                <td class="p-4 text-center">Unlimited</td>
                                 <td class="p-4 text-center">Unlimited</td>
                             </tr>
                             <tr class="hover:bg-fillWeak">
                                 <td class="p-4 text-textWeak">Data ownership</td>
                                 <td class="p-4 text-center">Monoscope managed</td>
-                                <td class="p-4 text-center bg-fillBrand-weak font-semibold text-textStrong">Your own S3 bucket</td>
-                                <td class="p-4 text-center font-semibold text-textStrong">Complete control</td>
+                                <td class="p-4 text-center">Monoscope managed, or your own S3 bucket</td>
+                                <td class="p-4 text-center"><strong class="text-textStrong">Complete control</strong></td>
                             </tr>
                             <tr class="hover:bg-fillWeak">
                                 <td class="p-4 text-textWeak">Infrastructure</td>
                                 <td class="p-4 text-center">Fully managed</td>
-                                <td class="p-4 text-center bg-fillBrand-weak">Managed + your storage</td>
+                                <td class="p-4 text-center">Fully managed</td>
                                 <td class="p-4 text-center">Self-managed</td>
                             </tr>
                             <tr class="hover:bg-fillWeak">
                                 <td class="p-4 text-textWeak">Setup time</td>
-                                <td class="p-4 text-center text-iconSuccess font-semibold">< 5 minutes</td>
-                                <td class="p-4 text-center bg-blue-50/30 text-green-600 font-semibold">< 15 minutes</td>
+                                <td class="p-4 text-center"><strong class="text-iconSuccess">&lt; 5 minutes</strong></td>
+                                <td class="p-4 text-center"><strong class="text-iconSuccess">&lt; 5 minutes</strong></td>
                                 <td class="p-4 text-center">Varies</td>
                             </tr>
                             <tr class="hover:bg-fillWeak">
                                 <td class="p-4 text-textWeak">Support</td>
+                                <td class="p-4 text-center">Community</td>
                                 <td class="p-4 text-center">Community + Email</td>
-                                <td class="p-4 text-center bg-fillBrand-weak">Priority support</td>
                                 <td class="p-4 text-center">Custom SLA available</td>
                             </tr>
                         </tbody>

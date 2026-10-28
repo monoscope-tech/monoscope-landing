@@ -1,0 +1,14 @@
+<!-- Issues (lp/b hero tab and Know chapter): the error issues list, open the frontend-web SyntaxError, jump down to its trace breakdown (9 spans). ~9s loop. -->
+<link rel="stylesheet" href="screens-ipad/app.css">
+<section data-screen="issues" data-src="screens-ipad/issues-errors.html"></section>
+<section data-screen="issue"  data-src="screens-ipad/issue-trace.html"></section>
+
+<script type="application/json" data-storyboard>
+[
+  { "screen": "issues", "wait": 1800 },
+  { "cursor": "a[href*='bf0881c3']", "click": true, "wait": 100 },
+  { "screen": "issue", "wait": 1500 },
+  { "cursor": "a[href='#issue-trace']", "click": true, "wait": 100 },
+  { "scroll": "details:has(#trace_span_container)", "wait": 3000 }
+]
+</script>

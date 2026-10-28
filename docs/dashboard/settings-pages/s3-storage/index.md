@@ -2,13 +2,17 @@
 title: S3 Storage Configuration
 ogTitle: Configure Your Own S3 Bucket - Monoscope
 date: 2026-01-26
-updatedDate: 2026-01-26
+updatedDate: 2026-09-27
 menuWeight: 5
 ---
 
 # S3 Storage Configuration
 
-Connect your own S3 or S3-compatible storage bucket to store session replay data. This feature is available on the **Growth plan** ($199/month) and gives you complete control over your data storage location.
+Connect your own S3 or S3-compatible bucket and Monoscope uses it as the database for your project. Every request and response payload, log, span, metric and session replay is written to your bucket, and Monoscope queries it from there.
+
+The data is stored as open [Delta Lake](https://delta.io/) tables of Parquet files. The bucket is yours: you control access, encryption and retention, and you can query the data directly with DuckDB, Spark, Polars or your own code.
+
+This feature is available on the **Cloud + Your own S3** plan (from $199/month). See [pricing](/pricing/).
 
 ```=html
 <hr />
@@ -18,7 +22,9 @@ Connect your own S3 or S3-compatible storage bucket to store session replay data
 
 - **Data Sovereignty**: Keep all data within your own infrastructure
 - **Compliance**: Meet GDPR, HIPAA, and data residency requirements
-- **Control**: Manage retention, encryption, and access policies yourself
+- **Unlimited Retention**: Keep data as long as you need it, e.g. to settle a dispute with a supplier months later
+- **Open Format**: Delta Lake and Parquet, readable by any tool that supports them. No export step and no lock-in
+- **Build On It**: Power audit trails or activity dashboards for your own customers from the same data
 - **Cost Optimization**: Use your existing storage infrastructure or preferred provider
 
 ## Supported Providers
@@ -152,11 +158,60 @@ For MinIO, use the **Custom Endpoint** field:
 
 ## Data Storage Format
 
-Session replay data is stored as JSON files in your bucket:
+Logs, spans and API requests (including request and response payloads) are written to the `otel_logs_and_spans` Delta table. Metrics are written to `otel_metrics`. Both tables are partitioned by `project_id` and `date`:
 
-- **File naming**: `{session-id}.json`
-- **Content**: Array of rrweb events for session replay
-- **Format**: Standard JSON, easily readable and exportable
+```
+s3://your-bucket/timefusion/otel_logs_and_spans/project_id=<project-id>/date=2026-09-27/*.parquet
+s3://your-bucket/timefusion/otel_metrics/project_id=<project-id>/date=2026-09-27/*.parquet
+```
+
+Session replays are stored in the same bucket as JSON files (`{session-id}.json`), each containing an array of [rrweb](https://github.com/rrweb-io/rrweb) events.
+
+```=html
+<div class="callout">
+  <i class="fa-solid fa-circle-info"></i>
+  <p>Always filter on <code>project_id</code> and <code>date</code>. They are the partition columns, so filtering on them lets the query skip every file outside that range.</p>
+</div>
+```
+
+## Query Your Data With DuckDB
+
+Because the tables are standard Delta Lake, [DuckDB](https://duckdb.org/)'s `delta` extension reads them with default settings. Run `duckdb` and load your AWS credentials:
+
+```sql
+INSTALL delta;
+LOAD delta;
+CREATE SECRET (TYPE s3, PROVIDER credential_chain);
+```
+
+Count server errors per route over the last 7 days:
+
+```sql
+SELECT attributes___http___route AS route,
+       count(*) AS errors
+FROM delta_scan('s3://your-bucket/timefusion/otel_logs_and_spans')
+WHERE project_id = '<project-id>'
+  AND date >= current_date - 7
+  AND attributes___http___response___status_code >= 500
+GROUP BY route
+ORDER BY errors DESC;
+```
+
+List every call your service made to a supplier's API on a given day, with the status code they returned. This is the record you need when a supplier acknowledged a request but never acted on it:
+
+```sql
+SELECT timestamp,
+       attributes___http___request___method AS method,
+       attributes___url___full AS url,
+       attributes___http___response___status_code AS status
+FROM delta_scan('s3://your-bucket/timefusion/otel_logs_and_spans')
+WHERE project_id = '<project-id>'
+  AND date = DATE '2026-09-27'
+  AND attributes___server___address = 'api.supplier.com'
+ORDER BY timestamp;
+```
+
+The same tables work with any Delta Lake reader, such as Spark, Polars, `delta-rs` for Python and Rust, or Trino.
 
 ## Connection Status
 
