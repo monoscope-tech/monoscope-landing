@@ -1,0 +1,19 @@
+<!-- Logs & traces (lp/b hero tab): one Explorer view. Ask in plain English for the product-catalog service, the real Ask AI query appears, the list fades in with errors on top, the third request expands inline into its SQL SELECT and log line, then the SELECT opens with its query text. ~12s loop. -->
+<link rel="stylesheet" href="screens-ipad/app.css">
+<section data-screen="list"   data-src="screens-ipad/explorer-list.html"></section>
+<section data-screen="expand" data-src="screens-ipad/explorer-expand.html"></section>
+<section data-screen="open"   data-src="screens-ipad/explorer-expand-sql.html"></section>
+
+<script type="application/json" data-storyboard>
+[
+  { "screen": "list", "hide": "#facets_and_loglist", "type": { "target": ".cm-line", "text": "" }, "wait": 200 },
+  { "cursor": "input[aria-label='Describe the events to find']", "click": true, "wait": 100 },
+  { "type": { "target": "input[aria-label='Describe the events to find']", "text": "product-catalog service" }, "wait": 500 },
+  { "type": { "target": ".cm-line", "text": "resource.service.name == \"product-catalog\"", "instant": true }, "wait": 300 },
+  { "reveal": "#facets_and_loglist", "wait": 1600 },
+  { "cursor": [34.3, 55.2], "click": true, "wait": 100 },
+  { "screen": "expand", "type": { "target": "input[aria-label='Describe the events to find']", "text": "product-catalog service", "instant": true }, "wait": 2200 },
+  { "cursor": [45, 58.7], "click": true, "wait": 100 },
+  { "screen": "open", "type": { "target": "input[aria-label='Describe the events to find']", "text": "product-catalog service", "instant": true }, "wait": 2800 }
+]
+</script>

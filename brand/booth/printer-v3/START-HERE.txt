@@ -1,0 +1,69 @@
+MONOSCOPE BOOTH — PRINTER HANDOFF / V3
+
+Use this package instead of the earlier white-v1 and printer-v2 drafts.
+
+FILES AND FINISHED VISIBLE SIZES
+01 Backdrop: 3000 mm wide × 2400 mm high.
+02 Table front: 1800 mm wide × 950 mm high.
+03 Table left side: 750 mm wide × 950 mm high.
+04 Table right side: 750 mm wide × 950 mm high.
+05 Optional table top: 1800 mm wide × 750 mm deep, plain white.
+06 Optional table back: 1800 mm wide × 950 mm high, plain blue.
+Left and right refer to the view of a visitor facing the table front.
+
+The table design assumes a counter 1800 mm wide × 750 mm deep × 950 mm high.
+These are design dimensions, selected without a supplier hardware template.
+If using a shorter folding table, adapt the panels to its measured height.
+Do not order hardware on the assumption that these are its measurements.
+
+PDF/: Individual full-size 1:1 vector artwork, one panel per file.
+SVG/: Editable vector originals at the same physical sizes.
+PREVIEWS/: PNG previews for checking content and orientation, not printing.
+artwork-manifest.json: Dimensions, exact copy, colors, and text specifications.
+REVISION-NOTES.txt: Revision details and technical verification results.
+
+PRINTING INSTRUCTIONS
+Use the PDFs as the artwork masters. Do not print the PNG previews.
+All text and logos are vector outlines; no fonts need to be installed.
+PDF page size equals the finished visible panel size. Print at 100% / 1:1.
+There are no crop marks, added bleed, seam allowances, or hidden annotations.
+These are panel-face artwork files, not a stitched fabric cutting pattern.
+
+Before manufacture, map the panels to your actual hardware/cloth template.
+Add your required bleed, seams, hems, zipper and tension/stretch allowances.
+Extend the blue background into the table seam/bleed areas.
+Extend white around the backdrop and top panel as needed.
+Keep all critical copy and logo artwork inside the visible safe area.
+Side trace graphics are independent; no front-to-side line alignment is
+intended. Do not rotate or mirror the supplied side panels accidentally.
+
+If the tabletop is already white, panel 05 does not need printing.
+Panel 06 is optional for a wrap with a closed back. An open back can improve
+staff access to storage. Choose the construction with the booth supplier.
+
+COLOR
+The artwork uses RGB: electric blue #0068FF, ink navy #000626, white #FFFFFF.
+The original navy logo has its original opacity, as in the source vector.
+These PDFs are not CMYK PDF/X files and contain no custom output ICC profile.
+Convert using your fabric, ink and printer profile if your workflow requires
+CMYK. Provide a physical color proof, especially for the large blue areas.
+Use the same blue target for every panel and print them as a matching set.
+
+Suggested finish: matte fabric backdrop and fitted table cover.
+Please send a final imposed proof with finished sizes before manufacturing.
+
+FINAL COPY
+Observability data lake
++ AI SRE agents
+Catch issues and continuously improve production.
+monoscopehq.com
+
+The benefit sentence is intentionally on one line. The blue backdrop trace
+starts at the left bracket; no line extends to its left. The right trace
+ends at the right bracket.
+
+V3 REVISION
+Larger logo and broader bold headline, closer to the approved booth mockup.
+The single-line benefit is enlarged to match the headline width.
+The main trace has a shorter straight run and a reconnecting lower branch.
+All table panels, dimensions, and colors remain the same as V2.

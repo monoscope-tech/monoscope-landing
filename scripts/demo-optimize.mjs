@@ -9,8 +9,8 @@ import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import http from 'node:http';
 const { chromium } = createRequire(import.meta.url)(execSync('npm root -g').toString().trim() + '/playwright');
-const DIR = new URL('../assets/demos/screens/', import.meta.url).pathname;
-const W = 1280, H = 720;
+const DIR = (process.env.DEMO_OUT ? process.env.DEMO_OUT.replace(/\/?$/, '/') : null) || new URL('../assets/demos/screens/', import.meta.url).pathname;
+const W = +process.env.DEMO_W || 1280, H = +process.env.DEMO_H || 720;
 const kb = s => Math.round(s.length / 1024) + 'KB';
 
 // Serve the screens dir so the harness page has an http origin (data: URIs and fetch need one).

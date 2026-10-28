@@ -1,0 +1,46 @@
+/* Homepage micro-motion. Everything moves only under no-preference; without it the page is static and complete. */
+:root { --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1); }
+.art-fx { position: absolute; pointer-events: none; }
+.lamp-at { position: absolute; width: 0; height: 0; }
+.lamp { position: absolute; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: #fff6d8; box-shadow: 0 0 6px 2px #ffd98a, 0 0 28px 10px rgb(255 205 120 / .45); }
+.beam { position: absolute; right: 0; top: -14px; width: min(36vw, 420px); height: 28px; transform-origin: 100% 50%;
+  background: linear-gradient(to left, rgb(255 222 150 / .55), rgb(255 222 150 / .12) 60%, transparent);
+  clip-path: polygon(100% 46%, 0 0, 0 100%, 100% 54%); opacity: 0; }
+.glint { position: absolute; width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; opacity: 0;
+  background: linear-gradient(#fff, #fff) center / 100% 1.5px no-repeat, linear-gradient(#fff, #fff) center / 1.5px 100% no-repeat; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Lighthouse character "Fl 5s": a brief flash with the beam swinging toward the viewer */
+  .lamp { animation: lamp-flash 5s var(--ease-out-strong) infinite; }
+  .beam { animation: beam-sweep 5s ease-in-out infinite; }
+  @keyframes lamp-flash { 0%, 100% { opacity: .55; scale: 1; } 8% { opacity: 1; scale: 1.6; } 22% { opacity: .55; scale: 1; } }
+  @keyframes beam-sweep { 0%, 100% { opacity: 0; transform: scaleX(.25) rotate(4deg); } 8% { opacity: 1; transform: scaleX(1) rotate(0); } 26% { opacity: 0; transform: scaleX(.4) rotate(-5deg); } }
+  .firefly { animation: firefly 5s ease-in-out infinite; animation-delay: var(--d, 0s); }
+  @keyframes firefly { 0%, 100% { opacity: 0; translate: 0 0; } 30% { opacity: .9; } 60% { opacity: .2; translate: 6px -10px; } 80% { opacity: .8; translate: 2px -16px; } }
+  .glint { animation: glint 3.6s ease-in-out infinite; animation-delay: var(--d, 0s); }
+  @keyframes glint { 0%, 70%, 100% { opacity: 0; scale: .4; } 80% { opacity: .9; scale: 1; } }
+
+  /* Headings settle in once as they enter */
+  .rv { opacity: 0; transform: translateY(10px); filter: blur(4px); }
+  .rv.in { opacity: 1; transform: none; filter: none; transition: opacity .7s var(--ease-out-strong) var(--d, 0s), transform .7s var(--ease-out-strong) var(--d, 0s), filter .7s var(--ease-out-strong) var(--d, 0s); }
+
+  @supports (animation-timeline: view()) {
+    /* Painted strips drift against the scroll; the rail draws itself as you read */
+    [data-art], [data-art] + .art-fx { animation: art-drift linear both; animation-timeline: --art; animation-range: cover; }
+    .art-panel { view-timeline: --art; }
+    @keyframes art-drift { from { transform: translateY(4%) scale(1.06); } to { transform: translateY(-2%) scale(1.06); } }
+    .rail { transform-origin: top; animation: rail-draw linear both; animation-timeline: view(); animation-range: entry 10% cover 55%; }
+    @keyframes rail-draw { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    a > svg:last-child:has(use[*|href$="arrow-right"]), a > span[aria-hidden]:last-child { transition: transform .2s var(--ease-out-strong); }
+    a:hover > svg:last-child:has(use[*|href$="arrow-right"]), a:hover > span[aria-hidden]:last-child { transform: translateX(3px); }
+  }
+}
+/* Beam aimed away from adjacent copy */
+.art-fx[data-beam="out"] .beam { right: auto; left: 0; transform-origin: 0 50%; width: min(14vw, 180px);
+  background: linear-gradient(to right, rgb(255 222 150 / .55), rgb(255 222 150 / .12) 60%, transparent); clip-path: polygon(0 46%, 100% 0, 100% 100%, 0 54%); }
+/* Footer art sits right under the footer links; fireflies drift over it */
+section > .footer-scene { margin-top: 0; }
+.firefly { position: absolute; width: 4px; height: 4px; margin: -2px 0 0 -2px; border-radius: 50%; background: #ffe7a3; box-shadow: 0 0 6px 2px rgb(255 214 120 / .6); opacity: 0; }

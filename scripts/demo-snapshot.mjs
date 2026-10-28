@@ -1,5 +1,7 @@
 // Snapshots real dashboard screens (dark mode) as static HTML for the homepage demos.
 // Usage: node scripts/demo-snapshot.mjs [scene ...]   (needs monoscope on localhost:8080 + `npm i -g playwright`)
+// Env: DEMO_OUT=<dir> DEMO_W/DEMO_H=<stage px> DEMO_PRESENT=1 (declutter for a landing page) DEMO_ISSUE=<issue path> DEMO_QUERY=<explorer query> DEMO_CHAT=<ai chat path> DEMO_DASH=<dashboard path> DEMO_DASH_TAB=<tab> DEMO_SERVICE=<service> DEMO_OCCURRENCE=First|Recommended
+// DEMO_RANGE=from=<iso>&to=<iso> pins the explorer window so req/resp/share/trace all show the same row.
 // Output: assets/demos/screens/app.css (the app's CSS, once) + assets/demos/screens/<scene>.html, then demo-optimize.mjs shrinks them.
 // Each screen is the page body with shadow roots serialised declaratively, canvases rasterised and images inlined.
 import { createRequire } from 'node:module';
@@ -8,8 +10,8 @@ import fs from 'node:fs';
 const { chromium } = createRequire(import.meta.url)(execSync('npm root -g').toString().trim() + '/playwright');
 const BASE = process.env.MONOSCOPE_BASE || 'http://localhost:8080';
 const P = BASE + '/p/00000000-0000-0000-0000-000000000000';
-const OUT = new URL('../assets/demos/screens', import.meta.url).pathname;
-const W = 1280, H = 720;
+const OUT = process.env.DEMO_OUT || new URL('../assets/demos/screens', import.meta.url).pathname;
+const W = +process.env.DEMO_W || 1280, H = +process.env.DEMO_H || 720, PRESENT = !!process.env.DEMO_PRESENT;
 fs.mkdirSync(OUT, { recursive: true });
 
 // scene name -> how to get there. `actions` run after the page settles; each is a Playwright locator to click.
@@ -22,25 +24,38 @@ const ROW = { custom: async p => {
     if (await p.getByText(/^\s*Res Body\s*$/).first().isVisible().catch(() => false)) return;
   }
 } };
+// Expand the first row's trace inline (its "+N" child-span toggle).
+const EXPAND = p => p.locator('button[aria-label^="Expand trace"]').first();
+// After expanding, open the child span that ran a SQL query.
+const SQLROW = { custom: async p => { const r = await p.evaluate(() => [...document.querySelectorAll('lit-virtualizer tr')].find(t => /SELECT /.test(t.textContent))?.getBoundingClientRect().toJSON());
+  if (!r) throw new Error('no SQL row'); await p.mouse.click(r.x + 470, r.y + r.height / 2); await p.waitForTimeout(3000); } };
 // Click the centre of the first *rendered* element whose own text matches `re` (labels often exist twice, one hidden).
 const vis = re => ({ custom: async p => {
   const pt = await p.evaluate(src => { const re = new RegExp(src);
     for (const e of document.querySelectorAll('a,button,span,div,td,[role=tab]')) { const r = e.getBoundingClientRect();
       if (r.width > 4 && r.height > 4 && re.test(e.textContent.trim()) && e.textContent.trim().length < 60) return [r.x + r.width / 2, r.y + r.height / 2]; }
     return null; }, re.source);
-  if (!pt) throw new Error('not visible: ' + re); await p.mouse.click(pt[0], pt[1]);
+  if (pt) return p.mouse.click(pt[0], pt[1]);
+  // Labels inside shadow roots: Playwright's text locator pierces them.
+  const loc = p.getByText(re).first(); if (!(await loc.isVisible().catch(() => false))) throw new Error('not visible: ' + re); await loc.click();
 } });
+const EQ = Q(process.env.DEMO_QUERY || 'attributes.http.request.method == "POST"') + (process.env.DEMO_RANGE ? '&' + process.env.DEMO_RANGE : '');
 const SCENES = {
   'issues':         { url: '/issues' },
+  'issues-errors':  { url: '/issues', actions: [vis(/^Errors$/)] },
   'explorer':       { url: '/log_explorer' },
-  'explorer-row':   { url: Q('attributes.http.request.method == "POST"'), actions: [ROW] },
-  'explorer-req':   { url: Q('attributes.http.request.method == "POST"'), actions: [ROW, vis(/^Req Body$/)] },
-  'explorer-resp':  { url: Q('attributes.http.request.method == "POST"'), actions: [ROW, vis(/^Res Body$/)] },
-  'explorer-share': { url: Q('attributes.http.request.method == "POST"'), actions: [ROW, vis(/^Share link$/)] },
-  'explorer-trace': { url: Q('attributes.http.request.method == "POST"'), actions: [ROW, vis(/View trace/)] },
-  'issue':          { url: '/issues/94ae2b78-340b-4f3a-aa0e-2ee41d694858?since=7D', wait: 9000 },
+  'explorer-list':  { url: EQ },
+  'explorer-expand': { url: EQ, actions: [EXPAND] },
+  'explorer-expand-sql': { url: EQ, actions: [EXPAND, SQLROW] },
+  'explorer-row':   { url: EQ, actions: [ROW] },
+  'explorer-req':   { url: EQ, actions: [ROW, vis(/^Req Body$/)] },
+  'explorer-resp':  { url: EQ, actions: [ROW, vis(/^Res Body$/)] },
+  'explorer-share': { url: EQ, actions: [ROW, vis(/^Share link$/)] },
+  'explorer-trace': { url: EQ, actions: [ROW, vis(/View trace/)] },
+  'issue':          { url: process.env.DEMO_ISSUE || '/issues/94ae2b78-340b-4f3a-aa0e-2ee41d694858?since=7D', wait: 9000 },
+  'issue-trace':    { url: process.env.DEMO_ISSUE || '/issues/94ae2b78-340b-4f3a-aa0e-2ee41d694858?since=7D', actions: process.env.DEMO_OCCURRENCE ? [vis(new RegExp('^' + process.env.DEMO_OCCURRENCE + '$'))] : [], wait: 6000 },
   'catalog':        { url: '/api_catalog', actions: [vis(/^\s*Outgoing\s*$/)], wait: 6000 },
-  'ai-chat':        { url: '/ai/e599e4f8-302f-42bf-8cc8-d6404c37e448', wait: 5000 },
+  'ai-chat':        { url: process.env.DEMO_CHAT || '/ai/e599e4f8-302f-42bf-8cc8-d6404c37e448', wait: 5000 },
   'sessions':       { url: '/rum?tab=sessions', wait: 4000 },
   'session':        { url: process.env.SESSION_URL || '/rum?tab=sessions', actions: process.env.SESSION_URL ? [] : [p => p.locator('a[href*="session"]').first()], wait: 6000 },
   'routines':       { url: '/ai/routines', wait: 4000 },
@@ -48,6 +63,9 @@ const SCENES = {
   'monitors':       { url: '/monitors' },
   'ai':             { url: '/ai' },
   'dashboards':     { url: '/dashboards' },
+  'dashboard':      { url: process.env.DEMO_DASH || '/dashboards/6f5ee51d-900d-455c-99d9-2f62e6c023b8', wait: 6000 },
+  'dashboard-tab':   { url: process.env.DEMO_DASH || '/dashboards/6f5ee51d-900d-455c-99d9-2f62e6c023b8', actions: [vis(new RegExp('^\\s*' + (process.env.DEMO_DASH_TAB || 'Infra') + '\\s*$'))], wait: 6000 },
+  'dashboard-svc':   { url: process.env.DEMO_DASH || '/dashboards/6f5ee51d-900d-455c-99d9-2f62e6c023b8', actions: [vis(/^\s*Service\s*$/), vis(new RegExp('^\\s*' + (process.env.DEMO_SERVICE || 'frontend') + '\\s*$'))], wait: 6000 },
 };
 const only = process.argv.slice(2);
 const browser = await chromium.launch();
@@ -82,7 +100,7 @@ async function rasterise() {
 }
 
 // Runs in the page: freeze the live DOM into serialisable HTML.
-const serialise = async () => await page.evaluate(async () => {
+const serialise = async () => await page.evaluate(async present => {
   const toDataURL = async url => { try { const b = await (await fetch(url)).blob(); if (b.size > 400000) return null;
     return await new Promise(r => { const f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(b); }); } catch { return null; } };
   document.querySelectorAll('canvas').forEach(c => { try { const i = document.createElement('img'); i.src = c.toDataURL('image/png');
@@ -100,18 +118,37 @@ const serialise = async () => await page.evaluate(async () => {
     }
   };
   attach(document);
+  // Checkbox/radio state lives in a property; mirror it to the attribute so :checked styling matches the live page.
+  if (present) document.querySelectorAll('tr.bg-fillError-weak, tr.bg-fillWarning-weak').forEach(r => r.classList.remove('bg-fillError-weak', 'bg-fillWarning-weak')); // calmer issue rows
+  const drawer = document.getElementById('details-drawer-mode'); if (drawer) drawer.checked = false; // narrow stages flip the detail pane into an overlay
+  document.querySelectorAll('input[type=checkbox], input[type=radio]').forEach(i => i.toggleAttribute('checked', i.checked));
+  // Screens share one stage during crossfades; same-named radios across screens would uncheck each other.
+  const sfx = '-' + Math.random().toString(36).slice(2, 7); document.querySelectorAll('input[type=radio][name]').forEach(i => i.name += sfx);
   document.querySelectorAll('script, link, noscript, iframe').forEach(n => n.remove());
   document.querySelectorAll('*').forEach(n => { for (const a of [...n.attributes]) if (a.name.startsWith('hx-') || a.name.startsWith('data-hx-') || a.name === '_' || a.name === 'autofocus' || a.name === 'autoplay') n.removeAttribute(a.name); });
-  const headStyles = [...document.head.querySelectorAll('style')].map(s => s.textContent).join('\n');
+  // Libraries like gridstack insert rules through the CSSOM, which textContent doesn't show.
+  const headStyles = [...document.head.querySelectorAll('style')].map(s => { try { return [...s.sheet.cssRules].map(r => r.cssText).join('\n'); } catch { return s.textContent; } }).join('\n');
   return { body: document.body.innerHTML, bodyClass: document.body.className, headStyles };
-});
+}, PRESENT);
 
 // The app's CSS, rewritten to live inside the demo's shadow root at a fixed 1280x720 stage.
 async function appCss() {
-  await page.goto(P + '/log_explorer'); await settle(1500);
-  const hrefs = await page.evaluate(() => [...new Set([...document.querySelectorAll('link[rel=stylesheet], link[as=style]')].map(l => l.href))]);
-  let css = '';
-  for (const h of hrefs) css += `\n/* ${h} */\n` + await (await page.request.get(h)).text();
+  // Sheets are collected from the explorer and a dashboard (gridstack's CSS loads only there), once per URL.
+  const seen = new Map();
+  for (const url of ['/log_explorer', SCENES.dashboard.url]) {
+    await page.goto(P + url); await settle(1500);
+    const got = await page.evaluate(flatten => {
+      // Freeze responsive rules as they matched at the capture viewport, so the stage renders the same layout at any page width.
+      const walk = rules => rules.map(r =>
+        r instanceof CSSMediaRule ? (matchMedia(r.media.mediaText).matches ? walk([...r.cssRules]) : '')
+        : r instanceof CSSLayerBlockRule ? `@layer ${r.name}{${walk([...r.cssRules])}}`
+        : r instanceof CSSSupportsRule ? `@supports ${r.conditionText}{${walk([...r.cssRules])}}`
+        : r.cssText).join('\n');
+      return [...document.styleSheets].filter(s => s.ownerNode?.tagName === 'LINK').map(s => { try { return [s.href, flatten ? walk([...s.cssRules]) : null]; } catch { return [s.href, '']; } });
+    }, !!process.env.DEMO_OUT);
+    for (const [h, c] of got) if (!seen.has(h)) seen.set(h, c ?? `\n/* ${h} */\n` + await (await page.request.get(h)).text());
+  }
+  const css = [...seen.values()].join('\n');
   return css
     .replace(/@font-face\s*{[^}]*}/g, '')
     .replace(/(^|[\s,>+~}])(html|:root)(?=[\s,{:.[#>])/g, '$1:host')
@@ -124,6 +161,8 @@ for (const [name, scene] of Object.entries(SCENES)) {
   if (only.length && !only.includes(name)) continue;
   try {
     await page.goto(P + scene.url, { waitUntil: 'domcontentloaded' }); await settle(3000);
+    // Presentation: collapse the explorer's filter sidebar before anything else.
+    if (PRESENT && scene.url.startsWith('/log_explorer')) { await page.evaluate(() => document.querySelectorAll('.toggle-filters, .ai-search').forEach(i => { i.checked = true; i.dispatchEvent(new Event('change', { bubbles: true })); })); await settle(2000); }
     for (const a of scene.actions || []) { if (a.custom) await a.custom(page); else await a(page).click({ timeout: 8000 }); await settle(scene.wait || 3500); }
     // Let lazy sections finish: wait until no "Loading…" text remains (up to 25 s), then a beat for charts to draw.
     for (let i = 0; i < 25; i++) { if (!(await page.evaluate(() => /Loading( events)?\.{3}|Loading\u2026/.test(document.body.innerText)))) break; await page.waitForTimeout(1000); }
@@ -138,4 +177,4 @@ for (const [name, scene] of Object.entries(SCENES)) {
 }
 
 await browser.close();
-execSync('node ' + new URL('demo-optimize.mjs', import.meta.url).pathname, { stdio: 'inherit' }); // prune, strip and purge what was captured
+if (!process.env.DEMO_NO_OPT) execSync('node ' + new URL('demo-optimize.mjs', import.meta.url).pathname, { stdio: 'inherit' }); // prune, strip and purge what was captured

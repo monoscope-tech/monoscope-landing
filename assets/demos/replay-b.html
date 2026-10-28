@@ -1,0 +1,13 @@
+<!-- Replay (lp/b hero tab): one session replay. The customer's click fails, the camera pushes into the backend request behind it, ending on the backend request behind it. ~8s loop. -->
+<link rel="stylesheet" href="screens-ipad/app.css">
+<link rel="stylesheet" href="replay-a.css">
+<section data-screen="replay" data-src="screens/replay-a.html"></section>
+
+<script type="application/json" data-storyboard>
+[
+  { "screen": "replay", "wait": 900 },
+  { "cursor": ".rp .cbtn", "click": true, "reveal": ".rp .spin", "wait": 600 },
+  { "reveal": ".rp .toast, .rp .ev.err", "wait": 1400 },
+  { "cursor": ".rp .open", "focus": ".rp .open", "wait": 2600 }
+]
+</script>

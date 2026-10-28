@@ -1,0 +1,100 @@
+<style>
+.gh { position:absolute; inset:0; background:#0d1117; color:#e6edf3; font:14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif; -webkit-font-smoothing:antialiased; overflow:hidden; }
+.gh * { box-sizing:border-box; }
+.gh svg { width:16px; height:16px; fill:currentColor; flex:none; }
+.gh .top { display:flex; align-items:center; gap:12px; height:56px; padding:0 20px; background:#010409; border-bottom:1px solid #30363d; }
+.gh .top svg.logo { width:30px; height:30px; }
+.gh .crumb { font-size:15px; } .gh .crumb b { font-weight:600; }
+.gh .tabs { display:flex; gap:4px; padding:0 20px; background:#010409; border-bottom:1px solid #30363d; }
+.gh .tabs span { display:flex; align-items:center; gap:7px; padding:9px 10px 11px; color:#e6edf3; border-bottom:2px solid transparent; }
+.gh .tabs span.on { border-color:#f78166; font-weight:600; }
+.gh .n { background:#30363d; border-radius:2em; padding:0 7px; font-size:12px; line-height:18px; font-weight:500; }
+.gh .wrap { padding:16px 28px 0; }
+.gh h1 { margin:0; font-size:24px; font-weight:400; } .gh h1 em { font-style:normal; color:#8b949e; font-weight:300; }
+.gh .meta { display:flex; align-items:center; gap:8px; margin:8px 0 12px; color:#8b949e; }
+.gh .meta b { color:#e6edf3; font-weight:600; }
+.gh .state { display:inline-flex; align-items:center; gap:5px; background:#238636; color:#fff; border-radius:2em; padding:5px 12px; font-weight:500; }
+.gh .br { font:12px ui-monospace, SFMono-Regular, Menlo, monospace; background:#388bfd26; color:#4493f8; border-radius:6px; padding:1px 6px; }
+.gh .ptabs { display:flex; gap:2px; border-bottom:1px solid #30363d; margin-bottom:14px; }
+.gh .ptabs span { display:flex; align-items:center; gap:7px; padding:8px 14px; color:#8b949e; border:1px solid transparent; border-bottom:0; border-radius:6px 6px 0 0; margin-bottom:-1px; }
+.gh .ptabs span.on { color:#e6edf3; border-color:#30363d; background:#0d1117; }
+.gh .cols { display:grid; grid-template-columns:1fr 230px; gap:24px; }
+.gh .tl { display:grid; grid-template-columns:40px 1fr; gap:0 14px; }
+.gh .av { width:40px; height:40px; border-radius:50%; background:#fff; display:grid; place-items:center; }
+.gh .av img { width:26px; height:26px; }
+.gh .gbox { border:1px solid #30363d; border-radius:6px; overflow:hidden; }
+.gh .gbox > header { background:#161b22; border-bottom:1px solid #30363d; padding:8px 14px; color:#8b949e; display:flex; gap:6px; align-items:center; }
+.gh .gbox > header b { color:#e6edf3; font-weight:600; }
+.gh .bot { border:1px solid #30363d; border-radius:2em; font-size:11px; padding:0 6px; color:#8b949e; }
+.gh .md { padding:12px 16px 14px; }
+.gh .md h3 { margin:10px 0 2px; font-size:14px; font-weight:600; } .gh .md h3:first-child { margin-top:0; }
+.gh .md p { margin:0; color:#d1d7e0; }
+.gh .md a { color:#4493f8; text-decoration:none; }
+.gh code { font:12px ui-monospace, SFMono-Regular, Menlo, monospace; background:#656c7633; border-radius:6px; padding:.15em .4em; }
+.gh .diff { margin-top:10px; border:1px solid #30363d; border-radius:6px; overflow:hidden; font:12px/20px ui-monospace, SFMono-Regular, Menlo, monospace; }
+.gh .diff header { background:#161b22; padding:6px 12px; border-bottom:1px solid #30363d; font-family:inherit; color:#e6edf3; }
+.gh .diff div { padding:0 12px; white-space:pre; }
+.gh .diff .a { background:#2ea04326; } .gh .diff .d { background:#f8514926; } .gh .diff .h { color:#8b949e; background:#388bfd1a; }
+.gh .checks { margin:12px 0 0 54px; }
+.gh .ck { display:flex; align-items:center; gap:10px; padding:10px 14px; border-top:1px solid #30363d; }
+.gh .ck:first-of-type { border-top:0; }
+.gh .ck svg { color:#3fb950; }
+.gh .ck .s { color:#8b949e; }
+.gh .ck .wait { width:14px; height:14px; border-radius:50%; border:2px solid #d29922; }
+.gh .side h4 { margin:0 0 6px; font-size:12px; color:#8b949e; font-weight:600; }
+.gh .side > div { padding-bottom:14px; margin-bottom:14px; border-bottom:1px solid #21262d; font-size:12px; }
+.gh .lbl { display:inline-block; border-radius:2em; padding:0 8px; font-weight:500; border:1px solid; }
+</style>
+<div class="gh">
+  <div class="top">
+    <svg class="logo" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg>
+    <span class="crumb">astronomy-shop / <b>orders-service</b></span>
+  </div>
+  <nav class="tabs">
+    <span><svg viewBox="0 0 16 16"><path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.06-1.06L13.94 8l-3.72-3.72a.749.749 0 0 1 1.06-1.06Zm-6.56 0a.751.751 0 0 1 1.06 1.06L2.06 8l3.72 3.72a.749.749 0 0 1-1.06 1.06L.47 8.53a.75.75 0 0 1 0-1.06Z"/></svg>Code</span>
+    <span><svg viewBox="0 0 16 16"><path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"/></svg>Issues <span class="n">4</span></span>
+    <span class="on"><svg viewBox="0 0 16 16"><path d="M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25Zm5.677-.177L9.573.677A.25.25 0 0 1 10 .854V2.5h1A2.5 2.5 0 0 1 13.5 5v5.628a2.251 2.251 0 1 1-1.5 0V5a1 1 0 0 0-1-1h-1v1.646a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354Z"/></svg>Pull requests <span class="n">1</span></span>
+    <span><svg viewBox="0 0 16 16"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"/></svg>Actions</span>
+  </nav>
+  <div class="wrap">
+    <h1>Handle missing <code style="font-size:22px">tracking_id</code> from Acme shipments <em>#491</em></h1>
+    <div class="meta">
+      <span class="state"><svg viewBox="0 0 16 16"><path d="M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25Zm5.677-.177L9.573.677A.25.25 0 0 1 10 .854V2.5h1A2.5 2.5 0 0 1 13.5 5v5.628a2.251 2.251 0 1 1-1.5 0V5a1 1 0 0 0-1-1h-1v1.646a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354Z"/></svg>Open</span>
+      <span><b>monoscope</b> wants to merge 1 commit into <span class="br">main</span> from <span class="br">fix/acme-tracking-id</span></span>
+    </div>
+    <div class="ptabs"><span class="on">Conversation <span class="n">1</span></span><span>Commits <span class="n">1</span></span><span>Checks <span class="n">2</span></span><span>Files changed <span class="n">2</span></span></div>
+    <div class="cols">
+      <div>
+        <div class="tl">
+          <div class="av"><img src="/static/android-chrome-192x192.png" alt=""></div>
+          <div class="gbox">
+            <header><b>monoscope</b><span class="bot">bot</span> opened this pull request 2 minutes ago</header>
+            <div class="md">
+              <p><b>What broke.</b> Since 07:52, <code>POST /v1/shipments</code> on Acme returns <code>200</code> with <code>status: "acknowledged"</code> and no <code>tracking_id</code>. 41 orders are stuck in <code>processing</code>.</p>
+              <p style="margin-top:8px"><b>Fix.</b> Treat a missing <code>tracking_id</code> as pending, poll until Acme assigns one, and alert after 10 minutes. <a>41 stored responses</a> · <a>trace 4bf92f3</a></p>
+              <div class="diff">
+                <header>src/shipping/acme.ts</header>
+                <div>   const res = await acme.post('/v1/shipments', body)</div>
+                <div class="d">-  return markShipped(order, res.tracking_id)</div>
+                <div class="a">+  if (!res.tracking_id) {</div>
+                <div class="a">+    await pollTracking(order, res.shipment_id, { alertAfter: '10m' })</div>
+                <div class="a">+    return markPending(order)</div>
+                <div class="a">+  }</div>
+                <div class="a">+  return markShipped(order, res.tracking_id)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="gbox checks">
+          <div class="ck reveal" id="c1"><svg viewBox="0 0 16 16"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"/></svg><b>ci / test</b><span class="s">Successful in 1m 12s</span></div>
+          <div class="ck reveal" id="c2"><svg viewBox="0 0 16 16"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"/></svg><b>monoscope / production check</b><span class="s">41 of 41 stored Acme responses now handled</span></div>
+        </div>
+      </div>
+      <aside class="side">
+        <div><h4>Reviewers</h4>Maya Chen</div>
+        <div><h4>Labels</h4><span class="lbl" style="color:#4493f8;border-color:#4493f866">monoscope</span> <span class="lbl" style="color:#f85149;border-color:#f8514966">incident</span></div>
+        <div><h4>Linked</h4>Issue #113627 in monoscope</div>
+      </aside>
+    </div>
+  </div>
+</div>

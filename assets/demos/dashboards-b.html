@@ -1,0 +1,15 @@
+<!-- Dashboards (lp/b hero tab): one dashboard. Golden signals across services, pick a service, its metrics fill in. ~10s loop. -->
+<link rel="stylesheet" href="screens-ipad/app.css">
+<section data-screen="overview" data-src="screens-ipad/dashboard.html"></section>
+<section data-screen="pick"     data-src="screens-ipad/dashboard-tab.html"></section>
+<section data-screen="svc"      data-src="screens-ipad/dashboard-svc.html"></section>
+
+<script type="application/json" data-storyboard>
+[
+  { "screen": "overview", "wait": 1800 },
+  { "cursor": [18, 7.3], "click": true, "wait": 100 },
+  { "screen": "pick", "wait": 500 },
+  { "cursor": [36.3, 25.4], "click": true, "wait": 100 },
+  { "screen": "svc", "wait": 3800 }
+]
+</script>

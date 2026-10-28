@@ -1,0 +1,28 @@
+MONOSCOPE — WHITE BOOTH / V1
+
+Concept dimensions (confirm against the supplier's templates):
+Backdrop: 3000 × 2400 mm.
+Table front: 1800 × 950 mm.
+Table sides: 750 × 950 mm each.
+Table top: plain white, 1800 × 750 mm.
+
+The SVG files are editable vector artwork at full nominal size. All lettering
+is outlined, including the original Monoscope logo. PNG files are viewing
+previews only. artwork-proof.png shows the front panel over the backdrop;
+this is a composition preview, not a physical placement or fabrication plan.
+
+These files contain the visible face graphics, without bleed, seam allowance,
+back panels, zipper placement, or tabletop printing. A supplier must adapt
+them to the actual hardware and cloth pattern before production. Table sides
+are separate compositions; do not assume their traces align across seams.
+
+Colors: navy #000626, electric blue #0068FF, white #FFFFFF (RGB).
+Ask the supplier to convert using their fabric/printer ICC profile and supply
+a color proof. Blue fabric should be checked in particular. Keep critical
+text clear of folds, hardware, and seam areas after applying the template.
+
+Suggested materials: matte tension fabric backdrop and fitted fabric table
+wrap, with a plain white tabletop. Confirm material and dimensions with the
+supplier before ordering.
+
+Rebuild from repository root: node brand/booth/white-v1/build.mjs
