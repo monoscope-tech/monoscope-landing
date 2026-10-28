@@ -40,6 +40,7 @@ chmod +x $BINARY_NAME
 npm i
 
 make css-prod
+sed -i "s|^css_version:.*|css_version: $(md5sum assets/css/tailwind.min.css | cut -c1-10)|" quickstatic.yaml
 
 node scripts/generate-og-images.mjs
 

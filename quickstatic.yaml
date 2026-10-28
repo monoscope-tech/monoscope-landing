@@ -1,6 +1,8 @@
 base_url: "https://monoscope.tech"
 title: monoscope
 description: Monitoring and Observability Platform.
+# Stylesheet cache-buster; build.sh replaces it with a hash of tailwind.min.css
+css_version: dev
 
 layouts:
   "./blog/**/index.md": default/blog-single.liquid
