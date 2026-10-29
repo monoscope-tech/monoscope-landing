@@ -1,101 +1,73 @@
 {% render "default/components/head", this:this, config:config %}
 {% render "default/components/nav", this:this, config:config %}
+{% render "default/components/changelog-style" %}
+{% assign fm = this.frontmatter %}
+{% if fm.weekEnd %}{% assign when = fm.date | date: "%B %-d, %Y" %}{% else %}{% assign when = fm.date | date: "%B %Y" %}{% endif %}
 
-<main>
-  <div class="w-full bg-gradient-to-b from-fillWeak to-transparent">
-    <div class="max-w-4xl mx-auto px-3 pt-32 pb-16">
-      <nav class="flex items-center gap-2 text-sm text-textWeak mb-8">
-        <a href="/" class="hover:text-textBrand transition-colors">Home</a>
-        <svg class="w-4 h-4 opacity-50"><use xlink:href="/assets/deps/sprite.svg#chevron-right"></use></svg>
-        <a href="/changelog/" class="hover:text-textBrand transition-colors">Changelog</a>
-        <svg class="w-4 h-4 opacity-50"><use xlink:href="/assets/deps/sprite.svg#chevron-right"></use></svg>
-        <span class="text-textStrong">{{ this.frontmatter.title }}</span>
+<main id="main" class="pb-24 md:pb-32">
+  <section class="tone-brand relative w-full">
+    <div aria-hidden="true" class="absolute top-(--inset) bottom-0 left-1/2 -translate-x-1/2 panel-w rounded-[2rem] overflow-hidden bg-(--tone-panel) border border-(--tone-weak)"></div>
+    <div class="relative wrap max-w-[52rem] pt-28 md:pt-36 pb-14 md:pb-20 space-y-6">
+      <nav aria-label="Breadcrumb" class="text-[14px] text-textWeak">
+        <a href="/changelog/" class="inline-flex items-center gap-1 hover:text-textBrand transition-colors duration-150"><svg class="size-4" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#chevron-left"></use></svg>All updates</a>
       </nav>
+      <p class="inline-flex rounded-md px-2.5 py-1 eyebrow font-mono text-[12px] uppercase tracking-wider bg-(--tone-weak)">Changelog<time datetime="{{ fm.date }}" class="sr-only">{{ when }}</time></p>
+      <h1 class="text-4xl md:text-[42px] font-medium tracking-tight leading-[1.2] text-balance text-textStrong">{{ fm.title }}</h1>
+      {% if fm.summary %}<p class="max-w-[65ch] text-[17.5px] leading-[1.65] text-textWeak text-pretty">{{ fm.summary }}</p>{% endif %}
+      {% render "default/components/changelog-tags", fm: fm, max: 20 %}
+    </div>
+  </section>
 
-      <header class="space-y-6">
-        {% if this.frontmatter.categories %}
-          <div class="flex flex-wrap gap-2">
-            {% for category in this.frontmatter.categories %}
-              {% case category %}
-                {% when 'feature' %}
-                  {% assign badge_class = "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400" %}
-                {% when 'fix' %}
-                  {% assign badge_class = "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400" %}
-                {% when 'improvement' %}
-                  {% assign badge_class = "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400" %}
-                {% when 'performance' %}
-                  {% assign badge_class = "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400" %}
-                {% when 'security' %}
-                  {% assign badge_class = "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400" %}
-                {% when 'breaking' %}
-                  {% assign badge_class = "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400" %}
-                {% when 'deprecated' %}
-                  {% assign badge_class = "bg-gray-100 text-gray-800 dark:bg-gray-700/30 dark:text-gray-400" %}
-                {% else %}
-                  {% assign badge_class = "bg-gray-100 text-gray-800 dark:bg-gray-700/30 dark:text-gray-400" %}
-              {% endcase %}
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ badge_class }}">
-                {{ category | capitalize }}
-              </span>
-            {% endfor %}
-          </div>
-        {% endif %}
+  <div class="wrap max-w-[52rem] mt-12 md:mt-16 space-y-14">
+    {% if fm.highlights %}
+      <section aria-labelledby="highlights" class="card rounded-2xl border border-strokeWeak overflow-hidden">
+        <h2 id="highlights" class="px-5 pt-5 pb-3 font-mono text-[12px] uppercase tracking-wider text-textWeak">Highlights</h2>
+        <ul class="divide-y divide-strokeWeak border-t border-strokeWeak">
+          {% for h in fm.highlights %}
+            <li class="flex gap-3 px-5 py-4 text-[15px] leading-relaxed text-textStrong text-pretty">
+              <svg class="mt-[5px] size-4 shrink-0 text-textBrand" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3.5 8.5 3 3 6-7"/></svg>
+              <span>{{ h }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endif %}
 
-        <h1 class="text-4xl sm:text-5xl font-normal leading-tight text-textStrong">
-          {{ this.frontmatter.title }}
-        </h1>
-
-        <div class="flex items-center gap-4 text-textWeak">
-          <time class="text-sm font-medium" datetime="{{ this.frontmatter.date }}">
-            {{ this.frontmatter.date | date: "%B %d, %Y" }}
-          </time>
-          {% if this.frontmatter.weekEnd %}
-            <span class="text-textDisabled">-</span>
-            <time class="text-sm font-medium" datetime="{{ this.frontmatter.weekEnd }}">
-              {{ this.frontmatter.weekEnd | date: "%B %d, %Y" }}
-            </time>
-          {% endif %}
+    {% if fm.image %}
+      <figure>
+        <div data-theme="dark" class="rounded-xl border border-strokeWeak bg-bgRaised! overflow-hidden shadow-[0_24px_64px_-32px_var(--color-fillBrand-strong)]">
+          <div aria-hidden="true" class="flex items-center gap-1.5 px-4 h-[31px] border-b border-strokeWeak"><i class="block size-2.5 rounded-full bg-white/15"></i><i class="block size-2.5 rounded-full bg-white/15"></i><i class="block size-2.5 rounded-full bg-white/15"></i></div>
+          <img src="/assets/img/product/{{ fm.image }}-dark.webp" alt="{{ fm.image_alt }}" width="1440" height="900" loading="lazy" class="block w-full h-auto aspect-[1440/900] bg-fillWeak">
         </div>
-      </header>
-    </div>
-  </div>
+      </figure>
+    {% endif %}
 
-  {% if this.frontmatter.featured_image %}
-    <div class="max-w-6xl mx-auto px-3 -mt-8 mb-16">
-      <img src="{{ this.permalink }}{{ this.frontmatter.featured_image }}"
-           alt="{{ this.frontmatter.title }}"
-           class="w-full aspect-video object-cover rounded-2xl shadow-xl border border-strokeWeak">
-    </div>
-  {% endif %}
-
-  <article class="max-w-4xl mx-auto px-3">
-    <div class="prose prose-lg prose-gray dark:prose-invert mx-auto
-                prose-headings:font-normal prose-headings:text-textStrong
-                prose-h2:text-2xl prose-h2:sm:text-3xl prose-h2:mb-6 prose-h2:mt-10
-                prose-h3:text-xl prose-h3:sm:text-2xl prose-h3:mb-4 prose-h3:mt-8
-                prose-p:text-textWeak prose-p:leading-relaxed prose-p:mb-6
-                prose-a:text-textBrand prose-a:underline prose-a:underline-offset-2
-                prose-code:text-textBrand prose-code:bg-fillBrand-weak prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-[''] prose-code:after:content-['']
-                prose-pre:bg-fillWeak prose-pre:border prose-pre:border-strokeWeak
-                prose-img:rounded-xl prose-img:shadow-lg prose-img:border prose-img:border-strokeWeak
-                prose-ul:list-disc prose-ul:pl-6 prose-ul:space-y-2
-                prose-li:text-textWeak">
-
+    <article class="cl-body">
       {{ this.content }}
+    </article>
 
-    </div>
-  </article>
-
-  <div class="max-w-4xl mx-auto px-3 mt-16 mb-16">
-    <div class="border-t border-strokeWeak pt-8">
-      <div class="flex justify-between items-center">
-        <a href="/changelog/" class="flex items-center gap-2 text-textBrand hover:underline">
-          <svg class="w-4 h-4"><use xlink:href="/assets/deps/sprite.svg#chevron-left"></use></svg>
-          Back to Changelog
+    {% assign entries = file_list | where_glob: 'file_path', "./changelog/*/index.md" | sort: "frontmatter.date" | reverse %}
+    {% assign newer = false %}{% assign older = false %}{% assign found = false %}{% assign prev = false %}
+    {% for e in entries %}
+      {% if found %}{% assign older = e %}{% break %}{% endif %}
+      {% if e.permalink == this.permalink %}{% assign found = true %}{% assign newer = prev %}{% endif %}
+      {% assign prev = e %}
+    {% endfor %}
+    <nav aria-label="More updates" class="grid sm:grid-cols-2 gap-4 pt-10 border-t border-strokeWeak">
+      {% if older %}
+        <a href="{{ older.permalink }}" class="press card group rounded-2xl border border-strokeWeak hover:border-strokeStrong p-5 space-y-1.5">
+          <span class="flex items-center gap-1 font-mono text-[12px] uppercase tracking-wider text-textWeak"><svg class="size-4" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#chevron-left"></use></svg>Earlier</span>
+          <span class="block text-[17.5px] leading-[1.35] font-medium text-textStrong group-hover:text-textBrand transition-colors duration-150">{{ older.frontmatter.title }}</span>
         </a>
-      </div>
-    </div>
+      {% else %}<span></span>{% endif %}
+      {% if newer %}
+        <a href="{{ newer.permalink }}" class="press card group rounded-2xl border border-strokeWeak hover:border-strokeStrong p-5 space-y-1.5 sm:text-end">
+          <span class="flex items-center sm:justify-end gap-1 font-mono text-[12px] uppercase tracking-wider text-textWeak">Later<svg class="size-4" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#chevron-right"></use></svg></span>
+          <span class="block text-[17.5px] leading-[1.35] font-medium text-textStrong group-hover:text-textBrand transition-colors duration-150">{{ newer.frontmatter.title }}</span>
+        </a>
+      {% endif %}
+    </nav>
   </div>
 </main>
 
-{% render "default/components/foot", this:this %}
+{% render "default/components/foot", this:this, config:config %}
