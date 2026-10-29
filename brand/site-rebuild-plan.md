@@ -79,14 +79,18 @@ The lead agent (this session) owns: Midjourney art, merging branches, rebuilding
 
 B (screenshots) lands first → C, D, E, F1, F2, G merge in any order → lead swaps in art and screenshots, rebuilds CSS, runs site-wide QA → push to `master` (Cloudflare Pages deploys).
 
+## Split with session apitoolkit-landing-01 (agreed 2026-10-29)
+
+That session owns the product pages: `/features/*` (overview, ai-sre, error-tracking, api-monitoring, logs-and-traces, dashboards, session-replay, byob-s3), `features-single.liquid`, `components/chapter.liquid` + `frame.liquid`, shared styles moved into `tailwind.css`, the "Product" nav dropdown, the footer Product column and the `/features/*` redirects (schema in `brand/site-plan.md`). Workstream C is cancelled; there are no `/product/*` paths. This session owns everything else, including screenshots (B, also used by their pages), `components/bill.liquid` + `compare.liquid`, and the handoff files `brand/handoff-session1.*` (delete them after merging).
+
 ## Status
 
 - [ ] B screenshots
-- [ ] C product pages
+- [x] C product pages (moved to the other session)
 - [ ] D pricing + compare
 - [ ] E changelog
 - [ ] F1 docs onboarding/SDKs
 - [ ] F2 docs dashboard/features/AI
 - [ ] G company pages + 404
-- [ ] Art (lead)
+- [x] Art (lead): 13 `page-*.webp` strips, commit 90d44d6f
 - [ ] Integration + QA + push (lead)
