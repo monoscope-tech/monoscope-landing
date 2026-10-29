@@ -35,7 +35,7 @@ The skill uses the CLI to add the SDK and to make sure that events arrive. To do
 
 ## Installation
 
-Install the Monoscope echo SDK using the following command `go get` command:
+Install the monoscope echo SDK:
 
 ```sh
 go get github.com/monoscope-tech/monoscope-go/echo
@@ -43,7 +43,7 @@ go get github.com/monoscope-tech/monoscope-go/echo
 
 ## Configuration
 
-Before configuration open telemetery and setting up the Monoscope middleware, you need to configure a few environment variables. These variables provide essential information for setting up openTelemetry and Monoscope.
+Set these environment variables, for example in a `.env` file or your deployment config. Always set `OTEL_EXPORTER_OTLP_ENDPOINT`: without it, the SDK sends data to an old default endpoint.
 
 ```sh
 OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
@@ -55,48 +55,49 @@ OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
 
 ## Usage
 
-After setting up the environment variables, you can configure the OpenTelemetry SDK and Monoscope middleware like so:
+Initialize OpenTelemetry and add the monoscope middleware:
 
 ```go
 package main
 
 import (
-	"log"
+  "log"
+  "net/http"
 
-	monoscope "github.com/monoscope-tech/monoscope-go/echo"
-	"github.com/labstack/echo/v4"
+  monoscope "github.com/monoscope-tech/monoscope-go/echo"
+  "github.com/labstack/echo/v4"
   _ "github.com/joho/godotenv/autoload" // autoload .env file for otel configuration
-
 )
-
 
 func main() {
   // Configure OpenTelemetry
-	shutdown, err := monoscope.ConfigureOpenTelemetry()
-	if err != nil {
-		log.Printf("error configuring openTelemetry: %v", err)
-	}
-	defer shutdown()
+  shutdown, err := monoscope.ConfigureOpenTelemetry()
+  if err != nil {
+    log.Printf("error configuring openTelemetry: %v", err)
+  }
+  defer shutdown()
 
-	router := echo.New()
-	// Register monoscope's middleware
-	router.Use(monoscope.Middleware(monoscope.Config{
-		RedactHeaders:       []string{"Authorization", "X-Api-Key"},
-		RedactRequestBody:   []string{"password", "credit_card"},
-		RedactResponseBody:  []string{"password", "credit_card"},
-	}))
+  router := echo.New()
+  // Register monoscope's middleware
+  router.Use(monoscope.Middleware(monoscope.Config{
+    CaptureRequestBody:  true,
+    CaptureResponseBody: true,
+    RedactHeaders:       []string{"Authorization", "X-Api-Key"},
+    RedactRequestBody:   []string{"$.password", "$.credit_card"},
+    RedactResponseBody:  []string{"$.password", "$.credit_card"},
+  }))
 
-	router.GET("/:slug/test", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Ok, success!")
-	})
+  router.GET("/:slug/test", func(c echo.Context) error {
+    return c.String(http.StatusOK, "Ok, success!")
+  })
 
-	router.Start(":8000")
+  router.Start(":8000")
 }
 ```
 
 ### All Middleware Configuration Fields
 
-The middleware configuration specifies how the Monoscope SDK should handle requests and responses. Below are the available fields:
+Pass these fields to `monoscope.Config{}` to customize the middleware:
 
 {class="docs-table"}
 :::
@@ -113,11 +114,45 @@ The middleware configuration specifies how the Monoscope SDK should handle reque
 | `RedactResponseBody` | `[]string` | JSONPath list of response body fields to redact | `[]` | `[]string{"$.password", "$.credit_card"}` |
 :::
 
+## Error Reporting
+
+The middleware records panics on its own. To attach a handled error to the current request, call `ReportError()` with the request context:
+
+```go
+func handler(c echo.Context) error {
+  if _, err := os.Open("non-existing-file.txt"); err != nil {
+    monoscope.ReportError(c.Request().Context(), err)
+    return c.String(http.StatusInternalServerError, "Something went wrong")
+  }
+  return c.String(http.StatusOK, "ok")
+}
+```
+
+## Monitoring Outgoing Requests
+
+To trace the HTTP calls your server makes to other APIs, create the client with `monoscope.HTTPClient()` and pass it the request context. The client records request and response bodies, so redact sensitive fields:
+
+```go
+func handler(c echo.Context) error {
+  client := monoscope.HTTPClient(c.Request().Context(),
+    monoscope.WithRedactHeaders("Authorization"),
+    monoscope.WithRedactRequestBody("$.user.email"),
+    monoscope.WithRedactResponseBody("$.users[*].email"),
+  )
+  resp, err := client.Get("https://jsonplaceholder.typicode.com/posts/1")
+  if err != nil {
+    return c.String(http.StatusInternalServerError, "Something went wrong")
+  }
+  defer resp.Body.Close()
+  return c.String(http.StatusOK, "ok")
+}
+```
+
 ## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)
 
-The Echo middleware only covers HTTP requests. Cron jobs (`robfig/cron`), task queues (`hibiken/asynq`, `gocraft/work`), Kafka/NATS consumers, and standalone CLI commands are invisible until you wrap each handler in a span yourself. Always cover these alongside your HTTP routes — without it, half your production work has no observability.
+The Echo middleware only covers HTTP requests. Cron jobs (`robfig/cron`), task queues (`hibiken/asynq`, `gocraft/work`), Kafka/NATS consumers, and standalone CLI commands are invisible until you wrap each handler in a span yourself. Instrument these together with your HTTP routes. If you do not, much of your production work has no telemetry.
 
-Use the standard OpenTelemetry Go SDK; the same `TracerProvider` you configured for HTTP also instruments downstream calls (database, outbound HTTP) once a parent span is active.
+Use the standard OpenTelemetry Go SDK. The same `TracerProvider` you configured for HTTP also instruments downstream calls (database, outbound HTTP) once a parent span is active.
 
 ```go
 import (
@@ -152,14 +187,14 @@ func ProcessEmail(ctx context.Context, t *asynq.Task) error {
 }
 ```
 
-The same wrapper goes around `robfig/cron` job functions, Kafka/NATS subscribers, and any goroutine-based worker. For one-shot CLI binaries, call `tp.Shutdown(ctx)` on your `TracerProvider` before `os.Exit` so the `BatchSpanProcessor` flushes; otherwise spans are dropped silently.
+The same wrapper goes around `robfig/cron` job functions, Kafka/NATS subscribers, and any goroutine-based worker. For one-shot CLI binaries, call the `shutdown` function returned by `ConfigureOpenTelemetry()` before `os.Exit`. Otherwise the batch span processor does not flush and the spans are lost.
 
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tips</b></p>
   <ol>
   <li>
-  Remember to keep your Monoscope project key (<code>x-api-key</code>) secure and not expose it in public repositories or logs.
+  Keep your monoscope API key (<code>x-api-key</code>) secret. Do not commit it to public repositories or write it to logs.
   </li>
   </ol>
 </div>

@@ -8,7 +8,7 @@ menuWeight: 3
 
 # Symfony SDK Guide
 
-To integrate your Symfony application with monoscope, you need to use this SDK to monitor incoming traffic, aggregate the requests, and then send them to monoscope's servers. Kindly follow this guide to get started and learn about all the supported features of monoscope's **Symfony SDK**.
+To integrate your Symfony application with monoscope, you need to use this SDK to monitor incoming traffic, aggregate the requests, and then send them to monoscope's servers. Follow this guide to set up the **Symfony SDK**.
 
 ```=html
 
@@ -49,27 +49,35 @@ The skill uses the CLI to add the SDK and to make sure that events arrive. To do
 Run the command below to install the SDK:
 
 ```sh
-composer require monoscope/monoscope-symfony
+composer require apitoolkit/apitoolkit-symfony:dev-master
+```
+
+```=html
+<div class="callout">
+  <p><i class="fa-regular fa-circle-info"></i> <b>Note</b></p>
+  <p>The package has no tagged release yet, so require the <code>dev-master</code> version.</p>
+</div>
 ```
 
 ## OpenTelemetry Configuration
 
-Set the following environment variables to configure the OpenTelemetry exporter:
+The Symfony bundle does not use OpenTelemetry. It sends requests to monoscope directly with your API key. If you add your own OpenTelemetry spans, as in Non-HTTP Entry Points below, set these environment variables to configure the exporter:
 
 ```sh
 OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
 OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
+OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
 ```
 
 ## Configuration
 
-First, add the `MONOSCOPE_API_KEY` environment variable to your `.env` file, like so:
+First, add the `MONOSCOPE_API_KEY` environment variable to your `.env` file:
 
 ```sh
 MONOSCOPE_API_KEY=YOUR_API_KEY
 ```
 
-Then, add the `monoscope\EventSubscriber\monoscopeService` listener and API Key to your `config/service.yaml` file, like so:
+Then add the `APIToolkit\EventSubscriber\APIToolkitService` listener, the API key and the monoscope URL to your `config/services.yaml` file:
 
 ```yaml
 # This file is the entry point to configure your own services.
@@ -86,10 +94,10 @@ services:
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
   # Initialize the monoscope client
-  monoscope\EventSubscriber\monoscopeService:
+  APIToolkit\EventSubscriber\APIToolkitService:
     arguments:
       $apiKey: "%env(MONOSCOPE_API_KEY)%"
-  # END Initialize the monoscope client
+      $rootURL: "https://app.monoscope.tech"
 
   # makes classes in src/ available to be used as services
   # this creates a service per class whose id is the fully-qualified class name
@@ -115,7 +123,7 @@ services:
 
 If you have fields that are sensitive and should not be sent to monoscope servers, you can mark those fields to be redacted (the fields will never leave your servers).
 
-To mark a field for redacting via this SDK, you need to add some additional arguments to the configuration with paths to the fields that should be redacted. There are three variables you can provide to configure what gets redacted, namely:
+To redact fields, add these arguments to the service configuration:
 
 1. `$redactHeaders`: A list of HTTP header keys.
 2. `$redactRequestBody`: A list of JSONPaths from the request body.
@@ -161,8 +169,8 @@ Examples of valid JSONPath expressions would be:
 :::
 | JSONPath | Description |
 | -------- | ----------- |
-| `$.user.addresses[*].zip` | In this case, monoscope will replace the `zip` field in all the objects of the `addresses` list inside the `user` object with the string `[CLIENT_REDACTED]`. |
-| `$.user.credit_card` | In this case, monoscope will replace the entire `credit_card` object inside the `user` object with the string `[CLIENT_REDACTED]`. |
+| `$.user.addresses[*].zip` | monoscope replaces the `zip` field in all the objects of the `addresses` list inside the `user` object with the string `[CLIENT_REDACTED]`. |
+| `$.user.credit_card` | monoscope replaces the entire `credit_card` object inside the `user` object with the string `[CLIENT_REDACTED]`. |
 :::
 
 ```=html
@@ -174,14 +182,15 @@ Examples of valid JSONPath expressions would be:
 <hr />
 ```
 
-Here's what the configuration would look like with redacted fields in the `config/service.yaml` file:
+Here is the `config/services.yaml` configuration with redacted fields:
 
 ```yaml
 services:
-  monoscope\EventSubscriber\monoscopeService:
+  APIToolkit\EventSubscriber\APIToolkitService:
     arguments:
       $apiKey: "%env(MONOSCOPE_API_KEY)%"
-      $redactedHeaders:
+      $rootURL: "https://app.monoscope.tech"
+      $redactHeaders:
         - "content-type"
         - "Authorization"
         - "HOST"

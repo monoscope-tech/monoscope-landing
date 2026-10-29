@@ -63,7 +63,7 @@ export OTEL_SERVICE_NAME="my-service" # Specifies the name of the service.
 export OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY" # Adds your API KEY to the resource.
 export OTEL_EXPORTER_OTLP_PROTOCOL="grpc" # Specifies the protocol to use for the OpenTelemetry exporter.
 export OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true # enable logging auto instrumentation
-export DJANGO_SETTINGS_MODULE={YOUR_DJANGO_ROJECT_NAME}.settings # Specifies the Django settings module to use.
+export DJANGO_SETTINGS_MODULE={YOUR_DJANGO_PROJECT_NAME}.settings # Specifies the Django settings module to use.
 ```
 
 Then run the command below to start your server with opentelemetry instrumented:
@@ -88,7 +88,7 @@ opentelemetry-instrument daphne myapp.asgi:application
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
   <p>Replace <code>YOUR_API_KEY</code> with an API key from <b>Settings &gt; API Keys</b> in monoscope.</p>
-  <p>The <code>{YOUR_DJANGO_ROJECT_NAME}</code> demo string should be replaced with the name of your django project</p>
+  <p>Replace <code>{YOUR_DJANGO_PROJECT_NAME}</code> with the name of your Django project.</p>
 </div>
 ```
 
@@ -101,8 +101,7 @@ opentelemetry-instrument daphne myapp.asgi:application
 
 ## Configuration
 
-After setting up open telemetry, you can now configure the monoscope django middleware.
-By adding the following Monoscope variables to your Django settings (`settings.py`) file:
+Add the monoscope options to your Django settings file (`settings.py`):
 
 ```python
 from pathlib import Path
@@ -126,7 +125,7 @@ INSTALLED_APPS = [
 ]
 ```
 
-Then add the `monoscope_django.MonoscopeMiddleware` middleware into the `settings.py` middleware list, like so:
+Then add `monoscope_django.MonoscopeMiddleware` to the `MIDDLEWARE` list in `settings.py`:
 
 ```python
 MIDDLEWARE = [
@@ -143,15 +142,17 @@ MIDDLEWARE = [
 | Option | Description |
 | ------ | ----------- |
 | `MONOSCOPE_SERVICE_NAME` | A defined string name of your application |
-| `MONOSCOPE_DEBUG` | Set to `true` to enable debug mode. |
+| `MONOSCOPE_DEBUG` | Set to `True` to enable debug mode. |
 | `MONOSCOPE_TAGS` | A list of defined tags for your services (used for grouping and filtering data on the dashboard). |
 | `MONOSCOPE_SERVICE_VERSION` | A defined string version of your application (used for further debugging on the dashboard). |
 | `MONOSCOPE_REDACT_HEADERS` | A list of HTTP header keys to redact. |
 | `MONOSCOPE_REDACT_REQUEST_BODY` | A list of JSONPaths from the request body to redact. |
 | `MONOSCOPE_REDACT_RESPONSE_BODY` | A list of JSONPaths from the response body to redact. |
-| `MONOSCOPE_CAPTURE_REQUEST_BODY` | Set to `true` to capture the request body. |
-| `MONOSCOPE_CAPTURE_RESPONSE_BODY` | Set to `true` to capture the response body. |
+| `MONOSCOPE_CAPTURE_REQUEST_BODY` | Set to `True` to capture the request body. |
+| `MONOSCOPE_CAPTURE_RESPONSE_BODY` | Set to `True` to capture the response body. |
 :::
+
+To skip some paths, set `OTEL_PYTHON_EXCLUDED_URLS` to a comma-separated list of regular expressions, for example `healthz,metrics`. The middleware does not trace requests whose path matches.
 
 ## Redacting Sensitive Data
 
@@ -243,7 +244,7 @@ To manually report specific errors at different parts of your application, use t
 
 ```python
 from django.http import JsonResponse
-from monoscope_django import observe_request, report_error
+from monoscope_django import report_error
 
 def hello_world(request, name):
   try:
@@ -255,6 +256,13 @@ def hello_world(request, name):
 ```
 
 ## Identifying users & tenants
+
+```=html
+<div class="callout">
+  <i class="fa-solid fa-circle-info"></i>
+  <p><code>set_user</code>, <code>set_tenant</code> and <code>set_session</code> need <code>monoscope-django</code> 1.1.0 or later and <code>monoscope-common</code> 1.2.0 or later.</p>
+</div>
+```
 
 Attach the authenticated user and tenant to every request span so you can filter, group, and search by identity in the dashboard (e.g. "all errors for `user.email = jane@acme.com`"). Call `set_user` and `set_tenant` from a view or a custom middleware placed *after* `django.contrib.auth.middleware.AuthenticationMiddleware` so that `request.user` is populated. The SDK writes them to the active request span using the standard attribute keys (`user.id`, `user.email`, `user.full_name`, `tenant.id`, `tenant.name`).
 
@@ -328,13 +336,12 @@ To monitor outgoing HTTP requests from your application, use the `observe_reques
 
 ```python
 from django.http import JsonResponse
-from monoscope_django import observe_request, report_error
+from monoscope_django import observe_request
 
 def hello_world(request, name):
   resp = observe_request(request).get(
-      "https://jsonplaceholder.typicode.com/todos/2")
-  resp.read()
-  return JsonResponse({"data": resp.read()})
+    "https://jsonplaceholder.typicode.com/todos/2")
+  return JsonResponse({"data": resp.json()})
 ```
 
 The `observe_request()` function accepts a **required `request` argument**, and the following optional arguments:
@@ -345,8 +352,8 @@ The `observe_request()` function accepts a **required `request` argument**, and 
 | ------ | ----------- |
 | `url_wildcard` | The `url_path` string for URLs with path parameters. |
 | `redact_headers` | A list of HTTP header keys to redact. |
-| `redact_response_body` | A list of JSONPaths from the request body to redact. |
-| `redact_request_body` | A list of JSONPaths from the response body to redact. |
+| `redact_response_body` | A list of JSONPaths from the response body to redact. |
+| `redact_request_body` | A list of JSONPaths from the request body to redact. |
 :::
 
 ## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)
@@ -400,9 +407,7 @@ For management commands and other one-shot scripts, call `trace.get_tracer_provi
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>The `observe_request()` function wraps an <a href="https://github.com/monoscope-tech/monoscope-python/tree/main/django" target="_blank" rel="noopener noreferrer" class="">HTTPX</a>
-
- client and you can use it just like you would normally use HTTPX for any request.</p>
+  <p>The <code>observe_request()</code> function returns an <a href="https://www.python-httpx.org/" target="_blank" rel="noopener noreferrer">HTTPX</a> client. Use it as you would use any HTTPX client.</p>
 </div>
 ```
 

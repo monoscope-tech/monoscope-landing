@@ -8,9 +8,9 @@ menuWeight: 1
 
 # Laravel SDK Guide
 
-Monoscope laravel Middleware allows you to monitor HTTP requests in your laravel applications. It builds upon OpenTelemetry instrumentation to create custom spans for each request, capturing key details such as request and response bodies, headers, and status codes. Additionally, it offers robust support for monitoring outgoing requests and reporting errors automatically.
+The monoscope Laravel middleware monitors HTTP requests in your Laravel application. It builds on OpenTelemetry to create a span for each request, with the request and response bodies, headers and status code. It can also monitor outgoing requests and report errors.
 
-To get started, you'll need the OpenTelemetry Node.js library and some basic configuration.
+To get started, install the SDK and the OpenTelemetry PHP packages, then configure the exporter.
 
 ```=html
 <hr>
@@ -47,25 +47,23 @@ The skill uses the CLI to add the SDK and to make sure that events arrive. To do
 
 ## Installation
 
-Run the command below to install the monoscope laravel sdk and required opentelemetry packages:
+Install the Laravel SDK and the OpenTelemetry packages:
 
 ```sh
 composer require \
     open-telemetry/sdk \
     open-telemetry/exporter-otlp \
-    monoscope/laravel
+    apitoolkit/apitoolkit-laravel
 ```
 
 ## Set Up OpenTelemetry
 
-Setting up open telemetry allows you to send traces, metrics and logs to the Monoscope platform.
-To setup open telemetry, first install the opentelemetry php extension:
-
+OpenTelemetry sends your traces, metrics and logs to monoscope. First, install the OpenTelemetry PHP extension:
 ```sh
 pecl install opentelemetry
 ```
 
-Then add it to your `php.ini` file like so.
+Then add it to your `php.ini` file:
 
 ```ini
 [opentelemetry]
@@ -91,16 +89,16 @@ export OTEL_PROPAGATORS=baggage,tracecontext
 </div>
 ```
 
-## Setup Monoscope Middleware
+## Set Up the Middleware
 
-Register the middleware in the app/Http/Kernel.php file under the correct middleware group (e.g., api) or at the root, like so. This creates a customs spans which captures and sends http request info such as headers, requests and repsonse bodies, matched route etc. for each request
+The middleware creates a span for each request. The span holds the headers, the request and response bodies, the matched route and more.
 
 ```=html
 <section class="tab-group" data-tab-group="group1">
   <button class="tab-button" data-tab="tab1">Middleware (Global)</button>
   <button class="tab-button" data-tab="tab2">Middleware (Specific Routes)</button>
   <div id="tab1" class="tab-content">
-    Next, register the middleware in the `app/Http/Kernel.php` file under the correct middleware group (e.g., `api`) or at the root, like so:
+    Register the middleware in `app/Http/Kernel.php`, in a middleware group (for example `api`) or at the root:
 ```
 
 ```php
@@ -115,7 +113,7 @@ class Kernel extends HttpKernel
   protected $middlewareGroups = [
     'api' => [
       // Other middleware here...
-      \Monoscope\Http\Middleware\Monoscope::class, // Initialize the Monoscope client
+      \APIToolkit\Http\Middleware\APIToolkit::class,
     ],
   ];
 }
@@ -124,7 +122,7 @@ class Kernel extends HttpKernel
 ```=html
   </div>
   <div id="tab2" class="tab-content">
-    Alternatively, if you want to monitor specific routes, you can register the middleware, like so:
+    To monitor only specific routes, register the middleware as a route middleware:
 ```
 
 ```php
@@ -138,12 +136,12 @@ class Kernel extends HttpKernel
 {
   protected $routeMiddleware = [
     // Other middleware here...
-    'monoscope' => \Monoscope\Http\Middleware\Monoscope::class,
+    'monoscope' => \APIToolkit\Http\Middleware\APIToolkit::class,
   ];
 }
 ```
 
-Then you can use the `monoscope` middleware in your routes like so:
+Then add the `monoscope` middleware to your routes:
 
 ```php
 Route::get('/', function () {
@@ -158,33 +156,34 @@ Route::get('/', function () {
 </section>
 ```
 
-## Middleware configuration options:
+## Middleware Configuration Options
 
-You can configure the middleware using the following environment variables:
+Configure the middleware with these environment variables:
 
 {class="docs-table"}
 :::
 | Option | Description |
 | ------ | ----------- |
-| `MONOSCOPE_DEBUG` | Set to `true` to enable debug mode. |
-| `MONOSCOPE_TAGS` | A list of defined tags for your services (used for grouping and filtering data on the dashboard). |
-| `MONOSCOPE_SERVICE_VERSION` | A defined string version of your application (used for further debugging on the dashboard). |
-| `MONOSCOPE_REDACT_HEADERS` | A list of HTTP header keys to redact. |
-| `MONOSCOPE_REDACT_REQUEST_BODY` | A list of JSONPaths from the request body to redact. |
-| `MONOSCOPE_REDACT_RESPONSE_BODY` | A list of JSONPaths from the response body to redact. |
-| `MONOSCOPE_CAPTURE_REQUEST_BODY` | A list of JSONPaths from the request body to capture. |
-| `MONOSCOPE_CAPTURE_RESPONSE_BODY` | A list of JSONPaths from the response body to capture. |
+| `APITOOLKIT_DEBUG` | Set to `true` to enable debug mode. |
+| `APITOOLKIT_SERVICE_NAME` | The name of your service. |
+| `APITOOLKIT_TAGS` | A list of defined tags for your services (used for grouping and filtering data on the dashboard). |
+| `APITOOLKIT_SERVICE_VERSION` | A defined string version of your application (used for further debugging on the dashboard). |
+| `APITOOLKIT_REDACT_HEADERS` | A list of HTTP header keys to redact. |
+| `APITOOLKIT_REDACT_REQUEST_BODY` | A list of JSONPaths from the request body to redact. |
+| `APITOOLKIT_REDACT_RESPONSE_BODY` | A list of JSONPaths from the response body to redact. |
+| `APITOOLKIT_CAPTURE_REQUEST_BODY` | Set to `true` to capture the request body. Default `false`. |
+| `APITOOLKIT_CAPTURE_RESPONSE_BODY` | Set to `true` to capture the response body. Default `false`. |
 :::
 
 ## Redacting Sensitive Data
 
-If you have fields that are sensitive and should not be sent to Monoscope servers, you can mark those fields to be redacted (the fields will never leave your servers).
+If you have fields that are sensitive and should not be sent to monoscope servers, you can mark those fields to be redacted (the fields will never leave your servers).
 
-To mark a field for redacting via this SDK, you need to add some additional environmental variables to the `.env` file with paths to the fields that should be redacted. There are three variables you can provide to configure what gets redacted, namely:
+To redact fields, add these environment variables to your `.env` file:
 
-1. `MONOSCOPE_REDACT_HEADERS`: A list of HTTP header keys.
-2. `MONOSCOPE_REDACT_REQUEST_BODY`: A list of JSONPaths from the request body.
-3. `MONOSCOPE_REDACT_RESPONSE_BODY`: A list of JSONPaths from the response body.
+1. `APITOOLKIT_REDACT_HEADERS`: A list of HTTP header keys.
+2. `APITOOLKIT_REDACT_REQUEST_BODY`: A list of JSONPaths from the request body.
+3. `APITOOLKIT_REDACT_RESPONSE_BODY`: A list of JSONPaths from the response body.
 
 ```=html
 <hr />
@@ -226,15 +225,15 @@ Examples of valid JSONPath expressions would be:
 :::
 | JSONPath | Description |
 | -------- | ----------- |
-| `$.user.addresses[*].zip` | In this case, Monoscope will replace the `zip` field in all the objects of the `addresses` list inside the `user` object with the string `[CLIENT_REDACTED]`. |
-| `$.user.credit_card` | In this case, Monoscope will replace the entire `credit_card` object inside the `user` object with the string `[CLIENT_REDACTED]`. |
+| `$.user.addresses[*].zip` | monoscope replaces the `zip` field in all the objects of the `addresses` list inside the `user` object with the string `[CLIENT_REDACTED]`. |
+| `$.user.credit_card` | monoscope replaces the entire `credit_card` object inside the `user` object with the string `[CLIENT_REDACTED]`. |
 :::
 
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
   <p>To learn more about JSONPaths, please take a look at the <a href="https://github.com/json-path/JsonPath/blob/master/README.md" target="_blank">official docs</a> or use this <a href="https://jsonpath.com?ref=monoscope" target="_blank">JSONPath Evaluator</a> to validate your JSONPath expressions. </p>
-  <p><b>You can also use our <a href="/tools/json-redacter/">JSON Redaction Tool</a> <i class="fa-regular fa-screwdriver-wrench"></i> to preview what the final data sent from your API to Monoscope will look like, after redacting any given JSON object</b>.</p>
+  <p><b>You can also use our <a href="/tools/json-redacter/">JSON Redaction Tool</a> <i class="fa-regular fa-screwdriver-wrench"></i> to preview what the final data sent from your API to monoscope will look like, after redacting any given JSON object</b>.</p>
 </div>
 <hr />
 ```
@@ -242,17 +241,17 @@ Examples of valid JSONPath expressions would be:
 Here's an example of what the `.env` file would look like with redacted fields:
 
 ```sh
-MONOSCOPE_REDACT_HEADERS="Content-Type, Authorization, HOST"
-MONOSCOPE_REDACT_REQUEST_BODY="$.user.email, $.user.addresses"
-MONOSCOPE_REDACT_RESPONSE_BODY="$.users[*].email, $.users[*].credit_card"
+APITOOLKIT_REDACT_HEADERS="Content-Type, Authorization, HOST"
+APITOOLKIT_REDACT_REQUEST_BODY="$.user.email, $.user.addresses"
+APITOOLKIT_REDACT_RESPONSE_BODY="$.users[*].email, $.users[*].credit_card"
 ```
 
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-circle-info"></i> <b>Note</b></p>
   <ul>
-    <li>The <code>MONOSCOPE_REDACT_HEADERS</code> variable expects a list of <b>case-insensitive headers as strings</b>.</li>
-    <li>The <code>MONOSCOPE_REDACT_REQUEST_BODY</code> and <code>MONOSCOPE_REDACT_RESPONSE_BODY</code> variables expect a list of <b>JSONPaths as strings</b>.</li>
+    <li>The <code>APITOOLKIT_REDACT_HEADERS</code> variable expects a list of <b>case-insensitive headers as strings</b>.</li>
+    <li>The <code>APITOOLKIT_REDACT_REQUEST_BODY</code> and <code>APITOOLKIT_REDACT_RESPONSE_BODY</code> variables expect a list of <b>JSONPaths as strings</b>.</li>
     <li>The list of items to be redacted will be applied to all endpoint requests and responses on your server.</li>
   </ul>
 </div>
@@ -260,14 +259,14 @@ MONOSCOPE_REDACT_RESPONSE_BODY="$.users[*].email, $.users[*].credit_card"
 
 ## Error Reporting
 
-With Monoscope, you can track and report different unhandled or uncaught errors, API issues, and anomalies at different parts of your application. This will help you associate more detail and context from your backend with any failing customer request.
+monoscope can track and report unhandled errors, API issues and anomalies in your application. This links backend context to each failing customer request.
 
 ```=html
 <section class="tab-group" data-tab-group="group2">
   <button class="tab-button" data-tab="tab1"> Report All Errors</button>
   <button class="tab-button" data-tab="tab2">Report Specific Errors</button>
   <div id="tab1" class="tab-content">
-To report all uncaught errors and service exceptions that happened during a web request, modify your Laravel Exceptions handler, passing in the <code>error</code> and the <code>request</code> as arguments, like so:
+To report all uncaught errors and exceptions in a web request, call <code>reportError</code> from your Laravel exception handler with the <code>error</code> and the <code>request</code>:
 ```
 
 ```php
@@ -276,7 +275,7 @@ To report all uncaught errors and service exceptions that happened during a web 
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Monoscope\MonoscopeLaravel;
+use APIToolkit\APIToolkitLaravel;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -286,9 +285,9 @@ class Handler extends ExceptionHandler
   public function register()
   {
     $this->reportable(function (Throwable $e) {
-      // Report the error to Monoscope
+      // Report the error to monoscope
       $request = request();
-      MonoscopeLaravel::reportError($e, $request);
+      APIToolkitLaravel::reportError($e, $request);
     });
   }
 }
@@ -297,13 +296,13 @@ class Handler extends ExceptionHandler
 ```=html
   </div>
   <div id="tab2" class="tab-content">
-To manually report specific errors at different parts of your application, use the <code>reportError</code> method of the <code>MonoscopeLaravel</code> class, passing in the <code>error</code> and the <code>request</code> as arguments, like so:
+To manually report specific errors at different parts of your application, call the <code>reportError</code> method of the <code>APIToolkitLaravel</code> class with the <code>error</code> and the <code>request</code>:
 ```
 
 ```php
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Monoscope\MonoscopeLaravel;
+use APIToolkit\APIToolkitLaravel;
 
 Route::get('/user', function (Request $request) {
   try {
@@ -313,8 +312,8 @@ Route::get('/user', function (Request $request) {
     // This line will not execute if an exception is thrown
     return response()->json(["hello" => "world"]);
   } catch (Exception $e) {
-    // Report the error to Monoscope
-    MonoscopeLaravel::reportError($e, $request);
+    // Report the error to monoscope
+    APIToolkitLaravel::reportError($e, $request);
 
     // Return a JSON response with the error message
     return response()->json(["error" => $e->getMessage()]);
@@ -329,14 +328,14 @@ Route::get('/user', function (Request $request) {
 
 ## Monitoring Outgoing Requests
 
-Outgoing requests are external API calls you make from your API. By default, Monoscope monitors all requests users make from your application and they will all appear in the [Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. To see only outgoing requests, open the **Outgoing** tab of the [API Catalog](/docs/dashboard/dashboard-pages/outgoing-integrations/). Each outgoing request links to the incoming request that triggered it.
+Outgoing requests are external API calls you make from your API. By default, monoscope monitors all requests that your application makes, and they appear on the [Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. To see only outgoing requests, open the **Outgoing** tab of the [API Catalog](/docs/dashboard/dashboard-pages/outgoing-integrations/). Each outgoing request links to the incoming request that triggered it.
 
-To monitor outgoing HTTP requests from your application, use the `observeGuzzle` method of the `MonoscopeLaravel` class, passing in the `$request` and `$options` object, like so:
+To monitor outgoing HTTP requests from your application, call the `observeGuzzle` method of the `APIToolkitLaravel` class with the `$request` and an `$options` array:
 
 ```php
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Monoscope\MonoscopeLaravel;
+use APIToolkit\APIToolkitLaravel;
 
 Route::get('/user', function (Request $request) {
   $options = [
@@ -345,7 +344,7 @@ Route::get('/user', function (Request $request) {
     "redactRequestBody" => ["$.user.email", "$.user.addresses"],
     "redactResponseBody" => ["$.users[*].email", "$.users[*].credit_card"]
   ];
-  $guzzleClient = MonoscopeLaravel::observeGuzzle($request, $options);
+  $guzzleClient = APIToolkitLaravel::observeGuzzle($request, $options);
   $responseFromGuzzle = $guzzleClient->request('GET', 'https://api.github.com/repos/monoscope-tech/monoscope-laravel?foobar=123');
   $response = $responseFromGuzzle->getBody()->getContents();
 
@@ -361,8 +360,8 @@ The `$options` associative array accepts the following optional fields:
 | ------ | ----------- |
 | `pathPattern` | The `url_path` string for URLs with path parameters. |
 | `redactHeaders` | A list of HTTP header keys to redact. |
-| `redactResponseBody` | A list of JSONPaths from the request body to redact. |
-| `redactRequestBody` | A list of JSONPaths from the response body to redact. |
+| `redactRequestBody` | A list of JSONPaths from the request body to redact. |
+| `redactResponseBody` | A list of JSONPaths from the response body to redact. |
 :::
 
 ## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)

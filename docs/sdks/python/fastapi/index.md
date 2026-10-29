@@ -94,9 +94,7 @@ opentelemetry-instrument gunicorn -c gunicorn.conf.py main:app
 
 ## Monoscope FastAPI Configuration
 
-After setting up open telemetry, you can now configure the monoscope fastapi middleware.
-
-Next, initialize Monoscope in your application's entry point (e.g., `main.py`), like so:
+Initialize monoscope in your application's entry point (for example, `main.py`):
 
 ```python
 from fastapi import FastAPI
@@ -119,14 +117,14 @@ def read_root():
 | Option | Description |
 | ------ | ----------- |
 | `service_name` | A defined string name of your application (used for further debugging on the dashboard). |
-| `debug` | Set to `true` to enable debug mode. |
+| `debug` | Set to `True` to enable debug mode. |
 | `tags` | A list of defined tags for your services (used for grouping and filtering data on the dashboard). |
 | `service_version` | A defined string version of your application (used for further debugging on the dashboard). |
 | `redact_headers` | A list of HTTP header keys to redact. |
-| `redact_response_body` | A list of JSONPaths from the request body to redact. |
-| `redact_request_body` | A list of JSONPaths from the response body to redact. |
-| `capture_request_body` | Set to `true` to capture the request body. |
-| `capture_response_body` | Set to `true` to capture the response body. |
+| `redact_response_body` | A list of JSONPaths from the response body to redact. |
+| `redact_request_body` | A list of JSONPaths from the request body to redact. |
+| `capture_request_body` | Set to `True` to capture the request body. |
+| `capture_response_body` | Set to `True` to capture the response body. |
 :::
 
 ## Redacting Sensitive Data
@@ -136,8 +134,8 @@ If you have fields that are sensitive and should not be sent to Monoscope server
 To mark a field for redacting via this SDK, you need to add some additional fields to the `monoscope` configuration object with paths to the fields that should be redacted. There are three variables you can provide to configure what gets redacted, namely:
 
 1. `redact_headers`: A list of HTTP header keys.
-2. `redact_response_body`: A list of JSONPaths from the request body.
-3. `redact_request_body`: A list of JSONPaths from the response body.
+2. `redact_response_body`: A list of JSONPaths from the response body.
+3. `redact_request_body`: A list of JSONPaths from the request body.
 
 ```=html
 <hr />
@@ -256,6 +254,13 @@ async def sample_route(request: Request):
 
 ## Identifying users & tenants
 
+```=html
+<div class="callout">
+  <i class="fa-solid fa-circle-info"></i>
+  <p><code>set_user</code>, <code>set_tenant</code> and <code>set_session</code> need <code>monoscope-fastapi</code> 1.1.0 or later and <code>monoscope-common</code> 1.2.0 or later.</p>
+</div>
+```
+
 Attach the authenticated user and tenant to every request span so you can filter, group, and search by identity in the dashboard (e.g. "all errors for `user.email = jane@acme.com`"). Call `set_user` and `set_tenant` from a dependency that runs after auth (or directly inside the route handler) — the SDK writes them to the active request span using the standard attribute keys (`user.id`, `user.email`, `user.full_name`, `tenant.id`, `tenant.name`).
 
 ```python
@@ -303,7 +308,7 @@ To monitor outgoing HTTP requests from your application, use the `observe_reques
 
 ```python
 from fastapi import FastAPI, Request
-from monoscope_fastapi import observe_request
+from monoscope_fastapi import Monoscope, observe_request
 
 app = FastAPI()
 
@@ -313,7 +318,7 @@ app.middleware("http")(monoscope.middleware)
 @app.get('/')
 async def sample_route(request: Request):
   resp = observe_request(request).get("https://jsonplaceholder.typicode.com/todos/2")
-  return resp.read()
+  return resp.json()
 ```
 
 The `observe_request()` function accepts a **required `request` argument**, and the following optional arguments:
@@ -324,8 +329,8 @@ The `observe_request()` function accepts a **required `request` argument**, and 
 | ------ | ----------- |
 | `url_wildcard` | The `url_path` string for URLs with path parameters. |
 | `redact_headers` | A list of HTTP header keys to redact. |
-| `redact_response_body` | A list of JSONPaths from the request body to redact. |
-| `redact_request_body` | A list of JSONPaths from the response body to redact. |
+| `redact_response_body` | A list of JSONPaths from the response body to redact. |
+| `redact_request_body` | A list of JSONPaths from the request body to redact. |
 :::
 
 ## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)
@@ -378,9 +383,7 @@ For one-shot scripts, call `trace.get_tracer_provider().shutdown()` before exiti
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>The `observe_request()` function wraps an <a href="https://github.com/monoscope-tech/monoscope-python/tree/main/fastapi" target="_blank" rel="noopener noreferrer" class="">HTTPX</a>
-
- client and you can use it just like you would normally use HTTPX for any request.</p>
+  <p>The <code>observe_request()</code> function returns an <a href="https://www.python-httpx.org/" target="_blank" rel="noopener noreferrer">HTTPX</a> client. Use it as you would use any HTTPX client.</p>
 </div>
 ```
 

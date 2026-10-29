@@ -8,9 +8,7 @@ menuWeight: 1
 
 # .Net Core SDK Guide
 
-In this guide, you’ll learn how to integrate OpenTelemetry into your .NET application and install the monoscope SDK to enhance its functionalities.
-By combining OpenTelemetry’s robust tracing and metrics capabilities with the monoscope SDK, you’ll be able to monitor incoming and outgoing requests, report errors, and gain deeper insights into your application’s performance.
-This setup provides comprehensive observability, helping you track requests and troubleshoot issues effectively.
+This guide shows how to add OpenTelemetry to your .NET application and install the monoscope SDK. OpenTelemetry sends traces, metrics and logs. The SDK adds request and response details, error reports and outgoing request monitoring.
 
 ```=html
 <hr>
@@ -47,8 +45,7 @@ The skill uses the CLI to add the SDK and to make sure that events arrive. To do
 
 ## OpenTelemetry Setup
 
-Setting up open telemetry allows you to send traces, metrics and logs to the monoscope platform.
-In this guid, we will be using the opentelemetry auto-instrumentation packages to setup open telemetry.
+OpenTelemetry sends traces, metrics and logs to monoscope. This guide uses the OpenTelemetry .NET auto-instrumentation.
 
 #### Install OpenTelemetry
 
@@ -68,25 +65,25 @@ chmod +x $HOME/.otel-dotnet-auto/instrument.sh
 . $HOME/.otel-dotnet-auto/instrument.sh
 ```
 
-See auto instrumentation setup for windows [here](https://opentelemetry.io/docs/zero-code/net/#windows-powershell){target="\_blank"}.
+On Windows, follow the [PowerShell setup](https://opentelemetry.io/docs/zero-code/net/#windows-powershell){target="\_blank" rel="noopener noreferrer"}.
 
 #### OpenTelemetry Configuration
 
-After installating .NET autoinstrumentation packages, you can configure the OpenTelemetry instrumentation by setting the following environment variables:
+Configure the instrumentation with these environment variables:
 
 ```sh
 export OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317" # Specifies the endpoint to send the traces to.
-export OTEL_DOTNET_AUTO_TRACES_ADDITIONAL_SOURCES="monoscope.HTTPInstrumentation" # The monoscope instrumentation  activity resource.
+export OTEL_DOTNET_AUTO_TRACES_ADDITIONAL_SOURCES="APItoolkit.HTTPInstrumentation" # The ActivitySource of the monoscope SDK.
 export OTEL_SERVICE_NAME="my-service" # Specifies the name of the service.
 export OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY" # Adds your API KEY to the resource.
 export OTEL_EXPORTER_OTLP_PROTOCOL="grpc" # Specifies the protocol to use for the OpenTelemetry exporter.
 ```
 
-After setting the environment variables, build and run your application and you should see the logs, traces and metrics in the monoscope dashboard.
+Build and run your application. Logs, traces and metrics appear in monoscope.
 
 ## monoscope SDK Configuration
 
-After setting up open telemetry, you can now configure the monoscope middleware, to monitor incoming and outgoing requests, report errors, and gain deeper insights into your application's performance.
+The monoscope middleware adds request and response details to each request span. It also lets you report errors and monitor outgoing requests.
 
 #### Installation
 
@@ -98,7 +95,7 @@ dotnet add package ApiToolkit.Net
 
 #### Configuration
 
-Next, initialize monoscope in your application's entry point (e.g., `Program.cs`), like so:
+Initialize the client in your application's entry point (for example, `Program.cs`) and register the middleware:
 
 ```csharp
 using ApiToolkit.Net;
@@ -106,16 +103,16 @@ using ApiToolkit.Net;
 // Initialize the monoscope client
 var config = new Config
 {
-  ServiceVersion: "v2.0",
+  ServiceVersion = "v2.0",
   ServiceName = "MyService",
 };
-var client = monoscope.NewClient(config);
+var client = APIToolkit.NewClient(config);
 // END Initialize the monoscope client
 
 // Register monoscope's middleware
 app.Use(async (context, next) =>
 {
-  var apiToolkit = new monoscope(next, client);
+  var apiToolkit = new APIToolkit(next, client);
   await apiToolkit.InvokeAsync(context);
 });
 // END Register monoscope's middleware
@@ -129,7 +126,7 @@ app.MapGet("/hello", async context =>
 app.Run();
 ```
 
-In the configuration above you can add the following optional fields:
+`Config` accepts these optional fields:
 
 {class="docs-table"}
 :::
@@ -139,8 +136,8 @@ In the configuration above you can add the following optional fields:
 | `Tags` | A list of defined tags for your services (used for grouping and filtering data on the dashboard). |
 | `ServiceVersion` | A defined string version of your application (used for further debugging on the dashboard). |
 | `RedactHeaders` | A list of HTTP header keys to redact. |
-| `RedactResponseBody` | A list of JSONPaths from the request body to redact. |
-| `RedactRequestBody` | A list of JSONPaths from the response body to redact. |
+| `RedactRequestBody` | A list of JSONPaths from the request body to redact. |
+| `RedactResponseBody` | A list of JSONPaths from the response body to redact. |
 | `ServiceName` | Set the name of the service. |
 | `CaptureRequestBody` | Set to `true` to capture the request body. |
 | `CaptureResponseBody` | Set to `true` to capture the response body. |
@@ -150,7 +147,7 @@ In the configuration above you can add the following optional fields:
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
   <ul>
-    <li>Please ensure the monoscope middleware is added before <code>UseEndpoint</code> and other middleware are initialized.</li>
+    <li>Add the monoscope middleware before <code>UseEndpoints</code> and other middleware.</li>
     <li>Replace <code>YOUR_API_KEY</code> with an API key from <b>Settings &gt; API Keys</b> in monoscope.</li>
   </ul>
 </div>
@@ -230,14 +227,14 @@ var config = new Config
   RedactRequestBody = new List<string> { "$.user.email", "$.user.addresses" },
   RedactResponseBody = new List<string> { "$.users[*].email", "$.users[*].credit_card" }
 };
-var client = monoscope.NewClient(config);
+var client = APIToolkit.NewClient(config);
 
 // Register the middleware to use the initialized client
 app.Use(async (context, next) =>
 {
-  var apiToolkit = new monoscope(next, client);
+  var apiToolkit = new APIToolkit(next, client);
   await apiToolkit.InvokeAsync(context);
-})
+});
 ```
 
 ```=html
@@ -255,7 +252,7 @@ app.Use(async (context, next) =>
 
 monoscope automatically detects different unhandled errors, API issues, and anomalies but you can report and track specific errors at different parts of your application. This will help you associate more detail and context from your backend with any failing customer request.
 
-To manually report specific errors at different parts of your application, use the `ReportError()` handler, passing in the `context` and `error` arguments, like so:
+To report an error by hand, call the static `Client.ReportError()` method with the `context` and the exception:
 
 ```csharp
 using ApiToolkit.Net;
@@ -267,11 +264,11 @@ var config = new Config
 {
   ServiceName = "Backend"
 };
-var client = monoscope.NewClient(config);
+var client = APIToolkit.NewClient(config);
 
 app.Use(async (context, next) =>
 {
-  var apiToolkit = new monoscope(next, client);
+  var apiToolkit = new APIToolkit(next, client);
   await apiToolkit.InvokeAsync(context);
 });
 
@@ -289,7 +286,7 @@ app.MapGet("/error-tracking", async context =>
   catch (Exception error)
   {
     // Report the error to monoscope
-    client.ReportError(context, error);
+    Client.ReportError(context, error);
     await context.Response.WriteAsync("Error reported!");
   }
 });
@@ -299,7 +296,7 @@ app.MapGet("/error-tracking", async context =>
 
 Outgoing requests are external API calls you make from your API. By default, monoscope monitors all requests users make from your application and they will all appear in the [Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. To see only outgoing requests, open the **Outgoing** tab of the [API Catalog](/docs/dashboard/dashboard-pages/outgoing-integrations/). Each outgoing request links to the incoming request that triggered it.
 
-To monitor outgoing HTTP requests from your application, we provide the `monoscopeObservingHandler()` handler. Here's an example of the outgoing requests configuration with this SDK on a sample `/monitor-requests` endpoint that makes an asynchronous `HttpClient` GET request to a sample public endpoint URL.
+To monitor outgoing HTTP requests, use the `APIToolkitObservingHandler()` handler. Here's an example of the outgoing requests configuration with this SDK on a sample `/monitor-requests` endpoint that makes an asynchronous `HttpClient` GET request to a sample public endpoint URL.
 
 ```csharp
 using ApiToolkit.Net;
@@ -309,13 +306,13 @@ var app = builder.Build();
 
 var config = new Config
 {
-  ApiKey = "YOUR_API_KEY"
+  ServiceName = "Backend"
 };
-var client = monoscope.NewClient(config);
+var client = APIToolkit.NewClient(config);
 
 app.Use(async (context, next) =>
 {
-  var apiToolkit = new monoscope(next, client);
+  var apiToolkit = new APIToolkit(next, client);
   await apiToolkit.InvokeAsync(context);
 });
 
@@ -329,14 +326,14 @@ app.MapGet("/monitor-requests", async (context) =>
     RedactResponseBody = ["$.user.data.email"]
   };
 
-  using var httpClient = new HttpClient(client.monoscopeObservingHandler(context, observingHandlerOptions));
+  using var httpClient = new HttpClient(client.APIToolkitObservingHandler(context, observingHandlerOptions));
   var response = await httpClient.GetAsync("https://jsonplaceholder.typicode.com/posts/1");
   var body = await response.Content.ReadAsStringAsync();
   await context.Response.WriteAsync(body);
 });
 ```
 
-The `client.monoscopeObservingHandler` handler accepts a required `context` field and the following optional fields:
+`client.APIToolkitObservingHandler` takes the `context` and an optional `ATOptions` object with these fields:
 
 {class="docs-table"}
 :::
@@ -344,15 +341,15 @@ The `client.monoscopeObservingHandler` handler accepts a required `context` fiel
 | ------ | ----------- |
 | `PathWildCard` | The `url_path` string for URLs with path parameters. |
 | `RedactHeaders` | A list of HTTP header keys to redact. |
-| `RedactResponseBody` | A list of JSONPaths from the request body to redact. |
-| `RedactRequestBody` | A list of JSONPaths from the response body to redact. |
+| `RedactRequestBody` | A list of JSONPaths from the request body to redact. |
+| `RedactResponseBody` | A list of JSONPaths from the response body to redact. |
 :::
 
 ## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)
 
 The ASP.NET Core middleware only covers HTTP requests. `IHostedService` / `BackgroundService` workers, Quartz / Hangfire jobs, channel consumers, and standalone console hosts are invisible until you wrap each handler in a span yourself. Always cover these alongside your HTTP routes.
 
-Use a dedicated `ActivitySource` and add it to the OpenTelemetry tracer provider via `AddSource`. Then wrap each work unit in `StartActivity`:
+Create a dedicated `ActivitySource` and wrap each work unit in `StartActivity`. With the auto-instrumentation, add the source name to `OTEL_DOTNET_AUTO_TRACES_ADDITIONAL_SOURCES` as a comma-separated list (for example, `APItoolkit.HTTPInstrumentation,MyService.Worker`). If you configure the OpenTelemetry SDK in code, register it with `AddSource`:
 
 ```csharp
 using System.Diagnostics;
