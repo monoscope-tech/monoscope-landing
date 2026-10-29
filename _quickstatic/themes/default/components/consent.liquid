@@ -1,0 +1,70 @@
+<script>
+  // Consent Mode v2 defaults, set before GTM or any Google tag reads the dataLayer, plus the idle loader for third-party tags.
+  // EEA/UK/CH is detected from the browser's IANA time zone: a static page never sees Cloudflare's CF-IPCountry header.
+  // Europe/* over-includes (Moscow, Istanbul), the island zones cover Iceland, Canaries, Madeira, Azores, Faroe, Svalbard
+  // and Cyprus, and an unreadable zone counts as EEA.
+  window.msConsent || (() => {
+    const dl = window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () { dl.push(arguments); };
+    let tz = '';
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch {}
+    const eea = !tz || /^(Europe|Arctic)\/|^Atlantic\/(Reykjavik|Canary|Madeira|Azores|Faroe)|^Asia\/(Nicosia|Famagusta)/.test(tz);
+    const host = location.hostname, domain = /\.[a-z]+$/i.test(host) ? '; Domain=.' + host.split('.').slice(-2).join('.') : '';
+    const cookie = (n, v, maxAge) => document.cookie = `${n}=${encodeURIComponent(v)}; Max-Age=${maxAge}; Path=/; SameSite=Lax${domain}${location.protocol == 'https:' ? '; Secure' : ''}`;
+    const saved = (document.cookie.match(/(?:^|; )ms_consent=(granted|denied)/) || [])[1];
+    const modes = v => ({ ad_storage: v, ad_user_data: v, ad_personalization: v, analytics_storage: v });
+    const c = window.msConsent = { eea, saved, granted: saved ? saved == 'granted' : !eea, idle: false, cookie };
+    gtag('consent', 'default', { ...modes(c.granted ? 'granted' : 'denied'), wait_for_update: 500 });
+    gtag('set', 'ads_data_redaction', true);
+    // The GTM containers also hold LinkedIn, Reddit and Apollo tags that ignore consent mode. GTM reads its blocklist once,
+    // so without consent they stay off for this page view; the next page after Accept loads them.
+    c.granted || dl.push({ 'gtm.blocklist': ['customScripts', 'nonGoogleScripts', 'nonGooglePixels', 'nonGoogleIframes'] });
+
+    // Third-party tags are inert text/plain until the page is idle after load, so they never compete with first paint,
+    // the demos or the first scroll; data-consent ones also wait for consent
+    const run = sel => document.querySelectorAll(sel).forEach(o => {
+      const s = document.createElement('script');
+      for (const a of o.attributes) if (!['type', 'data-later', 'data-consent'].includes(a.name)) s.setAttribute(a.name, a.value);
+      s.text = o.text; o.replaceWith(s);
+    });
+    addEventListener('load', () => setTimeout(() => (window.requestIdleCallback || setTimeout)(() => {
+      run(c.granted ? 'script[data-later]' : 'script[data-later]:not([data-consent])');
+      c.idle = true; dispatchEvent(new Event('ms:idle'));
+    }, { timeout: 3000 }), 1500));
+
+    c.set = v => {
+      const was = c.granted;
+      c.saved = v; c.granted = v == 'granted';
+      cookie('ms_consent', v, 31536000);
+      gtag('consent', 'update', modes(v));
+      dl.push({ event: 'consent_update', consent: v });
+      if (c.granted && c.idle) run('script[data-later][data-consent]');
+      if (was && !c.granted) { window.posthog?.opt_out_capturing?.(); window.amplitude?.setOptOut?.(true); }
+      dispatchEvent(new CustomEvent('ms:consent', { detail: v }));
+    };
+
+    const show = focus => {
+      if (document.getElementById('ms-consent')) return;
+      const el = document.getElementById('ms-consent-tpl').content.firstElementChild.cloneNode(true), opener = document.activeElement;
+      const close = () => { el.remove(); focus && opener?.focus?.(); };
+      el.addEventListener('click', e => { const b = e.target.closest('[data-choice]'); if (b) { c.set(b.dataset.choice); close(); } });
+      el.addEventListener('keydown', e => e.key == 'Escape' && c.saved && close());
+      document.body.append(el);
+      focus && el.querySelector('[data-choice="granted"]').focus();
+    };
+    c.open = () => show(true);
+    document.addEventListener('click', e => { if (e.target.closest?.('[data-cookie-settings]')) { e.preventDefault(); show(true); } });
+    if (!saved && eea) document.readyState == 'loading' ? addEventListener('DOMContentLoaded', () => show()) : show();
+  })();
+</script>
+<template id="ms-consent-tpl">
+  <section id="ms-consent" role="dialog" aria-modal="false" aria-labelledby="ms-consent-title" aria-describedby="ms-consent-desc"
+    class="fixed z-[70] inset-x-4 bottom-[max(1rem,env(safe-area-inset-bottom))] sm:inset-x-auto sm:left-6 sm:bottom-6 sm:w-[23rem] rounded-2xl border border-strokeWeak bg-bgRaised p-5 text-sm text-textStrong shadow-[0_12px_32px_-8px_rgba(0,0,0,0.18),0_2px_6px_rgba(0,0,0,0.06)] transition-[opacity,translate] duration-200 ease-out starting:opacity-0 starting:translate-y-2 motion-reduce:transition-none">
+    <h2 id="ms-consent-title" class="text-[0.9375rem] font-semibold">Cookies</h2>
+    <p id="ms-consent-desc" class="mt-1.5 text-textWeak leading-relaxed text-pretty">We use cookies to measure our ads and see which pages help. Change this any time under Cookie settings in the footer. <a href="/privacy-policy/" class="underline underline-offset-2 decoration-strokeStrong hover:text-textStrong focus-visible:text-textStrong">Privacy policy</a></p>
+    <div class="mt-4 grid grid-cols-2 gap-2">
+      <button type="button" data-choice="denied" class="btn btn-secondary min-h-10 rounded-lg px-4 font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-strokeFocus">Reject</button>
+      <button type="button" data-choice="granted" class="btn btn-primary min-h-10 rounded-lg px-4 font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-strokeFocus">Accept</button>
+    </div>
+  </section>
+</template>
