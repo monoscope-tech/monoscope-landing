@@ -1,118 +1,101 @@
-// Unified Ad Platform Conversion Tracking (Reddit, LinkedIn, Meta, Google, Twitter/X)
-(function() {
+// Site events, ad conversions and attribution (click IDs + UTMs carried to app.monoscope.tech). Consent lives in components/consent.liquid.
+(() => {
   'use strict';
+  const C = window.msConsent || { granted: true, idle: true, cookie: () => {} };
+  const dl = window.dataLayer = window.dataLayer || [];
 
-  var tracked = new WeakSet();
-  var genId = (e) => `${e}_${Date.now()}_${Math.random().toString(36).slice(2,9)}`;
+  // The only events ad pixels see. signup_start is a click, not an account, so it goes out under custom names no platform bids on.
+  // li/tw take LinkedIn conversion ids and X event ids once those exist in each ads account.
+  const ADS = {
+    demo_booked:        { fb: ['track', 'Schedule'],               rdt: ['Lead'] },
+    github_star_intent: { fb: ['trackCustom', 'GitHubStarIntent'], rdt: ['Custom', 'GitHubStarIntent'] },
+    signup_start:       { fb: ['trackCustom', 'SignupStart'],      rdt: ['Custom', 'SignupStart'] },
+  };
+  const afterIdle = f => C.idle ? f() : addEventListener('ms:idle', f, { once: true });
 
-  // Platform-specific event dispatch
-  function track(event, meta) {
-    var id = genId(event);
-    meta = { ...meta, conversionId: id, page: location.pathname, ts: new Date().toISOString() };
-
-    // Reddit
-    if (window.rdt) window.rdt('track', event, meta);
-
-    // LinkedIn
-    if (window.lintrk) window.lintrk('track', meta);
-
-    // Twitter/X
-    if (window.twq) {
-      var twMap = { SignUp: 'tw-om5gt-om5gt', ScheduleDemo: 'tw-om5gt-om5gt', InitiateCheckout: 'tw-om5gt-om5gt',
-                   Contact: 'tw-om5gt-om5gt', CompleteRegistration: 'tw-om5gt-om5gt', ViewContent: 'tw-om5gt-om5gt' };
-      window.twq('event', twMap[event] || 'tw-om5gt-om5gt', meta);
-    }
-
-    // Meta/Facebook
-    if (window.fbq) {
-      var fbMap = { SignUp: 'Lead', ScheduleDemo: 'Schedule', InitiateCheckout: 'InitiateCheckout',
-                   Contact: 'Contact', CompleteRegistration: 'CompleteRegistration', ViewContent: 'ViewContent' };
-      window.fbq('track', fbMap[event] || 'Lead', meta);
-    }
-
-    // Google Ads
-    if (window.gtag) {
-      var gMap = { SignUp: 'sign_up', ScheduleDemo: 'generate_lead', InitiateCheckout: 'begin_checkout',
-                  Contact: 'contact', CompleteRegistration: 'complete_registration', ViewContent: 'view_item' };
-      window.gtag('event', gMap[event] || 'conversion', meta);
-    }
-
-    // Analytics
-    if (window.amplitude) window.amplitude.track(event, meta);
-    if (window.posthog) window.posthog.capture(event, meta);
+  function track(event, meta = {}) {
+    const id = `${event}_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+    meta = { ...meta, page: location.pathname };
+    dl.push({ event, ...meta, event_id: id });
+    afterIdle(() => {
+      window.amplitude?.track(event, meta);
+      window.posthog?.capture(event, meta);
+      const a = ADS[event];
+      if (!a || !C.granted) return;
+      window.fbq?.(a.fb[0], a.fb[1], meta, { eventID: id });
+      window.rdt?.('track', a.rdt[0], { ...meta, conversionId: id, ...(a.rdt[1] && { customEventName: a.rdt[1] }) });
+      a.li && window.lintrk?.('track', { conversion_id: a.li });
+      a.tw && window.twq?.('event', a.tw, { conversion_id: id });
+    });
   }
 
-  function init() {
-    // CTA click tracking
-    var ctas = [
-      ['a[href*="app.monoscope.tech"]', 'SignUp'],
-      ['a[href*="calendar.app.google"]', 'ScheduleDemo'],
-      ['[data-tracking="playground"], .playground-button', 'ViewContent']
-    ];
+  const kind = u => u.hostname == 'calendar.app.google' ? 'demo_booked'
+    : u.hostname == 'app.monoscope.tech' && !u.pathname.startsWith('/p/') ? 'signup_start'
+    : /^(www\.)?github\.com$/.test(u.hostname) && /^\/monoscope-tech\/monoscope(\/|$)/i.test(u.pathname) ? 'github_star_intent' : null;
+  const url = a => { try { return new URL(a.href); } catch { return null; } };
 
-    ctas.forEach(([sel, event]) => {
-      document.querySelectorAll(sel).forEach(el => {
-        if (tracked.has(el)) return;
-        tracked.add(el);
-        el.addEventListener('click', () => track(event, { label: el.textContent.trim(), url: el.href || '' }));
-      });
-    });
+  ['click', 'auxclick'].forEach(t => document.addEventListener(t, e => {
+    const a = e.target.closest?.('a[href]'), u = a && url(a), k = u && kind(u);
+    k && !(k == 'signup_start' && /^log\s?in$/i.test(a.textContent.trim())) && track(k, { label: a.textContent.trim().slice(0, 80), url: a.href });
+  }, true));
+  document.addEventListener('submit', e => {
+    const f = e.target;
+    f.matches('.formkit-form, [data-uid="e05f719e6e"]') ? track('newsletter_subscribe')
+      : f.matches('form[action*="contact"], #contact-form, .contact-form') && track('contact_submit');
+  }, true);
 
-    // "Get Started" buttons
-    document.querySelectorAll('a, button').forEach(el => {
-      if (tracked.has(el)) return;
-      var txt = el.textContent.toLowerCase();
-      if (txt.includes('get started') || txt.includes('getting started')) {
-        tracked.add(el);
-        el.addEventListener('click', () => track('InitiateCheckout', { label: el.textContent.trim(), url: el.href || '' }));
-      }
-    });
-
-    // Form tracking
-    document.querySelectorAll('[data-uid="e05f719e6e"], .formkit-form').forEach(form => {
-      if (tracked.has(form)) return;
-      tracked.add(form);
-      form.addEventListener('submit', () => track('CompleteRegistration', { type: 'newsletter' }));
-    });
-
-    document.querySelectorAll('form[action*="contact"], form#contact-form, .contact-form').forEach(form => {
-      if (tracked.has(form)) return;
-      tracked.add(form);
-      form.addEventListener('submit', () => track('Contact', { type: 'form' }));
-    });
-
-    // Crisp chat — disabled, subscription cancelled
-    // if (window.$crisp) {
-    //   window.$crisp.push(['on', 'message:sent', () => track('Contact', { type: 'chat' })]);
-    // }
+  // Attribution: first and last touch in a 90-day cookie once consent allows; links decorate from the URL either way
+  const KEYS = ['gclid', 'gbraid', 'wbraid', 'fbclid', 'rdt_cid', 'li_fat_id', 'twclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+  const q = new URLSearchParams(location.search), hit = Object.fromEntries(KEYS.filter(k => q.get(k)).map(k => [k, q.get(k)]));
+  const cookie = n => decodeURIComponent((document.cookie.match(`(?:^|; )${n}=([^;]*)`) || [])[1] || '');
+  let attr = {};
+  try { attr = JSON.parse(cookie('ms_attr') || '{}'); } catch {}
+  if (Object.keys(hit).length) {
+    const touch = { ...hit, ts: new Date().toISOString(), landing: location.pathname };
+    attr = { first: attr.first || touch, last: touch };
   }
+  const persist = () => {
+    if (!C.granted || !Object.keys(hit).length) return;
+    C.cookie('ms_attr', JSON.stringify(attr), 7776000);
+    hit.fbclid && !cookie('_fbc') && C.cookie('_fbc', `fb.1.${Date.now()}.${hit.fbclid}`, 7776000);
+  };
+  persist();
+  addEventListener('ms:consent', persist);
 
-  // Scroll depth: one passive listener for the page's lifetime
+  const decorate = (ghUtm = { utm_source: 'monoscopehq.com', utm_medium: 'site', utm_campaign: location.pathname }) => document.querySelectorAll('a[href*="app.monoscope.tech"], a[href*="github.com/monoscope-tech/monoscope"]').forEach(a => {
+    const u = url(a), k = u && kind(u), add = k == 'signup_start' ? attr.last : k == 'github_star_intent' ? ghUtm : null;
+    if (!add) return;
+    const missing = KEYS.filter(p => add[p] && !u.searchParams.has(p));
+    if (!missing.length) return;
+    missing.forEach(p => u.searchParams.set(p, add[p]));
+    a.href = u.href;
+  });
+
+  // Scroll depth and page views are analytics only: one passive listener for the page's lifetime
   function trackScrollDepth() {
-    var depths = [25, 50, 75, 90], pending = false;
-    var check = () => {
+    const depths = [25, 50, 75, 90];
+    let pending = false;
+    const check = () => {
       pending = false;
-      var pct = (scrollY + innerHeight) / document.documentElement.scrollHeight * 100;
-      while (depths.length && pct >= depths[0]) { var d = depths.shift(); track('ViewContent', { label: `Scroll ${d}%`, depth: d }); }
+      const pct = (scrollY + innerHeight) / document.documentElement.scrollHeight * 100;
+      while (depths.length && pct >= depths[0]) track('scroll_depth', { depth: depths.shift() });
       if (!depths.length) removeEventListener('scroll', onScroll);
     };
-    var onScroll = () => { if (!pending) { pending = true; setTimeout(check, 250); } };
+    const onScroll = () => { if (!pending) { pending = true; setTimeout(check, 250); } };
     addEventListener('scroll', onScroll, { passive: true });
   }
 
-  function ready(fn) {
-    if (!window.rdt && !window.lintrk) return setTimeout(() => ready(fn), 100);
-    fn();
+  function ready() {
+    decorate();
     trackScrollDepth();
-    track('PageView', { referrer: document.referrer });
-
-    // Re-bind CTAs added later (htmx swaps, forms injected by ConvertKit), at most once per idle period.
+    track('page_view', { referrer: document.referrer });
+    // Decorate links added later (htmx swaps, injected forms) at most once per idle period.
     // Background art adds nodes several times a second, so this must never run per mutation.
-    var queued = false, idle = window.requestIdleCallback || (f => setTimeout(f, 200));
-    var rescan = () => { if (!queued) { queued = true; idle(() => { queued = false; fn(); }, { timeout: 2000 }); } };
-    if (window.htmx) document.body.addEventListener('htmx:afterSwap', rescan);
+    let queued = false;
+    const idle = window.requestIdleCallback || (f => setTimeout(f, 200));
+    const rescan = () => { if (!queued) { queued = true; idle(() => { queued = false; decorate(); }, { timeout: 2000 }); } };
     new MutationObserver(rescan).observe(document.body, { childList: true, subtree: true });
   }
 
-  document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', () => ready(init)) : ready(init);
+  document.readyState == 'loading' ? document.addEventListener('DOMContentLoaded', ready) : ready();
 })();

@@ -42,6 +42,7 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <base href="{{ this.permalink }}">
+    {% render "default/components/consent" %}
 
     <!-- Stylesheets and Scripts -->
     <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -51,6 +52,7 @@
     <script defer src="/assets/deps/htmx/idiomorph-ext.min.js"></script>
     <script defer src="/assets/deps/htmx/preload.js"></script>
     <script defer src="/assets/deps/htmx/head-support.js"></script>
+    <script defer src="/assets/js/ad-tracking.js"></script>
     <style>
       @font-face {
         font-family: 'Inter';
@@ -873,7 +875,7 @@
     </script>
 
     <!-- PostHog (product analytics) -->
-    <script>
+    <script type="text/plain" data-later data-consent>
         !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Ce Ls Ns Te As js capture Xe calculateEventProperties qs register register_once register_for_session unregister unregister_for_session Gs getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Hs Us createPersonProfile Ws Os Js opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing zs debug L Bs getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
         posthog.init('phc_cGqLesvzRVXTutxJWICMXjvhJmib23ifyfWTYK8eiCz', {
             api_host: 'https://eu.i.posthog.com',
@@ -883,7 +885,7 @@
     </script>
 
     <!-- Deferred marketing/ad pixels - loaded after page is interactive -->
-    <script>
+    <script type="text/plain" data-later data-consent>
       (function() {
         var load = window.requestIdleCallback || function(cb) { setTimeout(cb, 1500); };
         load(function() {
@@ -916,11 +918,6 @@
         });
       })();
     </script>
-    <noscript>
-      <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1135987380886994&ev=PageView&noscript=1">
-      <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=3674513372787915&ev=PageView&noscript=1">
-      <img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=8274722&fmt=gif">
-    </noscript>
   </head>
 
 <body data-theme="light"
@@ -1295,6 +1292,7 @@
                   >GitHub Community Issues</a
                 >
               </p>
+              <p><button type="button" data-cookie-settings class="text-sm text-textWeak hover:text-textStrong underline underline-offset-4 cursor-pointer">Cookie settings</button></p>
             </footer>
           </div>
         </div>

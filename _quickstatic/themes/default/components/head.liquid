@@ -64,6 +64,7 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <base href="{{ this.permalink }}">
+    {% render "default/components/consent" %}
 
     <!-- end of meta tags and favicons -->
     <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
@@ -149,13 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
     <script>
       // Font Awesome only where a page uses it; most pages draw icons from the sprite
       addEventListener('DOMContentLoaded', () => document.querySelector('[class*="fa-"]') && document.head.append(Object.assign(document.createElement('script'), { src: 'https://kit.fontawesome.com/67b52e9a3b.js', crossOrigin: 'anonymous' })));
-      // Third-party tags (analytics, ad pixels, the newsletter popup) are inert text/plain until the page is idle after load,
-      // so they never compete with first paint, the demos or the first scroll
-      addEventListener('load', () => setTimeout(() => (window.requestIdleCallback || setTimeout)(() => document.querySelectorAll('script[data-later]').forEach(o => {
-        const s = document.createElement('script');
-        for (const a of o.attributes) if (a.name !== 'type' && a.name !== 'data-later') s.setAttribute(a.name, a.value);
-        s.text = o.text; o.replaceWith(s);
-      }), { timeout: 3000 }), 1500));
     </script>
     <script defer src="/assets/deps/htmx/htmx.min.js"></script>
     <script defer src="/assets/deps/htmx/idiomorph-ext.min.js"></script>
@@ -176,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     {% unless config.dev %}
     <!-- Amplitude (with GA Events Forwarder) -->
-    <script type="text/plain" data-later>
+    <script type="text/plain" data-later data-consent>
       !function(){"use strict";!function(e,t){var r=e.amplitude||{_q:[],_iq:{}};if(r.invoked)e.console&&console.error&&console.error("Amplitude snippet has been loaded.");else{var n=function(e,t){e.prototype[t]=function(){return this._q.push({name:t,args:Array.prototype.slice.call(arguments,0)}),this}},s=function(e,t,r){return function(n){e._q.push({name:t,args:Array.prototype.slice.call(r,0),resolve:n})}},o=function(e,t,r){e[t]=function(){if(r)return{promise:new Promise(s(e,t,Array.prototype.slice.call(arguments)))}}},i=function(e){for(var t=0;t<m.length;t++)o(e,m[t],!1);for(var r=0;r<y.length;r++)o(e,y[r],!0)};r.invoked=!0;var a=t.createElement("script");a.type="text/javascript",a.crossOrigin="anonymous",a.src="https://cdn.amplitude.com/libs/plugin-ga-events-forwarder-browser-0.2.0-min.js.gz",a.onload=function(){e.gaEventsForwarder&&e.gaEventsForwarder.plugin&&e.amplitude.add(e.gaEventsForwarder.plugin())};var c=t.createElement("script");c.type="text/javascript",c.integrity="sha384-HpnlFSsUOQTaqmMKb6/PqZKVOBEpRji3JNLr81x6XElQ4bkquzRyG/F8rY8IDMuw",c.crossOrigin="anonymous",c.async=!0,c.src="https://cdn.amplitude.com/libs/analytics-browser-2.2.1-min.js.gz",c.onload=function(){e.amplitude.runQueuedFunctions||console.log("[Amplitude] Error: could not load SDK")};var u=t.getElementsByTagName("script")[0];u.parentNode.insertBefore(a,u),u.parentNode.insertBefore(c,u);for(var p=function(){return this._q=[],this},d=["add","append","clearAll","prepend","set","setOnce","unset","preInsert","postInsert","remove","getUserProperties"],l=0;l<d.length;l++)n(p,d[l]);r.Identify=p;for(var g=function(){return this._q=[],this},v=["getEventProperties","setProductId","setQuantity","setPrice","setRevenue","setRevenueType","setEventProperties"],f=0;f<v.length;f++)n(g,v[f]);r.Revenue=g;var m=["getDeviceId","setDeviceId","getSessionId","setSessionId","getUserId","setUserId","setOptOut","setTransport","reset","extendSession"],y=["init","add","remove","track","logEvent","identify","groupIdentify","setGroup","revenue","flush"];i(r),r.createInstance=function(e){return r._iq[e]={_q:[]},i(r._iq[e]),r._iq[e]},e.amplitude=r}}(window,document)}();
       
       amplitude.init('e11d597a7ac4268a7efc286cec3e947d');
@@ -202,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- End Google Tag Manager -->
 
     <!-- PostHog -->
-    <script type="text/plain" data-later>
+    <script type="text/plain" data-later data-consent>
       !(function (t, e) {
         var o, n, p, r;
         e.__SV ||
@@ -249,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- END PostHog -->
 
     <!-- Twitter conversion tracking base code -->
-    <script type="text/plain" data-later>
+    <script type="text/plain" data-later data-consent>
       !(function (e, t, n, s, u, a) {
         e.twq ||
           ((s = e.twq =
@@ -269,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- End Twitter conversion tracking base code -->
 
     <!-- Facebook Pixel Code -->
-    <script type="text/plain" data-later>
+    <script type="text/plain" data-later data-consent>
       !(function (f, b, e, v, n, t, s) {
         if (f.fbq) return;
         n = f.fbq = function () {
@@ -289,20 +283,10 @@ document.addEventListener('DOMContentLoaded', () => {
       fbq('init', '1135987380886994');
       fbq('track', 'PageView');
     </script>
-    <noscript>
-      <img
-        height="1"
-        width="1"
-        src="
-          https://www.facebook.com/tr?id=1135987380886994&ev=PageView
-          &noscript=1
-        "
-      >
-    </noscript>
     <!-- End Facebook Pixel Code -->
 
     <!-- Facebook Pixel Code 2 -->
-    <script type="text/plain" data-later>
+    <script type="text/plain" data-later data-consent>
       !(function (f, b, e, v, n, t, s) {
         if (f.fbq) return;
         n = f.fbq = function () {
@@ -322,22 +306,15 @@ document.addEventListener('DOMContentLoaded', () => {
       fbq('init', '3674513372787915');
       fbq('track', 'PageView');
     </script>
-    <noscript
-      ><img
-        height="1"
-        width="1"
-        style="display:none"
-        src="https://www.facebook.com/tr?id=3674513372787915&ev=PageView&noscript=1"
-    ></noscript>
     <!-- DO NOT MODIFY -->
     <!-- End Facebook Pixel Code -->
 
     <!-- START LINKEDIN -->
-    <script type="text/plain" data-later>
+    <script type="text/plain" data-later data-consent>
       window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
       window._linkedin_data_partner_ids.push('8274722');
     </script>
-    <script type="text/plain" data-later>
+    <script type="text/plain" data-later data-consent>
       (function (l) {
         if (!l) {
           window.lintrk = function (a, b) {
@@ -354,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })(window.lintrk);
     </script>
 
-<script type="text/plain" data-later>!function(key) {
+<script type="text/plain" data-later data-consent>!function(key) {
 if (window.reb2b) return;
 window.reb2b = {loaded: true};
 var s = document.createElement("script");
@@ -362,14 +339,10 @@ s.async = true;
 s.src = "https://ddwl4m2hdecbv.cloudfront.net/b/" + key + "/" + key + ".js.gz";
 document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.getElementsByTagName("script")[0]);
 }("DNXY8HXZYQO0");</script>
-
-    <noscript>
-      <img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=8274722&fmt=gif">
-    </noscript>
     <!-- END LINKEDIN -->
 
     <!-- Reddit Pixel -->
-    <script type="text/plain" data-later>
+    <script type="text/plain" data-later data-consent>
     !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
     rdt('init','t2_9wupu0');
 
@@ -390,10 +363,10 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     <!-- End Reddit Pixel -->
 
     <!-- Apollo Website Tracker -->
-    <script type="text/plain" data-later>
+    <script type="text/plain" data-later data-consent>
     !function(){function t(t){var e=document.getElementsByTagName("script")[0],n=document.createElement("script");n.async=!0,n.src=t,e.parentNode.insertBefore(n,e)}t("https://app.apollo.io/api/v2/wst/intercept.js")}();
     </script>
-    <script type="text/plain" data-later>
+    <script type="text/plain" data-later data-consent>
     window.websiteTracker = { appId: "66f1f1ed596af3065a8f94f7" }
     </script>
     <!-- End Apollo Website Tracker -->
