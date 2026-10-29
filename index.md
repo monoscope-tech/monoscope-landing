@@ -414,7 +414,7 @@ capabilities:
   <section class="space-y-12 mt-(--inset) w-full flex flex-col items-center">
     <!-- Dark inset hero: gradient sky, painted horizon anchored below the demo -->
     <div class="hero-paint hero-sky relative panel-w rounded-[2rem] overflow-hidden text-textStrong ring-1 ring-black/5 dark:ring-white/10">
-    <img src="/assets/img/home/art/hero-morning.webp?v=5" alt="" data-anchor-to="[data-hero-tabs] [role=tablist]" data-anchor-at="0.8" class="dark:hidden absolute inset-x-0 top-0 w-full h-auto max-sm:h-[44%] max-sm:object-cover max-sm:object-[94%_0%] max-sm:opacity-45 [mask-image:linear-gradient(to_bottom,transparent,black_28%,black_80%,transparent)]">
+    <img src="/assets/img/home/art/hero-morning.webp?v=5" alt="" width="2464" height="1856" fetchpriority="high" data-anchor-to="[data-hero-tabs] [role=tablist]" data-anchor-at="0.8" class="dark:hidden absolute inset-x-0 top-0 w-full h-auto max-sm:h-[44%] max-sm:object-cover max-sm:object-[94%_0%] max-sm:opacity-45 [mask-image:linear-gradient(to_bottom,transparent,black_28%,black_80%,transparent)]">
     <img src="/assets/img/home/art/hero-shore-morning.webp" alt="" class="dark:hidden absolute inset-x-0 bottom-0 w-full h-auto min-h-48 object-cover object-[18%_100%] [mask-image:linear-gradient(to_top,black_55%,rgb(0_0_0/.5)_78%,transparent)]">
     <img src="/assets/img/home/art/hero-night.webp" alt="" data-art data-lamp="0.821,0.282" data-beam="out" class="hidden dark:block absolute inset-x-0 top-0 w-full h-[62%] object-cover object-[50%_0%] brightness-[.72] saturate-[.85] [mask-image:linear-gradient(to_bottom,transparent,black_12%,black_70%,transparent)]">
     <img src="/assets/img/home/art/hero-shore.webp" alt="" data-art data-glint class="hidden dark:block absolute inset-x-0 bottom-0 w-full h-auto min-h-48 object-cover object-[18%_100%] brightness-[.65] saturate-[.9] [mask-image:linear-gradient(to_top,black_55%,rgb(0_0_0/.5)_78%,transparent)]">
@@ -431,7 +431,7 @@ capabilities:
             <a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer" class="inline-flex items-center min-h-11 text-base font-medium text-textStrong whitespace-nowrap underline underline-offset-4 [text-decoration-thickness:from-font] decoration-strokeWeak hover:decoration-strokeStrong" data-tracking="index-playground-1" data-reddit-event="ViewContent">Launch playground</a>
           </div>
           <p class="flex flex-wrap items-center gap-x-3 gap-y-2 text-base leading-relaxed text-textWeak">
-            <a href="https://www.trustpilot.com/review/apitoolkit.io" target="_blank" rel="noopener noreferrer"><img src="/assets/img/trustpilot-stars-4.5.svg" class="w-20 sm:w-24 shrink-0 mt-1" alt="Rated 4.5 out of 5 on Trustpilot" /></a>
+            <a href="https://www.trustpilot.com/review/apitoolkit.io" target="_blank" rel="noopener noreferrer"><img src="/assets/img/trustpilot-stars-4.5.svg" width="512" height="96" class="w-20 sm:w-24 h-auto shrink-0 mt-1" alt="Rated 4.5 out of 5 on Trustpilot" /></a>
             <span class="text-textStrong/80">Free up to 10k events a day. No credit card.</span>
           </p>
         </div>
@@ -458,6 +458,10 @@ capabilities:
           </button>
           {% endfor %}
         </div>
+        <script>
+        // Place anchored hero paintings before first paint (home-motion.js keeps them placed on resize)
+        document.querySelectorAll('[data-anchor-to]').forEach(img => { const t = document.querySelector(img.dataset.anchorTo); if (t && t.offsetParent && img.offsetHeight) img.style.top = t.getBoundingClientRect().top - img.parentElement.getBoundingClientRect().top - img.offsetHeight * +img.dataset.anchorAt + 'px'; });
+        </script>
         {% for s in this.frontmatter.hero_tabs %}
         <div role="tabpanel" id="hero-demo-{{s.id}}" aria-labelledby="hero-tab-{{s.id}}" {% unless forloop.first %}hidden{% endunless %} data-theme="dark" class="rounded-xl border border-strokeWeak bg-bgRaised! overflow-hidden shadow-[0_30px_80px_-20px_rgb(0_0_0/0.7)]">
           <div class="h-[31px] border-b border-strokeWeak"></div>
