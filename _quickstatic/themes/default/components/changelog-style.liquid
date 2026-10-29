@@ -1,0 +1,27 @@
+<style>
+  /* Same eyebrow and card rules as the homepage (index.md) */
+  .eyebrow { color: color-mix(in oklab, var(--tone) 72%, black); }
+  [data-theme="dark"] .eyebrow { color: var(--tone); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .eyebrow { color: var(--tone); } }
+  .tone-none { --tone: var(--color-textWeak); --tone-weak: var(--color-fillWeak); }
+  body { --card-bg: #fff; --card-shadow: 0 1px 2px oklch(0 0 0 / .04); }
+  [data-theme="dark"] { --card-bg: color-mix(in oklab, var(--color-bgBase), var(--color-bgRaised) 55%); --card-shadow: none; }
+  .card { background: var(--card-bg); box-shadow: var(--card-shadow); }
+  .press { transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 150ms ease; }
+  .press:active { transform: scale(0.98); }
+  @media (prefers-reduced-motion: reduce) { .press:active { transform: none; } }
+  /* Entry body: theme sections, bulleted items with a bold lead */
+  /* Djot wraps each heading and its items in a <section> */
+  .cl-body :is(section, article) > * + * { margin-top: 1rem; }
+  .cl-body > section + section, .cl-body > section + p { margin-top: 3rem; padding-top: 2.5rem; border-top: 1px solid var(--color-strokeWeak); }
+  .cl-body > p + section { margin-top: 2.5rem; }
+  .cl-body h2 { font-size: 1.75rem; line-height: 1.25; font-weight: 500; letter-spacing: -0.01em; color: var(--color-textStrong); text-wrap: balance; }
+  .cl-body h3 { margin-top: 2rem !important; font-size: 1.09375rem; line-height: 1.35; font-weight: 600; color: var(--color-textStrong); }
+  .cl-body p, .cl-body li { font-size: 1rem; line-height: 1.7; color: var(--color-textWeak); text-wrap: pretty; }
+  .cl-body ul { display: grid; gap: .875rem; padding-inline-start: 1.25rem; list-style: disc; }
+  .cl-body li::marker { color: var(--color-strokeStrong, var(--color-textDisabled)); }
+  .cl-body li strong, .cl-body p strong { color: var(--color-textStrong); font-weight: 600; }
+  .cl-body a { color: var(--color-textBrand); text-decoration: underline; text-underline-offset: 3px; }
+  .cl-body code { font-family: var(--font-mono, ui-monospace, monospace); font-size: .875em; padding: .1em .35em; border-radius: .375rem; background: var(--color-fillWeak); color: var(--color-textStrong); }
+  .cl-body hr { display: none; }
+</style>

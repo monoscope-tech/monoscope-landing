@@ -1,0 +1,24 @@
+{% comment %}Theme pills for a changelog entry; falls back to the old weekly entries' categories.{% endcomment %}
+{% if fm.themes %}{% assign tags = fm.themes %}{% elsif fm.categories %}{% assign tags = fm.categories %}{% else %}{% assign tags = false %}{% endif %}
+{% if tags %}
+<ul class="flex flex-wrap gap-2" aria-label="Topics">
+  {% for t in tags limit: max %}
+    {% case t %}
+      {% when 'ai' %}{% assign tone = 'success' %}{% assign label = 'AI SRE' %}
+      {% when 'explorer' %}{% assign tone = 'brand' %}{% assign label = 'Logs & traces' %}
+      {% when 'issues' %}{% assign tone = 'warning' %}{% assign label = 'Issues' %}
+      {% when 'dashboards' %}{% assign tone = 'success' %}{% assign label = 'Dashboards & metrics' %}
+      {% when 'replay' %}{% assign tone = 'violet' %}{% assign label = 'Session replay' %}
+      {% when 'monitors' %}{% assign tone = 'warning' %}{% assign label = 'Monitors & alerts' %}
+      {% when 'routines' %}{% assign tone = 'violet' %}{% assign label = 'Routines' %}
+      {% when 'agents' %}{% assign tone = 'brand' %}{% assign label = 'CLI, MCP & agents' %}
+      {% when 'integrations' %}{% assign tone = 'brand' %}{% assign label = 'Integrations' %}
+      {% when 'onboarding' %}{% assign tone = 'brand' %}{% assign label = 'Onboarding & billing' %}
+      {% when 'performance' %}{% assign tone = 'success' %}{% assign label = 'Performance' %}
+      {% when 'selfhost' %}{% assign tone = 'violet' %}{% assign label = 'Self-hosting' %}
+      {% else %}{% assign tone = 'none' %}{% assign label = t | capitalize %}
+    {% endcase %}
+    <li class="tone-{{tone}} inline-flex rounded-md px-2 py-0.5 eyebrow font-mono text-[12px] uppercase tracking-wider bg-(--tone-weak)">{{label}}</li>
+  {% endfor %}
+</ul>
+{% endif %}

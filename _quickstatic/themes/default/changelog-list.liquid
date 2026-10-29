@@ -1,86 +1,64 @@
 {% render "default/components/head", this:this, config:config %}
 {% render "default/components/nav", this:this, config:config %}
+{% render "default/components/changelog-style" %}
 
-<main>
-  <section class="max-w-4xl px-3 mx-auto">
-    <div class="mt-8 sm:mt-32 pb-20">
-      <div class="mb-12 space-y-6">
-        <h1 class="text-3xl font-normal leading-tight text-textStrong">
-          Changelog
-        </h1>
-        <p class="text-lg text-textWeak">
-          Stay up to date with the latest features, fixes, and improvements.
-        </p>
-      </div>
-
-      <div class="relative">
-        <div class="absolute left-0 md:left-6 top-0 bottom-0 w-px bg-strokeWeak"></div>
-
-        {% assign changelog_entries = file_list | where_glob: 'file_path', "./changelog/*/index.md" | sort: "frontmatter.date" | reverse %}
-
-        {% for entry in changelog_entries %}
-          <article class="relative pl-8 md:pl-16 pb-12 last:pb-0">
-            <div class="absolute left-0 md:left-6 -translate-x-1/2 w-3 h-3 rounded-full bg-fillBrand-strong border-4 border-bgBase"></div>
-
-            <a href="{{ entry.permalink }}" class="block group">
-              <time class="text-sm font-medium text-textDisabled" datetime="{{ entry.frontmatter.date }}">
-                {{ entry.frontmatter.date | date: "%B %d, %Y" }}
-              </time>
-              <h2 class="text-xl font-normal text-textStrong mt-1 group-hover:text-textBrand transition-colors">
-                {{ entry.frontmatter.title }}
-              </h2>
-            </a>
-
-            {% if entry.frontmatter.categories %}
-              <div class="flex flex-wrap gap-2 mt-3">
-                {% for category in entry.frontmatter.categories %}
-                  {% case category %}
-                    {% when 'feature' %}
-                      {% assign badge_class = "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400" %}
-                    {% when 'fix' %}
-                      {% assign badge_class = "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400" %}
-                    {% when 'improvement' %}
-                      {% assign badge_class = "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400" %}
-                    {% when 'performance' %}
-                      {% assign badge_class = "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400" %}
-                    {% when 'security' %}
-                      {% assign badge_class = "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400" %}
-                    {% when 'breaking' %}
-                      {% assign badge_class = "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400" %}
-                    {% when 'deprecated' %}
-                      {% assign badge_class = "bg-gray-100 text-gray-800 dark:bg-gray-700/30 dark:text-gray-400" %}
-                    {% else %}
-                      {% assign badge_class = "bg-gray-100 text-gray-800 dark:bg-gray-700/30 dark:text-gray-400" %}
-                  {% endcase %}
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ badge_class }}">
-                    {{ category | capitalize }}
-                  </span>
-                {% endfor %}
-              </div>
-            {% endif %}
-
-            {% if entry.frontmatter.summary %}
-              <p class="mt-3 text-textWeak">{{ entry.frontmatter.summary }}</p>
-            {% endif %}
-
-            <a href="{{ entry.permalink }}" class="mt-3 inline-block text-sm font-medium text-textBrand hover:underline hover:underline-offset-2">
-              View details &rarr;
-            </a>
-          </article>
-        {% endfor %}
-
-        {% if changelog_entries.size == 0 %}
-          <div class="pl-8 md:pl-16 text-textWeak">
-            <p>No changelog entries yet. Check back soon!</p>
-          </div>
-        {% endif %}
-      </div>
-
-      <div class="pt-16">
-        <div class="border-t border-strokeWeak"></div>
+<main id="main" class="pb-24 md:pb-32">
+  <section class="tone-brand relative w-full">
+    <div aria-hidden="true" class="absolute top-(--inset) bottom-0 left-1/2 -translate-x-1/2 panel-w rounded-[2rem] overflow-hidden bg-(--tone-panel) border border-(--tone-weak)">
+      <img src="/assets/img/home/art/page-changelog.webp" alt="" width="2688" height="448" class="absolute inset-x-0 bottom-0 w-full h-44 md:h-64 object-cover object-left-bottom dark:opacity-60 [mask-image:linear-gradient(to_top,black_30%,rgb(0_0_0/.8)_44%,rgb(0_0_0/.52)_58%,rgb(0_0_0/.26)_72%,rgb(0_0_0/.09)_86%,transparent)]">
+    </div>
+    <div class="relative wrap max-w-[80rem] pt-32 md:pt-44 pb-48 md:pb-72">
+      <div class="space-y-6 max-w-3xl [&>p:first-child]:mb-3.5">
+        <p class="inline-flex rounded-md px-2.5 py-1 eyebrow font-mono text-[12px] uppercase tracking-wider bg-(--tone-weak)">Changelog</p>
+        <h1 class="text-4xl md:text-[42px] font-medium tracking-tight leading-[1.2] text-balance text-textStrong">What we shipped, month by month</h1>
+        <p class="max-w-[65ch] text-[17.5px] leading-[1.65] text-textWeak text-pretty">New features, fixes and speedups in monoscope, written for the people who use it. Every entry links to the details.</p>
       </div>
     </div>
   </section>
+
+  {% assign entries = file_list | where_glob: 'file_path', "./changelog/*/index.md" | sort: "frontmatter.date" | reverse %}
+  <div class="wrap max-w-[64rem] mt-20 md:mt-28">
+    {% assign last_year = "" %}
+    <ol class="relative">
+      <span aria-hidden="true" class="absolute start-[5px] md:start-[calc(9rem+5px)] top-3 bottom-3 w-0.5 bg-strokeWeak"></span>
+      {% for entry in entries %}
+        {% assign fm = entry.frontmatter %}
+        {% assign year = fm.date | date: "%Y" %}
+        {% if year != last_year %}
+          <li class="ps-8 md:ps-[11rem] {% unless forloop.first %}pt-4 md:pt-8{% endunless %} pb-10">
+            <div class="relative">
+              <span aria-hidden="true" class="absolute -start-8 top-[calc(50%-6px)] size-3 rounded-full bg-textStrong"></span>
+              <h2 class="text-[28px] md:text-[32px] font-medium tracking-tight leading-none text-textStrong tabular-nums">{{ year }}</h2>
+            </div>
+          </li>
+          {% assign last_year = year %}
+        {% endif %}
+        {% if fm.weekEnd %}{% assign when = fm.date | date: "%b %-d" %}{% assign when_cls = "block" %}{% else %}{% assign when = fm.date | date: "%B" %}{% assign when_cls = "sr-only" %}{% endif %}
+        <li class="relative ps-8 md:ps-[11rem] pb-14 md:pb-16">
+          <span aria-hidden="true" class="absolute start-0 md:start-[9rem] top-[7px] size-3 rounded-full border-2 border-textBrand bg-bgBase"></span>
+          <time datetime="{{ fm.date }}" class="md:absolute md:start-0 md:top-0.5 md:w-32 {{ when_cls }} font-mono text-[12px] uppercase tracking-wider text-textWeak">{{ when }}</time>
+          <article class="mt-2 md:mt-0 space-y-4">
+            <h3 class="text-[22px] md:text-2xl font-medium tracking-tight leading-[1.3] text-balance text-textStrong">
+              <a href="{{ entry.permalink }}" class="hover:text-textBrand transition-colors duration-150">{{ fm.title }}</a>
+            </h3>
+            {% if fm.summary %}<p class="max-w-[65ch] text-[17.5px] leading-[1.6] text-textWeak text-pretty">{{ fm.summary }}</p>{% endif %}
+            {% render "default/components/changelog-tags", fm: fm, max: 4 %}
+            {% if fm.highlights %}
+              <ul class="card mt-6 rounded-2xl border border-strokeWeak divide-y divide-strokeWeak overflow-hidden">
+                {% for h in fm.highlights %}
+                  <li class="flex gap-3 px-5 py-4 text-[15px] leading-relaxed text-textStrong text-pretty">
+                    <svg class="mt-[5px] size-4 shrink-0 text-textBrand" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3.5 8.5 3 3 6-7"/></svg>
+                    <span>{{ h }}</span>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+            <a href="{{ entry.permalink }}" class="inline-flex items-center gap-1.5 pt-1 text-[15px] font-medium text-textBrand underline underline-offset-4 decoration-1 hover:decoration-2">Read the full update<span class="sr-only"> for {{ fm.title }}</span><span aria-hidden="true">→</span></a>
+          </article>
+        </li>
+      {% endfor %}
+    </ol>
+  </div>
 </main>
 
-{% render "default/components/foot", this:this %}
+{% render "default/components/foot", this:this, config:config %}
