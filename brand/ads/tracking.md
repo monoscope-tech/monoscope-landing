@@ -57,7 +57,7 @@ EEA, UK and Swiss traffic needs Google Consent Mode v2 signals (`ad_storage`, `a
 
 ## Change in `head.liquid` (lead applies)
 
-File: `_quickstatic/themes/default/components/head.liquid`. Insert **immediately after line 166** (`{% unless config.dev %}`), before `<!-- Amplitude (with GA Events Forwarder) -->`, so consent defaults exist before GTM (line 176) or any tag runs. Replace `AW-XXXXXXXXXX` with the Google Ads tag ID. Skip the `gtag.js` include and `config` line if the GTM container already has a Google tag for this Ads account; in that case set the linker and URL passthrough in that GTM tag instead.
+File: `_quickstatic/themes/default/components/head.liquid`. Insert **immediately after line 166** (`{% unless config.dev %}`), before `<!-- Amplitude (with GA Events Forwarder) -->`, so consent defaults exist before GTM (line 175) or any tag runs. Replace `AW-XXXXXXXXXX` with the Google Ads tag ID. Skip the `gtag.js` include and `config` line if the GTM container already has a Google tag for this Ads account; in that case set the linker and URL passthrough in that GTM tag instead.
 
 ```html
     <!-- Google consent defaults + Google Ads tag -->
