@@ -1,203 +1,40 @@
 ---
 date: 2024-07-17
+updatedDate: 2026-10-29
 title: monoscope vs Sentry
-description: There are many monitoring and observability platforms in the market today, each with its unique offerings. Here’s what monoscope does better and offers differently compared to Sentry.
+description: Sentry shows the exception. monoscope keeps the full request and response behind it, next to logs, traces and metrics, and its AI SRE opens the fix. A sourced comparison.
 ogImage: https://raw.githubusercontent.com/monoscope/.github/main/images/compare-og.png
+name: Sentry
+headline: The exception, and the request that caused it
+lead: Sentry is built around errors and the stack trace. monoscope keeps every request and response, yours and your suppliers’, next to the error, the trace and the logs, so you and the AI can see what was actually sent.
+table_title: Errors are where it starts, not where it ends
+checked: October 2026
+them:
+  - { s: part, t: "Request bodies on errors, up to 10 kB by default; response bodies only in replays, opt-in" }
+  - { s: part, t: "Not in public docs" }
+  - { s: part, t: "Errors and traces, without response bodies" }
+  - { s: part, t: "Seer, $40 per active contributor a month" }
+  - { list: ["$26/month Team plan", "$0.29/1k errors", "$1.60/M spans", "$3.75/1k replays"] }
+  - { s: part, t: "Source-available (FSL), self-hosting allowed" }
+  - { s: none }
+  - { s: part, t: "Errors, traces, logs, replays and uptime; no OTLP metrics" }
+fit_mono:
+  - You need the request and response behind each error, including calls to third-party APIs
+  - You want logs, traces, metrics and errors priced per event, with no per-error tiers
+  - You want an open-source (AGPL) platform or your data in your own bucket
+fit_them:
+  - Frontend and mobile crash reporting is your main need, with release health and source maps
+  - Your team already triages everything in Sentry and only needs error tracking
+sources:
+  - { t: "Plans, error, span and replay prices", url: "https://sentry.io/pricing/" }
+  - { t: "Reserved and pay-as-you-go rates; $0.29/1k is the top reserved error tier", url: "https://docs.sentry.io/pricing/" }
+  - { t: "Request body size option (medium, about 10 kB, by default)", url: "https://docs.sentry.io/platforms/python/configuration/options/" }
+  - { t: "Replay network bodies are opt-in", url: "https://docs.sentry.io/platforms/javascript/session-replay/configuration/" }
+  - { t: "Seer pricing", url: "https://docs.sentry.io/product/ai-in-sentry/seer/" }
+  - { t: "License: FSL-1.1-Apache-2.0", url: "https://open.sentry.io/licensing/" }
+  - { t: "OTLP support (no OTLP metrics)", url: "https://docs.sentry.io/concepts/otlp/" }
 ---
 
 ```=html
-<div class="w-full">
-```
-
-```=html
-   <section class="mt-8 py-10 md:py-20">
-      <div class="width-control px-2 mx-auto flex flex-col items-center bg-[url('/assets/img/svgs/grid.svg')] dark:bg-none">
-         <h1
-            class="text-center mt-[20px] text-4xl md:text-6xl font-bold dark:text-white">
-            <span class="text-blue-500">monoscope</span> vs. Sentry
-         </h1>
-         <p
-            class="mt-8 text-gray-700 dark:text-inherit text-lg tracking-tight leading-relaxed max-w-[800px]  text-center">
-            Watch errors, stack traces, real-time API requests, performance statistics, and other metrics that matter using monoscope's rich API log explorer and analytics graphs, so you can pinpoint API issues, understand the root cause(s), and fix them in real-time before they affect your users.
-         <p>
-         <div class="mt-[30px] flex items-center gap-4 text-center">
-            <a href="https://app.monoscope.tech" class="btn py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium hover:bg-fillBrand-weak transition-colors sm:w-56">GET STARTED <i class="fa-solid fa-angle-right ml-5"></i></a>
-            <a href="/docs" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-neutral sm:w-56">READ THE DOCS</a>
-         </div>
-      </div>
-      <hr class="mt-12 w-full" />
-   </section>
-```
-
-```=html
-   <div class="width-control px-2 mx-auto">
-      <table class="table table-fixed">
-        <tr>
-            <th class="py-6 font-bold"></th>
-            <th class="py-6 font-bold text-lg border border-blue-500 bg-slate-50 dark:bg-inherit text-center">monoscope</th>
-            <th class="py-6 font-bold text-lg border text-center">Sentry</th>
-        </tr>
-
-        <tr>
-            <td class="font-bold text-base md:text-lg lg:text-lg text-center">Pricing</td>
-            <td class="border border-blue-500 bg-slate-50 dark:bg-inherit prose text-sm md:text-base lg:text-base leading-relaxed">
-                <ul>
-                    <li>Free for up to 10k events per day, with 30 days of data retention and unlimited team members.</li>
-                    <li>Then $29 per month for up to 20M events, plus $1 per 1M events after.</li>
-                    <li>Store data in your own S3 bucket with unlimited retention from $199 per month. See <a href="/pricing" target="_blank" rel="noopener noreferrer" class="text-slate-500">pricing</a>.</li>
-                </ul>
-            </td>
-            <td class="border prose text-sm md:text-base lg:text-base leading-relaxed">
-                <ul>
-                    <li>14-day business plan free trial for new users, then free for up to 5k errors per month with limited features.</li>
-                    <li>30 days of data retention and one team member on the free plan.</li>
-                    <li>The paid team plan starts at $26 per month.</li>
-                </ul>
-            </td>
-         </tr>
-
-         <tr>
-            <td class="font-bold text-base md:text-lg lg:text-lg text-center">API Monitoring and Observability</td>
-            <td class="border border-blue-500 bg-slate-50 dark:bg-inherit prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check.svg" alt="Icon that indicates this feature is supported." />
-
-                Focused on <b>API-first</b> monitoring, observability, and application performance management (APM). Track and trace incoming and outgoing requests and capture the entire request-response chain of all endpoints on your API.
-            </td>
-            <td class="border prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check2.svg" alt="Icon that indicates this feature is supported." />
-
-                More focused on monitoring errors, tracing, sessions, and code coverages for applications.
-            </td>
-         </tr>
-         <tr>
-            <td class="font-bold text-base md:text-lg lg:text-lg text-center">Error Tracking</td>
-            <td class="border border-blue-500 bg-slate-50 dark:bg-inherit prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check.svg" alt="Icon that indicates this feature is supported." />
-
-                Catches unhandled or uncaught errors from your application, but goes a step further to catch silent errors (bugs that occur when a field is missing or changes in an API, which are only visible if you look at the payload).
-            </td>
-            <td class="border prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check2.svg" alt="Icon that indicates this feature is supported." />
-
-                Catches the errors and stack traces that you report from your application.
-            </td>
-         </tr>
-         <tr>
-            <td class="font-bold text-base md:text-lg lg:text-lg text-center">Breaking Changes</td>
-            <td class="border border-blue-500 bg-slate-50 dark:bg-inherit prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check.svg" alt="Icon that indicates this feature is supported." />
-
-                Catches breaking changes and lets you know if something breaks or changes (fields, formats, endpoints, etc.) based on the previously tracked information about your endpoints. <b>We are the only one who does this well in the market currently</b>.
-            </td>
-            <td class="border prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check2-x.svg" alt="Icon that indicates this feature is not supported." />
-            </td>
-         </tr>
-         <tr>
-            <td class="font-bold text-base md:text-lg lg:text-lg text-center">Anomaly Detection</td>
-            <td class="border border-blue-500 bg-slate-50 dark:bg-inherit prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check.svg" alt="Icon that indicates this feature is supported." />
-
-                Detects different user activity (requests) on your API that is significantly different from previously tracked activities using AI, to enable you resolve server issues and potential security threats.
-            </td>
-            <td class="border prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check2-x.svg" alt="Icon that indicates this feature is not supported." />
-            </td>
-         </tr>
-         <tr>
-            <td class="font-bold text-base md:text-lg lg:text-lg text-center">Issues and Alerts</td>
-            <td class="border border-blue-500 bg-slate-50 dark:bg-inherit prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check.svg" alt="Icon that indicates this feature is supported." />
-
-                Receive alerts when an anomaly is detected or set alerts to track certain requests when they cross certain thresholds and notify relevant members of your team via email or Slack.
-            </td>
-            <td class="border prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check2.svg" alt="Icon that indicates this feature is supported." />
-            </td>
-         </tr>
-         <tr>
-            <td class="font-bold text-base md:text-lg lg:text-lg text-center">Outgoing Requests</td>
-            <td class="border border-blue-500 bg-slate-50 dark:bg-inherit prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check.svg" alt="Icon that indicates this feature is supported." />
-
-                Capture the entire request-response chain of external APIs your application depends on.
-            </td>
-            <td class="border prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check2.svg" alt="Icon that indicates this feature is supported." />
-            </td>
-         </tr>
-         <tr>
-            <td class="font-bold text-base md:text-lg lg:text-lg text-center">Logs Management</td>
-            <td class="border border-blue-500 bg-slate-50 dark:bg-inherit prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check.svg" alt="Icon that indicates this feature is supported." />
-
-                Search logs, traces and metrics in one place, linked to the API requests that produced them.
-            </td>
-            <td class="border prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check2-x.svg" alt="Icon that indicates this feature is supported." />
-            </td>
-         </tr>
-         <tr>
-            <td class="font-bold text-base md:text-lg lg:text-lg text-center">API Testing</td>
-            <td class="border border-blue-500 bg-slate-50 dark:bg-inherit prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check.svg" alt="Icon that indicates this feature is supported." />
-
-                Create synthetic monitors (tests and assertions) for your API endpoints and execute them at defined periods in real-time against different parameters on your endpoints.
-            </td>
-            <td class="border prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check2-x.svg" alt="Icon that indicates this feature is not supported." />
-            </td>
-         </tr>
-         <tr>
-            <td class="font-bold text-base md:text-lg lg:text-lg text-center">Share Log Request</td>
-            <td class="border border-blue-500 bg-slate-50 dark:bg-inherit prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check.svg" alt="Icon that indicates this feature is supported." />
-
-                Generate a public link for any log request and share it with relevant members of your team (e.g., customer support or engineering), so they can easily resolve customer issues with enough context and reproducible information.
-            </td>
-            <td class="border prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check2-x.svg" alt="Icon that indicates this feature is not supported." />
-            </td>
-         </tr>
-         <tr>
-            <td class="font-bold text-base md:text-lg lg:text-lg text-center">Client Libraries Support</td>
-            <td class="border border-blue-500 bg-slate-50 dark:bg-inherit prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check.svg" alt="Icon that indicates this feature is supported." />
-
-                Currently supports <a href="/docs/sdks" target="_blank" rel="noopener noreferrer" class="text-slate-500">20+ web frameworks</a> in different programming languages with features like redacting sensitive data, routes whitelist/blacklist, etc. If we don't support your framework, you can <a href="mailto:hello@monoscope.tech" class="text-slate-500">email us</a> and we will specially create a new SDK for you.
-            </td>
-            <td class="border prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                <img class="h-6 mt-2 mb-4 block mx-auto" src="/assets/img/compare-logos/check2.svg" alt="Icon that indicates this feature is supported." />
-            </td>
-         </tr>
-         <tr>
-            <td class="font-bold text-base md:text-lg lg:text-lg text-center">Customer Support</td>
-            <td class="border border-blue-500 bg-slate-50 dark:bg-inherit prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                Users on any plan can <a href="https://monoscope.tech/demo" target="_blank" rel="noopener noreferrer" class="text-slate-500">schedule a call</a> with an engineer on the team, join the community <a href="https://monoscope.tech/discord" target="_blank" rel="noopener noreferrer" class="text-slate-500">Discord server</a>, write via email, or submit issues on <a href="https://github.com/monoscope-tech" target="_blank" rel="noopener noreferrer" class="text-slate-500">GitHub</a>. Our support team is always ready to help, swiftly!
-            </td>
-            <td class="border prose text-sm md:text-base lg:text-base leading-relaxed text-center">
-                Users on the free plan can get support via GitHub issues and only the paid users get email support.
-            </td>
-         </tr>
-      </table>
-   </div>
-```
-
-```=html
-   <div class="w-full my-12 width-control mx-auto px-2">
-      <div class="w-full flex flex-col items-center text-center bg-blue-500 py-16 rounded-3xl gap-8">
-         <p class="font-medium text-3xl text-white px-16 leading-normal">If you’re building an API-driven application on the web, mobile, IoT, etc., and you need to observe the API usage data from live users’ payload for any reason, then you should consider using monoscope.</p>
-         <a href="https://app.monoscope.tech" class="btn btn-neutral sm:w-56 text-white">GET STARTED <i class="fa-solid fa-angle-right ml-5"></i></a>
-      </div>
-   </div>
-```
-
-```=html
-   <div class="width-control mx-auto px-2">
-      {% render "default/components/customers" %}
-   </div>
-```
-
-```=html
-</div>
+{% render "default/components/compare", this:this %}
 ```
