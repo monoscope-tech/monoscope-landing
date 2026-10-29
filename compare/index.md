@@ -5,7 +5,7 @@ title: Compare monoscope
 description: How monoscope compares with Datadog, Sentry, New Relic, Honeybadger, BugSnag, Axiom, Treblle and Baselime, with sources for every claim.
 ogImage: https://raw.githubusercontent.com/monoscope/.github/main/images/compare-og.png
 diffs:
-  - { icon: align-left, title: "Every request and response, kept", body: "Bodies in and out, for the APIs you serve and the ones you call, never sampled." }
+  - { icon: align-left, title: "Every request and response, kept", body: "Bodies in and out, for the APIs you serve and the ones you call, unsampled on paid plans." }
   - { icon: zap, title: "An AI SRE that reads them", body: "It investigates from the real payload, the trace and recent deploys, then opens the fix." }
   - { icon: database, title: "Priced per event, stored where you choose", body: "$1 per million events after the first 20M. Our cloud, your S3 bucket or your servers." }
 pages:

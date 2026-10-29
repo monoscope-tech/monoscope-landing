@@ -1,10 +1,5 @@
 {% comment %}Page header on a tinted inset panel with a painted strip, as on the homepage. Params: tone, art, eyebrow, title, lead (optional), art_pos (optional object-position class).{% endcomment %}
 <style>
-  .eyebrow { color: color-mix(in oklab, var(--tone) 72%, black); }
-  [data-theme="dark"] .eyebrow { color: var(--tone); }
-  body { --card-bg: #fff; --card-shadow: 0 1px 2px oklch(0 0 0 / .04); }
-  [data-theme="dark"] { --card-bg: color-mix(in oklab, var(--color-bgBase), var(--color-bgRaised) 55%); --card-shadow: none; }
-  .card { background: var(--card-bg); box-shadow: var(--card-shadow); }
   a.card { transition: border-color .15s ease, box-shadow .15s ease; }
   @media (hover: hover) and (pointer: fine) { a.card:hover { border-color: var(--color-strokeStrong); box-shadow: 0 4px 16px -8px oklch(0 0 0 / .15); } }
   [data-theme="light"] main a.text-textBrand { color: #005bd1; }

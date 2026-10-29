@@ -7,7 +7,7 @@ hide_date: true
 layout: default/index.liquid
 beliefs:
   - { icon: align-left, title: Keep every request, body: "Every request and response, in and out, unsampled, next to your logs, traces and metrics. When something breaks, the failing request is already there." }
-  - { icon: github, title: Open source, body: "The whole platform, including the TimeFusion database underneath, is AGPL-3.0 on GitHub. Read the code that handles your data, or run it on your own servers." }
+  - { icon: github, title: Open source, body: "The whole platform is AGPL-3.0 on GitHub, and the TimeFusion database underneath is MIT. Read the code that handles your data, or run it on your own servers." }
   - { icon: database, title: "Your bucket, your data", body: "On the own-bucket plan, every event lands in your S3 bucket as open Delta Lake and Parquet. Query it with DuckDB or SQL, and keep it as long as you need." }
 ---
 
