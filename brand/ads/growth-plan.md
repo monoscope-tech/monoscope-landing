@@ -35,6 +35,8 @@ Takeaways: the two that advertise heavily (Datadog, Better Stack) run a consent 
 - Google Ads: `anthonyalaribe@gmail.com` and `anthony@monoscope.tech` have no Ads account; `anthony@past3.tech` has a cancelled "Past 3 Technologies UG" account. The account owning `AW-11285541899` is under a login that needs re-authentication (authuser=2). **Open item for the founder.**
 - Meta: several business portfolios (AIFACTORY CALABAR, Past 3 Software and Design Studio, others). A Facebook Page **"Apitoolkit"** (id 61557955952297, 7 followers, old brand). The portfolio owning pixel `1135987380886994` is not yet identified.
 - Instagram: logged into a personal account; no brand account.
+- **Reddit Ads `t2_9wupu0` (EUR) is live.** Last 30 days €1,200: `GitHub_Traffic` €30/day, 11,603 clicks at €0.08, all straight to github.com (no pixel sees them); `Website_DevOps_Communities` €10/day, 860 clicks at €0.35, optimising on the pixel's `Sign Up`, which until now fired on *clicks* to the app. Pixel also logged 418k `View Content` a week from scroll tracking. This campaign explains Reddit being the top GitHub referrer.
+- GTM `GTM-PTLSTQ8` (account APIToolkit, also loaded in `foot.liquid`): its Google Ads "Get started" conversion only fires on `app.apitoolkit.io` pages, so it is already dead; it also duplicates Reddit PageVisit and a click-based Reddit Sign Up. `GTM-TF4BQQ3D` is not visible to this login.
 - X: @monoscope_tech exists. LinkedIn: /company/monoscope. YouTube: @Monoscope. GitHub: monoscope-tech.
 
 ## Handle decision
@@ -89,17 +91,25 @@ Rules: one primary conversion per campaign; daily caps on every campaign; kill r
 
 All site visitors 30/90/180d · pricing viewers · compare/alternative viewers · docs readers · GitHub-click users · signups (exclusion) · customers (exclusion) · lookalikes later from activated users.
 
-## Work list (order of execution)
+## Work list (state as of 2026-10-29)
 
-| # | Work | Where | Owner | State |
-|---|---|---|---|---|
-| 1 | Event cleanup: only real outcomes to ad pixels; scroll/pageview to analytics only; `github_star_intent`, `demo_booked`, `signup_start` events; UTM'd GitHub links | `assets/js/ad-tracking.js` | session | todo |
-| 2 | Click-ID + UTM capture and app-link decoration | site JS | session | todo |
-| 3 | Consent banner + Consent Mode v2, pixels gated in EEA | `head.liquid`, new `consent.js` | session | todo |
-| 4 | App: store attribution on signup, fire `signup`/`activated` client + server (Google offline/enhanced, Meta CAPI, Reddit CAPI) | `../monoscope` branch + PR (not merged) | session | todo |
-| 5 | Daily GitHub stars + spend report (script, `brand/ads/report/`) | repo script | session | todo |
-| 6 | Meta: rename "Apitoolkit" Page → monoscope, username `monoscopehq`, new profile/cover; create Instagram `monoscopehq` linked to the Page; find pixel owner; custom conversions + audiences | browser | session | todo |
-| 7 | Reddit: ads account check, pixel conversion events, audiences, subreddit targeting draft (paused) | browser | session | todo |
-| 8 | Google Ads: locate the AW-11285541899 account (needs founder login), conversion actions per ladder, import `brand/ads/` kit as paused | browser + founder | founder | blocked |
-| 9 | LinkedIn/X: verify tags, create website audiences | browser | session | todo |
-| 10 | Founder: payment methods, turn on campaigns, approve app PR | founder | founder | later |
+| # | Work | State |
+|---|---|---|
+| 1 | Event cleanup: only real outcomes to ad pixels; scroll/pageview to analytics only; `github_star_intent`, `demo_booked`, `signup_start`; UTM'd GitHub links | **done, live** (`assets/js/ad-tracking.js`). Bridge: Reddit still gets `SignUp` on app clicks so the live SIGN_UP ad group keeps a signal; flip to `Custom SignupStart` when the app PR ships |
+| 2 | Click-ID + UTM capture (`ms_attr`, 90 days) and app-link decoration | **done, live** |
+| 3 | Consent banner + Consent Mode v2, pixels gated in EEA (time-zone detection) | **done, live**; QA: EU 0 ad requests before Accept, both Meta pixels after |
+| 4 | App: store attribution on signup, `signup`/`activated` server-side (Google, Meta CAPI, Reddit CAPI) | draft PR in `monoscope` (see final report) |
+| 5 | Daily GitHub stars + spend report | **done** (`brand/ads/report/`) |
+| 6 | Meta | **done:** FB Page "Monoscope" (61596069719066, Sign up button with UTMs), Instagram **@monoscopehq** (business, linked to the Page), new business portfolio **"monoscope"** (1810239816910047) owning both, new pixel **"monoscope web" 2333667580805655** fired on the site next to the legacy `1135987380886994` (owner unknown, not reachable from this login). **Open:** ad account (currency/time zone are permanent: founder's call), then custom conversions and audiences; audiences backfill 180 days, so nothing is lost by waiting |
+| 7 | Reddit | **done:** audiences `Site visitors 30d`, `Site visitors 90d` (~5.5k), `App clickers 90d (exclude)`. **Next:** `GitHub clickers 90d` once the pixel has seen `GitHubStarIntent` (Reddit rejects unseen custom events); a retargeting ad group on `Site visitors 90d` excluding app clickers |
+| 8 | Google Ads: locate the AW-11285541899 account, conversion actions per ladder, import `brand/ads/` kit paused | blocked on founder login (also owns `GTM-TF4BQQ3D`) |
+| 9 | LinkedIn/X website audiences | todo (no account access checked yet) |
+
+## Founder to-do (in order of payoff)
+
+1. **Reddit spend check (saves money now).** €40/day runs on Reddit. Test `GitHub_Traffic` honestly: pause it for 7 days, run `node brand/ads/report/stars.mjs` daily, and compare stars/day to the ~40/week organic baseline in `stars-daily.csv`. Keep it only if paid weeks beat that by more than spend ÷ €5 stars. Also remove the three 2023 "Traffic May 09" ads still marked active (they point at apitoolkit.io).
+2. **Merge the app PR**, set the Meta CAPI dataset to `2333667580805655` with a token from Events Manager, and set the Reddit CAPI token. Then flip `signup_start` back to `rdt: ['Custom', 'SignupStart']` and switch the Reddit ad group to optimise on real `SignUp`.
+3. **Google:** log into the account that owns `AW-11285541899` and `GTM-TF4BQQ3D`; pause its click-based "Start for free" conversion (label `XFpwCN3Po7wZEIvoroUq`) as primary, add signup/activated as primary once the app PR ships.
+4. **Meta ad account** in the "monoscope" portfolio (pick currency: EUR matches Reddit billing), then: custom conversions GitHubStarIntent, SignupStart (secondary), Schedule; audiences visitors 30/90/180d, pricing, compare, docs, GitHub clickers.
+5. **Facebook Page username** `monoscopehq` (Accounts Center loops in automation; takes 30 s by hand) and the **Instagram website link** (mobile app only). Instagram login is in Keychain: `instagram.com monoscopehq`.
+6. Payment methods and turning campaigns on stay with you.
