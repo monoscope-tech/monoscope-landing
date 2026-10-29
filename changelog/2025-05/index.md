@@ -2,6 +2,7 @@
 title: "May 2025"
 date: 2025-05-01
 summary: "A new query editor that takes plain-English questions, charts in the explorer, and dashboards built from your own queries."
+description: "A new query editor that takes plain-English questions, charts in the explorer, and dashboards built from your own queries."
 themes:
   - ai
   - explorer

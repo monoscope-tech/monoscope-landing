@@ -2,6 +2,7 @@
 title: "January 2026"
 date: 2026-01-01
 summary: "Ask the AI about an issue, alerts straight from dashboard widgets, a Golden Signals overview, and a much larger query language."
+description: "Ask the AI about an issue, alerts straight from dashboard widgets, a Golden Signals overview, and a much larger query language."
 themes:
   - ai
   - monitors

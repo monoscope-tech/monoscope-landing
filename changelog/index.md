@@ -1,4 +1,4 @@
 ---
 title: "Changelog"
-description: "See what's new in Monoscope. Weekly updates on features, fixes, and improvements."
+description: "What we shipped in monoscope, month by month: new features, fixes and speedups."
 ---

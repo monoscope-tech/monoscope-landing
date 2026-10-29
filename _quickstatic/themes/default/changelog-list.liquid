@@ -53,7 +53,7 @@
                 {% endfor %}
               </ul>
             {% endif %}
-            <a href="{{ entry.permalink }}" class="inline-flex items-center gap-1.5 pt-1 text-[15px] font-medium text-textBrand underline underline-offset-4 decoration-1 hover:decoration-2">Read the {{ fm.title }} update<span aria-hidden="true">→</span></a>
+            <a href="{{ entry.permalink }}" class="inline-flex items-center gap-1.5 pt-1 text-[15px] font-medium text-textBrand underline underline-offset-4 decoration-1 hover:decoration-2">Read the full update<span class="sr-only"> for {{ fm.title }}</span><span aria-hidden="true">→</span></a>
           </article>
         </li>
       {% endfor %}

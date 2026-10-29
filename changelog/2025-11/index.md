@@ -2,6 +2,7 @@
 title: "November 2025"
 date: 2025-11-01
 summary: "A new Reports page, standard OTLP clients that authenticate with a header, a quick test during onboarding, and fixes for self-hosted basic auth."
+description: "A new Reports page, standard OTLP clients that authenticate with a header, a quick test during onboarding, and fixes for self-hosted basic auth."
 themes:
   - issues
   - integrations

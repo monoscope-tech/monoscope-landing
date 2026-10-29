@@ -2,6 +2,7 @@
 title: "May 2026"
 date: 2026-05-01
 summary: "A hosted MCP server, CLI commands for coding agents, issue pages with inline session replay, and filters on real OpenTelemetry fields."
+description: "A hosted MCP server, CLI commands for coding agents, issue pages with inline session replay, and filters on real OpenTelemetry fields."
 themes:
   - agents
   - issues

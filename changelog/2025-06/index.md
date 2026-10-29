@@ -2,6 +2,7 @@
 title: "June 2025"
 date: 2025-06-01
 summary: "KQL-style summaries and group-bys, a summary column in the log list, and an AI that answers in Discord and Slack."
+description: "KQL-style summaries and group-bys, a summary column in the log list, and an AI that answers in Discord and Slack."
 themes:
   - ai
   - explorer

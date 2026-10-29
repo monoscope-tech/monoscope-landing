@@ -2,6 +2,7 @@
 title: "July 2025"
 date: 2025-07-01
 summary: "Alerts from any explorer query, dark mode and the monoscope name, metrics in the explorer, and the AI on WhatsApp."
+description: "Alerts from any explorer query, dark mode and the monoscope name, metrics in the explorer, and the AI on WhatsApp."
 themes:
   - monitors
   - dashboards

@@ -14,6 +14,7 @@
   /* Djot wraps each heading and its items in a <section> */
   .cl-body :is(section, article) > * + * { margin-top: 1rem; }
   .cl-body > section + section, .cl-body > section + p { margin-top: 3rem; padding-top: 2.5rem; border-top: 1px solid var(--color-strokeWeak); }
+  .cl-body > p + section { margin-top: 2.5rem; }
   .cl-body h2 { font-size: 1.75rem; line-height: 1.25; font-weight: 500; letter-spacing: -0.01em; color: var(--color-textStrong); text-wrap: balance; }
   .cl-body h3 { margin-top: 2rem !important; font-size: 1.09375rem; line-height: 1.35; font-weight: 600; color: var(--color-textStrong); }
   .cl-body p, .cl-body li { font-size: 1rem; line-height: 1.7; color: var(--color-textWeak); text-wrap: pretty; }

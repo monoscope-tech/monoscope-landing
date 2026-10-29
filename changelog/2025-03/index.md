@@ -2,6 +2,7 @@
 title: "March 2025"
 date: 2025-03-01
 summary: "A full dashboard builder, live tail in the explorer, copy as cURL, and a free plan."
+description: "A full dashboard builder, live tail in the explorer, copy as cURL, and a free plan."
 themes:
   - dashboards
   - explorer

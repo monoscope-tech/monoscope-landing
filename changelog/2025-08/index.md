@@ -2,6 +2,7 @@
 title: "August 2025"
 date: 2025-08-01
 summary: "Session replay, your own S3 bucket, 30-day retention and a rebuilt explorer list."
+description: "Session replay, your own S3 bucket, 30-day retention and a rebuilt explorer list."
 themes:
   - replay
   - onboarding

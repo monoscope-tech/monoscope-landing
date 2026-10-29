@@ -2,6 +2,7 @@
 title: "February 2025"
 date: 2025-02-01
 summary: "Custom dashboards for every project, a rebuilt log and trace list, and share links for single spans and logs."
+description: "Custom dashboards for every project, a rebuilt log and trace list, and share links for single spans and logs."
 themes:
   - dashboards
   - explorer

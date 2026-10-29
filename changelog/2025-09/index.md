@@ -2,6 +2,7 @@
 title: "September 2025"
 date: 2025-09-01
 summary: "Log patterns, a tabbed Overview dashboard, a much faster explorer, and basic auth for self-hosting."
+description: "Log patterns, a tabbed Overview dashboard, a much faster explorer, and basic auth for self-hosting."
 themes:
   - explorer
   - dashboards

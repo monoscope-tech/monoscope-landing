@@ -2,6 +2,7 @@
 title: "December 2025"
 date: 2025-12-01
 summary: "Teams, two-way GitHub sync for dashboards, an error details page, and a refreshed interface."
+description: "Teams, two-way GitHub sync for dashboards, an error details page, and a refreshed interface."
 themes:
   - integrations
   - dashboards

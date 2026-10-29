@@ -2,6 +2,7 @@
 title: "October 2025"
 date: 2025-10-01
 summary: "Per-project alert settings, patterns by summary, sortable dashboard tables, and an explorer that stays responsive on slower machines."
+description: "Per-project alert settings, patterns by summary, sortable dashboard tables, and an explorer that stays responsive on slower machines."
 themes:
   - monitors
   - explorer

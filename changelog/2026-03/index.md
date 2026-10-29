@@ -2,6 +2,7 @@
 title: "March 2026"
 date: 2026-03-01
 summary: "Monitors rebuilt around the chart, charts inside alerts, every OpenTelemetry metric type, and far fewer noisy issues."
+description: "Monitors rebuilt around the chart, charts inside alerts, every OpenTelemetry metric type, and far fewer noisy issues."
 themes:
   - monitors
   - issues

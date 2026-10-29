@@ -2,6 +2,7 @@
 title: "August 2026"
 date: 2026-08-01
 summary: "Live Tail, a service map, infrastructure views, source code in stack traces, and dashboards in your terminal."
+description: "Live Tail, a service map, infrastructure views, source code in stack traces, and dashboards in your terminal."
 themes:
   - explorer
   - issues

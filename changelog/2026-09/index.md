@@ -2,6 +2,7 @@
 title: "September 2026"
 date: 2026-09-01
 summary: "Issues become the place you triage everything, with new issue types, uptime and cron monitors, AI conversations and a catalog of built-in routines."
+description: "Issues become the place you triage everything, with new issue types, uptime and cron monitors, AI conversations and a catalog of built-in routines."
 themes:
   - issues
   - monitors

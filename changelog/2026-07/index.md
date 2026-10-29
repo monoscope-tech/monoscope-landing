@@ -2,6 +2,7 @@
 title: "July 2026"
 date: 2026-07-01
 summary: "A rebuilt log explorer, native OpenTelemetry metrics with label breakdowns, replay for long sessions, and faster dashboards and issue pages."
+description: "A rebuilt log explorer, native OpenTelemetry metrics with label breakdowns, replay for long sessions, and faster dashboards and issue pages."
 themes:
   - explorer
   - dashboards

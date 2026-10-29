@@ -2,6 +2,7 @@
 title: "June 2026"
 date: 2026-06-01
 summary: "Prometheus scraping, monitors and dashboards as code, OTLP over HTTP without a collector, and accuracy fixes across the explorer and dashboards."
+description: "Prometheus scraping, monitors and dashboards as code, OTLP over HTTP without a collector, and accuracy fixes across the explorer and dashboards."
 themes:
   - integrations
   - agents

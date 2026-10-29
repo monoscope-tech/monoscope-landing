@@ -2,6 +2,7 @@
 title: "October 2026"
 date: 2026-10-01
 summary: "Pull request reviews backed by your telemetry, a project wiki, rate() and increase() for metrics, and saved views on every dashboard."
+description: "Pull request reviews backed by your telemetry, a project wiki, rate() and increase() for metrics, and saved views on every dashboard."
 themes:
   - ai
   - integrations

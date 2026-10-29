@@ -2,6 +2,7 @@
 title: "April 2025"
 date: 2025-04-01
 summary: "Logs and traces in one explorer with a facets sidebar, retention up to 14 days, and grouped issue notifications."
+description: "Logs and traces in one explorer with a facets sidebar, retention up to 14 days, and grouped issue notifications."
 themes:
   - explorer
   - issues

@@ -2,6 +2,7 @@
 title: "February 2026"
 date: 2026-02-01
 summary: "Log patterns that catch spikes and drops, rebuilt error tracking, PagerDuty, and chart images in chat replies."
+description: "Log patterns that catch spikes and drops, rebuilt error tracking, PagerDuty, and chart images in chat replies."
 themes:
   - issues
   - monitors

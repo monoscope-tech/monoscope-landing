@@ -2,6 +2,7 @@
 title: "April 2026"
 date: 2026-04-01
 summary: "A public REST API and the first monoscope CLI release, a Sessions view, clearer Slack alerts, and quieter issues."
+description: "A public REST API and the first monoscope CLI release, a Sessions view, clearer Slack alerts, and quieter issues."
 themes:
   - agents
   - explorer
