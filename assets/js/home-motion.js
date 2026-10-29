@@ -1,6 +1,17 @@
 // Homepage micro-motion: lamps and sea glints pinned to painted art, and once-only heading reveals.
 (() => {
+  // Morning hero: slide the painting so the lighthouse's foot sits just above the demo tabs at any width
+  const sky = document.querySelector('[data-anchor-to]'), tabs = sky && document.querySelector(sky.dataset.anchorTo);
+  const anchor = () => { if (!tabs.offsetParent) return sky.style.top = ''; sky.style.top = tabs.getBoundingClientRect().top - sky.parentElement.getBoundingClientRect().top - sky.offsetHeight * +sky.dataset.anchorAt + 'px'; };
+  if (tabs) { new ResizeObserver(anchor).observe(sky.parentElement); sky.complete ? anchor() : sky.addEventListener('load', anchor, { once: true }); }
   if (!matchMedia('(prefers-reduced-motion: no-preference)').matches) return;
+  if (sky) {
+    const gull = '<svg viewBox="0 0 22 10"><path d="M1 7 Q6 1 11 6 Q16 1 21 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+    const fx = Object.assign(document.createElement('div'), { className: 'sky-fx', ariaHidden: true });
+    fx.innerHTML = [[3, 0, 110], [12, -40, 95], [20, -75, 120]].map(([top, d, t]) => `<i class="wisp" style="top:${top}rem;--d:${d}s;--t:${t}s"></i>`).join('')
+      + [[24, -6, 34], [25.2, -8.5, 34], [21, -24, 42]].map(([top, d, t]) => `<i class="gull" style="top:${top}rem;left:0;--d:${d}s;--t:${t}s">${gull}</i>`).join('');
+    sky.after(fx);
+  }
 
   // Map image-relative [fx, fy] to the img box, honouring object-fit: cover and object-position.
   const at = (img, fx, fy) => {

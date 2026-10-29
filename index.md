@@ -412,14 +412,16 @@ capabilities:
 <section class="flex flex-col space-y-20 md:space-y-28 items-center relative" style="z-index: 1;">
   <section class="space-y-12 mt-(--inset) w-full flex flex-col items-center">
     <!-- Dark inset hero: gradient sky, painted horizon anchored below the demo -->
-    <div data-theme="dark" class="hero-paint relative panel-w rounded-[2rem] overflow-hidden text-textStrong ring-1 ring-white/10">
-    <img src="/assets/img/home/art/hero-night.webp" alt="" data-art data-lamp="0.821,0.282" data-beam="out" class="absolute inset-x-0 top-0 w-full h-[62%] object-cover object-[50%_0%] brightness-[.72] saturate-[.85] [mask-image:linear-gradient(to_bottom,transparent,black_12%,black_70%,transparent)]">
-    <img src="/assets/img/home/art/hero-shore.webp" alt="" data-art data-glint class="absolute inset-x-0 bottom-0 w-full h-auto min-h-48 object-cover object-[18%_100%] brightness-[.65] saturate-[.9] [mask-image:linear-gradient(to_top,black_55%,rgb(0_0_0/.5)_78%,transparent)]">
-    <div aria-hidden="true" class="absolute inset-0 pointer-events-none bg-[radial-gradient(60%_45%_at_70%_28%,oklch(14%_0.04_270/0.7),transparent_75%)]"></div>
+    <div class="hero-paint hero-sky relative panel-w rounded-[2rem] overflow-hidden text-textStrong ring-1 ring-black/5 dark:ring-white/10">
+    <img src="/assets/img/home/art/hero-morning.webp?v=4" alt="" data-anchor-to="[data-hero-tabs] [role=tablist]" data-anchor-at="0.8" class="dark:hidden absolute inset-x-0 top-0 w-full h-auto max-sm:h-[44%] max-sm:object-cover max-sm:object-[94%_0%] max-sm:opacity-45 [mask-image:linear-gradient(to_bottom,transparent,black_28%,black_80%,transparent)]">
+    <img src="/assets/img/home/art/hero-shore-morning.webp" alt="" class="dark:hidden absolute inset-x-0 bottom-0 w-full h-auto min-h-48 object-cover object-[18%_100%] [mask-image:linear-gradient(to_top,black_55%,rgb(0_0_0/.5)_78%,transparent)]">
+    <img src="/assets/img/home/art/hero-night.webp" alt="" data-art data-lamp="0.821,0.282" data-beam="out" class="hidden dark:block absolute inset-x-0 top-0 w-full h-[62%] object-cover object-[50%_0%] brightness-[.72] saturate-[.85] [mask-image:linear-gradient(to_bottom,transparent,black_12%,black_70%,transparent)]">
+    <img src="/assets/img/home/art/hero-shore.webp" alt="" data-art data-glint class="hidden dark:block absolute inset-x-0 bottom-0 w-full h-auto min-h-48 object-cover object-[18%_100%] brightness-[.65] saturate-[.9] [mask-image:linear-gradient(to_top,black_55%,rgb(0_0_0/.5)_78%,transparent)]">
+    <div aria-hidden="true" class="absolute inset-0 pointer-events-none bg-[radial-gradient(75%_34%_at_50%_24%,rgb(255_255_255/0.72),rgb(255_255_255/0.4)_50%,transparent_85%)] dark:bg-[radial-gradient(60%_45%_at_70%_28%,oklch(14%_0.04_270/0.7),transparent_75%)]"></div>
     <div class="relative flex flex-col items-center space-y-12 pt-16 sm:pt-28">
       <div class="grid md:grid-cols-[3fr_2fr] wrap-in gap-8 md:gap-x-16 md:gap-y-5 items-start mb-[clamp(5rem,10vw,12rem)]!">
         <div class="flex flex-col gap-5 md:contents">
-          <h1 class="md:col-start-1 md:row-start-1 text-5xl md:text-7xl font-medium tracking-tight leading-tight text-balance text-textStrong">Know what happened.<br class="hidden md:block"> <span class="text-textDisabled dark:text-textWeak">Fix it. Prove it.</span></h1>
+          <h1 class="md:col-start-1 md:row-start-1 text-5xl md:text-7xl font-medium tracking-tight leading-tight text-balance text-textStrong">Know what happened.<br class="hidden md:block"> <span class="text-textWeak">Fix it. Prove it.</span></h1>
         </div>
         <div class="hero-copy md:col-start-2 md:row-start-1 space-y-6 md:pt-2">
           <p class="text-lg md:text-2xl leading-relaxed text-textStrong/85 text-pretty max-w-[44ch]">Observability data lake and an AI SRE agent, to catch issues and continuously improve production.</p>
@@ -441,13 +443,13 @@ capabilities:
           {% for sh in shots %}{% assign f = sh | split: "|" %}
           <li class="snap-center shrink-0 w-[85%] space-y-3">
             <img src="/assets/img/home/capabilities/{{f[0]}}.webp?v=5" alt="" width="1280" height="800" loading="lazy" class="w-full rounded-xl ring-1 ring-white/10">
-            <p class="text-sm text-white/70 text-pretty">{{f[1]}}</p>
+            <p class="text-sm text-textWeak text-pretty">{{f[1]}}</p>
           </li>
           {% endfor %}
         </ul>
       </div>
       <div class="hidden sm:block wrap-in pb-12 sm:pb-24" data-hero-tabs>
-        <div role="tablist" aria-label="Product demos" class="relative z-10 mx-auto -mb-6 sm:-mb-7 w-fit flex items-center gap-1 rounded-xl border border-white/10 bg-[oklch(15%_0.02_285/0.92)] backdrop-blur p-1.5 shadow-[0_12px_32px_-12px_rgb(0_0_0/0.8)]">
+        <div role="tablist" aria-label="Product demos" data-theme="dark" class="relative z-10 mx-auto -mb-6 sm:-mb-7 w-fit flex items-center gap-1 rounded-xl border border-white/10 bg-[oklch(15%_0.02_285/0.92)]! backdrop-blur p-1.5 shadow-[0_12px_32px_-12px_rgb(0_0_0/0.8)]">
           {% for s in this.frontmatter.hero_tabs %}{% unless forloop.first %}<span aria-hidden="true" class="w-px h-5 bg-white/15"></span>{% endunless %}
           <button type="button" role="tab" id="hero-tab-{{s.id}}" aria-controls="hero-demo-{{s.id}}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" {% unless forloop.first %}tabindex="-1"{% endunless %} class="group tone-{{s.tone}} relative overflow-hidden flex items-center gap-2 rounded-lg px-3 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-medium text-white/60 hover:text-white transition-colors aria-selected:text-(--tone) aria-selected:bg-[color-mix(in_oklab,var(--tone-fill)_14%,transparent)]">
             <span data-fill aria-hidden="true" class="hidden group-aria-selected:block absolute inset-0 origin-left scale-x-0 transition-transform duration-50 ease-linear bg-[color-mix(in_oklab,var(--tone-fill)_45%,transparent)]"></span>
@@ -456,7 +458,7 @@ capabilities:
           {% endfor %}
         </div>
         {% for s in this.frontmatter.hero_tabs %}
-        <div role="tabpanel" id="hero-demo-{{s.id}}" aria-labelledby="hero-tab-{{s.id}}" {% unless forloop.first %}hidden{% endunless %} class="rounded-xl border border-strokeWeak bg-bgRaised overflow-hidden shadow-[0_30px_80px_-20px_rgb(0_0_0/0.7)]">
+        <div role="tabpanel" id="hero-demo-{{s.id}}" aria-labelledby="hero-tab-{{s.id}}" {% unless forloop.first %}hidden{% endunless %} data-theme="dark" class="rounded-xl border border-strokeWeak bg-bgRaised! overflow-hidden shadow-[0_30px_80px_-20px_rgb(0_0_0/0.7)]">
           <div class="h-[31px] border-b border-strokeWeak"></div>
           <div class="relative bg-fillWeak" style="aspect-ratio: 1180 / 820;"><demo-scene src="{{s.demo}}" class="absolute inset-0"></demo-scene></div>
         </div>
@@ -483,7 +485,7 @@ capabilities:
         </script>
       </div>
 
-      <div class="w-full grid grid-cols-4 sm:grid-cols-8 gap-px bg-white/10 border-t border-white/10 *:bg-black/35 *:backdrop-blur-sm *:p-5 *:flex *:items-center *:justify-center [&_img]:h-5 [&_img]:sm:h-7 [&_img]:brightness-0 [&_img]:invert [&_img]:opacity-70">
+      <div class="w-full grid grid-cols-4 sm:grid-cols-8 gap-px bg-black/5 dark:bg-white/10 border-t border-black/5 dark:border-white/10 *:bg-white/45 dark:*:bg-black/35 *:backdrop-blur-sm *:p-5 *:flex *:items-center *:justify-center [&_img]:h-5 [&_img]:sm:h-7 [&_img]:brightness-0 dark:[&_img]:invert [&_img]:opacity-70">
           {% assign customers = "Andela|andela.svg,Partna|partna.svg,Grovepay|grovepay.svg,Sameday|sameday.svg,Platnova|platnova.png,Payfonte|payfonte.svg,Thepeer|thepeer.svg,Blockradar|blockradar-full.svg" | split: "," %}
           {% for c in customers %}{% assign cn = c | split: "|" %}<div><img src="/assets/img/customers/{{cn[1]}}" alt="{{cn[0]}}"></div>{% endfor %}
       </div>
@@ -688,7 +690,8 @@ capabilities:
             </div>
           </div>
           {% else %}
-          <div class="hidden sm:block relative rounded-xl border border-strokeWeak bg-bgRaised overflow-hidden shadow-[0_24px_64px_-32px_var(--tone-fill)]">
+          <div data-theme="dark" class="hidden sm:block relative rounded-xl border border-strokeWeak bg-bgRaised! overflow-hidden shadow-[0_24px_64px_-32px_var(--tone-fill)]">
+            <div class="flex items-center gap-1.5 px-4 h-[31px] border-b border-strokeWeak"><i class="block size-2.5 rounded-full bg-white/15"></i><i class="block size-2.5 rounded-full bg-white/15"></i><i class="block size-2.5 rounded-full bg-white/15"></i></div>
             <div class="relative bg-fillWeak" style="aspect-ratio: 1180 / 820;"><demo-scene src="{{s.demo}}" class="absolute inset-0"></demo-scene></div>
           </div>
           {% endif %}
