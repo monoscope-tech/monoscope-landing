@@ -1,390 +1,218 @@
 ---
 title: Pricing
+description: Free up to 10k events a day. monoscope Cloud is $29 a month for 20M events, then $1 per million, with request and response bodies included. Self-host the open-source edition for free.
 date: 2022-03-23
-updatedDate: 2024-06-15
-enableFreeTier: true
+updatedDate: 2026-10-29
+plans:
+  - eyebrow: Free
+    name: Try it on real traffic
+    icon: zap
+    price: Free
+    price_note: up to 10k events a day
+    bullets: ["10k events a day", "Request and response bodies included", "Unlimited team members", "30 days of retention", "No credit card"]
+    cta: { label: Start for free, href: "https://app.monoscope.tech", tracking: pricing-plan-free, event: SignUp }
+  - eyebrow: monoscope Cloud
+    name: Keep every event
+    icon: cloud
+    featured: true
+    price: $29
+    price_unit: /month
+    price_note: includes 20M events, then $1 per million
+    bullets: ["Every event kept, never sampled", "Request and response bodies included", "20M metric datapoints, then $1 per 10M", "2,000 session replays, then $1 per 1,000", "30 days of retention", "No host or seat fees"]
+    addon: { name: "Your own S3 bucket", price: "+$199/month", note: "Every event written to your bucket as open Delta Lake and Parquet. Unlimited retention, queryable from monoscope, DuckDB or Spark." }
+    cta: { label: Get started, href: "https://app.monoscope.tech", tracking: pricing-plan-cloud, event: SignUp }
+  - eyebrow: Self-hosted
+    name: Run it on your servers
+    icon: server
+    badge: Open source
+    price: Free
+    price_note: Community Edition, AGPL-3.0
+    bullets: ["The whole platform, open source", "Deploy to your own servers", "Data never leaves your network", "Enterprise adds SSO, an SLA and priority support, from $500/month"]
+    cta: { label: View on GitHub, href: "https://github.com/monoscope-tech/monoscope", tracking: pricing-plan-github, event: ViewContent, external: true }
+plan_cols: [Free, Cloud, Cloud + your bucket, Self-hosted]
+plan_rows:
+  - [Events, 10k a day, "20M included, then $1 per million", "20M included, then $1 per million", Unlimited]
+  - [Request and response bodies, Included, Included, Included, Included]
+  - [Metric datapoints, "Included, within free limits", "20M included, then $1 per 10M", "20M included, then $1 per 10M", Unlimited]
+  - [Session replays, "Included, within free limits", "2,000 included, then $1 per 1,000", "2,000 included, then $1 per 1,000", Unlimited]
+  - [Retention, 30 days, 30 days, Unlimited, You decide]
+  - [Where your data lives, monoscope Cloud, monoscope Cloud, Your S3 bucket, Your servers]
+  - [Team members, Unlimited, Unlimited, Unlimited, Unlimited]
+  - [Price, Free, From $29/month, From $228/month, "Free, Enterprise from $500/month"]
+event_example:
+  - [POST /checkout, incoming request, "span"]
+  - [POST api.stripe.com/v1/charges, outgoing call, "span"]
+  - ["payment authorized", log line, "log"]
+  - ["order 8812 created", log line, "log"]
 faqs:
-  - q: What's included in the free tier?
-    a: The free tier includes 10,000 events per day, unlimited team members, 30 days data retention, and access to all core features including logs, traces, API documentation, and custom monitors. Perfect for hobby projects and getting started.
-  - q: How does pricing scale with usage?
-    a: After the free tier, you pay $29/month for up to 20M events, then $1 per million events after that. The plan also includes 20M metric datapoints (then $1 per 10M) and 2,000 session replays (then $1 per 1,000). For example, 50M events/month costs $59 ($29 base + $30 for 30M extra events). If you want everything written to your own S3 bucket with unlimited retention, add $199/month.
-  - q: What's the difference between deployment options?
-    a: <strong>Free:</strong> 10k events a day, 30-day retention, no credit card. <strong>Cloud:</strong> Fully managed, $29/month for 20M events, then $1 per million. Add your own S3 bucket for $199/month to keep every event in your bucket with unlimited retention. <strong>Self-hosted:</strong> Run on your servers, complete control, free community edition or custom enterprise pricing.
-  - q: Can I switch between plans?
-    a: Yes. You can upgrade or switch deployment options anytime. When you turn on your own bucket, we'll help migrate your historical data into it. For self-hosted, our team provides migration assistance.
   - q: What counts as an event?
-    a: An event includes API requests, log entries, traces, spans, and metric data points. We count all telemetry data processed by Monoscope. Unlike competitors, we never sample or drop your data—every event is stored and searchable.
-  - q: Do you offer volume discounts?
-    a: Yes, we offer custom pricing for high-volume usage (typically above 1 billion events/month). Contact our sales team at <a href="mailto:hello@monoscope.tech" class="text-textBrand">hello@monoscope.tech</a> to discuss your specific needs.
+    a: "Each log record and each span is one event. An incoming or outgoing HTTP request is one span, and its headers, request body and response body come with it. Metric datapoints and session replays are metered on their own: 20M datapoints and 2,000 replays are included, then $1 per 10M datapoints and $1 per 1,000 replays."
+  - q: Do request and response bodies cost extra?
+    a: No. A request with a 40 kB response body is one event, the same as a request with no body. You never have to choose which payloads to keep to control the bill.
+  - q: What happens when the free plan goes over 10k events a day?
+    a: We keep a sample spread across the rest of the day instead of cutting off at the limit, and a kept trace stays whole. Paid plans keep every event.
+  - q: How does the bill grow with usage?
+    a: "$29 a month covers 20M events. After that it's $1 per million, so 50M events a month is $59 ($29 plus $30 for the extra 30M). There are no host, seat or indexing fees. Use the estimator above to add metrics and replays."
+  - q: What does my own S3 bucket add?
+    a: For $199 a month on top of Cloud, every event is written to your S3-compatible bucket as open Delta Lake and Parquet tables. Retention is unlimited, and you can query the data from monoscope, DuckDB, Spark or any Postgres client.
+  - q: Can I self-host monoscope for free?
+    a: Yes. The Community Edition is open source under AGPL-3.0 and free to run on your own servers. Enterprise adds SSO, an SLA and priority support, starting at $500 a month.
+  - q: Can I switch plans later?
+    a: Yes, at any time. When you turn on your own bucket, we help move your existing data into it. If you move to self-hosting, an engineer from our team can help with the migration.
+  - q: Do you offer volume pricing?
+    a: Yes, usually above a billion events a month. Email <a href="mailto:hello@monoscope.tech" class="text-textBrand underline underline-offset-2">hello@monoscope.tech</a> or <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" rel="noopener noreferrer" class="text-textBrand underline underline-offset-2">book a call</a> with your numbers.
+  - q: Where is my data stored?
+    a: In monoscope Cloud, in the US or the EU, your choice. With your own bucket, the data sits in your account. Self-hosted, it never leaves your network.
+  - q: Are you SOC 2 or ISO 27001 certified?
+    a: Not yet. We sign data processing agreements (DPAs) for GDPR, the code that handles your data is open source, and you can keep every event in your own bucket or on your own servers.
+  - q: Is there a startup discount?
+    a: Yes. Startups under two years old, with fewer than five people and less than $100k raised, can get up to $10,000 off their first year. <a href="https://tally.so/r/n9vVkY" target="_blank" rel="noopener noreferrer" class="text-textBrand underline underline-offset-2">Apply in 2 minutes</a>.
 ---
 
 ```=html
-<div class="w-full">
-    <header class="w-full mt-32">
-        <div class="max-w-8xl mx-auto px-3">
-            <div class="w-full flex flex-col items-center text-center gap-5 text-textWeak">
-                <h1 class="text-4xl leading-tight font-normal text-textStrong">Flexible pricing <span class="text-textDisabled">for every company</span></h1>
-                <p class="text-2xl leading-normal">Regardless of your company's size or compliance requirements, monoscope operates <br/>within your business and regulatory constraints.</p>
-                <br/><br/>
+{% render "default/components/page-style" %}
+{% assign check = '<svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5"/></svg>' %}
+<section class="flex flex-col items-center relative" style="z-index: 1;">
+
+  <!-- Plans -->
+  <section class="tone-brand relative w-full mt-(--inset)">
+    <div aria-hidden="true" class="absolute inset-y-0 left-1/2 -translate-x-1/2 panel-w rounded-[2rem] overflow-hidden bg-(--tone-panel) border border-(--tone-weak)"></div>
+    <div class="relative wrap max-w-[80rem] pt-20 md:pt-32 pb-16 md:pb-24 space-y-14">
+      <div class="space-y-6 max-w-3xl [&>p:first-child]:mb-3.5">
+        <p class="inline-flex rounded-md px-2.5 py-1 eyebrow font-mono text-[12px] uppercase tracking-wider bg-(--tone-weak)">Pricing</p>
+        <h1 class="text-4xl md:text-6xl font-medium tracking-tight leading-[1.15] text-balance text-textStrong">Pay per event. <span class="text-textWeak">Every request and response included.</span></h1>
+        <p class="max-w-[60ch] text-lg md:text-xl leading-[1.65] text-textWeak text-pretty">Free up to 10k events a day. Cloud is $29 a month for 20M events, then $1 per million. Bodies, hosts and team members never add to the bill.</p>
+      </div>
+      <div class="grid lg:grid-cols-3 gap-4 items-stretch">
+        {% for p in this.frontmatter.plans %}
+        <article class="card relative rounded-2xl border p-6 md:p-7 flex flex-col gap-6 {% if p.featured %}border-strokeBrand-strong ring-1 ring-strokeBrand-strong{% else %}border-strokeWeak{% endif %}">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between gap-3">
+              <p class="inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-wider text-textWeak"><svg class="size-4 text-(--tone)" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#{{p.icon}}"></use></svg>{{p.eyebrow}}</p>
+              {% if p.badge %}<span class="rounded-full bg-fillSuccess-weak px-2.5 py-0.5 text-[12px] font-medium text-textSuccess">{{p.badge}}</span>{% endif %}
             </div>
-        </div>
-    </header>
-    <div class="max-w-8xl mx-auto px-3">
-        <section class="w-full grid grid-cols-1 md:grid-cols-3 gap-8 pt-5 pb-12">
-
-            {% if this.frontmatter.enableFreeTier %}
-            <!-- FREE -->
-            <div class="rounded-xl border border-strokeWeak p-8 flex flex-col">
-                <div class="inline-block p-3 bg-fillBrand-weak rounded-full w-fit"><svg class="w-5 h-5 text-iconBrand"><use xlink:href="/assets/deps/sprite.svg#zap"></use></svg></div>
-                <div class="mt-8 mb-6">
-                    <p class="text-sm font-medium text-textDisabled dark:text-textWeak uppercase tracking-wide">FREE</p>
-                    <h3 class="text-2xl font-semibold text-textStrong">Try it on real traffic</h3>
-                </div>
-                <ul class="space-y-3 text-lg mb-8 flex-1 list-disc list-inside marker:text-iconBrand">
-                    <li><strong>10k events a day</strong></li>
-                    <li>All core features</li>
-                    <li>Unlimited team members</li>
-                    <li><strong>30 days data retention</strong></li>
-                    <li>No credit card</li>
-                </ul>
-                <div class="border-t border-strokeWeak pt-6 space-y-4 mt-auto">
-                    <div class="space-y-2">
-                        <p class="text-sm text-textDisabled uppercase tracking-wide">Pricing</p>
-                        <p class="text-2xl font-semibold text-textStrong">Free <span class="text-base font-normal text-textWeak">up to 10k events/day, forever</span></p>
-                    </div>
-                    <a href="https://app.monoscope.tech" class="block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium hover:bg-fillBrand-weak transition-colors">Start for free</a>
-                </div>
-            </div>
-            {% endif %}
-
-            <!-- MONOSCOPE CLOUD -->
-            <div class="rounded-xl border-2 border-strokeBrand-strong bg-fillBrand-weak p-8 flex flex-col">
-                <div class="inline-block p-3 bg-fillBrand-weak rounded-full w-fit"><svg class="w-5 h-5 text-iconBrand"><use xlink:href="/assets/deps/sprite.svg#cloud"></use></svg></div>
-                <div class="mt-8 mb-6">
-                    <p class="text-sm font-medium text-textDisabled dark:text-textWeak uppercase tracking-wide">MONOSCOPE CLOUD</p>
-                    <h3 class="text-2xl font-semibold text-textStrong">Bring nothing</h3>
-                </div>
-
-                <ul class="space-y-3 text-lg mb-8 flex-1 list-disc list-inside marker:text-iconBrand">
-                    <li>Fully managed cloud service</li>
-                    <li><strong>Predictable usage-based</strong> pricing</li>
-                    <li>Intelligent incident alerts</li>
-                    <li>Query your data in english</li>
-                    <li><strong>30 days data retention</strong> included, or unlimited in your own bucket</li>
-                </ul>
-
-                <div class="mb-8">
-                    <p class="text-sm text-textDisabled mb-2">Estimate your monthly cost</p>
-                    <input type="range" min="20000000" max="500000000" step="10000000" value="20000000" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range" id="cloud_price_range" aria-label="Events per month">
-                    <div class="flex justify-between text-sm text-textWeak mt-1">
-                        <span>20M</span>
-                        <span>250M</span>
-                        <span>500M events</span>
-                    </div>
-                </div>
-
-                <label for="cloud_bucket" class="mb-8 flex gap-3 rounded-lg border border-strokeWeak bg-fillWeaker p-4 cursor-pointer has-checked:border-strokeBrand-strong has-checked:bg-fillBrand-weak">
-                    <input type="checkbox" id="cloud_bucket" class="checkbox checkbox-sm mt-1">
-                    <span class="space-y-1">
-                        <span class="block font-semibold text-textStrong">Write to your own S3 bucket <span class="font-normal text-textWeak">+$199/month</span></span>
-                        <span class="block text-sm text-textWeak">Every event lands in your S3-compatible bucket as open Delta Lake and Parquet tables. Unlimited retention, queryable from monoscope, DuckDB or Spark.</span>
-                    </span>
-                </label>
-
-                <div class="border-t border-strokeWeak pt-6 space-y-4">
-                    <div class="space-y-2">
-                        <p class="text-sm text-textDisabled uppercase tracking-wide">Pricing</p>
-                        <p class="text-2xl font-semibold text-textStrong"><span id="cloud_price">$29</span> <span class="text-base font-normal text-textWeak" id="cloud_price_desc">/month for 20M events</span></p>
-                        <p class="text-base text-textWeak"><strong class="text-textStrong">$29/month</strong> for up to 20M events, + <strong class="text-textStrong">$1 per 1M events</strong> after. Includes 20M metric datapoints (then $1 per 10M) and 2,000 session replays (then $1 per 1,000). Your own bucket is <strong class="text-textStrong">+$199/month</strong>.</p>
-
-                    </div>
-                    <a href="https://app.monoscope.tech" class="block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium hover:bg-fillBrand-weak transition-colors">Get started</a>
-                </div>
-            </div>
-
-
-            <!-- SELF-HOSTED PLAN -->
-            <div class="rounded-xl border border-strokeWarning-weak bg-fillWarning-weak p-8 flex flex-col relative">
-                <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-fillSuccess-strong text-textInverse-strong px-4 py-1 rounded-full text-sm font-medium">OPEN SOURCE</div>
-                <div class="inline-block p-3 bg-fillBrand-weak rounded-full w-fit"><svg class="w-5 h-5 text-iconBrand"><use xlink:href="/assets/deps/sprite.svg#server"></use></svg></div>
-                <div class="mt-8 mb-6">
-                    <p class="text-sm font-medium text-textDisabled dark:text-textWeak uppercase tracking-wide">SELF-HOSTED</p>
-                    <h3 class="text-2xl font-semibold text-textStrong">Bring your own servers</h3>
-                </div>
-
-                <div class="mb-6 space-y-4">
-                    <div>
-                        <p class="text-sm font-semibold text-textStrong uppercase tracking-wide mb-2">Community Edition (Free)</p>
-                        <ul class="space-y-2 text-base list-disc list-inside marker:text-iconSuccess">
-                            <li><strong>100% open source</strong> (AGPL 3.0)</li>
-                            <li>All core monitoring features</li>
-                            <li>Deploy to your own servers</li>
-                            <li>Complete data control</li>
-                        </ul>
-                    </div>
-                    <br/>
-                    <div>
-                        <p class="text-sm font-semibold text-textStrong uppercase tracking-wide mb-2">Enterprise Edition</p>
-                        <ul class="space-y-2 text-base list-disc list-inside marker:text-iconBrand">
-                            <li>Premium features & integrations</li>
-                            <li><strong>SSO</strong> & advanced auth</li>
-                            <li><strong>Priority support</strong> & SLA</li>
-                            <li>Advanced security & compliance</li>
-                        </ul>
-                    </div>
-                </div>
-                <br/>
-                <div class="border-t border-strokeWeak pt-6 space-y-4 mt-auto">
-                    <div class="space-y-2">
-                        <p class="text-sm text-textDisabled uppercase tracking-wide">Pricing</p>
-                        <p class="text-base text-textWeak">Community Edition: <strong class="text-textStrong text-2xl">Free</strong> <span class="text-sm">(forever)</span></p>
-                        <p class="text-base text-textWeak">Enterprise: <strong class="text-textStrong">starts at $500/month</strong></p>
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <a href="https://github.com/monoscope-tech/monoscope" target="_blank" rel="noopener noreferrer" class="block text-center py-3 px-6 bg-fillBrand-strong text-textInverse-strong rounded-lg font-medium hover:bg-fillBrand-weak transition-colors">View on GitHub</a>
-                        <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" rel="noopener noreferrer" class="block text-center py-2.5 px-6 bg-transparent text-fillBrand-strong border border-fillBrand-strong rounded-lg font-medium hover:bg-fillBrand-weak hover:text-textStrong transition-colors text-sm">Discuss Enterprise with an engineer</a>
-                    </div>
-                </div>
-            </div>
-
-        </section>
-
-        <!-- Feature Comparison Table -->
-        <section class="w-full py-12 text-textWeak">
-            <div class="max-w-6xl mx-auto">
-                <h2 class="text-2xl font-semibold text-center mb-8 text-textStrong">Compare Features Across Plans.</h2>
-                <div class="overflow-x-auto">
-                    <table class="w-full border border-gray-200 rounded-lg overflow-hidden">
-                        <thead class="bg-fillWeak">
-                            <tr>
-                                <th class="text-left p-4 font-semibold text-textStrong">Features</th>
-                                <th class="text-center p-4 font-semibold text-textStrong">Free</th>
-                                <th class="text-center p-4 font-semibold text-textStrong">Monoscope Cloud</th>
-                                <th class="text-center p-4 font-semibold text-textStrong">Self-Hosted</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200">
-                            <tr class="hover:bg-fillWeak">
-                                <td class="p-4 text-textWeak">Events</td>
-                                <td class="p-4 text-center">10k a day</td>
-                                <td class="p-4 text-center">Unlimited, $1 per 1M after 20M</td>
-                                <td class="p-4 text-center">Unlimited</td>
-                            </tr>
-                            <tr class="hover:bg-fillWeak">
-                                <td class="p-4 text-textWeak">Data retention</td>
-                                <td class="p-4 text-center">30 days</td>
-                                <td class="p-4 text-center">30 days, or unlimited in your own bucket (+$199/mo)</td>
-                                <td class="p-4 text-center">Custom</td>
-                            </tr>
-                            <tr class="hover:bg-fillWeak">
-                                <td class="p-4 text-textWeak">Team members</td>
-                                <td class="p-4 text-center">Unlimited</td>
-                                <td class="p-4 text-center">Unlimited</td>
-                                <td class="p-4 text-center">Unlimited</td>
-                            </tr>
-                            <tr class="hover:bg-fillWeak">
-                                <td class="p-4 text-textWeak">Data ownership</td>
-                                <td class="p-4 text-center">Monoscope managed</td>
-                                <td class="p-4 text-center">Monoscope managed, or your own S3 bucket</td>
-                                <td class="p-4 text-center"><strong class="text-textStrong">Complete control</strong></td>
-                            </tr>
-                            <tr class="hover:bg-fillWeak">
-                                <td class="p-4 text-textWeak">Infrastructure</td>
-                                <td class="p-4 text-center">Fully managed</td>
-                                <td class="p-4 text-center">Fully managed</td>
-                                <td class="p-4 text-center">Self-managed</td>
-                            </tr>
-                            <tr class="hover:bg-fillWeak">
-                                <td class="p-4 text-textWeak">Setup time</td>
-                                <td class="p-4 text-center"><strong class="text-iconSuccess">&lt; 5 minutes</strong></td>
-                                <td class="p-4 text-center"><strong class="text-iconSuccess">&lt; 5 minutes</strong></td>
-                                <td class="p-4 text-center">Varies</td>
-                            </tr>
-                            <tr class="hover:bg-fillWeak">
-                                <td class="p-4 text-textWeak">Support</td>
-                                <td class="p-4 text-center">Community</td>
-                                <td class="p-4 text-center">Community + Email</td>
-                                <td class="p-4 text-center">Custom SLA available</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Startup Program Section -->
-        <section class="w-full py-16">
-            <div class="max-w-5xl mx-auto px-3">
-                <div class="relative">
-                    <!-- Main container with gradient border effect -->
-                    <div class="relative rounded-3xl bg-gradient-to-r from-fillBrand-strong via-fillBrand-weak to-fillBrand-strong p-[1px]">
-                        <div class="rounded-3xl bg-bgBase overflow-hidden">
-                            <!-- Pattern background -->
-                            <div class="absolute inset-0 opacity-5">
-                                <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%230068ff" fill-opacity="1"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
-                            </div>
-
-                            <div class="relative grid md:grid-cols-2 items-center">
-                                <!-- Left side content -->
-                                <div class="p-8 md:p-12 space-y-6">
-                                    <div class="space-y-4">
-                                        <div class="inline-flex items-center gap-2">
-                                            <div class="w-10 h-10 rounded-full bg-fillBrand-weak flex items-center justify-center">
-                                                <svg class="w-5 h-5 text-iconBrand"><use xlink:href="/assets/deps/sprite.svg#zap"></use></svg>
-                                            </div>
-                                            <span class="text-sm font-semibold text-textBrand uppercase tracking-wider">Startup Program</span>
-                                        </div>
-
-                                        <h2 class="text-3xl md:text-4xl font-normal text-textStrong leading-tight">
-                                            Save up to <span class="text-textBrand">$10,000</span><br/>
-                                            on your first year
-                                        </h2>
-
-                                        <p class="text-lg text-textWeak">
-                                            Building the next big thing? We'll cover up to 100% of your monoscope costs while you focus on growth.
-                                        </p>
-                                    </div>
-
-                                    <div class="pt-2">
-                                        <a href="https://tally.so/r/n9vVkY" target="_blank" class="inline-flex items-center gap-3 px-6 py-3 bg-fillBrand-strong text-textInverse-strong rounded-xl font-semibold hover:shadow-lg hover:shadow-fillBrand-strong/20 transition-all duration-200 group">
-                                            Apply in 2 minutes
-                                            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform"><use xlink:href="/assets/deps/sprite.svg#arrow-right"></use></svg>
-                                        </a>
-                                        <p class="text-sm text-textWeak mt-3">No credit card required</p>
-                                    </div>
-                                </div>
-
-                                <!-- Right side - Qualification badges -->
-                                <div class="p-8 md:p-12 bg-gradient-to-br from-fillBrand-weak/50 to-transparent">
-                                    <p class="text-sm font-medium text-textWeak uppercase tracking-wide mb-6">You qualify if you have:</p>
-                                    <div class="grid grid-cols-2 gap-3">
-                                        <div class="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-2xl p-5 border border-strokeBrand-weak hover:border-strokeBrand-strong transition-colors group">
-                                            <div class="flex items-start gap-3">
-                                                <div class="w-8 h-8 rounded-lg bg-fillBrand-weak flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                                                    <svg class="w-4 h-4 text-iconBrand"><use xlink:href="/assets/deps/sprite.svg#calendar"></use></svg>
-                                                </div>
-                                                <div>
-                                                    <p class="text-2xl font-bold text-textStrong">< 2</p>
-                                                    <p class="text-sm text-textWeak">years since founding</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-2xl p-5 border border-strokeBrand-weak hover:border-strokeBrand-strong transition-colors group">
-                                            <div class="flex items-start gap-3">
-                                                <div class="w-8 h-8 rounded-lg bg-fillBrand-weak flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                                                    <svg class="w-4 h-4 text-iconBrand"><use xlink:href="/assets/deps/sprite.svg#users"></use></svg>
-                                                </div>
-                                                <div>
-                                                    <p class="text-2xl font-bold text-textStrong">< 5</p>
-                                                    <p class="text-sm text-textWeak">team members</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-2xl p-5 border border-strokeBrand-weak hover:border-strokeBrand-strong transition-colors group">
-                                            <div class="flex items-start gap-3">
-                                                <div class="w-8 h-8 rounded-lg bg-fillBrand-weak flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                                                    <svg class="w-4 h-4 text-iconBrand"><use xlink:href="/assets/deps/sprite.svg#dollar-sign"></use></svg>
-                                                </div>
-                                                <div>
-                                                    <p class="text-2xl font-bold text-textStrong">< $100k</p>
-                                                    <p class="text-sm text-textWeak">in funding raised</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-2xl p-5 border border-strokeBrand-weak hover:border-strokeBrand-strong transition-colors group">
-                                            <div class="flex items-start gap-3">
-                                                <div class="w-8 h-8 rounded-lg bg-fillBrand-weak flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                                                    <svg class="w-4 h-4 text-iconBrand"><use xlink:href="/assets/deps/sprite.svg#code"></use></svg>
-                                                </div>
-                                                <div>
-                                                    <p class="text-2xl font-bold text-textStrong">SaaS</p>
-                                                    <p class="text-sm text-textWeak">or software product</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Floating badge -->
-                    <div class="absolute -top-4 -right-4 bg-fillWarning-weak text-textWarning-strong px-4 py-2 rounded-full text-sm font-semibold shadow-lg animate-bounce">
-                        Limited spots available
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Trusted by developers section -->
-        <div class="max-w-8xl px-3 w-full text-textWeak py-12 mx-auto">
-            <div class="space-y-8">
-                <p class="">Trusted by 5000+ developers at proactive engineering companies</p>
-                <div class="grid grid-cols-4 sm:grid-cols-8 *:col-span-1  gap-4 md:gap-8  items-center *:brightness-0 *:dark:invert opacity-50">
-                    <img src="/assets/img/customers/andela.svg" alt="andela.svg" class="h-5 sm:h-8"><img src="/assets/img/customers/partna.svg" alt="partna.svg" class="h-5 sm:h-8"><img src="/assets/img/customers/grovepay.svg" alt="grovepay.svg" class="h-5 sm:h-8"><img src="/assets/img/customers/sameday.svg" alt="sameday.svg" class="h-5 sm:h-8"><img src="/assets/img/customers/platnova.png" alt="platnova.png" class="h-5 sm:h-8"><img src="/assets/img/customers/payfonte.svg" alt="payfonte.svg" class="h-5 sm:h-8"><img src="/assets/img/customers/thepeer.svg" alt="thepeer.svg" class="h-5 sm:h-8"><img src="/assets/img/customers/blockradar-full.svg" alt="blockradar-full.svg" class="h-5 sm:h-8">
-                </div>
-                <div class="flex flex-col sm:flex-row text-textWeak gap-24 py-6">
-                    <div class="timeline-fade-in flex-1 border-l border-fillBrand-strong px-6 py-2 space-y-4">
-                        <div class="flex gap-1"><div class="inline-flex space-x-1  w-[6rem]">
-                            <svg class="icon h-5 inline-block"><use xlink:href="/assets/deps/sprite.svg#star"></use></svg><svg class="icon h-5 inline-block"><use xlink:href="/assets/deps/sprite.svg#star"></use></svg><svg class="icon h-5 inline-block"><use xlink:href="/assets/deps/sprite.svg#star"></use></svg><svg class="icon h-5 inline-block"><use xlink:href="/assets/deps/sprite.svg#star"></use></svg><svg class="icon h-5 inline-block"><use xlink:href="/assets/deps/sprite.svg#star"></use></svg>
-                        </div></div>
-                        <p>"Easy onboarding and they added an integration just for our use case, thanks again! We didn't have insights into our api load before and this helps very much."</p>
-                        <div class="flex gap-3 items-center">
-                            <img class="rounded-lg grayscale w-12 h-12 object-cover" src="/assets/img/love/sebastian_zwach.jpeg">
-                            <div class="flex-1 space-y-1">
-                                <p class="text-textStrong">Sebastian Zwach</p>
-                                <p class="text-xs">founder of Neorent GmbH</p>
-                            </div>
-                        </div>
-                        <a class="text-textBrand underline underline-offset-2 block">Neorent case study</a>
-                    </div>
-                    <div class="timeline-fade-in flex-1 border-l border-fillBrand-strong px-6 py-2 space-y-4">
-                        <div class="flex gap-1"><div class="inline-flex space-x-1  w-[6rem]">
-                            <svg class="icon h-5 inline-block"><use xlink:href="/assets/deps/sprite.svg#star"></use></svg><svg class="icon h-5 inline-block"><use xlink:href="/assets/deps/sprite.svg#star"></use></svg><svg class="icon h-5 inline-block"><use xlink:href="/assets/deps/sprite.svg#star"></use></svg><svg class="icon h-5 inline-block"><use xlink:href="/assets/deps/sprite.svg#star"></use></svg><svg class="icon h-5 inline-block"><use xlink:href="/assets/deps/sprite.svg#star"></use></svg>
-                        </div></div>
-                        <p>"We had a major incident, and our tech support could see via APItookit which third-party integration partner was responsible, and could take action without needing the engineering team's help"</p>
-                        <div class="flex gap-3 items-center">
-                            <img class="rounded-lg grayscale w-12 h-12 object-cover" src="/assets/img/love/joshua.jpeg">
-                            <div class="flex-1 space-y-1">
-                                <p class="text-textStrong">Joshua Chinemezum</p>
-                                <p class="text-xs">CEO of Platnova</p>
-                            </div>
-                        </div>
-                        <a class="text-textBrand underline underline-offset-2 block">Platnova case study</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- FAQ Section -->
-        <section class="w-full py-16">
-          <div class="flex flex-col md:flex-row gap-16">
-              <div class="md:w-1/3 space-y-4">
-                  <h2 class="text-5xl leading-tight font-normal text-textStrong">Frequently Asked <span class="text-textDisabled">Questions</span></h2>
-                  <p class="text-2xl leading-normal text-textWeak">Here are some questions many have asked us.</p>
-                  <a href="/docs/faqs/" class="text-lg text-textBrand underline block">View all FAQs</a>
-              </div>
-
-              <div class="md:w-2/3 space-y-3">
-                {% for faq in this.frontmatter.faqs %}
-                  {% if faq.q == "What's included in the free tier?" and this.frontmatter.enableFreeTier == false %}
-                    {% continue %}
-                  {% endif %}
-                  <div class="border border-strokeWeak rounded-lg p-6 bg-fillWeak hover:bg-fillBrand-weak transition-colors">
-                      <button class="cursor-pointer flex gap-4 items-center text-left w-full hover:text-textStrong" onclick="toggleFaq(event)">
-                          <svg class="shrink-0 icon h-5 w-5 text-current fill-current stroke-current opacity-70 transition-transform"><use xlink:href="/assets/deps/fontawesome/solid.svg#caret-right"></use></svg>
-                          <span class="text-lg font-medium">{{faq.q}}</span>
-                      </button>
-                      <div class="pl-9 pt-4 hidden text-textWeak">{{faq.a}}</div>
-                  </div>
-                {% endfor %}
-              </div>
+            <h2 class="text-xl font-semibold leading-[1.35] text-textStrong">{{p.name}}</h2>
+            <p><span class="text-5xl font-medium tracking-tight tabular-nums text-textStrong">{{p.price}}</span>{% if p.price_unit %}<span class="text-base text-textWeak">{{p.price_unit}}</span>{% endif %}<span class="block mt-2 text-sm text-textWeak">{{p.price_note}}</span></p>
           </div>
-        </section>
-
+          <ul class="space-y-2.5 text-base text-textStrong flex-1">
+            {% for b in p.bullets %}<li class="flex items-start gap-2.5"><span class="mt-1 text-(--tone)">{{check}}</span><span class="text-pretty">{{b}}</span></li>{% endfor %}
+          </ul>
+          {% if p.addon %}
+          <div class="rounded-xl border border-dashed border-strokeStrong p-4 space-y-1">
+            <p class="flex flex-wrap items-baseline justify-between gap-x-3 font-semibold text-textStrong">{{p.addon.name}} <span class="font-normal text-sm text-textWeak tabular-nums">{{p.addon.price}}</span></p>
+            <p class="text-sm leading-relaxed text-textWeak text-pretty">{{p.addon.note}}</p>
+          </div>
+          {% endif %}
+          <a href="{{p.cta.href}}"{% if p.cta.external %} target="_blank" rel="noopener noreferrer"{% endif %} class="plan-action press btn h-auto min-h-11 py-2.5 px-5 rounded-lg text-base font-medium {% if p.featured %}bg-fillBrand-strong text-textInverse-strong{% else %}btn-secondary{% endif %}" data-tracking="{{p.cta.tracking}}" data-reddit-event="{{p.cta.event}}">{{p.cta.label}}{% if p.cta.external %} <span aria-hidden="true">↗</span>{% endif %}</a>
+        </article>
+        {% endfor %}
+      </div>
+      <div class="card rounded-2xl border border-strokeWeak p-5 md:p-6 grid lg:grid-cols-[1fr_auto] items-center gap-5 lg:gap-10">
+        <div class="space-y-1.5">
+          <h2 class="text-xl font-semibold leading-[1.35] text-textStrong">Volume and Enterprise</h2>
+          <p class="text-base leading-relaxed text-textWeak text-pretty max-w-[70ch]">Sending over a billion events a month, or need SSO, an SLA and priority support? We’ll price it with you, in the cloud or on your servers.</p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" rel="noopener noreferrer" class="press btn btn-secondary py-2.5 px-5 rounded-lg" data-tracking="pricing-enterprise-call" data-reddit-event="ScheduleDemo">Talk to an engineer</a>
+          <a href="mailto:hello@monoscope.tech" class="inline-flex items-center min-h-11 px-2 text-base font-medium text-textBrand underline underline-offset-4">hello@monoscope.tech</a>
+        </div>
+      </div>
     </div>
-</div>
+  </section>
+
+  <!-- Estimator: identical to the homepage calculator so the two never disagree -->
+  <section data-theme="dark" class="tone-brand relative w-full bg-transparent! text-textStrong mt-(--inset)">
+    <div aria-hidden="true" class="hero-paint absolute inset-y-0 left-1/2 -translate-x-1/2 panel-w rounded-[2rem] overflow-hidden ring-1 ring-white/10"><img src="/assets/img/home/art/pricing-night.webp" alt="" loading="lazy" data-art data-lamp="0.767,0.17" class="absolute inset-x-0 bottom-0 w-full h-56 md:h-80 object-cover object-right-bottom [mask-image:linear-gradient(to_top,black_30%,rgb(0_0_0/.8)_44%,rgb(0_0_0/.52)_58%,rgb(0_0_0/.26)_72%,rgb(0_0_0/.09)_86%,transparent)]"></div>
+    <div class="relative wrap max-w-[80rem] pt-20 md:pt-28 pb-56 md:pb-80 space-y-10">
+      <div id="estimate" class="space-y-6 max-w-3xl [&>p:first-child]:mb-3.5 scroll-mt-24">
+        <p class="inline-flex rounded-md px-2.5 py-1 eyebrow font-mono text-[12px] uppercase tracking-wider bg-(--tone-weak)">Estimate your bill</p>
+        <h2 class="text-4xl md:text-5xl font-medium tracking-tight leading-[1.2] text-balance text-textStrong">Pay per million events, <span class="text-textWeak">not per host, per GB and per index</span></h2>
+        <p class="max-w-[65ch] text-lg md:text-xl leading-[1.65] text-textWeak text-pretty">Move the slider to your monthly volume. Open “Adjust workload” to add hosts, metric series and replays, and compare the same workload at list prices.</p>
+      </div>
+      <div class="space-y-6">
+        {% render "default/components/bill", tracking: "pricing-calculator" %}
+      </div>
+    </div>
+  </section>
+
+  <!-- What counts as an event -->
+  <section id="events" class="tone-success relative w-full scroll-mt-16">
+    <div class="relative wrap max-w-[80rem] pt-24 md:pt-36 space-y-14">
+      <div class="space-y-6 max-w-3xl [&>p:first-child]:mb-3.5">
+        <p class="inline-flex rounded-md px-2.5 py-1 eyebrow font-mono text-[12px] uppercase tracking-wider bg-(--tone-weak)">What counts as an event</p>
+        <h2 class="text-4xl md:text-5xl font-medium tracking-tight leading-[1.2] text-balance text-textStrong">One log line or one span is one event. <span class="text-textWeak">The bodies come free.</span></h2>
+        <p class="max-w-[65ch] text-lg md:text-xl leading-[1.65] text-textWeak text-pretty">You don’t pay by the gigabyte, so a large response body costs the same as an empty one. Keep every payload and never decide what to drop.</p>
+      </div>
+      <div class="grid lg:grid-cols-[3fr_2fr] gap-8 lg:gap-12 items-start">
+        <figure class="card rounded-2xl border border-strokeWeak overflow-hidden">
+          <figcaption class="px-5 md:px-6 py-3 border-b border-strokeWeak text-sm text-textWeak">One checkout, as monoscope counts it</figcaption>
+          <ol class="divide-y divide-strokeWeak">
+            {% for e in this.frontmatter.event_example %}
+            <li class="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 px-5 md:px-6 py-3.5">
+              <span class="min-w-0 truncate font-mono text-sm text-textStrong">{% if e[2] == 'log' %}<span class="text-textWeak">log </span>“{{e[0]}}”{% else %}{{e[0]}}{% endif %}</span>
+              <span class="row-span-2 inline-flex items-center rounded-md bg-(--tone-weak) px-2 py-0.5 font-mono text-[12px] tabular-nums text-textStrong">1 event</span>
+              <span class="text-sm text-textWeak">{{e[1]}}{% if e[2] == 'span' %} · headers, request body and response body included{% endif %}</span>
+            </li>
+            {% endfor %}
+          </ol>
+          <p class="flex items-baseline justify-between gap-4 px-5 md:px-6 py-4 border-t border-strokeWeak bg-fillWeak"><span class="text-base font-semibold text-textStrong">Total</span><span class="text-base font-semibold tabular-nums text-textStrong">4 events, bodies included</span></p>
+        </figure>
+        <dl class="grid gap-6">
+          <div class="border-t border-strokeWeak pt-4 space-y-1">
+            <dt class="font-semibold text-textStrong">Counts as one event</dt>
+            <dd class="text-base leading-relaxed text-textWeak text-pretty">Each log record and each span, including every HTTP request your services receive or send.</dd>
+          </div>
+          <div class="border-t border-strokeWeak pt-4 space-y-1">
+            <dt class="font-semibold text-textStrong">Metered on its own</dt>
+            <dd class="text-base leading-relaxed text-textWeak text-pretty">Metric datapoints: 20M included, then $1 per 10M. Session replays: 2,000 included, then $1 per 1,000.</dd>
+          </div>
+          <div class="border-t border-strokeWeak pt-4 space-y-1">
+            <dt class="font-semibold text-textStrong">Never on the bill</dt>
+            <dd class="text-base leading-relaxed text-textWeak text-pretty">Request and response bodies, headers, hosts, containers and team members.</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- Plans side by side -->
+  <section id="compare-plans" class="tone-brand relative w-full scroll-mt-16">
+    <div class="relative wrap max-w-[80rem] pt-24 md:pt-36 space-y-10">
+      <div class="space-y-6 max-w-3xl">
+        <h2 class="text-3xl md:text-4xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong">Plans side by side</h2>
+      </div>
+      <div class="overflow-x-auto rounded-2xl card border border-strokeWeak p-2 pe-10 md:p-3 max-md:[mask-image:linear-gradient(to_left,transparent,black_2.5rem)]">
+        <table class="w-full min-w-[46rem]! table-fixed border-separate border-spacing-0 text-base text-start">
+          <caption class="sr-only">monoscope plans compared</caption>
+          <thead><tr><td class="sticky left-0 z-10 bg-(--card-bg) w-36 md:w-60"></td>{% for c in this.frontmatter.plan_cols %}<th scope="col" class="px-4 pt-4 pb-3 text-start align-bottom font-semibold {% if forloop.index == 2 %}bg-fillBrand-weak border-x border-x-strokeBrand-strong rounded-t-xl border-t border-t-strokeBrand-strong text-textStrong{% else %}text-textWeak{% endif %}">{{c}}</th>{% endfor %}</tr></thead>
+          <tbody>
+            {% for r in this.frontmatter.plan_rows %}
+            <tr><th scope="row" class="sticky left-0 z-10 bg-(--card-bg) border-t border-strokeWeak px-4 py-3.5 text-start align-top text-sm md:text-[15px] leading-snug font-medium text-textStrong text-pretty">{{r[0]}}</th>{% assign last_row = forloop.last %}{% for cell in r offset:1 %}<td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty tabular-nums {% if forloop.index == 2 %}bg-fillBrand-weak border-x border-x-strokeBrand-strong text-textStrong{% if last_row %} rounded-b-xl border-b border-b-strokeBrand-strong{% endif %}{% else %}text-textWeak{% endif %}">{% if cell == 'Included' %}<span class="inline-flex items-center gap-1.5 text-textSuccess">{{check}}Included</span>{% else %}{{cell}}{% endif %}</td>{% endfor %}</tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <a href="/compare/" class="inline-flex items-center gap-2 min-h-11 text-base font-medium text-textBrand underline underline-offset-4">Compare monoscope with Datadog, Sentry and others <svg class="h-3 w-3" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#arrow-right"></use></svg></a>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="relative w-full scroll-mt-16">
+    <div class="relative wrap max-w-[80rem] pt-24 md:pt-36 grid lg:grid-cols-[1fr_2fr] gap-10 lg:gap-16">
+      <div class="space-y-4">
+        <h2 class="text-3xl md:text-4xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong">Questions about pricing</h2>
+        <p class="text-lg leading-[1.65] text-textWeak text-pretty">Anything else, ask an engineer at <a href="mailto:hello@monoscope.tech" class="text-textBrand underline underline-offset-4">hello@monoscope.tech</a>.</p>
+        <a href="/docs/faqs/" class="inline-flex items-center gap-2 min-h-11 text-base font-medium text-textBrand underline underline-offset-4">Read all FAQs <svg class="h-3 w-3" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#arrow-right"></use></svg></a>
+      </div>
+      <div class="border-b border-strokeWeak">
+        {% for faq in this.frontmatter.faqs %}
+        <details class="faq group border-t border-strokeWeak">
+          <summary class="flex items-center justify-between gap-6 min-h-14 py-4 cursor-pointer list-none text-lg font-medium text-textStrong hover:text-textBrand">{{faq.q}}<svg class="size-5 shrink-0 text-textWeak transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+          <div class="pb-6 max-w-[65ch] text-base leading-relaxed text-textWeak text-pretty">{{faq.a}}</div>
+        </details>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+</section>
 ```

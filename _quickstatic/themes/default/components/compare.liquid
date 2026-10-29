@@ -1,0 +1,86 @@
+{% comment %}Compare page body. Frontmatter: name, name_note?, headline, lead, table_title, checked, fit_mono[], fit_them[], sources[{t,url}],
+and them: exactly 8 cells in `labels` order, each {s: yes|part|no|none, t} or {list: [..]}. monoscope's cells live in `mono` below.{% endcomment %}
+{% render "default/components/page-style" %}
+{% assign f = this.frontmatter %}
+{% assign labels = "Request and response bodies, in and out|Breaking changes in third-party APIs|AI sees the full request|AI investigates and opens fix PRs|Pricing|Open source and self-hosting|Data in your own bucket|Coverage" | split: "|" %}
+{% assign mono = "yes~Every call, never sampled|yes~Caught in the stored responses|yes~Yes|yes~Built in|list~$29/month for 20M events;then $1 per million;Bodies and metrics included;No host or indexing fees|yes~AGPL-3.0, free to self-host|yes~Delta Lake and Parquet in your S3, +$199/month|yes~Logs, traces, metrics, errors and session replay" | split: "|" %}
+{% capture check %}<svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5"/></svg>{% endcapture %}
+{% capture icon_yes %}<span class="mt-0.5 text-textSuccess">{{check}}</span>{% endcapture %}
+{% capture icon_part %}<span class="mt-0.5 text-iconWarning"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4.5v4M8 11.5h.01M14 8A6 6 0 1 1 2 8a6 6 0 0 1 12 0"/></svg></span>{% endcapture %}
+{% capture icon_no %}<span class="mt-0.5 text-textWeak"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 4.5l7 7m0-7-7 7"/></svg></span>{% endcapture %}
+<section class="flex flex-col items-center relative" style="z-index: 1;">
+  <section class="tone-brand relative w-full mt-(--inset)">
+    <div aria-hidden="true" class="absolute inset-y-0 left-1/2 -translate-x-1/2 panel-w rounded-[2rem] overflow-hidden bg-(--tone-panel) border border-(--tone-weak)"></div>
+    <div class="relative wrap max-w-[80rem] pt-20 md:pt-32 pb-16 md:pb-24">
+      <div class="space-y-6 max-w-3xl [&>p:first-child]:mb-3.5">
+        <p class="inline-flex rounded-md px-2.5 py-1 eyebrow font-mono text-[12px] uppercase tracking-wider bg-(--tone-weak)">monoscope vs {{f.name}}</p>
+        <h1 class="text-4xl md:text-6xl font-medium tracking-tight leading-[1.15] text-balance text-textStrong">{{f.headline}}</h1>
+        <p class="max-w-[62ch] text-lg md:text-xl leading-[1.65] text-textWeak text-pretty">{{f.lead}}</p>
+        <div class="flex flex-wrap items-center gap-3 pt-2">
+          <a href="https://app.monoscope.tech" class="press btn h-auto min-h-11 py-2.5 px-5 rounded-lg bg-fillBrand-strong text-textInverse-strong text-base font-medium" data-tracking="compare-start" data-reddit-event="SignUp">Start for free</a>
+          <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" rel="noopener noreferrer" class="press btn btn-secondary py-2.5 px-5 rounded-lg" data-tracking="compare-book-call" data-reddit-event="ScheduleDemo">Book a migration call</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-theme="dark" class="tone-brand relative w-full bg-transparent! text-textStrong mt-(--inset)">
+    <div aria-hidden="true" class="hero-paint absolute inset-y-0 left-1/2 -translate-x-1/2 panel-w rounded-[2rem] overflow-hidden ring-1 ring-white/10"><img src="/assets/img/home/art/pricing-night.webp" alt="" loading="lazy" data-art data-lamp="0.767,0.17" class="absolute inset-x-0 bottom-0 w-full h-56 md:h-80 object-cover object-right-bottom [mask-image:linear-gradient(to_top,black_30%,rgb(0_0_0/.8)_44%,rgb(0_0_0/.52)_58%,rgb(0_0_0/.26)_72%,rgb(0_0_0/.09)_86%,transparent)]"></div>
+    <div class="relative wrap max-w-[80rem] pt-20 md:pt-28 pb-56 md:pb-80 space-y-10">
+      <div class="space-y-6 max-w-3xl [&>p:first-child]:mb-3.5">
+        <p class="inline-flex rounded-md px-2.5 py-1 eyebrow font-mono text-[12px] uppercase tracking-wider bg-(--tone-weak)">Side by side</p>
+        <h2 class="text-4xl md:text-5xl font-medium tracking-tight leading-[1.2] text-balance text-textStrong">{{f.table_title}}</h2>
+      </div>
+      <div class="space-y-4">
+        <div class="overflow-x-auto rounded-2xl bg-bgRaised ring-1 ring-white/10 shadow-[0_30px_80px_-20px_rgb(0_0_0/0.7)] p-2 pe-10 md:p-3 max-md:[mask-image:linear-gradient(to_left,transparent,black_2.5rem)]">
+          <table class="w-full min-w-[40rem]! table-fixed border-separate border-spacing-0 text-base text-start">
+            <caption class="sr-only">monoscope compared with {{f.name}}</caption>
+            <colgroup><col class="w-36 md:w-72"><col><col></colgroup>
+            <thead><tr><td class="sticky left-0 z-10 bg-bgRaised w-36 md:w-72"></td><th scope="col" class="px-4 pt-5 pb-3 text-start align-bottom font-semibold bg-fillBrand-weak border-x border-x-strokeBrand-strong rounded-t-xl border-t border-t-strokeBrand-strong text-textStrong"><img src="/assets/brand/logo_full_white.svg" alt="monoscope" class="h-5 w-auto"></th><th scope="col" class="px-4 pt-5 pb-3 text-start align-bottom font-semibold text-textWeak">{{f.name}}{% if f.name_note %}<span class="block font-normal text-textWeak">{{f.name_note}}</span>{% endif %}</th></tr></thead>
+            <tbody>
+              {% for label in labels %}{% assign i = forloop.index0 %}{% assign m = mono[i] | split: "~" %}{% assign t = f.them[i] %}
+              <tr><th scope="row" class="sticky left-0 z-10 bg-bgRaised w-36 md:w-72 border-t border-strokeWeak px-4 py-3.5 text-start align-top text-sm md:text-[15px] leading-snug font-medium text-textStrong text-pretty">{{label}}</th>
+                <td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty bg-fillBrand-weak border-x border-x-strokeBrand-strong text-textStrong{% if forloop.last %} rounded-b-xl border-b border-b-strokeBrand-strong{% endif %}">{% if m[0] == 'list' %}{% assign items = m[1] | split: ";" %}<ul class="space-y-1 tabular-nums">{% for it in items %}<li{% if forloop.first %} class="font-semibold text-textSuccess"{% endif %}>{{it}}</li>{% endfor %}</ul>{% else %}<span class="flex items-start gap-2">{{icon_yes}}<span>{{m[1]}}</span></span>{% endif %}</td>
+                <td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak">{% if t.list %}<ul class="space-y-1 tabular-nums">{% for it in t.list %}<li>{{it}}</li>{% endfor %}</ul>{% elsif t.s == 'none' %}<span title="We couldn’t confirm this from public docs">—</span>{% else %}<span class="flex items-start gap-2">{% if t.s == 'yes' %}{{icon_yes}}{% elsif t.s == 'no' %}{{icon_no}}{% else %}{{icon_part}}{% endif %}<span>{{t.t}}</span></span>{% endif %}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <details class="group max-w-[80ch]">
+          <summary class="inline-flex items-center gap-2 min-h-11 cursor-pointer list-none text-sm text-textWeak hover:text-textStrong [&::-webkit-details-marker]:hidden">Sources and assumptions<svg class="size-4 shrink-0 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+          <div class="pb-2 space-y-3 text-base leading-relaxed text-textWeak text-pretty [&_a]:text-textBrand [&_a]:underline [&_a]:underline-offset-2 [&_a]:break-words">
+            <p>Checked against {{f.name}}’s public pricing pages and docs in {{f.checked}}. List prices, annual billing where offered. — means we couldn’t confirm it from public docs. Spotted something out of date? Email <a href="mailto:hello@monoscope.tech">hello@monoscope.tech</a> and we’ll fix it.</p>
+            <ul class="list-disc ps-5 space-y-1.5">{% for s in f.sources %}<li>{{s.t}}: <a href="{{s.url}}" target="_blank" rel="noopener noreferrer">{{s.url | remove: "https://" | remove: "www."}}</a></li>{% endfor %}</ul>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="relative w-full">
+    <div class="relative wrap max-w-[80rem] pt-24 md:pt-32 space-y-14">
+      <div class="space-y-6 max-w-3xl">
+        <h2 class="text-3xl md:text-4xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong">Which one fits your team</h2>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        {% assign fits = "monoscope|" | append: f.name | split: "|" %}
+        {% for who in fits %}{% if forloop.first %}{% assign items = f.fit_mono %}{% assign tick = 'text-textBrand' %}{% else %}{% assign items = f.fit_them %}{% assign tick = 'text-textWeak' %}{% endif %}
+        <div class="card rounded-2xl border p-6 md:p-7 space-y-4 {% if forloop.first %}border-strokeBrand-strong{% else %}border-strokeWeak{% endif %}">
+          <h3 class="text-xl font-semibold leading-[1.35] text-textStrong">Choose {{who}} if</h3>
+          <ul class="space-y-3 text-base leading-relaxed text-textWeak">{% for it in items %}<li class="flex items-start gap-2.5"><span class="mt-1 {{tick}}">{{check}}</span><span class="text-pretty">{{it}}</span></li>{% endfor %}</ul>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="card rounded-xl border border-strokeWeak p-5 md:p-6 grid lg:grid-cols-[1fr_auto] items-center gap-5 lg:gap-10">
+        <div class="space-y-1.5">
+          <h3 class="text-xl font-semibold leading-[1.35] text-textStrong">Already on {{f.name}}?</h3>
+          <p class="text-base leading-relaxed text-textWeak text-pretty max-w-[65ch]">Run monoscope next to it for a week or two, compare which errors and API changes each one catches, then move your services over. An engineer from our team can help.</p>
+        </div>
+        <div class="flex flex-wrap gap-x-6 gap-y-3">
+          <a href="/pricing/" class="inline-flex items-center gap-2 min-h-11 text-base font-medium text-textBrand underline underline-offset-4">See pricing <svg class="h-3 w-3" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#arrow-right"></use></svg></a>
+          <a href="/compare/" class="inline-flex items-center gap-2 min-h-11 text-base font-medium text-textBrand underline underline-offset-4">All comparisons <svg class="h-3 w-3" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#arrow-right"></use></svg></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
