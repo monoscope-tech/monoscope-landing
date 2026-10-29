@@ -1,1 +1,5 @@
 /legal/privacy /privacy-policy/ 301
+/features/api-analytics/* /features/api-monitoring/ 301
+/features/api-management/* /features/api-monitoring/ 301
+/features/api-observability/* /features/api-monitoring/ 301
+/features/api-logs-and-metrics/* /features/logs-and-traces/ 301

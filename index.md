@@ -381,19 +381,10 @@ capabilities:
   <symbol id="routine-jira" viewBox="0 0 24 24"><path d="M11.571 11.513H0a5.218 5.218 0 0 0 5.232 5.215h2.13v2.057A5.215 5.215 0 0 0 12.575 24V12.518a1.005 1.005 0 0 0-1.005-1.005zm5.723-5.756H5.736a5.215 5.215 0 0 0 5.215 5.214h2.129v2.058a5.218 5.218 0 0 0 5.215 5.214V6.758a1.001 1.001 0 0 0-1.001-1.001zM23.013 0H11.455a5.215 5.215 0 0 0 5.215 5.215h2.129v2.057A5.215 5.215 0 0 0 24 12.483V1.005A1.001 1.001 0 0 0 23.013 0Z"/></symbol>
 </svg>
 <style>
-  .eyebrow { color: color-mix(in oklab, var(--tone) 72%, black); }
-  [data-theme="dark"] .eyebrow, [data-theme="dark"] [data-theme="dark"] .eyebrow { color: var(--tone); }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .eyebrow { color: var(--tone); } }
   footer h3 { color: var(--color-textWeak) !important; }
   /* footer wordmark sits low enough that the hills and observatories pass in front of it */
   body .footer-scene .footer-scene-wordmark { top: 34%; }
   @media (max-width: 639px) { body .footer-scene .footer-scene-wordmark { top: 40%; } }
-  /* cards sit slightly above the page: white with a hairline shadow in light, a half-step toward bgRaised in dark */
-  body { --card-bg: #fff; --card-shadow: 0 1px 2px oklch(0 0 0 / .04); }
-  [data-theme="dark"] { --card-bg: color-mix(in oklab, var(--color-bgBase), var(--color-bgRaised) 55%); --card-shadow: none; }
-  .card { background: var(--card-bg); box-shadow: var(--card-shadow); }
-  /* routine cards and the comparison table break out of the reading column; their headings and links stay in it */
-  @media (min-width: 1360px) { .bleed { --w: min(96rem, 100vw - 2 * (var(--inset) + var(--gutter))); width: var(--w); max-width: none; margin-inline: calc((100% - var(--w)) / 2); } }
   /* a rule above the closing CTA, matching the footer's own divider */
   .max-w-9xl:not(nav):has(> h2) { position: relative; }
   .max-w-9xl:not(nav):has(> h2)::before { content: ""; position: absolute; top: 0; inset-inline: .75rem; border-top: 1px solid var(--color-strokeWeak); }

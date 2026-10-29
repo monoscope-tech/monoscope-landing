@@ -1747,6 +1747,16 @@ html:has(body[data-theme="dark"]) {
 .panel-w { width: calc(100% - 2 * var(--inset)); }
 .wrap { width: min(96rem, 100% - 2 * (var(--inset) + var(--gutter))); margin-inline: auto; }
 .wrap-in { width: min(96rem, 100% - 2 * var(--gutter)); margin-inline: auto; }
+/* Shared by the homepage and product pages */
+.eyebrow { color: color-mix(in oklab, var(--tone) 72%, black); }
+[data-theme="dark"] .eyebrow, [data-theme="dark"] [data-theme="dark"] .eyebrow { color: var(--tone); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .eyebrow { color: var(--tone); } }
+/* cards sit slightly above the page: white with a hairline shadow in light, a half-step toward bgRaised in dark */
+body { --card-bg: #fff; --card-shadow: 0 1px 2px oklch(0 0 0 / .04); }
+[data-theme="dark"] { --card-bg: color-mix(in oklab, var(--color-bgBase), var(--color-bgRaised) 55%); --card-shadow: none; }
+.card { background: var(--card-bg); box-shadow: var(--card-shadow); }
+/* routine cards and the comparison table break out of the reading column; their headings and links stay in it */
+@media (min-width: 1360px) { .bleed { --w: min(96rem, 100vw - 2 * (var(--inset) + var(--gutter))); width: var(--w); max-width: none; margin-inline: calc((100% - var(--w)) / 2); } }
 
 /* Pricing: a native range with a distinct thumb and a generous drag target. */
 .bill-range {

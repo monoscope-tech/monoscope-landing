@@ -1,0 +1,36 @@
+{% comment %}One numbered chapter, as on the homepage. Params: s (section from frontmatter), n (1-based index){% endcomment %}
+{% assign odd = n | modulo: 2 %}{% assign label = "" %}{% if s.frame %}{% assign label = s.frame %}{% endif %}{% assign tone = "brand" %}{% if s.tone %}{% assign tone = s.tone %}{% endif %}
+<section id="{{s.id}}" class="tone-{{tone}} relative w-full scroll-mt-16">
+  {% if odd == 0 or s.art %}<div aria-hidden="true" class="absolute top-(--inset) bottom-0 left-1/2 -translate-x-1/2 panel-w rounded-[2rem] overflow-hidden bg-(--tone-panel) border border-(--tone-weak)">{% if s.art %}<img src="/assets/img/home/art/{{s.art}}" alt="" loading="lazy" data-art class="absolute inset-x-0 bottom-0 w-full h-56 md:h-80 object-cover object-left-bottom dark:opacity-60 [mask-image:linear-gradient(to_top,black_30%,rgb(0_0_0/.5)_58%,transparent)]">{% endif %}</div>{% endif %}
+  <div class="relative wrap max-w-[80rem] pt-28 md:pt-40 {% if s.art %}pb-56 md:pb-96{% else %}pb-20 md:pb-28{% endif %} space-y-14">
+    <div aria-hidden="true" class="rail hidden lg:block absolute left-[23px] top-[calc(7rem+13px)] md:top-[calc(10rem+13px)] bottom-0 w-0.5 bg-(--tone-line)"></div>
+    <div class="relative space-y-6 max-w-3xl lg:ps-12 [&>p:first-of-type]:mb-3.5">
+      <span aria-hidden="true" class="hidden lg:block absolute left-1.5 top-[7px] size-3 rounded-full border-2 border-(--tone) bg-bgBase"></span>
+      <p class="inline-flex rounded-md px-2.5 py-1 eyebrow font-mono text-[12px] uppercase tracking-wider bg-(--tone-weak)">0{{n}} · {{s.eyebrow}}</p>
+      <h2 class="text-4xl md:text-5xl font-medium tracking-tight leading-[1.2] text-balance text-textStrong">{{s.title}}</h2>
+      {% if s.lead %}<p class="max-w-[65ch] text-lg md:text-xl leading-[1.65] text-textWeak text-pretty">{{s.lead}}</p>{% endif %}
+    </div>
+    <div class="space-y-16 md:space-y-20">
+      {% if s.demo or s.shot or s.code %}<div class="relative min-w-0 space-y-6">
+        {% if s.demo %}<div class="hidden sm:block">{% render "default/components/frame", demo:s.demo, label:label %}</div>
+        {% elsif s.shot %}{% render "default/components/frame", shot:s.shot, label:label, alt:s.title %}{% endif %}
+        {% if s.code %}<div data-theme="dark" class="relative rounded-xl overflow-hidden border border-white/10 bg-[oklch(18%_0.02_263)]! [&_code]:bg-transparent! [&_code]:p-0! [&_code]:text-inherit!">
+          {% if s.code_label %}<p class="px-5 py-2 text-[12px] font-mono text-white/50 border-b border-white/10">{{s.code_label}}</p>{% endif %}
+          <pre class="p-5 text-base leading-relaxed overflow-x-auto font-mono text-white/90"><code{% if s.code_class %} class="{{s.code_class}}"{% endif %}>{{s.code}}</code></pre>
+        </div>{% endif %}
+      </div>{% endif %}
+      {% if s.bullets or s.link %}<div class="space-y-10 lg:ps-12">
+        {% if s.bullets %}<ul class="grid sm:grid-cols-2 {% if s.bullets.size == 4 %}lg:grid-cols-4{% else %}lg:grid-cols-3{% endif %} gap-x-8 gap-y-10">
+          {% for b in s.bullets %}<li>
+            {% if b.icon %}<svg class="size-5 text-(--tone)" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#{{b.icon}}"></use></svg>{% endif %}
+            <h3 class="mt-4 text-xl font-semibold leading-[1.35] text-balance text-textStrong">{{b.title}}</h3>
+            <p class="mt-2 text-base leading-relaxed text-textWeak text-pretty">{{b.body}}</p>
+          </li>{% endfor %}
+        </ul>{% endif %}
+        {% if s.link %}<div class="border-t border-strokeWeak pt-6">
+          <a href="{{s.link}}" class="inline-flex items-center gap-2 min-h-11 text-base font-medium text-textBrand underline underline-offset-4">{% if s.link_label %}{{s.link_label}}{% else %}Learn more{% endif %} <svg class="h-3 w-3" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#arrow-right"></use></svg></a>
+        </div>{% endif %}
+      </div>{% endif %}
+    </div>
+  </div>
+</section>

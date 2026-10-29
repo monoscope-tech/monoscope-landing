@@ -1,95 +1,93 @@
 ---
-title: Error Tracking and Breaking Change Detection
-date: 2022-03-23
-hide-date: true
+# UNVERIFIED:
+# - Slack alerts carrying the failing request: commits dbac0717e / f001815ab improve "Slack alert
+#   context"; I did not confirm the request itself (vs a link to it) is in the message. Copy says
+#   "a link to the request that failed".
+# - Session replay linked from an issue: claimed on the homepage; not checked in the demo project.
+# - Crashes: verified for the Flutter SDK (Dart errors + native crash handlers, captureNativeCrashes)
+#   and browser errors (Frontend issue type). No crash reporting found for native iOS/Android SDKs.
+title: "Error tracking with the request behind every error"
+description: "Errors, crashes and changed API responses become issues, each with the exact request and response behind it. Alerts go to Slack, PagerDuty or email."
+eyebrow: Error tracking
+tone: warning
+h1: "Every error, with the request that caused it"
+pitch: "Exceptions, crashes and changed API responses become issues, each with the headers, body and response exactly as they were. You hear about it in Slack before a customer writes in."
+playground: issues
+hero_demo: /assets/demos/know-b.html
+hero_frame: "app.monoscope.tech / issues"
+art: page-issues.webp
+sections:
+  - id: request
+    icon: align-left
+    tone: warning
+    eyebrow: "The exact request"
+    title: "Debug from the request, not a reproduction"
+    lead: "A stack trace tells you where it broke. The request tells you why. Every issue keeps the method, URL, headers, body and the response you sent back, next to the trace and the logs from that same request."
+    shot: issue-detail
+    frame: "app.monoscope.tech / issues"
+    bullets:
+      - title: "Request and response, as sent"
+        icon: code
+        body: "The payload that broke the handler, as your app received it. Fields you mark as sensitive are redacted in your app before they're sent."
+      - title: "The trace and logs around it"
+        icon: activity
+        body: "One click to the full trace, the database calls, the outgoing calls to suppliers and every log line from that request."
+      - title: "What the customer saw"
+        icon: circle-play
+        body: "If the error came from a browser or Flutter app with replay on, open the session and scrub to the click that fired the request."
+    link: /docs/features/error-tracking/
+    link_label: "How error tracking works"
+  - id: detect
+    icon: eye
+    tone: warning
+    eyebrow: "No rules to write"
+    title: "Flags what's new the first time it happens"
+    lead: "monoscope learns the shape of your traffic. A new exception, a new endpoint, a field that disappears from a response or a log message that suddenly spikes becomes an issue without a monitor behind it."
+    shot: issues
+    frame: "app.monoscope.tech / issues"
+    bullets:
+      - title: "New errors and crashes"
+        icon: bug
+        body: "Server exceptions, browser errors, and Dart and native crashes from Flutter apps, each grouped by fingerprint."
+      - title: "Responses that changed shape"
+        icon: plug
+        body: "A field added, removed or retyped, in an API you serve or one you call. Rated breaking, incremental or safe."
+      - title: "New log patterns and spikes"
+        icon: align-left
+        body: "Log lines are clustered into patterns. A pattern you've never seen, or one whose rate jumps, opens an issue."
+      - title: "One issue per problem"
+        icon: grid
+        body: "The same bug hitting thousands of requests is one issue with a count. A monitor that fires again reopens its old issue."
+  - id: alerts
+    icon: radio
+    tone: warning
+    eyebrow: "Alerts"
+    title: "The alert arrives before the support ticket"
+    lead: "Issues go to the team that owns them, in Slack, Discord, PagerDuty or email, with a link to the request that failed. Reply in the Slack thread and the AI investigates from there."
+    shot: monitors
+    frame: "app.monoscope.tech / monitors"
+    bullets:
+      - title: "Routed by team"
+        icon: users
+        body: "Each team has its own Slack channels, PagerDuty services and email list. Mute a channel without losing the others."
+      - title: "Monitors on any query"
+        icon: bar-chart
+        body: "Alert on a log query or a dashboard widget, with warning and alert thresholds, a sustain window and a recovery level."
+      - title: "Acknowledge, snooze, archive"
+        icon: mail
+        body: "An acknowledged issue stays quiet. Repeat notifications follow the interval you set, and stop after the count you choose."
+    link: /features/ai-sre/
+    link_label: "What the AI does with an issue"
+faqs:
+  - q: "How is this different from Sentry?"
+    a: "Sentry shows the exception and the trace. monoscope also keeps the request and response bodies of the call that failed, including calls you made to suppliers, and flags API responses that changed shape even when nothing threw."
+  - q: "Which languages are supported?"
+    a: "Any OpenTelemetry SDK sends errors, traces and logs. Our SDKs for Node.js, Python, Go, PHP, Java, .NET and Elixir also capture request and response bodies. Browser and Flutter SDKs add frontend errors, crashes and session replay."
+  - q: "How do I keep passwords and tokens out of it?"
+    a: "List the headers and JSON paths to redact, such as $.password, in the SDK config. They're removed in your app before any data leaves it."
+  - q: "Is anything sampled?"
+    a: "No. Every request, log and span you send is kept for your retention period: 30 days on Cloud, unlimited if you use your own S3 bucket."
+  - q: "Can I run it next to my current error tracker?"
+    a: "Yes. Run both for a week or two and compare which errors and API changes each one catches."
+related: [ai-sre, api-monitoring, session-replay]
 ---
-
-```=html
-<section class="flex flex-col items-center mt-8 sm:mt-32 px-3">
-  <div class="max-w-8xl w-full space-y-10">
-    <div class="space-y-10">
-      <span class="inline-block text-textWeak uppercase tracking-wide text-xs font-semibold">Error Tracking</span>
-      <h1 class="text-[3.0rem] font-normal leading-tight sm:leading-none">
-        <span class="block">Find and Fix Errors<span class="text-textDisabled">,</span></span>
-        <span class="text-textDisabled dark:text-textWeak block">Detect Breaking Changes</span>
-      </h1>
-      <p class="text-[1.25rem] text-textWeak max-w-3xl">
-        Error monitoring is not enough. Catch breaking changes in your APIs and third-party integrations with enough context to reproduce the issues, and narrow down the root cause.
-      </p>
-      <div class="flex gap-2 sm:gap-4">
-        <a href="https://app.monoscope.tech" class="btn py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong shadow">Start for free</a>
-        <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" class="btn py-3 px-6 rounded-xl bg-transparent border border-fillBrand-strong text-fillBrand-strong shadow">Get a demo</a>
-      </div>
-    </div>
-    <iframe width="100%" height="650" class="max-w-4xl mt-12 rounded-xl overflow-hidden shadow-lg" src="https://www.youtube.com/embed/4F4l-hjpUfs?si=u3wPO62k38pc-L0q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-  </div>
-</section>
-<section class="flex flex-col items-center py-20">
-  <div class="max-w-8xl w-full px-3 space-y-20">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-      <div class="space-y-6">
-        <h2 class="text-3xl font-normal">See All Errors and API Changelog at a Glance</h2>
-        <p class="text-lg text-textWeak">
-          Seeing all changes and issues at a glance to help you prioritize what issues need to be fixed, and what changes are benign and can be safely acknowledged.
-        </p>
-        <div class="flex gap-2 sm:gap-4">
-          <a href="https://app.monoscope.tech" class="btn py-2 px-4 rounded-lg bg-fillBrand-strong text-textInverse-strong shadow text-sm">Start for free</a>
-          <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" class="btn py-2 px-4 rounded-lg bg-transparent border border-strokeBorder-weak text-textWeak shadow text-sm">Get a demo</a>
-        </div>
-      </div>
-      <div>
-        <img src="/assets/img/screenshots/errors_zoomed.png" alt="monoscope Error Dashboard" class="w-full rounded-xl shadow-lg" />
-      </div>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-      <div class="order-last md:order-first">
-        <img src="log_explorer_error.png" alt="monoscope Error Explorer" class="w-full rounded-xl shadow-lg" />
-      </div>
-      <div class="space-y-6">
-        <h2 class="text-3xl font-normal">Trace Errors back to the Root Cause</h2>
-        <p class="text-lg text-textWeak">
-          Don't just track errors and stack traces, but also record the incoming and outgoing requests that triggered the error. Good for customer support or reproducing the bug.
-        </p>
-        <div class="flex gap-2 sm:gap-4">
-          <a href="https://app.monoscope.tech" class="btn py-2 px-4 rounded-lg bg-fillBrand-strong text-textInverse-strong shadow text-sm">Start for free</a>
-          <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" class="btn py-2 px-4 rounded-lg bg-transparent border border-strokeBorder-weak text-textWeak shadow text-sm">Get a demo</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-      <div class="space-y-6">
-        <h2 class="text-3xl font-normal">Track Breaking Changes in Your APIs</h2>
-        <p class="text-lg text-textWeak">
-          Catch breaking changes in your APIs and in any third-party APIs you depend on. No other platform can detect arbitrary breaking changes in your APIs or any APIs you call.
-        </p>
-        <div class="flex gap-2 sm:gap-4">
-          <a href="https://app.monoscope.tech" class="btn py-2 px-4 rounded-lg bg-fillBrand-strong text-textInverse-strong shadow text-sm">Start for free</a>
-          <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" class="btn py-2 px-4 rounded-lg bg-transparent border border-strokeBorder-weak text-textWeak shadow text-sm">Get a demo</a>
-        </div>
-      </div>
-      <div>
-        <img src="changes_details.png" alt="monoscope Breaking Changes" class="w-full rounded-xl shadow-lg" />
-      </div>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-      <div class="order-last md:order-first">
-        <img src="monoscope_slack.png" alt="monoscope Slack Integration" class="w-full rounded-xl shadow-lg" />
-      </div>
-      <div class="space-y-6">
-        <h2 class="text-3xl font-normal">Get Instant Alerts and Notifications</h2>
-        <p class="text-lg text-textWeak">
-          Integrate Alerts into your current workflow through Slack, email, teams, pagerduty, opsgenie, or any preferred alerting or incident management integration.
-        </p>
-        <div class="flex gap-2 sm:gap-4">
-          <a href="https://app.monoscope.tech" class="btn py-2 px-4 rounded-lg bg-fillBrand-strong text-textInverse-strong shadow text-sm">Start for free</a>
-          <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" class="btn py-2 px-4 rounded-lg bg-transparent border border-strokeBorder-weak text-textWeak shadow text-sm">Get a demo</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-```
-
