@@ -18,24 +18,30 @@ In this guide, you’ll learn how to integrate OpenTelemetry into your FastAPI a
 
 You need a monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
-## Install via Claude Code
+## Set Up With Your Coding Agent
 
-Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument this project for you. Add the marketplace, install the skill, and install our CLI:
+Your coding agent can add the instrumentation for you. Install the monoscope skills and the monoscope CLI:
 
 ```sh
+# Claude Code
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
+
+# Cursor, Codex, Cline and other agents
+npx skills add monoscope-tech/skills
+
+# monoscope CLI
 curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 
-Then run inside Claude Code:
+Then ask your agent to instrument the project. In Claude Code, run:
 
 ```
-/monoscope-skills:instrument OpenTelemetry via Monoscope into this project
+/monoscope-skills:instrument Add OpenTelemetry for monoscope to this project
 ```
 
-The skill drives the CLI to wire up the SDK and verify it. Prefer a human? [Email us](mailto:hello@monoscope.tech) — happy to jump on a call or connect over Slack.
+The skill uses the CLI to add the SDK and to make sure that events arrive. To do the setup by hand, follow the steps below. For help from a person, [email us](mailto:hello@monoscope.tech).
 
 ## Installation
 
@@ -372,11 +378,17 @@ For one-shot scripts, call `trace.get_tracer_provider().shutdown()` before exiti
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>The `observe_request()` function wraps an <a href="https://github.com/monoscope-tech/monoscope-fastapi" target="_blank" rel="noopener noreferrer" class="">HTTPX</a>
+  <p>The `observe_request()` function wraps an <a href="https://github.com/monoscope-tech/monoscope-python/tree/main/fastapi" target="_blank" rel="noopener noreferrer" class="">HTTPX</a>
 
  client and you can use it just like you would normally use HTTPX for any request.</p>
 </div>
 ```
+
+## Next Steps
+
+- Send a few requests to your application. Then open **Log Explorer** in [monoscope](https://app.monoscope.tech) to see the requests, logs and traces.
+- [Find your way around the dashboard](/docs/dashboard/): issues, monitors, dashboards and the API catalog.
+- [Investigate from your terminal or your agent](/docs/ai/) with the CLI, the skills and the MCP server.
 
 ```=html
 <hr />
