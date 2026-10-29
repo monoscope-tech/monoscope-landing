@@ -51,8 +51,8 @@ testimonials:
 
 hero_tabs:
   - { id: issues, label: Issues, icon: bug, tone: warning, demo: "/assets/demos/know-b.html" }
-  - { id: logs, label: "Logs & traces", icon: align-left, tone: brand, demo: "/assets/demos/prove-b.html" }
-  - { id: dashboards, label: Dashboards, icon: bar-chart, tone: success, demo: "/assets/demos/dashboards-b.html" }
+  - { id: logs, label: "Logs & traces", short: Logs, icon: align-left, tone: brand, demo: "/assets/demos/prove-b.html" }
+  - { id: dashboards, label: "Metrics & dashboards", short: Metrics, icon: bar-chart, tone: success, demo: "/assets/demos/dashboards-b.html" }
   - { id: replay, label: Replay, icon: circle-play, tone: violet, demo: "/assets/demos/replay-b.html" }
   - { id: agent, label: AI SRE, icon: zap, tone: success, demo: "/assets/demos/fix-b.html" }
 
@@ -454,7 +454,7 @@ capabilities:
           {% for s in this.frontmatter.hero_tabs %}{% unless forloop.first %}<span aria-hidden="true" class="w-px h-5 bg-white/15"></span>{% endunless %}
           <button type="button" role="tab" id="hero-tab-{{s.id}}" aria-controls="hero-demo-{{s.id}}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" {% unless forloop.first %}tabindex="-1"{% endunless %} class="group tone-{{s.tone}} relative overflow-hidden flex items-center gap-2 rounded-lg px-3 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-medium text-white/60 hover:text-white transition-colors aria-selected:text-(--tone) aria-selected:bg-[color-mix(in_oklab,var(--tone-fill)_14%,transparent)]">
             <span data-fill aria-hidden="true" class="hidden group-aria-selected:block absolute inset-0 origin-left scale-x-0 transition-transform duration-50 ease-linear bg-[color-mix(in_oklab,var(--tone-fill)_45%,transparent)]"></span>
-            <svg class="relative w-4 h-4 sm:w-5 sm:h-5"><use xlink:href="/assets/deps/sprite.svg#{{s.icon}}"></use></svg><span class="relative">{{ s.label }}</span>
+            <svg class="relative w-4 h-4 sm:w-5 sm:h-5"><use xlink:href="/assets/deps/sprite.svg#{{s.icon}}"></use></svg><span class="relative whitespace-nowrap">{% if s.short %}<span class="lg:hidden">{{ s.short }}</span><span class="hidden lg:inline">{{ s.label }}</span>{% else %}{{ s.label }}{% endif %}</span>
           </button>
           {% endfor %}
         </div>
