@@ -8,9 +8,9 @@ menuWeight: 2
 
 # Monoscope Browser SDK
 
-The **Monoscope Browser SDK** is a lightweight JavaScript library for adding **session replay**, **performance tracing**, **error tracking**, and **web vitals** to your web applications.
+The **monoscope browser SDK** is a lightweight JavaScript library for adding **session replay**, **performance tracing**, **error tracking**, and **web vitals** to your web applications.
 
-When used together with the [Monoscope Server SDKs](https://monoscope.tech/docs/sdks/), you gain **end-to-end observability** — seamlessly connecting user interactions in the browser to backend services, APIs, and databases.
+Use it with the [monoscope server SDKs](/docs/sdks/) to get **end-to-end observability**: user interactions in the browser connect to backend services, APIs and databases.
 
 This means you can:
 
@@ -47,7 +47,7 @@ The skill uses the CLI to add the SDK and to make sure that events arrive. To do
 
 ## Installation
 
-Install via **npm/bun**:
+Install with npm:
 
 ```bash
 npm install @monoscopetech/browser
@@ -61,7 +61,7 @@ Or include it directly in your HTML using a `<script>` tag:
 
 ## Quick Start
 
-Initialize Monoscope with your **API key** (found in your project settings):
+Initialize monoscope with your **API key** (in the app under Settings > API Keys):
 
 ```javascript
 import Monoscope from "@monoscopetech/browser";
@@ -77,12 +77,25 @@ monoscope.setUser({
 });
 ```
 
+When you use the `<script>` tag, the SDK is available as the global `Monoscope` class: `new Monoscope({ apiKey: "YOUR_API_KEY" })`.
+
 On `localhost`, debug mode is auto-enabled — you'll see a status overlay and console diagnostics. Call `monoscope.test()` to verify your setup:
 
 ```javascript
 const result = await monoscope.test();
 console.log(result); // { success: true, message: "Test span sent successfully." }
 ```
+
+## Identifying users & tenants
+
+After your user signs in, call `setUser` and `setTenant`. The SDK adds them to the session, its replay and its spans, so you can filter by user or tenant in the dashboard.
+
+```javascript
+monoscope.setUser({ id: "user-123", email: "user@example.com", name: "Jane" });
+monoscope.setTenant({ id: "org-42", name: "Acme Inc" });
+```
+
+The browser SDK also sends the session ID to your backend in the W3C `baggage` header. It does this for same-origin requests, and for the URLs you list in `propagateTraceHeaderCorsUrls`. The monoscope server SDKs set it as `session.id` on the request span.
 
 ## React / Next.js
 
@@ -98,22 +111,29 @@ The `Monoscope` constructor accepts the following options:
 :::
 | Name | Type | Description |
 | --- | --- | --- |
-| `apiKey` | `string` | **Required** – Your Monoscope API key (found in project settings). |
+| `apiKey` | `string` | **Required**. Your monoscope API key (Settings > API Keys). |
 | `serviceName` | `string` | Service name. Defaults to `location.hostname`. |
 | `projectId` | `string` | Deprecated alias for `apiKey`. |
-| `exporterEndpoint` | `string` | Endpoint for exporting traces. Defaults to Monoscope's ingest endpoint. |
+| `exporterEndpoint` | `string` | Endpoint for exporting traces. Defaults to monoscope's ingest endpoint (`/v1/traces`). |
+| `metricsExporterEndpoint` | `string` | Endpoint for exporting metrics (web vitals). Defaults to the trace endpoint with `/v1/traces` replaced by `/v1/metrics`. |
 | `propagateTraceHeaderCorsUrls` | `RegExp[]` | URL patterns where trace context headers should be propagated. Defaults to same-origin only. |
 | `resourceAttributes` | `Record<string, string>` | Additional OpenTelemetry resource attributes. |
 | `instrumentations` | `unknown[]` | Additional OpenTelemetry instrumentations to register. |
-| `replayEventsBaseUrl` | `string` | Base URL for session replay events. Defaults to Monoscope's ingest endpoint. |
-| `enableNetworkEvents` | `boolean` | Include network timing events in document load spans. |
+| `replayEventsBaseUrl` | `string` | Base URL for session replay events. Defaults to monoscope's ingest endpoint. |
+| `enableNetworkEvents` | `boolean` | Include network timing events in document load spans. Default `false`. |
 | `user` | `MonoscopeUser` | Default user information for the session. |
-| `debug` | `boolean` | Enable debug logging to the console. |
+| `tenant` | `MonoscopeTenant` | Default tenant information for the session. |
+| `debug` | `boolean` | Enable debug logging to the console. Auto-enabled on `localhost`. |
 | `sampleRate` | `number` | Trace sampling rate from `0` to `1`. Default `1` (100%). |
 | `replaySampleRate` | `number` | Replay sampling rate from `0` to `1`. Default `1` (100%). |
 | `enabled` | `boolean` | Whether to start collecting data immediately. Default `true`. |
 | `resourceTimingThresholdMs` | `number` | Minimum resource duration (ms) to report. Default `200`. |
-| `enableUserInteraction` | `boolean` | Trace user clicks and interactions, linking them to downstream network calls. Default `false`. |
+| `captureResourceTiming` | `boolean` | Emit a span for each resource load over the threshold. Default `false`. |
+| `captureLongTasks` | `boolean` | Emit a span for each long task (main thread blocked over 50ms). Default `false`. |
+| `captureLongAnimationFrames` | `boolean` | Emit a span for each long animation frame, with per-script attribution. Chrome 123+. Default `true`. |
+| `captureWebVitals` | `boolean` | Capture Core Web Vitals (LCP, INP, CLS, FCP, TTFB) as OTel metrics. Default `true`. |
+| `captureExtensionErrors` | `boolean` | Capture errors from browser extensions. Default `false`. |
+| `enableUserInteraction` | `boolean` | Trace user clicks and form submits, linking them to downstream network calls. Default `true`. |
 :::
 
 ### User Object
@@ -133,16 +153,29 @@ The `MonoscopeUser` object can contain:
 
 Additional string-keyed attributes are also accepted and forwarded as custom user attributes.
 
+The `MonoscopeTenant` object can contain `id`, `name` and other string-keyed attributes.
+
 ## API
 
 ### `setUser(user: MonoscopeUser)`
 
-Associates the given user with the current session. Can be called at any time.
+Associates the given user with the current session. You can call it at any time.
 
 ```javascript
 monoscope.setUser({
   id: "user-123",
   email: "user@example.com",
+});
+```
+
+### `setTenant(tenant: MonoscopeTenant)`
+
+Associates the given tenant (organization or workspace) with the current session.
+
+```javascript
+monoscope.setTenant({
+  id: "org-42",
+  name: "Acme Inc",
 });
 ```
 
@@ -279,7 +312,7 @@ Detects client-side navigations (`pushState`, `replaceState`, `popstate`) and em
 Collects Core Web Vitals (CLS, INP, LCP) and additional metrics (FCP, TTFB) via the [web-vitals](https://github.com/GoogleChrome/web-vitals) library.
 
 ### Performance Observers
-Reports long tasks and slow resource loads as spans for performance debugging.
+Reports long animation frames as spans by default. Set `captureLongTasks` or `captureResourceTiming` to also report long tasks and slow resource loads.
 
 ### Session Management
 Sessions persist across page reloads via `sessionStorage` and automatically rotate after 30 minutes of inactivity.

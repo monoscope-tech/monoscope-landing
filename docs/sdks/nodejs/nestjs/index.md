@@ -8,7 +8,7 @@ menuWeight: 2
 
 # NestJs Integration Guide
 
-You can integrate your NestJs application with Monoscope using OpenTelemetry. This allows you to send logs, metrics, and traces to Monoscope for monitoring and analytics.
+Integrate your NestJs application with monoscope through OpenTelemetry to send logs, metrics and traces to monoscope.
 
 To get started, you'll need the OpenTelemetry Node.js library and some basic configuration.
 
@@ -47,17 +47,13 @@ The skill uses the CLI to add the SDK and to make sure that events arrive. To do
 
 ## Installation
 
-Run the command below to install the API, SDK, and Instrumentation tools.
+Install the OpenTelemetry API and the auto-instrumentation package:
 
 ```sh
-
-npm install --save @opentelemetry/api \
-    @opentelemetry/auto-instrumentations-node
+npm install --save @opentelemetry/api @opentelemetry/auto-instrumentations-node
 
 # Or
-
 yarn add @opentelemetry/api @opentelemetry/auto-instrumentations-node
-
 ```
 
 ## OpenTelemetry Configuration
@@ -86,9 +82,9 @@ OTEL_NODE_DISABLED_INSTRUMENTATIONS=net,connect,dns,fs
 </div>
 ```
 
-## Monoscope Middleware for NestJs + Express
+## Use the Express Middleware With NestJs
 
-If your NestJs app uses the default Express adapter (which is the default unless changed), you can include the Monoscope Express middleware to capture HTTP request and response details:
+NestJs has no separate monoscope package. If your app uses the default Express adapter, add the monoscope Express middleware to capture HTTP request and response details.
 
 ### Installation
 
@@ -96,7 +92,7 @@ If your NestJs app uses the default Express adapter (which is the default unless
 npm install --save @monoscopetech/express
 ```
 
-in your `main.ts` file
+Add the middleware in your `main.ts` file:
 
 ```ts
 import "dotenv/config";
@@ -115,20 +111,29 @@ async function bootstrap() {
 
   app.use(monoscopeClient.middleware);
 
-  app.get("/", async (req, res) => {
-    // This axios request get's monitored and appears in the  Monoscope explorer
-    const response = await axios.get(
-      "https://jsonplaceholder.typicode.com/todos/1"
-    );
-    res.json(response.data);
-  });
-
-  // automatically report unhandled errors along with the request data
-  app.use(monoscopeClient.errorMiddleware);
-
   await app.listen(3000);
 }
 bootstrap();
+```
+
+Nest handles exceptions in its own exception filters, so Express error middleware does not see them. To report errors, call `reportError` from a global exception filter:
+
+```ts
+import { ArgumentsHost, Catch } from "@nestjs/common";
+import { BaseExceptionFilter } from "@nestjs/core";
+import { reportError } from "@monoscopetech/express";
+
+@Catch()
+export class MonoscopeExceptionFilter extends BaseExceptionFilter {
+  catch(exception: unknown, host: ArgumentsHost) {
+    reportError(exception);
+    super.catch(exception, host);
+  }
+}
+
+// main.ts, after NestFactory.create (import HttpAdapterHost from "@nestjs/core")
+const { httpAdapter } = app.get(HttpAdapterHost);
+app.useGlobalFilters(new MonoscopeExceptionFilter(httpAdapter));
 ```
 
 ## Identifying users & tenants
@@ -162,9 +167,9 @@ app.useGlobalInterceptors(new MonoscopeUserInterceptor());
 
 Order matters: `app.use(monoscopeClient.middleware)` must run before the interceptor so the request span exists, and your auth guard must populate `req.user` first. Guards run before interceptors in Nest, so this works out of the box with Passport / JWT guards. Both helpers skip undefined/null fields, so partial info is fine.
 
-## Tracking sessions
+## Tracking Sessions
 
-If you ship the [Monoscope Browser SDK](/docs/sdks/Javascript/browser/){target="\_blank"} on your frontend, **`session.id` is propagated and tagged automatically** — no NestJS code required. The browser SDK injects the W3C `baggage` header on every outbound fetch/XHR, and the Monoscope Express middleware extracts it and tags the request span via `applySessionFromBaggage`. The session shows up alongside backend traces under the standard OTel `session.id` attribute, so you can filter, group, and replay them end-to-end.
+If you use the [monoscope browser SDK](/docs/sdks/Javascript/browser/){target="\_blank"} on your frontend, **`session.id` is propagated and tagged automatically** — no NestJS code required. The browser SDK injects the W3C `baggage` header on every outbound fetch/XHR, and the monoscope Express middleware extracts it and tags the request span via `applySessionFromBaggage`. The session shows up alongside backend traces under the standard OTel `session.id` attribute, so you can filter, group, and replay them end-to-end.
 
 For server-only sessions (background jobs, server-rendered pages without the browser SDK, or your own session scheme), set the session ID alongside user and tenant on the active request span. The three together — **who**, **which org**, **which session** — are what makes a trace searchable and replayable in the dashboard:
 
@@ -185,30 +190,28 @@ export class MonoscopeIdentityInterceptor implements NestInterceptor {
 }
 ```
 
-`setSession` writes the standard `session.id` attribute to the active request span. Calls outside the Monoscope middleware scope are no-ops.
+`setSession` writes the standard `session.id` attribute to the active request span. Calls outside the monoscope middleware scope are no-ops.
 
-## Monoscope Middleware with for NestJs + Fastify
+## Use NestJs With the Fastify Adapter
 
-If your NestJS app uses the Fastify adapter, you should follow our
-Fastify integration [fastify guide](/docs/sdks/nodejs/fastifyjs/){target="\_blank"}. for detailed setup instructions.
+If your NestJs app uses the Fastify adapter, follow the [Fastify guide](/docs/sdks/nodejs/fastifyjs/){target="\_blank"}.
 
-#### Quick overview of the configuration parameters
+#### Environment Variables
 
 {class="docs-table"}
 :::
 | Attribute | Description |
 | --------- | ----------- |
-| `OTEL_EXPORTER_OTLP_ENDPOINT` | Specifies the endpoint URL for the OpenTelemetry collector. In this case, it's set to "http://otelcol.monoscope.tech:4317". |
-| `OTEL_NODE_RESOURCE_DETECTORS` | Defines which resource detectors to use. Here, it's set to detect environment variables, host information, and operating system details. |
-| `OTEL_SERVICE_NAME` | Sets the name of your service. You should replace "your-service-name" with the actual name of your service. |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | The endpoint URL of the OpenTelemetry collector: `http://otelcol.monoscope.tech:4317`. |
+| `OTEL_SERVICE_NAME` | The name of your service. |
 | `OTEL_RESOURCE_ATTRIBUTES` | Specifies additional resource attributes. Holds your monoscope API key (`x-api-key=YOUR_API_KEY`). |
-| `OTEL_EXPORTER_OTLP_PROTOCOL` | Defines the protocol used for exporting telemetry data. It's set to "grpc" (gRPC protocol). |
-| `OTEL_PROPAGATORS` | Specifies which context propagators to use. Here, it's set to use both "baggage" and "tracecontext". |
+| `OTEL_EXPORTER_OTLP_PROTOCOL` | The protocol for exporting telemetry data: `grpc`. |
+| `OTEL_NODE_DISABLED_INSTRUMENTATIONS` | Auto-instrumentation libraries to turn off. |
 :::
 
-#### Quick overview of the configuration parameters
+#### Middleware Options
 
-An object with the following optional fields can be passed to the middleware function to configure it:
+Pass an object with these optional fields to `Monoscope.NewClient`:
 
 {class="docs-table"}
 :::
@@ -282,7 +285,7 @@ The same wrapper goes around `@Cron` / `@Interval` methods from `@nestjs/schedul
  <li>
   By default, all SDK <a href="https://opentelemetry.io/docs/languages/js/resources/">resource detectors</a> are enabled. However, you can customize this by setting the <code>OTEL_NODE_RESOURCE_DETECTORS</code> environment variable to activate specific detectors or disable them entirely.
  </li>
-  </ul>
+  </ol>
 </div>
 ```
 

@@ -8,7 +8,7 @@ menuWeight: 2
 
 # NextJs Integration Guide
 
-Monoscope Next.js Middleware allows you to monitor HTTP requests in your Next.js applications. It builds upon OpenTelemetry instrumentation to create custom spans for each request, capturing key details such as request and response bodies, headers, and status codes. Additionally, it offers robust support for monitoring outgoing requests and reporting errors automatically.
+The monoscope Next.js SDK lets you monitor HTTP requests in your Next.js applications. It builds upon OpenTelemetry instrumentation to create custom spans for each request, capturing key details such as request and response bodies, headers, and status codes. It also monitors outgoing requests and reports errors.
 
 To get started, you'll need the OpenTelemetry Node.js library and some basic configuration.
 
@@ -47,7 +47,7 @@ The skill uses the CLI to add the SDK and to make sure that events arrive. To do
 
 ## Installation
 
-Run the command below to install the Monoscope nextJs sdk and OpenTelemetry API, SDK, and auto instrumentation tools.
+Install the monoscope Next.js SDK, the OpenTelemetry API and `@vercel/otel`:
 
 ```sh
 npm install --save @monoscopetech/next @opentelemetry/api @vercel/otel
@@ -55,8 +55,7 @@ npm install --save @monoscopetech/next @opentelemetry/api @vercel/otel
 
 ## Set Up OpenTelemetry
 
-Setting up open telemetry allows you to send traces, metrics and logs to the Monoscope platform.
-Add the following environment variables to your `.env` file:
+OpenTelemetry sends traces, metrics and logs to monoscope. Add these environment variables to your `.env` file:
 
 ```sh
 OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4318"
@@ -65,9 +64,9 @@ OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY" # Adds your API KEY to the res
 OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf" #Specifies the protocol to use for the OpenTelemetry exporter.
 ```
 
-### Add the following to your `intrumentation.ts|js` file:
+### Register OpenTelemetry in `instrumentation.ts`
 
-You can create the `intrumentation.ts|js` in the `src` directory of your project or root directory if you're not using a `src` directory.
+Create `instrumentation.ts` (or `.js`) in your project root, or in `src` if you use a `src` directory:
 
 ```js
 import { registerOTel } from "@vercel/otel";
@@ -79,13 +78,13 @@ export function register() {
 
 ### HTTP Requests Monitoring
 
-After setting up open telemetry. You can monitor http requests using Monoscope's next middleware, this allows you to monitor all your http requests. including headers, response time, response status code, request body, response body, etc.
+The monoscope wrappers record headers, response time, status code and request and response bodies for each request.
 
-To monitor http requests, wrap your routes with the `withMonoscopeAppRouter` function if you're using the `app` router or `withMonoscopePagesRouter` if you're using the `pages` router.
+Wrap your routes with `withMonoscopeAppRouter` for the App Router, or `withMonoscopePagesRouter` for the Pages Router.
 
 #### App Router Example
 
-```js
+```ts
 import { withMonoscopeAppRouter } from "@monoscopetech/next";
 import { NextRequest, NextResponse } from "next/server";
 async function handleRequest(req: NextRequest) {
@@ -102,7 +101,7 @@ export const GET = withMonoscopeAppRouter(handleRequest, config);
 
 #### Pages Router Example
 
-```js
+```ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { withMonoscopePagesRouter } from "@monoscopetech/next";
 
@@ -118,9 +117,9 @@ const config = {
 export default withMonoscopePagesRouter(handler, config);
 ```
 
-#### Quick overview of the configuration parameters
+#### Configuration Options
 
-An object with the following optional fields can be passed to the middleware to configure it:
+Pass an object with these optional fields as the second argument of the wrapper:
 
 {class="docs-table"}
 :::
@@ -137,12 +136,9 @@ An object with the following optional fields can be passed to the middleware to 
 | `captureResponseBody` | Default `false`, set to `true` if you want to capture the response body. |
 :::
 
-## Reporting errors to Monoscope
+## Reporting Errors
 
-Monoscope detects a lot of API issues automatically, but it's also valuable to report and track errors. This helps you associate more details about the backend with a given failing request.
-If you've used sentry, or rollback, or bugsnag, then you're likely aware of this functionality.
-
-To report errors to Monoscope, you can use the `reportError` function.
+monoscope detects many API issues automatically. Reporting errors adds backend context to a failing request, as Sentry or Bugsnag do. To report an error, call `reportError`.
 
 ```typescript
 import { NextRequest, NextResponse } from "next/server";
@@ -151,14 +147,14 @@ async function handleRequest(req: NextRequest) {
   try {
     throw new Error("Something went wrong");
   } catch (e) {
-    // reportError will send the error to Monoscope
+    // reportError sends the error to monoscope
     reportError(e);
   }
 
   return NextResponse.json({ message: "hello world" });
 }
 
-export const GET = withMonoscopeAppRouter(handler);
+export const GET = withMonoscopeAppRouter(handleRequest);
 ```
 
 ## Identifying users & tenants
@@ -166,7 +162,7 @@ export const GET = withMonoscopeAppRouter(handler);
 Attach the authenticated user and tenant to every request span so you can filter, group, and search by identity in the dashboard (e.g. "all errors for `user.email = jane@acme.com`"). Call `setUser` and `setTenant` from inside a route handler that's wrapped with `withMonoscopeAppRouter` or `withMonoscopePagesRouter` — the SDK writes them to the active request span using the standard attribute keys (`user.id`, `user.email`, `user.full_name`, `tenant.id`, `tenant.name`).
 
 ```ts
-import { withMonoscopeAppRouter, setUser, setTenant } from "@monoscopetech/nextjs";
+import { withMonoscopeAppRouter, setUser, setTenant } from "@monoscopetech/next";
 import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 
@@ -186,16 +182,16 @@ async function handler() {
 export const GET = withMonoscopeAppRouter(handler);
 ```
 
-Both helpers skip undefined/null fields, so partial info is fine. They must run inside a handler wrapped by `withMonoscopeAppRouter`/`withMonoscopePagesRouter` — calls outside that scope are no-ops with a debug warning.
+Both helpers skip undefined/null fields, so partial info is fine. They must run inside a handler wrapped by `withMonoscopeAppRouter`/`withMonoscopePagesRouter` — calls outside that scope are log a warning and do nothing.
 
-## Tracking sessions
+## Tracking Sessions
 
-If you ship the [Monoscope Browser SDK](/docs/sdks/Javascript/browser/){target="\_blank"} on your frontend, **`session.id` is propagated and tagged automatically** — no Next.js code required. The browser SDK injects the W3C `baggage` header on every outbound fetch/XHR, and the Monoscope wrapper extracts it and tags the request span under the standard OTel `session.id` attribute.
+If you use the [monoscope browser SDK](/docs/sdks/Javascript/browser/){target="\_blank"} on your frontend, **`session.id` is propagated and tagged automatically** — no Next.js code required. The browser SDK injects the W3C `baggage` header on every outbound fetch/XHR, and the monoscope wrapper extracts it and tags the request span under the standard OTel `session.id` attribute.
 
 For server-only sessions (server components without the browser SDK, or your own session scheme), set the session ID alongside user and tenant on the active request span. The three together — **who**, **which org**, **which session** — are what makes a trace searchable and replayable in the dashboard:
 
 ```ts
-import { withMonoscopeAppRouter, setUser, setTenant, setSession } from "@monoscopetech/nextjs";
+import { withMonoscopeAppRouter, setUser, setTenant, setSession } from "@monoscopetech/next";
 import { getSession } from "@/lib/auth";
 
 async function handler() {
@@ -213,10 +209,9 @@ export const GET = withMonoscopeAppRouter(handler);
 
 `setSession` writes the standard `session.id` attribute to the active request span. Calls outside a wrapped handler are no-ops.
 
-## Monitoring Axios requests
+## Monitoring Axios Requests
 
-Monoscope supports monitoring outgoing HTTP requests made using libraries like Axios.
-To monitor a specific Axios request, you can use the `observeAxios` function provided by the SDK.
+To monitor a specific outgoing Axios request, use the `observeAxios` function.
 
 ```typescript
 import { NextRequest, NextResponse } from "next/server";
@@ -231,12 +226,12 @@ async function handleRequest(req: NextRequest) {
   return NextResponse.json({ data: response.data });
 }
 
-export const GET = withMonoscopeAppRouter(handler);
+export const GET = withMonoscopeAppRouter(handleRequest);
 ```
 
-The `urlWildcard` parameter is used for urls that contain dynamic path parameters. This helps Monoscope to identify request to the same endpoint but with different parameters.
+Use `urlWildcard` for URLs with dynamic path parameters. It lets monoscope group requests to the same endpoint.
 
-#### All observeAxios options
+#### All `observeAxios` Options
 
 Below is the full list of options for the `observeAxios` function:
 

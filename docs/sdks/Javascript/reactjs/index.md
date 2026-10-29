@@ -8,7 +8,7 @@ menuWeight: 3
 
 # React / Next.js Integration
 
-The Monoscope Browser SDK provides a `@monoscopetech/browser/react` subpath export with idiomatic React bindings — context providers, hooks, and an error boundary.
+The monoscope browser SDK provides a `@monoscopetech/browser/react` subpath export with idiomatic React bindings — context providers, hooks, and an error boundary.
 
 ## Set Up With Your Coding Agent
 
@@ -116,7 +116,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 | `MonoscopeProvider` | Context provider. Creates and destroys the SDK instance. Strict Mode safe. |
 | `useMonoscope()` | Returns the `Monoscope` instance (or `null` during SSR). |
 | `useMonoscopeUser(user)` | Calls `setUser` reactively when the user object changes. |
-| `MonoscopeErrorBoundary` | Error boundary that reports caught errors to Monoscope. Accepts `fallback` prop. |
+| `useMonoscopeTenant(tenant)` | Calls `setTenant` reactively when the tenant object changes. |
+| `MonoscopeErrorBoundary` | Error boundary that reports caught errors to monoscope. Accepts a `fallback` prop. |
 :::
 
 ## Custom Spans in Components

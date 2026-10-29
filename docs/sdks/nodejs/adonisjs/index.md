@@ -8,7 +8,7 @@ menuWeight: 2
 
 # AdonisJs Integration Guide
 
-You can integrate your AdonisJs application with Monoscope using OpenTelemetry. This allows you to send logs, metrics, and traces to Monoscope for monitoring and analytics.
+Integrate your AdonisJs application with monoscope through OpenTelemetry to send logs, metrics and traces to monoscope.
 
 To get started, you'll need the OpenTelemetry Node.js library and some basic configuration.
 
@@ -47,10 +47,10 @@ The skill uses the CLI to add the SDK and to make sure that events arrive. To do
 
 ## Installation
 
-Run the command below to install the API, SDK, and Instrumentation tools.
+Install the monoscope Adonis SDK, the OpenTelemetry API and the auto-instrumentation package:
 
 ```sh
-npm install --save @monoscopetech/adonis @opentelemetry/api  @opentelemetry/auto-instrumentations-node
+npm install --save @monoscopetech/adonis @opentelemetry/api @opentelemetry/auto-instrumentations-node
 ```
 
 ## OpenTelemetry Configuration
@@ -80,17 +80,11 @@ OTEL_NODE_DISABLED_INSTRUMENTATIONS=net,connect,dns,fs
 </div>
 ```
 
-## Setup Monoscope Adonis Middleware For HTTP Request Monitoring
+## Set Up the Adonis Middleware
 
-Monoscope Adonis Middleware is a middleware that can be used to monitor HTTP requests. It is a wrapper around the Express.js middleware and provides additional functionalities on top of the open telemetry instrumentation which creates a custom span for each request capturing details about the request including request and response bodies.
+The middleware adds a span for each request on top of the OpenTelemetry instrumentation. The span holds request and response details, including bodies.
 
-First configure the `@monoscopetech/adonis` sdk by running the following command:
-
-```sh
-node ace configure @monoscopetech/adonis
-```
-
-Then, create an `monoscope.js|ts` file in the `/conf` directory and export the `defineConfig` object with some properties like so:
+Create a `config/apitoolkit.ts` file (or `.js`) and export a `defineConfig` object. The middleware reads its options from the `apitoolkit` config key, so the file name must be `apitoolkit`:
 
 ```js
 import { defineConfig } from "@monoscopetech/adonis";
@@ -103,7 +97,7 @@ export default defineConfig({
 });
 ```
 
-Then, register the middleware by adding the `@monoscopetech/adonis` client to your global middleware list in the `start/kernel.js|ts` file like so:
+Then add the client to your global middleware list in `start/kernel.ts` (or `.js`):
 
 ```js
 import "dotenv/config";
@@ -122,9 +116,9 @@ server.use([
 ]);
 ```
 
-#### Quick overview of the configuration parameters
+#### Configuration Options
 
-An object with the following optional fields can be passed to the `defineConfig` function in `conf/monoscope.ts` to configure it:
+Pass these optional fields to `defineConfig` in `config/apitoolkit.ts`:
 
 {class="docs-table"}
 :::
@@ -144,9 +138,9 @@ An object with the following optional fields can be passed to the `defineConfig`
 
 ## Error Reporting
 
-With Monoscope, you can track and report different unhandled or uncaught errors, API issues, and anomalies at different parts of your application. This will help you associate more detail and context from your backend with any failing customer request.
+Reporting errors adds backend context to a failing request.
 
-To report errors, you need to first enable [asyncLocalStorage](https://docs.adonisjs.com/guides/concepts/async-local-storage){target="\_blank" rel="noopener noreferrer"} in your AdonisJS project by setting `useAsyncLocalStorage` to `true` in your `config/app.js|ts` file, like so:
+To report errors, first enable [asyncLocalStorage](https://docs.adonisjs.com/guides/concepts/async-local-storage){target="\_blank" rel="noopener noreferrer"} in your AdonisJS project by setting `useAsyncLocalStorage` to `true` in your `config/app.js|ts` file, like so:
 
 ```js
 export const http = defineConfig({
@@ -155,7 +149,7 @@ export const http = defineConfig({
 });
 ```
 
-Then, use the `reportError()` function in your application's exception handler, passing in the `error` argument, to report all uncaught errors and service exceptions that happened during a request, like so:
+Then call `reportError(error)` in your exception handler to report all uncaught errors from a request:
 
 ```js
 import { HttpContext, ExceptionHandler } from "@adonisjs/core/http";
@@ -167,7 +161,7 @@ export default class HttpExceptionHandler extends ExceptionHandler {
   }
 
   async report(error: unknown, ctx: HttpContext) {
-    // Automatically report all uncaught errors to Monoscope
+    // Report all uncaught errors to monoscope
     reportError(error);
     return super.report(error, ctx);
   }
@@ -176,7 +170,7 @@ export default class HttpExceptionHandler extends ExceptionHandler {
 
 #### Manual Error Reporting
 
-You can also manually report errors to Monoscope by calling the `reportError()` function, passing in the `error` argument, like so:
+To report an error manually, call `reportError(error)`:
 
 ```ts
 import router from "@adonisjs/core/services/router";
@@ -186,61 +180,24 @@ router.get("/", async () => {
     throw new Error("something went wrong");
     return res.data;
   } catch (error) {
-    // report the error to Monoscope
+    // report the error to monoscope
     reportError(error);
     return { message: "something went wrong" };
   }
 });
 ```
 
-## Identifying users & tenants
+## Tracking Sessions
 
-Attach the authenticated user and tenant to every request span so you can filter, group, and search by identity in the dashboard (e.g. "all errors for `user.email = jane@acme.com`"). Call `setUser` and `setTenant` from inside a controller or a middleware that runs after auth — the SDK writes them to the active request span using the standard attribute keys (`user.id`, `user.email`, `user.full_name`, `tenant.id`, `tenant.name`).
+If you use the [monoscope browser SDK](/docs/sdks/Javascript/browser/){target="\_blank"} on your frontend, `session.id` is propagated and tagged automatically. The browser SDK adds the W3C `baggage` header to outgoing fetch/XHR requests. The monoscope middleware reads it and sets the standard OTel `session.id` attribute on the request span.
 
-```ts
-import { setUser, setTenant } from "@monoscopetech/adonis";
-import type { HttpContext } from "@adonisjs/core/http";
+## Monitoring Axios Requests
 
-export default class UsersController {
-  async show({ auth }: HttpContext) {
-    const user = await auth.authenticate();
-    setUser({ id: user.id, email: user.email, name: user.fullName });
-    setTenant({ id: user.tenantId, name: user.tenantName });
-    // ...
-  }
-}
-```
+monoscope can monitor outgoing HTTP requests made with libraries like Axios, either globally or per request.
 
-Both helpers skip undefined/null fields, so partial info is fine. They must run inside a request handled by the Monoscope middleware — calls outside that scope are no-ops with a debug warning.
+### Global Monitoring
 
-## Tracking sessions
-
-If you ship the [Monoscope Browser SDK](/docs/sdks/Javascript/browser/){target="\_blank"} on your frontend, **`session.id` is propagated and tagged automatically** — no Adonis code required. The browser SDK injects the W3C `baggage` header on every outbound fetch/XHR, and the Monoscope middleware extracts it and tags the request span under the standard OTel `session.id` attribute.
-
-For server-only sessions, set the session ID alongside user and tenant on the active request span. The three together — **who**, **which org**, **which session** — are what makes a trace searchable and replayable in the dashboard:
-
-```ts
-import { setUser, setTenant, setSession } from "@monoscopetech/adonis";
-import type { HttpContext } from "@adonisjs/core/http";
-
-async show({ auth, session }: HttpContext) {
-  const user = await auth.authenticate();
-  setUser({ id: user.id, email: user.email, name: user.fullName });
-  setTenant({ id: user.tenantId, name: user.tenantName });
-  setSession(session.sessionId);
-  // ...
-}
-```
-
-`setSession` writes the standard `session.id` attribute to the active request span. Calls outside the Monoscope middleware scope are no-ops.
-
-## Monitoring Axios requests
-
-Monoscope supports monitoring outgoing HTTP requests made using libraries like Axios. This can be done either globally or on a per-request basis.
-
-### Global monitoring
-
-To monitor all outgoing Axios requests globally, you can use the `monitorAxios` option when initializing the Monoscope client.
+To monitor all outgoing Axios requests, set the `monitorAxios` option in `config/apitoolkit.ts`.
 
 ```typescript
 import { defineConfig } from "@monoscopetech/adonis";
@@ -253,11 +210,11 @@ export default defineConfig({
 });
 ```
 
-By adding `monitorAxios` to config, all axios requests in your server will be monitored by Monoscope.
+monoscope then monitors all Axios requests in your server.
 
-### Per-request monitoring
+### Per-Request Monitoring
 
-To monitor a specific Axios request, you can use the `observeAxios` function provided by the SDK.
+To monitor a specific Axios request, use the `observeAxios` function.
 
 ```typescript
 import router from "@adonisjs/core/services/router";
@@ -271,9 +228,9 @@ router.get("/", async () => {
 });
 ```
 
-The `urlWildcard` parameter is used for urls that contain dynamic path parameters. This helps Monoscope to identify request to the same endpoint but with different parameters.
+Use `urlWildcard` for URLs with dynamic path parameters. It lets monoscope group requests to the same endpoint.
 
-#### All observeAxios options
+#### All `observeAxios` Options
 
 Below is the full list of options for the `observeAxios` function:
 
@@ -295,8 +252,7 @@ import { observeAxios } from "@monoscopetech/adonis";
 import axios from "axios";
 router.get("/", async () => {
   const res = await observeAxios({
-    axiosInstance: axios,
-    urlWildcard: "/todos/:todoId"
+    urlWildcard: "/todos/:todoId",
     redactHeaders: ["Authorization"],
     redactResponseBody: ["$.credit_card_number"],
     redactRequestBody: ["$.password"]
@@ -358,7 +314,7 @@ The same wrapper goes around scheduled commands and any standalone Ace task. For
  <li>
   By default, all SDK <a href="https://opentelemetry.io/docs/languages/js/resources/">resource detectors</a> are enabled. However, you can customize this by setting the <code>OTEL_NODE_RESOURCE_DETECTORS</code> environment variable to activate specific detectors or disable them entirely.
  </li>
-  </ul>
+  </ol>
 </div>
 ```
 
