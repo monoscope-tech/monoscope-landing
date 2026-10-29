@@ -26,25 +26,7 @@
                     <a href="{{subItem.url}}" class="flex items-start gap-4 p-3 hover:bg-fillWeak active:bg-fillPress rounded-lg nav-link group/item focus-visible:ring-2 focus-visible:ring-strokeFocus focus-visible:ring-inset"
                       title="{{subItem.title}}">
                       <div class="w-10 h-10 bg-fillBrand-weak rounded-lg flex items-center justify-center shrink-0 group-hover/item:bg-fillBrand-strong transition-colors">
-                        {% if navItem.title == "Documentation" %}
-                          {% if subItem.title == "Get Started" %}
-                            <svg class="w-5 h-5 text-iconBrand group-hover/item:text-textInverse-strong transition-colors"><use xlink:href="/assets/deps/sprite.svg#circle-play"></use></svg>
-                          {% elsif subItem.title == "SDK Guides" %}
-                            <svg class="w-5 h-5 text-iconBrand group-hover/item:text-textInverse-strong transition-colors"><use xlink:href="/assets/deps/sprite.svg#plug"></use></svg>
-                          {% else %}
-                            <svg class="w-5 h-5 text-iconBrand group-hover/item:text-textInverse-strong transition-colors"><use xlink:href="/assets/deps/sprite.svg#chart-line"></use></svg>
-                          {% endif %}
-                        {% else %}
-                          {% if subItem.title contains "Error" %}
-                            <svg class="w-5 h-5 text-iconBrand group-hover/item:text-textInverse-strong transition-colors"><use xlink:href="/assets/deps/sprite.svg#bug"></use></svg>
-                          {% elsif subItem.title contains "analytics" %}
-                            <svg class="w-5 h-5 text-iconBrand group-hover/item:text-textInverse-strong transition-colors"><use xlink:href="/assets/deps/sprite.svg#bar-chart"></use></svg>
-                          {% elsif subItem.title contains "management" %}
-                            <svg class="w-5 h-5 text-iconBrand group-hover/item:text-textInverse-strong transition-colors"><use xlink:href="/assets/deps/sprite.svg#layout"></use></svg>
-                          {% else %}
-                            <svg class="w-5 h-5 text-iconBrand group-hover/item:text-textInverse-strong transition-colors"><use xlink:href="/assets/deps/sprite.svg#eye"></use></svg>
-                          {% endif %}
-                        {% endif %}
+                        <svg class="w-5 h-5 text-iconBrand group-hover/item:text-textInverse-strong transition-colors"><use xlink:href="/assets/deps/sprite.svg#{{subItem.sprite}}"></use></svg>
                       </div>
                       <div class="flex flex-col gap-1">
                         <h6 class="font-semibold text-textStrong group-hover/item:text-textBrand transition-colors">{{subItem.title}}</h6>

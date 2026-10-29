@@ -1,6 +1,63 @@
 {% render "default/components/head", this:this, config:config %}
 {% render "default/components/nav", this:this, config:config %}
-<div>
+{% comment %}Product page, rendered from frontmatter only. Schema: brand/site-plan.md "Product Page Frontmatter Schema".{% endcomment %}
+{% assign fm = this.frontmatter %}{% assign hf = "" %}{% assign pg = "log_explorer" %}{% if fm.playground %}{% assign pg = fm.playground %}{% endif %}{% if fm.hero_frame %}{% assign hf = fm.hero_frame %}{% endif %}
+<main class="flex flex-col items-center">
+  {% if fm.h1 %}
+  <section class="tone-{% if fm.tone %}{{fm.tone}}{% else %}brand{% endif %} relative w-full mt-(--inset)">
+    <div aria-hidden="true" class="absolute inset-y-0 left-1/2 -translate-x-1/2 panel-w rounded-[2rem] overflow-hidden bg-(--tone-panel) border border-(--tone-weak)">{% if fm.art %}<img src="/assets/img/home/art/{{fm.art}}" alt="" data-art class="absolute inset-x-0 bottom-0 w-full h-64 md:h-[28rem] object-cover object-left-bottom dark:opacity-60 [mask-image:linear-gradient(to_top,black_35%,rgb(0_0_0/.5)_60%,transparent)]">{% endif %}</div>
+    <div class="relative wrap max-w-[80rem] pt-20 sm:pt-28 {% if fm.art %}pb-48 md:pb-80{% else %}pb-16 md:pb-24{% endif %} space-y-14 md:space-y-20">
+      <div class="grid md:grid-cols-[3fr_2fr] gap-8 md:gap-x-16 items-end">
+        <div class="space-y-6">
+          <p class="inline-flex rounded-md px-2.5 py-1 eyebrow font-mono text-[12px] uppercase tracking-wider bg-(--tone-weak)">{{fm.eyebrow}}</p>
+          <h1 class="text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight leading-[1.05] text-balance text-textStrong">{{fm.h1}}</h1>
+        </div>
+        <div class="space-y-6 md:pb-2">
+          <p class="text-lg md:text-xl leading-relaxed text-textStrong/85 text-pretty max-w-[44ch]">{{fm.pitch}}</p>
+          <div class="flex flex-wrap items-center gap-x-6 gap-y-4">
+            <a href="https://app.monoscope.tech" class="btn h-auto min-h-11 py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong text-base font-medium inline-flex items-center gap-2 whitespace-nowrap" data-tracking="feature-start" data-reddit-event="SignUp">{% if fm.cta %}{{fm.cta}}{% else %}Start for free{% endif %} <svg class="h-3 w-3" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#arrow-right"></use></svg></a>
+            <a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/{{pg}}" class="inline-flex items-center min-h-11 text-base font-medium text-textStrong whitespace-nowrap underline underline-offset-4 [text-decoration-thickness:from-font] decoration-strokeWeak hover:decoration-strokeStrong" data-tracking="feature-playground" data-reddit-event="ViewContent">Launch playground</a>
+          </div>
+        </div>
+      </div>
+      {% if fm.hero_demo %}<div class="hidden sm:block">{% render "default/components/frame", demo:fm.hero_demo, label:hf %}</div>{% if fm.hero_shot %}<div class="sm:hidden">{% render "default/components/frame", shot:fm.hero_shot, label:hf, alt:fm.h1, eager:true %}</div>{% endif %}
+      {% elsif fm.hero_shot %}{% render "default/components/frame", shot:fm.hero_shot, label:hf, alt:fm.h1, eager:true %}{% endif %}
+    </div>
+  </section>
+
+  {% for s in fm.sections %}{% render "default/components/chapter", s:s, n:forloop.index %}{% endfor %}
+
+  {% if fm.faqs %}
+  <section id="faq" class="wrap max-w-[80rem] pt-28 md:pt-40 grid lg:grid-cols-[1fr_2fr] gap-8 lg:gap-16 scroll-mt-24">
+    <h2 class="text-4xl md:text-5xl font-medium tracking-tight leading-[1.2] text-balance text-textStrong">Questions</h2>
+    <div class="divide-y divide-strokeWeak border-y border-strokeWeak">
+      {% for f in fm.faqs %}<details class="group py-2"{% if forloop.first %} open{% endif %}>
+        <summary class="flex items-center justify-between gap-6 min-h-12 cursor-pointer list-none text-lg font-medium text-textStrong [&::-webkit-details-marker]:hidden">{{f.q}}<svg class="size-4 shrink-0 text-textWeak transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+        <p class="pb-4 max-w-[65ch] text-base leading-relaxed text-textWeak text-pretty">{{f.a}}</p>
+      </details>{% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% if fm.related %}
+  {% assign products = file_list | where_glob: 'file_path', "./features/*/index.md" %}
+  <section class="wrap max-w-[80rem] pt-28 md:pt-40 space-y-8">
+    <h2 class="text-2xl font-medium tracking-tight text-textStrong">Works with</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for p in products %}{% assign slug = p.file_path | split: "/" %}{% if fm.related contains slug[2] %}
+      <a href="{{p.permalink}}" class="card group tone-{% if p.frontmatter.tone %}{{p.frontmatter.tone}}{% else %}brand{% endif %} rounded-xl border border-strokeWeak p-6 flex flex-col gap-3 transition-[border-color,transform] duration-200 hover:border-(--tone-line) active:scale-[0.99]">
+        {% if p.frontmatter.h1 %}<p class="eyebrow font-mono text-[12px] uppercase tracking-wider">{{p.frontmatter.eyebrow}}</p>
+        <p class="text-lg font-semibold leading-snug text-balance text-textStrong">{{p.frontmatter.h1}}</p>{% endif %}
+        <span class="mt-auto inline-flex items-center gap-2 text-sm font-medium text-textBrand">Read more <svg class="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#arrow-right"></use></svg></span>
+      </a>
+      {% endif %}{% endfor %}
+    </div>
+  </section>
+  {% endif %}
+  {% endif %}
   {{this.content}}
-</div>
+</main>
+<script src="/assets/js/demo-scene.js" data-width="1180" data-height="820" defer></script>
+<link rel="stylesheet" href="/assets/css/home-motion.css?v=3">
+<script defer src="/assets/js/home-motion.js?v=3"></script>
 {% render "default/components/foot", this:this, config:config %}

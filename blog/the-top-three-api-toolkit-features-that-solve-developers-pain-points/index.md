@@ -17,7 +17,7 @@ Although APIs are essential to contemporary applications, effectively managing t
 
 ## 1. Real-time API Monitoring and Alerts
 
-Troubleshooting API failures without the right insights is one of the most annoying things for developers. Using API Toolkit's [real-time monitoring feature](https://monoscope.tech/features/api-observability/), developers can monitor API performance, watch errors and any numbers that matter over time.
+Troubleshooting API failures without the right insights is one of the most annoying things for developers. Using API Toolkit's [real-time monitoring feature](https://monoscope.tech/features/api-monitoring/), developers can monitor API performance, watch errors and any numbers that matter over time.
 
 ![monitors-and-alerts](./monitors-and-alerts.png)
 
