@@ -1,5 +1,7 @@
 ---
 # UNVERIFIED:
+# - 2026-10-29 (search ads tuning): pkg/Git.hs on master only opens the GitSync PR, so the "fix" section
+#   (incident to pull request) is still unverified; removed fix PRs from description and FAQ only.
 # - Fix PRs from incidents: on ../monoscope master the only PR the app opens is GitSync's
 #   "Sync Monoscope dashboards and monitors". Patch/fix-generation commits (a8108129a, d567fd512)
 #   live on work/impact-review-* and work/impact-worker-floor. Homepage and brief already claim it;
@@ -9,8 +11,8 @@
 #   daily at 14:00 and diffs service versions). The brief says a deploy trigger exists; if it ships,
 #   change "every afternoon" to "after every deploy".
 # - "About 50 tools" for MCP comes from docs/ai/mcp, not counted in code.
-title: "AI SRE that reads the real request"
-description: "An AI SRE that investigates from the full, unsampled request and response: routines on a schedule, fix PRs, PR checks against production, answers in Slack."
+title: "AI SRE for root cause analysis from the real request"
+description: "An AI SRE that finds the root cause from the full request and response: routines on a schedule, PR checks against production, answers in Slack."
 eyebrow: AI SRE
 tone: success
 h1: "An AI SRE that reads the actual request"
@@ -135,7 +137,7 @@ sections:
     code_class: language-bash
     code: |
       # The CLI, for your terminal, CI and agents
-      curl https://monoscope.tech/install.sh | sh
+      curl -fsSL https://monoscopehq.com/install.sh | sh
       monoscope issues list --json
       monoscope logs search 'body has "tracking_id"' --since 6h
 
@@ -159,9 +161,11 @@ sections:
     link_label: "Connect your agent"
 faqs:
   - q: "Does the AI change production on its own?"
-    a: "No. Fixes arrive as pull requests that go through your review and your CI. Routines can't act unless you allow actions for that routine, and PR reviews are comments only."
+    a: "No. Routines can't act unless you allow actions for that routine, and its pull request reviews are comments only. Your review and your CI decide what ships."
   - q: "What does it read that other AI SREs don't?"
-    a: "The request and response bodies of your API calls and the calls you make to suppliers, never sampled, next to logs, traces and metrics. AI layers that sit on Datadog or Sentry only see what those tools kept."
+    a: "The request and response bodies of your API calls and the calls you make to suppliers, kept on Cloud without sampling, next to logs, traces and metrics. AI layers that sit on Datadog or Sentry only see what those tools kept."
+  - q: "Is this AIOps, or AI root cause analysis?"
+    a: "It does the root cause part. Each new error gets a written root cause and a category, and an investigation cites the requests, traces, logs and deploys it used. It doesn't replace your incident process; it gives it evidence."
   - q: "Do I need your SDK, or is OpenTelemetry enough?"
     a: "Any OpenTelemetry exporter works for logs, traces and metrics. Request and response bodies come from the monoscope SDKs, which redact the fields you list before anything leaves your app."
   - q: "Can it read our code?"

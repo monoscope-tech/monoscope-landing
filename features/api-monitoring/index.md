@@ -6,11 +6,11 @@
 # - "API docs from real traffic": the catalog has an "API Docs" tab in the demo project; not checked
 #   whether it exports OpenAPI, so the copy doesn't say so.
 # - Court case: anonymous per brand/landing-content.md. Platnova quote is verbatim from index.md.
-title: "API monitoring for the APIs you serve and the ones you call"
-description: "Every API request and response, incoming and outgoing, kept with full bodies. Breaking changes flagged in your APIs and your suppliers'. Proof for disputes."
+title: "API monitoring for the APIs you serve and the APIs you call"
+description: "API monitoring for incoming and outgoing calls: every request and response kept with full bodies, and breaking changes flagged in your APIs and your suppliers'."
 eyebrow: API monitoring
 tone: brand
-h1: "What you sent, and what they answered"
+h1: "API monitoring for what you sent and what they answered"
 pitch: "Every request and response, the ones customers send you and the ones you send suppliers, kept with full bodies. When a field changes, you know first. When a partner disputes it, you show them."
 playground: api_catalog
 hero_demo: /assets/demos/prove-b.html
@@ -32,7 +32,7 @@ sections:
       - title: "Every host you call"
         icon: plug
         body: "Outgoing hosts get the same catalog: which services call them, how often, how slowly, and how often they fail."
-      - title: "Full bodies, never sampled"
+      - title: "Full bodies, every call"
         icon: align-left
         body: "Headers, request body and response body for each call, linked to the trace and logs around it. Bodies don't add to the price."
     link: /docs/dashboard/dashboard-pages/api-catalog/
@@ -103,6 +103,8 @@ faqs:
     a: "List headers and JSON paths such as $.card.number in the SDK config. They're redacted in your app before anything is sent."
   - q: "How long are requests kept?"
     a: "30 days on Cloud. With your own S3 bucket, as long as you keep the bucket, in open Delta Lake and Parquet you can query with DuckDB or Postgres-compatible SQL."
+  - q: "Can it monitor third-party APIs and webhooks we depend on?"
+    a: "Yes, for calls your app makes: our SDKs record each outgoing call with its request and response, and flag a supplier response that changes shape. Incoming webhooks are requests to your API, so they're recorded like any other."
   - q: "Does this replace Treblle or an API gateway's analytics?"
     a: "It covers the API side and adds the rest: logs, traces, metrics, session replay and an AI that investigates from the stored requests. Gateways see calls coming in, not the calls your app makes out."
 related: [error-tracking, logs-and-traces, byob-s3]
