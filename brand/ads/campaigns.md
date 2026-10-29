@@ -173,9 +173,9 @@ Cross-campaign negatives keep each search in one place: C1 negates pricing words
 | `real-user-monitoring` | `/features/real-user-monitoring/` | building | /features/session-replay/ | US+EU | $15 | real user monitoring, rum monitoring, real user monitoring tools, frontend monitoring, web vitals monitoring | – |
 | `session-replay` | `/features/session-replay/` | live | – | US+EU | $13 | session replay, session replay tool, session recording, session replay software, user session replay | heatmap, heatmaps, shopify, wordpress, marketing, hotjar |
 | `uptime-monitoring` | `/features/uptime-monitoring/` | building | /features/dashboards/ | US+EU | $12 | uptime monitoring, website uptime monitoring, uptime monitor, api uptime monitoring, endpoint monitoring, cron monitoring, cron job monitoring | kuma, uptimerobot, uptime robot, uptime command, linux, windows, minecraft |
-| `ai-rca` | `/features/ai-sre/` | live | – | US+EU | $6 | ai root cause analysis, ai sre, ai sre agent, ai incident investigation, ai on call, root cause analysis tool, ai for incident response | training, course, certification, six sigma, template, fishbone |
+| `ai-rca` | `/features/ai-sre/` | live | – | US+EU | $6 | ai root cause analysis, ai sre, ai sre agent, ai incident investigation, ai on call, root cause analysis tool, ai for incident response | six sigma, template, fishbone |
 
-**Shared negatives (every campaign, phrase):** jobs, job, careers, career, salary, salaries, hiring, internship, resume, stock, share price, ipo, login, log in, sign in, signin, certification, certified, interview, interview questions, tutorial, course, courses, training, udemy, download, free download, datadog agent, pdf, ppt, youtube
+**Shared negatives (every campaign, phrase):** jobs, careers, career, salary, salaries, hiring, internship, resume, stock, share price, ipo, login, log in, sign in, signin, certification, certified, interview, interview questions, tutorial, course, courses, training, udemy, download, free download, datadog agent, pdf, ppt, youtube
 
 - **C1 Conquest campaign negatives:** pricing, price, cost, costs, monoscope, apitoolkit
 - **C2 Cost campaign negatives:** alternative, alternatives, competitors, monoscope, apitoolkit

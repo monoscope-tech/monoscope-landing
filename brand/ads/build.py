@@ -326,7 +326,7 @@ GROUPS = [
        "Routines Check Production", "Ask It in Slack"],
       ["It investigates with the failing request and response in front of it, not a sampled span.",
        "Routines check production on a schedule and post what they find in Slack."],
-      ("ai-sre",), 6, neg=["training", "course", "certification", "six sigma", "template", "fishbone"],
+      ("ai-sre",), 6, neg=["six sigma", "template", "fishbone"],
       why="ai root cause analysis 70; 'ai sre' no measured volume, cheap test"),
 ]
 
@@ -334,7 +334,7 @@ COMPETITORS = ["datadog", "new relic", "newrelic", "sentry", "splunk", "grafana"
                "logrocket", "fullstory", "dynatrace", "better stack", "betterstack", "signoz", "bugsnag",
                "honeybadger", "axiom", "honeycomb", "sumo logic", "logz", "papertrail", "loggly", "uptimerobot",
                "pingdom", "hotjar", "posthog", "appdynamics", "instana", "coralogix", "dash0"]
-SHARED_NEG = ["jobs", "job", "careers", "career", "salary", "salaries", "hiring", "internship", "resume",
+SHARED_NEG = ["jobs", "careers", "career", "salary", "salaries", "hiring", "internship", "resume",
               "stock", "share price", "ipo", "login", "log in", "sign in", "signin", "certification",
               "certified", "interview", "interview questions", "tutorial", "course", "courses", "training",
               "udemy", "download", "free download", "datadog agent", "pdf", "ppt", "youtube"]
@@ -437,6 +437,13 @@ def main():
             if k in seen: errors.append(f"keyword '{k}' in {seen[k]} and {grp['gid']}")
             seen[k] = grp["gid"]
 
+    # A negative that matches a group's own keyword blocks it
+    for grp in GROUPS:
+        for n in SHARED_NEG + CAMPAIGN_NEG[grp["cid"]] + grp["neg"]:
+            for k in grp["kws"]:
+                if re.search(rf"(^| ){re.escape(n)}( |$)", k.lstrip("=")):
+                    errors.append(f"{grp['gid']}: negative '{n}' blocks keyword '{k}'")
+
     # Extensions in extensions.md: | kind | text | line1 | line2 | url |
     lim = {"sitelink": (25, 35, 35), "callout": (25,), "snippet": (25,), "price": (25, 25)}
     n_ext = 0
@@ -475,7 +482,7 @@ def main():
     print(f"checked {nh} headlines (<=30), {nd} descriptions (<=90), paths (<=15), {n_ext} extension rows")
     if errors:
         print(f"FAIL: {len(errors)} problems"); print("\n".join(errors)); sys.exit(1)
-    print("PASS: all lengths, banned words, caps, sampling qualifier, 15/4 counts, keyword overlap")
+    print("PASS: all lengths, banned words, caps, sampling qualifier, 15/4 counts, keyword overlap, negative conflicts")
 
 if __name__ == "__main__":
     main()

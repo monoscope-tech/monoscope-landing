@@ -1,6 +1,5 @@
 Campaign,Ad group,Keyword,Criterion Type
 C1 Conquest | US,,jobs,Campaign negative phrase
-C1 Conquest | US,,job,Campaign negative phrase
 C1 Conquest | US,,careers,Campaign negative phrase
 C1 Conquest | US,,career,Campaign negative phrase
 C1 Conquest | US,,salary,Campaign negative phrase
@@ -73,7 +72,6 @@ C1 Conquest | US,axiom,axiom verge,Negative phrase
 C1 Conquest | US,axiom,axiom bank,Negative phrase
 C1 Conquest | US,axiom,axiom telecom,Negative phrase
 C1 Conquest | EU,,jobs,Campaign negative phrase
-C1 Conquest | EU,,job,Campaign negative phrase
 C1 Conquest | EU,,careers,Campaign negative phrase
 C1 Conquest | EU,,career,Campaign negative phrase
 C1 Conquest | EU,,salary,Campaign negative phrase
@@ -146,7 +144,6 @@ C1 Conquest | EU,axiom,axiom verge,Negative phrase
 C1 Conquest | EU,axiom,axiom bank,Negative phrase
 C1 Conquest | EU,axiom,axiom telecom,Negative phrase
 C2 Cost | US,,jobs,Campaign negative phrase
-C2 Cost | US,,job,Campaign negative phrase
 C2 Cost | US,,careers,Campaign negative phrase
 C2 Cost | US,,career,Campaign negative phrase
 C2 Cost | US,,salary,Campaign negative phrase
@@ -184,7 +181,6 @@ C2 Cost | US,,apitoolkit,Campaign negative phrase
 C2 Cost | US,splunk-pricing,siem,Negative phrase
 C2 Cost | US,splunk-pricing,enterprise security,Negative phrase
 C2 Cost | EU,,jobs,Campaign negative phrase
-C2 Cost | EU,,job,Campaign negative phrase
 C2 Cost | EU,,careers,Campaign negative phrase
 C2 Cost | EU,,career,Campaign negative phrase
 C2 Cost | EU,,salary,Campaign negative phrase
@@ -222,7 +218,6 @@ C2 Cost | EU,,apitoolkit,Campaign negative phrase
 C2 Cost | EU,splunk-pricing,siem,Negative phrase
 C2 Cost | EU,splunk-pricing,enterprise security,Negative phrase
 C4 Brand | US,,jobs,Campaign negative phrase
-C4 Brand | US,,job,Campaign negative phrase
 C4 Brand | US,,careers,Campaign negative phrase
 C4 Brand | US,,career,Campaign negative phrase
 C4 Brand | US,,salary,Campaign negative phrase
@@ -263,7 +258,6 @@ C4 Brand | US,brand,telescope,Negative phrase
 C4 Brand | US,brand,wallpaper,Negative phrase
 C4 Brand | US,brand,monoscope pattern,Negative phrase
 C4 Brand | EU,,jobs,Campaign negative phrase
-C4 Brand | EU,,job,Campaign negative phrase
 C4 Brand | EU,,careers,Campaign negative phrase
 C4 Brand | EU,,career,Campaign negative phrase
 C4 Brand | EU,,salary,Campaign negative phrase
@@ -304,7 +298,6 @@ C4 Brand | EU,brand,telescope,Negative phrase
 C4 Brand | EU,brand,wallpaper,Negative phrase
 C4 Brand | EU,brand,monoscope pattern,Negative phrase
 C5 Category | US,,jobs,Campaign negative phrase
-C5 Category | US,,job,Campaign negative phrase
 C5 Category | US,,careers,Campaign negative phrase
 C5 Category | US,,career,Campaign negative phrase
 C5 Category | US,,salary,Campaign negative phrase
@@ -402,14 +395,10 @@ C5 Category | US,uptime-monitoring,uptime command,Negative phrase
 C5 Category | US,uptime-monitoring,linux,Negative phrase
 C5 Category | US,uptime-monitoring,windows,Negative phrase
 C5 Category | US,uptime-monitoring,minecraft,Negative phrase
-C5 Category | US,ai-rca,training,Negative phrase
-C5 Category | US,ai-rca,course,Negative phrase
-C5 Category | US,ai-rca,certification,Negative phrase
 C5 Category | US,ai-rca,six sigma,Negative phrase
 C5 Category | US,ai-rca,template,Negative phrase
 C5 Category | US,ai-rca,fishbone,Negative phrase
 C5 Category | EU,,jobs,Campaign negative phrase
-C5 Category | EU,,job,Campaign negative phrase
 C5 Category | EU,,careers,Campaign negative phrase
 C5 Category | EU,,career,Campaign negative phrase
 C5 Category | EU,,salary,Campaign negative phrase
@@ -507,9 +496,6 @@ C5 Category | EU,uptime-monitoring,uptime command,Negative phrase
 C5 Category | EU,uptime-monitoring,linux,Negative phrase
 C5 Category | EU,uptime-monitoring,windows,Negative phrase
 C5 Category | EU,uptime-monitoring,minecraft,Negative phrase
-C5 Category | EU,ai-rca,training,Negative phrase
-C5 Category | EU,ai-rca,course,Negative phrase
-C5 Category | EU,ai-rca,certification,Negative phrase
 C5 Category | EU,ai-rca,six sigma,Negative phrase
 C5 Category | EU,ai-rca,template,Negative phrase
 C5 Category | EU,ai-rca,fishbone,Negative phrase

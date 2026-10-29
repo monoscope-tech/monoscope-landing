@@ -1,6 +1,5 @@
 Campaign,Ad group,Keyword,Criterion Type
 C3 Ownership | US,,jobs,Campaign negative phrase
-C3 Ownership | US,,job,Campaign negative phrase
 C3 Ownership | US,,careers,Campaign negative phrase
 C3 Ownership | US,,career,Campaign negative phrase
 C3 Ownership | US,,salary,Campaign negative phrase
@@ -64,7 +63,6 @@ C3 Ownership | US,,dash0,Campaign negative phrase
 C3 Ownership | US,,monoscope,Campaign negative phrase
 C3 Ownership | US,,apitoolkit,Campaign negative phrase
 C3 Ownership | EU,,jobs,Campaign negative phrase
-C3 Ownership | EU,,job,Campaign negative phrase
 C3 Ownership | EU,,careers,Campaign negative phrase
 C3 Ownership | EU,,career,Campaign negative phrase
 C3 Ownership | EU,,salary,Campaign negative phrase
