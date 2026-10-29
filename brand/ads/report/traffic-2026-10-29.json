@@ -1,0 +1,133 @@
+[
+  {
+    "fetched_at": "2026-10-29T22:28:54.428Z",
+    "referrers": [
+      {
+        "referrer": "reddit.com",
+        "count": 593,
+        "uniques": 542
+      },
+      {
+        "referrer": "t.co",
+        "count": 258,
+        "uniques": 231
+      },
+      {
+        "referrer": "Google",
+        "count": 82,
+        "uniques": 75
+      },
+      {
+        "referrer": "aocr.org",
+        "count": 59,
+        "uniques": 59
+      },
+      {
+        "referrer": "github.com",
+        "count": 33,
+        "uniques": 22
+      },
+      {
+        "referrer": "com.twitter.android",
+        "count": 22,
+        "uniques": 19
+      },
+      {
+        "referrer": "Bing",
+        "count": 11,
+        "uniques": 5
+      },
+      {
+        "referrer": "DuckDuckGo",
+        "count": 7,
+        "uniques": 4
+      },
+      {
+        "referrer": "chat.zalo.me",
+        "count": 2,
+        "uniques": 1
+      },
+      {
+        "referrer": "app.clickup.com",
+        "count": 1,
+        "uniques": 1
+      }
+    ],
+    "views": {
+      "count": 3463,
+      "uniques": 2754,
+      "views": [
+        {
+          "timestamp": "2026-10-15T00:00:00Z",
+          "count": 213,
+          "uniques": 180
+        },
+        {
+          "timestamp": "2026-10-16T00:00:00Z",
+          "count": 262,
+          "uniques": 231
+        },
+        {
+          "timestamp": "2026-10-17T00:00:00Z",
+          "count": 344,
+          "uniques": 281
+        },
+        {
+          "timestamp": "2026-10-18T00:00:00Z",
+          "count": 303,
+          "uniques": 272
+        },
+        {
+          "timestamp": "2026-10-19T00:00:00Z",
+          "count": 196,
+          "uniques": 167
+        },
+        {
+          "timestamp": "2026-10-20T00:00:00Z",
+          "count": 151,
+          "uniques": 131
+        },
+        {
+          "timestamp": "2026-10-21T00:00:00Z",
+          "count": 106,
+          "uniques": 95
+        },
+        {
+          "timestamp": "2026-10-22T00:00:00Z",
+          "count": 72,
+          "uniques": 59
+        },
+        {
+          "timestamp": "2026-10-23T00:00:00Z",
+          "count": 117,
+          "uniques": 105
+        },
+        {
+          "timestamp": "2026-10-24T00:00:00Z",
+          "count": 338,
+          "uniques": 284
+        },
+        {
+          "timestamp": "2026-10-25T00:00:00Z",
+          "count": 394,
+          "uniques": 271
+        },
+        {
+          "timestamp": "2026-10-26T00:00:00Z",
+          "count": 344,
+          "uniques": 262
+        },
+        {
+          "timestamp": "2026-10-27T00:00:00Z",
+          "count": 283,
+          "uniques": 228
+        },
+        {
+          "timestamp": "2026-10-28T00:00:00Z",
+          "count": 340,
+          "uniques": 281
+        }
+      ]
+    }
+  }
+]
