@@ -4,11 +4,11 @@
   @media (hover: hover) and (pointer: fine) { a.card:hover { border-color: var(--color-strokeStrong); box-shadow: 0 4px 16px -8px oklch(0 0 0 / .15); } }
   [data-theme="light"] main a.text-textBrand { color: #005bd1; }
 </style>
-<link rel="stylesheet" href="/assets/css/home-motion.css?v=3">
+<link rel="stylesheet" href="/assets/css/home-motion.css?v=4">
 <script defer src="/assets/js/home-motion.js?v=3"></script>
 <section class="tone-{{tone}} relative w-full mt-(--inset)">
   <div aria-hidden="true" class="absolute inset-y-0 left-1/2 -translate-x-1/2 panel-w rounded-[2rem] overflow-hidden bg-(--tone-panel) border border-(--tone-weak)">
-    <img src="/assets/img/home/art/{{art}}" alt="" data-art class="absolute inset-x-0 bottom-0 w-full h-48 md:h-72 object-cover {% if art_pos %}{{art_pos}}{% else %}object-left-bottom{% endif %} dark:opacity-60 [mask-image:linear-gradient(to_top,black_30%,rgb(0_0_0/.8)_44%,rgb(0_0_0/.52)_58%,rgb(0_0_0/.26)_72%,rgb(0_0_0/.09)_86%,transparent)]">
+    {% capture art_classes %}absolute inset-x-0 bottom-0 w-full h-48 md:h-72 object-cover {% if art_pos %}{{art_pos}}{% else %}object-left-bottom{% endif %} [mask-image:linear-gradient(to_top,black_30%,rgb(0_0_0/.8)_44%,rgb(0_0_0/.52)_58%,rgb(0_0_0/.26)_72%,rgb(0_0_0/.09)_86%,transparent)]{% endcapture %}{% render "default/components/section-art", art:art, classes:art_classes, motion:true %}
   </div>
   <div class="relative wrap max-w-[80rem] pt-24 md:pt-36 pb-52 md:pb-80">
     <div class="space-y-6 max-w-3xl [&>p:first-child]:mb-3.5">

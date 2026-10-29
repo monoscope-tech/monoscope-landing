@@ -1,0 +1,11 @@
+{% assign icons = icons | split: "," %}
+<div class="flex w-full overflow-x-hidden max-w-screen
+  [&_img]:w-full
+  [&>div>*]:inline-block [&>div>*]:w-24 [&>div>*]:p-3 [&>div>*]:rounded-xl
+  [&>div>*]:border [&>div>*]:border-strokeWeak">
+  {% for track in (1..2) %}
+  <div class="animate-[scroll-x_60s_linear_infinite] motion-reduce:animate-none {% if reverse %}animation-reverse {% endif %}whitespace-nowrap flex w-max shrink-0 gap-5 pe-5"{% unless forloop.first %} aria-hidden="true"{% endunless %}>
+    {% for icon in icons %}<div><img src="/assets/img/opentelemetry-contrib-logos/{{icon}}" alt="" loading="lazy" decoding="async"/></div>{% endfor %}
+  </div>
+  {% endfor %}
+</div>

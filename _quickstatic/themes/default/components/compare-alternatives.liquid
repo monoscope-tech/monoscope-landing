@@ -29,13 +29,7 @@
         <h2 class="text-3xl md:text-4xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong">{{f.gaps_title}}</h2>
       </div>
       <ul class="grid sm:grid-cols-3 gap-x-8 gap-y-10">
-        {% for g in f.gaps %}
-        <li>
-          <svg class="size-5 text-textBrand" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#{{g.icon}}"></use></svg>
-          <h3 class="mt-4 text-xl font-semibold leading-[1.35] text-balance text-textStrong">{{g.title}}</h3>
-          <p class="mt-2 text-base leading-relaxed text-textWeak text-pretty">{{g.body}}</p>
-        </li>
-        {% endfor %}
+        {% render "default/components/feature-bullets", bullets:f.gaps %}
       </ul>
     </div>
   </section>

@@ -59,3 +59,6 @@ section > .footer-scene { margin-top: 0; }
   @keyframes gull-glide { 0% { transform: translate(110vw, 0); } 50% { transform: translate(50vw, -18px); } 100% { transform: translate(-10vw, 6px); } }
   @keyframes gull-flap { 0%, 60%, 100% { scale: 1 1; } 30% { scale: 1 .45; } }
 }
+
+/* Match painted effects to the visible theme variant. */
+[data-theme=dark] .art-day + .art-fx, [data-theme=light] .art-evening + .art-fx { display: none; }

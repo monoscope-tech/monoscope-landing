@@ -4,10 +4,10 @@ and them: exactly 8 cells in `labels` order, each {s: yes|part|no|none, t} or {l
 {% assign f = this.frontmatter %}
 {% assign labels = "Request and response bodies, in and out|Breaking changes in third-party APIs|AI sees the full request|AI investigates the root cause|Pricing|Open source and self-hosting|Data in your own bucket|Coverage" | split: "|" %}
 {% assign mono = "yes~Every call, unsampled on paid plans|yes~Caught in the stored responses|yes~Yes|yes~Built in, answers in Slack|list~$29/month for 20M events;then $1 per million;Bodies and metrics included;No host or indexing fees|yes~AGPL-3.0, free to self-host|part~Session replays in your S3 today, +$199/month|yes~Logs, traces, metrics, errors and session replay" | split: "|" %}
-{% capture check %}<svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5"/></svg>{% endcapture %}
+{% capture check %}{% render "default/components/status-icon", status:"check" %}{% endcapture %}
 {% capture icon_yes %}<span class="mt-0.5 text-textSuccess">{{check}}</span>{% endcapture %}
-{% capture icon_part %}<span class="mt-0.5 text-iconWarning"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4.5v4M8 11.5h.01M14 8A6 6 0 1 1 2 8a6 6 0 0 1 12 0"/></svg></span>{% endcapture %}
-{% capture icon_no %}<span class="mt-0.5 text-textWeak"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 4.5l7 7m0-7-7 7"/></svg></span>{% endcapture %}
+{% capture icon_part %}<span class="mt-0.5 text-iconWarning">{% render "default/components/status-icon", status:"partial" %}</span>{% endcapture %}
+{% capture icon_no %}<span class="mt-0.5 text-textWeak">{% render "default/components/status-icon", status:"cross" %}</span>{% endcapture %}
 <section class="flex flex-col items-center relative" style="z-index: 1;">
   <section class="tone-brand relative w-full mt-(--inset)">
     <div aria-hidden="true" class="absolute inset-y-0 left-1/2 -translate-x-1/2 panel-w rounded-[2rem] overflow-hidden bg-(--tone-panel) border border-(--tone-weak)"></div>

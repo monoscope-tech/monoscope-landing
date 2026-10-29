@@ -1,0 +1,5 @@
+{% for bullet in bullets %}<li>
+  {% if bullet.icon %}<svg class="size-5 {% if themed %}text-(--tone){% else %}text-textBrand{% endif %}" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#{{bullet.icon}}"></use></svg>{% endif %}
+  <h3 class="mt-4 text-xl font-semibold leading-[1.35] text-balance text-textStrong">{{bullet.title}}</h3>
+  <p class="mt-2 text-base leading-relaxed text-textWeak text-pretty">{{bullet.body}}</p>
+</li>{% endfor %}

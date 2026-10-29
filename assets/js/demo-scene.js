@@ -15,6 +15,7 @@
 //   zoom     { to: selector | [x%, y%], scale, instant? } pushes the camera onto an element; 1 pulls back out.
 //            With `screen` and `instant`, the new screen starts pushed in, so a following `zoom: 1` settles it.
 //   wait     ms to hold after the step (default 900)
+// The host carries data-screen=<current screen>, so the page can restyle the frame around it.
 // The stage scales to fit its box. Set data-width/data-height on the script to match captured screens.
 // Loading: the first screen is fetched alone and shown at once; the rest stream in behind it. Fetched text and
 // parsed stylesheets are cached per URL, so the hero tab and the chapter that play the same demo share them.
@@ -114,7 +115,7 @@
       const show = async name => {
         const next = stage.querySelector(`[data-screen="${name}"]`);
         if (next === current) return;
-        await next._ready; current?.classList.remove('on'); next.classList.add('on'); current = next;
+        await next._ready; current?.classList.remove('on'); next.classList.add('on'); current = next; this.dataset.screen = name;
       };
       // Steps mutate the current screen (focus, reveal, tab, type, swap); a pristine clone taken before the first
       // mutation restores it when the loop restarts. Untouched screens are never copied.

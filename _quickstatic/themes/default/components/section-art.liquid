@@ -1,0 +1,8 @@
+{% assign scene = art | split: "?" | first %}
+{% case scene %}
+{% when "fix-lighthouse.webp" %}{% assign evening = "fix-lighthouse-evening.webp" %}
+{% when "prove-observatory.webp", "page-dashboards.webp", "page-monitors.webp", "page-own-bucket.webp", "page-logs-traces.webp", "page-opentelemetry.webp" %}{% assign evening = "observatory-evening.webp" %}
+{% when "start-path.webp" %}{% assign evening = "path-evening.webp" %}
+{% else %}{% assign evening = "lighthouse-evening.webp" %}
+{% endcase %}
+{% for mode in (1..2) %}<img src="/assets/img/home/art/{% if forloop.first %}{{art}}{% else %}{{evening}}{% endif %}" alt=""{% if lazy %} loading="lazy"{% endif %}{% if motion %} data-art{% endif %}{% if glint %} data-glint{% endif %}{% if width %} width="{{width}}" height="{{height}}"{% endif %} class="{% if forloop.first %}art-day dark:hidden{% else %}art-evening hidden dark:block{% endif %} {{classes}}">{% endfor %}

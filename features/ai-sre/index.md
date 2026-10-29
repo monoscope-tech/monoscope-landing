@@ -89,18 +89,21 @@ sections:
     eyebrow: "Before it merges"
     title: "Every pull request, checked against production"
     lead: "Link a GitHub repository and monoscope comments on each open pull request with what live traffic says about the lines it changes: how many requests hit them, how many failed, and what to check next."
-    code_label: "GitHub · comment on PR #512"
-    code_class: nohighlight
-    code: |
-      Monoscope production impact · Worth checking
-      Project orders · reviewed 9f3c1e0 · advisory
-      Evidence window (UTC): 2026-10-21 09:00 → 2026-10-28 09:00
-
-      src/shipments/advance.ts:42 (Head)
-      Production: 41,208 events · 312 errors on this path
-      Inferred: the new guard returns early when tracking_id is absent,
-      which 3% of acme-logistics responses this week were missing.
-      Next check: replay one of those responses against this branch.
+    github_review:
+      repository: acme/orders-service
+      number: 512
+      title: Simplify the Acme webhook handler
+      author: sam
+      branch: sam/acme-cleanup
+      verdict: Worth checking
+      project: orders
+      commit: 9f3c1e0
+      window: "2026-10-21 09:00 → 2026-10-28 09:00"
+      file: src/shipments/advance.ts:42
+      events: "41,208"
+      errors: "312"
+      finding: "The new guard returns early when <code>tracking_id</code> is absent, which 3% of acme-logistics responses this week were missing."
+      next_check: Replay one of those responses against this branch.
     bullets:
       - title: "Tied to the changed lines"
         icon: code

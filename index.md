@@ -407,8 +407,8 @@ capabilities:
     <div class="hero-paint hero-sky relative panel-w rounded-[2rem] overflow-hidden text-textStrong ring-1 ring-black/5 dark:ring-white/10">
     <img src="/assets/img/home/art/hero-morning.webp?v=5" alt="" width="2464" height="1856" fetchpriority="high" data-anchor-to="[data-hero-tabs] [role=tablist]" data-anchor-at="0.8" class="dark:hidden absolute inset-x-0 top-0 w-full h-auto max-sm:h-[44%] max-sm:object-cover max-sm:object-[94%_0%] max-sm:opacity-45 [mask-image:linear-gradient(to_bottom,transparent,black_28%,black_80%,transparent)]">
     <img src="/assets/img/home/art/hero-shore-morning.webp" alt="" class="dark:hidden absolute inset-x-0 bottom-0 w-full h-auto min-h-48 object-cover object-[18%_100%] [mask-image:linear-gradient(to_top,black_55%,rgb(0_0_0/.5)_78%,transparent)]">
-    <img src="/assets/img/home/art/hero-night.webp" alt="" data-art data-lamp="0.821,0.282" data-beam="out" class="hidden dark:block absolute inset-x-0 top-0 w-full h-[62%] object-cover object-[50%_0%] brightness-[.72] saturate-[.85] [mask-image:linear-gradient(to_bottom,transparent,black_12%,black_70%,transparent)]">
-    <img src="/assets/img/home/art/hero-shore.webp" alt="" data-art data-glint class="hidden dark:block absolute inset-x-0 bottom-0 w-full h-auto min-h-48 object-cover object-[18%_100%] brightness-[.65] saturate-[.9] [mask-image:linear-gradient(to_top,black_55%,rgb(0_0_0/.5)_78%,transparent)]">
+    <img src="/assets/img/home/art/hero-night.webp" alt="" loading="lazy" data-art data-lamp="0.821,0.282" data-beam="out" class="hidden dark:block absolute inset-x-0 top-0 w-full h-[62%] object-cover object-[50%_0%] brightness-[.72] saturate-[.85] [mask-image:linear-gradient(to_bottom,transparent,black_12%,black_70%,transparent)]">
+    <img src="/assets/img/home/art/hero-shore.webp" alt="" loading="lazy" data-art data-glint class="hidden dark:block absolute inset-x-0 bottom-0 w-full h-auto min-h-48 object-cover object-[18%_100%] brightness-[.65] saturate-[.9] [mask-image:linear-gradient(to_top,black_55%,rgb(0_0_0/.5)_78%,transparent)]">
     <div aria-hidden="true" class="absolute inset-0 pointer-events-none bg-[radial-gradient(75%_34%_at_50%_24%,rgb(255_255_255/0.72),rgb(255_255_255/0.4)_50%,transparent_85%)] dark:bg-[radial-gradient(60%_45%_at_70%_28%,oklch(14%_0.04_270/0.7),transparent_75%)]"></div>
     <div class="relative flex flex-col items-center space-y-12 pt-16 sm:pt-28">
       <div class="grid md:grid-cols-[3fr_2fr] wrap-in gap-8 md:gap-x-16 md:gap-y-5 items-start mb-[clamp(5rem,10vw,12rem)]!">
@@ -455,7 +455,7 @@ capabilities:
         </script>
         {% for s in this.frontmatter.hero_tabs %}
         <div role="tabpanel" id="hero-demo-{{s.id}}" aria-labelledby="hero-tab-{{s.id}}" {% unless forloop.first %}hidden{% endunless %} data-theme="dark" class="rounded-xl border border-strokeWeak bg-bgRaised! overflow-hidden shadow-[0_30px_80px_-20px_rgb(0_0_0/0.7)]">
-          <div class="h-[31px] border-b border-strokeWeak"></div>
+          <div data-frame-bar class="h-[31px] border-b border-strokeWeak"></div>
           <div class="relative bg-fillWeak" style="aspect-ratio: 1180 / 820;"><demo-scene src="{{s.demo}}" class="absolute inset-0"></demo-scene></div>
         </div>
         {% endfor %}
@@ -483,7 +483,7 @@ capabilities:
 
       <div class="w-full grid grid-cols-4 sm:grid-cols-8 gap-px bg-black/5 dark:bg-white/10 border-t border-black/5 dark:border-white/10 *:bg-white/45 dark:*:bg-black/35 *:backdrop-blur-sm *:p-5 *:flex *:items-center *:justify-center [&_img]:h-5 [&_img]:sm:h-7 [&_img]:brightness-0 dark:[&_img]:invert [&_img]:opacity-70">
           {% assign customers = "Andela|andela.svg,Partna|partna.svg,Grovepay|grovepay.svg,Sameday|sameday.svg,Platnova|platnova.png,Payfonte|payfonte.svg,Thepeer|thepeer.svg,Blockradar|blockradar-full.svg" | split: "," %}
-          {% for c in customers %}{% assign cn = c | split: "|" %}<div><img src="/assets/img/customers/{{cn[1]}}" alt="{{cn[0]}}"></div>{% endfor %}
+          {% for c in customers %}{% assign cn = c | split: "|" %}<div><img src="/assets/img/customers/{{cn[1]}}" alt="{{cn[0]}}" loading="lazy" decoding="async"></div>{% endfor %}
       </div>
     </div>
     </div>
@@ -503,7 +503,7 @@ capabilities:
             <a href="https://www.trustpilot.com/review/apitoolkit.io" target="_blank" rel="noopener noreferrer" class="inline-flex gap-0.5 w-fit" aria-label="Five-star review on Trustpilot">{% for i in (1..5) %}<svg class="h-4 w-4 text-[#00b67a]"><use xlink:href="/assets/deps/sprite.svg#star"></use></svg>{% endfor %}</a>
             <blockquote class="text-textStrong text-pretty flex-1">“{{f[3]}}”</blockquote>
             <figcaption class="flex gap-3 items-center text-base">
-              <img class="rounded-lg grayscale w-9 h-9 object-cover" src="/assets/img/love/{{f[0]}}" alt="{{f[1]}}" />
+              <img class="rounded-lg grayscale w-9 h-9 object-cover" src="/assets/img/love/sm/{{f[0] | split: '.' | first}}.webp" width="120" height="120" loading="lazy" decoding="async" alt="{{f[1]}}" />
               <span><span class="text-textStrong">{{f[1]}}</span>, {{f[2]}}</span>
             </figcaption>
           </figure>
@@ -647,7 +647,7 @@ capabilities:
     <div class="w-full">
     {% for s in this.frontmatter.sections %}
     <section id="{{s.id}}" class="tone-{{s.tone}} relative w-full scroll-mt-16">
-      {% assign odd = forloop.index | modulo: 2 %}{% if odd == 1 or s.art %}<div aria-hidden="true" class="absolute top-(--inset) bottom-0 left-1/2 -translate-x-1/2 panel-w rounded-[2rem] overflow-hidden bg-(--tone-panel) border border-(--tone-weak)">{% if s.art %}<img src="/assets/img/home/art/{{s.art}}" alt="" loading="lazy" data-art{% if s.id == 'know' or s.id == 'start' %} data-glint{% endif %} class="absolute inset-x-0 bottom-0 w-full {% if s.art_class %}{{s.art_class}}{% else %}h-56 md:h-80{% endif %} object-cover object-left-bottom dark:opacity-60 [mask-image:linear-gradient(to_top,black_30%,rgb(0_0_0/.8)_44%,rgb(0_0_0/.52)_58%,rgb(0_0_0/.26)_72%,rgb(0_0_0/.09)_86%,transparent)]">{% endif %}</div>{% endif %}
+      {% assign odd = forloop.index | modulo: 2 %}{% if odd == 1 or s.art %}<div aria-hidden="true" class="absolute top-(--inset) bottom-0 left-1/2 -translate-x-1/2 panel-w rounded-[2rem] overflow-hidden bg-(--tone-panel) border border-(--tone-weak)">{% if s.art %}{% assign glint = false %}{% if s.id == "know" or s.id == "start" %}{% assign glint = true %}{% endif %}{% capture art_classes %}absolute inset-x-0 bottom-0 w-full {% if s.art_class %}{{s.art_class}}{% else %}h-56 md:h-80{% endif %} object-cover object-left-bottom [mask-image:linear-gradient(to_top,black_30%,rgb(0_0_0/.8)_44%,rgb(0_0_0/.52)_58%,rgb(0_0_0/.26)_72%,rgb(0_0_0/.09)_86%,transparent)]{% endcapture %}{% render "default/components/section-art", art:s.art, classes:art_classes, lazy:true, motion:true, glint:glint %}{% endif %}</div>{% endif %}
       <div class="relative wrap max-w-[80rem] pt-32 md:pt-48 {% if s.id == 'start' %}pb-0{% elsif s.id == 'know' %}pb-0{% elsif s.art %}pb-56 md:pb-96{% else %}pb-24 md:pb-32{% endif %} space-y-24 md:space-y-32 lg:[&>.blk]:ps-12">
         <div aria-hidden="true" class="rail hidden lg:block absolute left-[23px] {% if s.art and s.id != 'know' and s.id != 'start' %}bottom-[21rem]{% else %}bottom-0{% endif %} m-0! w-0.5 bg-(--tone-line) {% if s.id == 'prove' %}top-0{% else %}top-[calc(8rem+13px)] md:top-[calc(12rem+13px)]{% endif %}"></div>
         <div class="space-y-14">
@@ -687,7 +687,7 @@ capabilities:
           </div>
           {% else %}
           <div data-theme="dark" class="hidden sm:block relative rounded-xl border border-strokeWeak bg-bgRaised! overflow-hidden shadow-[0_24px_64px_-32px_var(--tone-fill)]">
-            <div class="flex items-center gap-1.5 px-4 h-[31px] border-b border-strokeWeak"><i class="block size-2.5 rounded-full bg-white/15"></i><i class="block size-2.5 rounded-full bg-white/15"></i><i class="block size-2.5 rounded-full bg-white/15"></i></div>
+            <div data-frame-bar class="flex items-center gap-1.5 px-4 h-[31px] border-b border-strokeWeak"><i class="block size-2.5 rounded-full bg-white/15"></i><i class="block size-2.5 rounded-full bg-white/15"></i><i class="block size-2.5 rounded-full bg-white/15"></i></div>
             <div class="relative bg-fillWeak" style="aspect-ratio: 1180 / 820;"><demo-scene src="{{s.demo}}" class="absolute inset-0"></demo-scene></div>
           </div>
           {% endif %}
@@ -700,13 +700,7 @@ capabilities:
           </div>
           <div class="space-y-10 lg:ps-12">
             <ul class="grid sm:grid-cols-2 {% if s.bullets.size == 3 %}lg:grid-cols-3{% else %}lg:grid-cols-4{% endif %} gap-x-8 gap-y-10">
-              {% for b in s.bullets %}
-              <li>
-                <svg class="size-5 text-(--tone)" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#{{b.icon}}"></use></svg>
-                <h3 class="mt-4 text-xl font-semibold leading-[1.35] text-balance text-textStrong">{{b.title}}</h3>
-                <p class="mt-2 text-base leading-relaxed text-textWeak text-pretty">{{b.body}}</p>
-              </li>
-              {% endfor %}
+              {% render "default/components/feature-bullets", bullets:s.bullets, themed:true %}
             </ul>
             <div class="border-t border-strokeWeak pt-6">
               <a href="{{s.link}}" class="inline-flex items-center gap-2 min-h-11 text-base font-medium text-textBrand underline underline-offset-4">{{s.link_label}} <svg class="h-3 w-3" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#arrow-right"></use></svg></a>
@@ -753,20 +747,12 @@ capabilities:
               {% if a.cmd_codex %}<p class="text-[12px] font-medium text-textWeak">Claude Code</p>{% endif %}
               <div class="relative">
                 <pre class="rounded-lg bg-[oklch(18%_0.02_263)] text-white/90 p-3 pe-12 text-[12px] leading-relaxed font-mono whitespace-pre-wrap break-all"><code class="nohighlight">{{a.cmd | strip}}</code></pre>
-                <button type="button" data-copy aria-label="Copy command" class="group absolute top-1.5 end-1.5 grid place-items-center size-8 rounded-md text-white/60 hover:text-white hover:bg-white/10 transition-colors">
-                  <svg class="col-start-1 row-start-1 size-4 transition-[opacity,scale,filter] duration-200 ease-[cubic-bezier(0.2,0,0,1)] motion-reduce:transition-none group-data-[done]:opacity-0 group-data-[done]:scale-25 group-data-[done]:blur-[4px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                  <svg class="col-start-1 row-start-1 size-4 text-[#9BE9A8] opacity-0 scale-25 blur-[4px] transition-[opacity,scale,filter] duration-200 ease-[cubic-bezier(0.2,0,0,1)] motion-reduce:transition-none group-data-[done]:opacity-100 group-data-[done]:scale-100 group-data-[done]:blur-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-                  <span role="status" class="sr-only"></span>
-                </button>
+                {% render "default/components/copy-command" %}
               </div>
               {% if a.cmd_codex %}<p class="text-[12px] font-medium text-textWeak">Codex</p>
               <div class="relative">
                 <pre class="rounded-lg bg-[oklch(18%_0.02_263)] text-white/90 p-3 pe-12 text-[12px] leading-relaxed font-mono whitespace-pre-wrap break-all"><code class="nohighlight">{{a.cmd_codex | strip}}</code></pre>
-                <button type="button" data-copy aria-label="Copy command" class="group absolute top-1.5 end-1.5 grid place-items-center size-8 rounded-md text-white/60 hover:text-white hover:bg-white/10 transition-colors">
-                  <svg class="col-start-1 row-start-1 size-4 transition-[opacity,scale,filter] duration-200 ease-[cubic-bezier(0.2,0,0,1)] motion-reduce:transition-none group-data-[done]:opacity-0 group-data-[done]:scale-25 group-data-[done]:blur-[4px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                  <svg class="col-start-1 row-start-1 size-4 text-[#9BE9A8] opacity-0 scale-25 blur-[4px] transition-[opacity,scale,filter] duration-200 ease-[cubic-bezier(0.2,0,0,1)] motion-reduce:transition-none group-data-[done]:opacity-100 group-data-[done]:scale-100 group-data-[done]:blur-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-                  <span role="status" class="sr-only"></span>
-                </button>
+                {% render "default/components/copy-command" %}
               </div>
               {% endif %}
             </div>
@@ -789,13 +775,6 @@ capabilities:
             </div>
           </div>
         </div>
-        <script>
-        document.querySelectorAll('#agents [data-copy]').forEach(b => b.addEventListener('click', async () => {
-          try { await navigator.clipboard.writeText(b.parentElement.querySelector('code').innerText.trim()); } catch { return; }
-          const s = b.querySelector('[role=status]'); b.dataset.done = ''; s.textContent = 'Copied';
-          clearTimeout(b.t); b.t = setTimeout(() => { delete b.dataset.done; s.textContent = ''; }, 1500);
-        }));
-        </script>
       </section>
         {% when 'start' %}
       <!-- INTEGRATIONS-->
@@ -816,18 +795,14 @@ capabilities:
                 <div class="flex items-center gap-2 px-3 py-2 border-b border-white/10"><span class="flex gap-1.5"><i class="block size-2.5 rounded-full bg-white/15"></i><i class="block size-2.5 rounded-full bg-white/15"></i><i class="block size-2.5 rounded-full bg-white/15"></i></span><span class="font-mono text-[12px] text-white/50">{{c.win}}</span></div>
                 <pre class="flex-1 p-4 text-[12px] leading-relaxed font-mono text-white/90 whitespace-pre-wrap break-all [&_.hljs]:overflow-visible! [&_.hljs]:bg-transparent! [&_.hljs]:p-0! [&_.hljs]:text-inherit! [&_.hljs-attr]:text-[#8FB6FF]! [&_.hljs-string]:text-[#F2C27B]! [&_.hljs-keyword]:text-[#C4A7FF]! [&_.hljs-meta]:text-white/50!">{% if c.lang == 'bash' %}<code class="nohighlight">{% assign lines = c.cmd | strip | newline_to_br | split: "<br />" %}{% for l in lines %}{% assign segs = l | strip | split: " | " %}{% for seg in segs %}{% unless forloop.first %} <span class="hljs-meta">|</span> {% endunless %}{% assign w = seg | split: " " %}<span class="hljs-keyword">{{w.first}}</span>{{seg | remove_first: w.first}}{% endfor %}{% unless forloop.last %}
 {% endunless %}{% endfor %}</code>{% else %}<code class="language-{{c.lang}}">{{c.cmd | strip}}</code>{% endif %}</pre>
-      <button type="button" data-copy aria-label="Copy command" class="group absolute top-0.5 end-1.5 grid place-items-center size-8 rounded-md text-white/60 hover:text-white hover:bg-white/10 transition-colors">
-        <svg class="col-start-1 row-start-1 size-4 transition-[opacity,scale,filter] duration-200 ease-[cubic-bezier(0.2,0,0,1)] motion-reduce:transition-none group-data-[done]:opacity-0 group-data-[done]:scale-25 group-data-[done]:blur-[4px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        <svg class="col-start-1 row-start-1 size-4 text-[#9BE9A8] opacity-0 scale-25 blur-[4px] transition-[opacity,scale,filter] duration-200 ease-[cubic-bezier(0.2,0,0,1)] motion-reduce:transition-none group-data-[done]:opacity-100 group-data-[done]:scale-100 group-data-[done]:blur-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-        <span role="status" class="sr-only"></span>
-      </button>
+      {% render "default/components/copy-command", onboarding:true %}
               </div>
               <a href="{{c.link}}" class="inline-flex w-fit items-center gap-2 text-base font-medium text-textBrand underline-offset-4 hover:underline">{{c.link_label}} <span aria-hidden="true">→</span></a>
             </div>
             {% endfor %}
           </div>
           <script>
-          document.querySelectorAll('#start [data-copy]').forEach(b => b.addEventListener('click', async () => {
+          document.querySelectorAll('#agents [data-copy], #start [data-copy]').forEach(b => b.addEventListener('click', async () => {
             try { await navigator.clipboard.writeText(b.parentElement.querySelector('code').innerText.trim()); } catch { return; }
             const s = b.querySelector('[role=status]'); b.dataset.done = ''; s.textContent = 'Copied';
             clearTimeout(b.t); b.t = setTimeout(() => { delete b.dataset.done; s.textContent = ''; }, 1500);
@@ -835,42 +810,9 @@ capabilities:
           </script>
         </div>
         <div id="integration-marquee" class="[&:hover_*]:[animation-play-state:paused] [&:focus-within_*]:[animation-play-state:paused] w-full space-y-5 pt-5 mask-edges">
-          <div class="flex w-full overflow-x-hidden max-w-screen
-            [&_img]:w-full
-            [&>div>*]:inline-block [&>div>*]:w-24 [&>div>*]:p-3 [&>div>*]:rounded-xl
-            [&>div>*]:border [&>div>*]:border-strokeWeak">
-            {% assign icons = "postgresql.png,cloudflare.png,mongodb.png,azure-1.png,mysql.png,nginx.png,redis.png,elasticsearch.png,google-cloud.png,apache-kafka.png,kubernetes.png,prometheus-app.png,haproxy-icon.svg,docker.png" | split: "," %}
-            <div class="animate-[scroll-x_60s_linear_infinite] motion-reduce:animate-none whitespace-nowrap flex w-max shrink-0 gap-5 pe-5">
-              {% for ic in icons %}<div><img src="/assets/img/opentelemetry-contrib-logos/{{ic}}" alt=""/></div>{% endfor %}
-            </div>
-            <div class="animate-[scroll-x_60s_linear_infinite] motion-reduce:animate-none whitespace-nowrap flex w-max shrink-0 gap-5 pe-5" aria-hidden="true" >
-              {% for ic in icons %}<div><img src="/assets/img/opentelemetry-contrib-logos/{{ic}}" alt=""/></div>{% endfor %}
-            </div>
-          </div>
-          <div class="flex w-full overflow-x-hidden max-w-screen
-            [&_img]:w-full
-            [&>div>*]:inline-block [&>div>*]:w-24 [&>div>*]:p-3 [&>div>*]:rounded-xl
-            [&>div>*]:border [&>div>*]:border-strokeWeak">
-            {% assign icons = "statsd-receiver.png,solacereceiver.jpg,zipkin-logo.png,snowflake.png,skywalking.jpg,riak-logo.png,huawei-icon.svg,apache_zookeeper-icon.svg,rabbitmq-icon.svg,podmanio-icon.svg,apache_couchdb-icon.svg,influxdata-icon.svg,jaegertracingio-icon.svg,oracle-icon.svg,memcached-icon.svg,signalfx-icon.svg" | split: "," %}
-            <div class="animate-[scroll-x_60s_linear_infinite] motion-reduce:animate-none animation-reverse  whitespace-nowrap flex w-max shrink-0 gap-5 pe-5">
-              {% for ic in icons %}<div><img src="/assets/img/opentelemetry-contrib-logos/{{ic}}" alt=""/></div>{% endfor %}
-            </div>
-            <div class="animate-[scroll-x_60s_linear_infinite] motion-reduce:animate-none animation-reverse whitespace-nowrap flex w-max shrink-0 gap-5 pe-5" aria-hidden="true" >
-              {% for ic in icons %}<div><img src="/assets/img/opentelemetry-contrib-logos/{{ic}}" alt=""/></div>{% endfor %}
-            </div>
-          </div>
-          <div class=" flex w-full overflow-x-hidden max-w-screen
-            [&_img]:w-full
-            [&>div>*]:inline-block [&>div>*]:w-24 [&>div>*]:p-3 [&>div>*]:rounded-xl
-            [&>div>*]:border [&>div>*]:border-strokeWeak">
-            {% assign icons = "splunk-icon.svg,alibabacloud-icon.svg,apache_cassandra-icon.svg,logicmonitor-icon.svg,sematext-icon.svg,sentryio-icon.svg,tencent-logo.png,pulsar-logo.png,clickhouse-logo.png,coralognix.png" | split: "," %}
-            <div class="animate-[scroll-x_60s_linear_infinite] motion-reduce:animate-none whitespace-nowrap flex w-max shrink-0 gap-5 pe-5">
-              {% for ic in icons %}<div><img src="/assets/img/opentelemetry-contrib-logos/{{ic}}" alt=""/></div>{% endfor %}
-            </div>
-            <div class="animate-[scroll-x_60s_linear_infinite] motion-reduce:animate-none whitespace-nowrap flex w-max shrink-0 gap-5 pe-5" aria-hidden="true" >
-              {% for ic in icons %}<div><img src="/assets/img/opentelemetry-contrib-logos/{{ic}}" alt=""/></div>{% endfor %}
-            </div>
-          </div>
+          {% render "default/components/integration-row", icons:"postgresql.png,cloudflare.png,mongodb.png,azure-1.png,mysql.png,nginx.png,redis.png,elasticsearch.png,google-cloud.png,apache-kafka.png,kubernetes.png,prometheus-app.png,haproxy-icon.svg,docker.png" %}
+          {% render "default/components/integration-row", icons:"statsd-receiver.png,solacereceiver.jpg,zipkin-logo.png,snowflake.png,skywalking.jpg,riak-logo.png,huawei-icon.svg,apache_zookeeper-icon.svg,rabbitmq-icon.svg,podmanio-icon.svg,apache_couchdb-icon.svg,influxdata-icon.svg,jaegertracingio-icon.svg,oracle-icon.svg,memcached-icon.svg,signalfx-icon.svg", reverse:true %}
+          {% render "default/components/integration-row", icons:"splunk-icon.svg,alibabacloud-icon.svg,apache_cassandra-icon.svg,logicmonitor-icon.svg,sematext-icon.svg,sentryio-icon.svg,tencent-logo.png,pulsar-logo.png,clickhouse-logo.png,coralognix.png" %}
         </div>
 
         <div class="w-full flex flex-wrap items-center justify-between gap-4">
@@ -937,11 +879,9 @@ capabilities:
           @container (min-width: 56rem) { .capability-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 1.5rem; } }
         </style>
         <div class="capability-groups">
-        {% assign capability_groups = "watch" | split: "," %}
-        {% for capability_group in capability_groups %}
         <div class="capability-group">
           <div class="capability-grid">
-          {% assign capabilities = this.frontmatter.capabilities | where: "group", capability_group %}
+          {% assign capabilities = this.frontmatter.capabilities | where: "group", "watch" %}
           {% for c in capabilities %}
           <article class="capability">
             <figure class="capability-visual">
@@ -965,7 +905,6 @@ capabilities:
           {% endfor %}
           </div>
         </div>
-        {% endfor %}
         </div>
       </div>
       </div>
@@ -982,11 +921,14 @@ capabilities:
       </div>
       <div class="space-y-4">
         <div class="bleed overflow-x-auto rounded-2xl bg-bgRaised ring-1 ring-white/10 shadow-[0_30px_80px_-20px_rgb(0_0_0/0.7)] p-2 pe-10 md:p-3 max-md:[mask-image:linear-gradient(to_left,transparent,black_2.5rem)]">
+{% capture check %}{% render "default/components/status-icon", status:"check" %}{% endcapture %}
+{% capture partial %}{% render "default/components/status-icon", status:"partial" %}{% endcapture %}
+{% capture cross %}{% render "default/components/status-icon", status:"cross" %}{% endcapture %}
           <table class="w-full min-w-[52rem]! table-fixed border-separate border-spacing-0 text-base text-start">
             <caption class="sr-only">monoscope compared with Datadog, Sentry and AI SRE layers such as Polylane and Superlog</caption>
             <colgroup><col class="w-32 md:w-72"><col><col><col><col></colgroup>
             <thead><tr><td class="sticky left-0 z-10 bg-bgRaised w-32 md:w-72"></td><th scope="col" class="px-4 pt-5 pb-3 text-start align-bottom font-semibold bg-fillBrand-weak border-x border-x-strokeBrand-strong rounded-t-xl border-t border-t-strokeBrand-strong text-textStrong"><img src="/assets/brand/logo_full_white.svg" alt="monoscope" class="h-5 w-auto"></th><th scope="col" class="px-4 pt-5 pb-3 text-start align-bottom font-semibold text-textWeak">Datadog</th><th scope="col" class="px-4 pt-5 pb-3 text-start align-bottom font-semibold text-textWeak">Sentry</th><th scope="col" class="px-4 pt-5 pb-3 text-start align-bottom font-semibold text-textWeak">AI SRE layers<span class="block font-normal text-textWeak">Polylane, Superlog</span></th></tr></thead>
-            <tbody><tr><th scope="row" class="sticky left-0 z-10 bg-bgRaised w-32 md:w-72 border-t border-strokeWeak px-4 py-3.5 text-start align-top text-sm md:text-[15px] leading-snug font-medium text-textStrong text-pretty">Request and response bodies, in and out</th><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty bg-fillBrand-weak border-x border-x-strokeBrand-strong text-textStrong"><span class="flex items-start gap-1.5"><span class="mt-0.5 text-textSuccess"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5"/></svg></span><span><span class="font-semibold text-textSuccess">Yes</span>, every call, unsampled on paid plans</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4.5v4M8 11.5h.01M14 8A6 6 0 1 1 2 8a6 6 0 0 1 12 0"/></svg></span><span>Not by default; traces are sampled</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4.5v4M8 11.5h.01M14 8A6 6 0 1 1 2 8a6 6 0 0 1 12 0"/></svg></span><span>Request bodies on errors, up to ~10 kB</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4.5v4M8 11.5h.01M14 8A6 6 0 1 1 2 8a6 6 0 0 1 12 0"/></svg></span><span>Only what your telemetry already has</span></span></td></tr><tr><th scope="row" class="sticky left-0 z-10 bg-bgRaised w-32 md:w-72 border-t border-strokeWeak px-4 py-3.5 text-start align-top text-sm md:text-[15px] leading-snug font-medium text-textStrong text-pretty">Breaking changes in third-party APIs</th><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty bg-fillBrand-weak border-x border-x-strokeBrand-strong text-textStrong"><span class="flex items-start gap-1.5"><span class="mt-0.5 text-textSuccess"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5"/></svg></span><span><span class="font-semibold text-textSuccess">Yes</span></span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4.5v4M8 11.5h.01M14 8A6 6 0 1 1 2 8a6 6 0 0 1 12 0"/></svg></span><span>Not in public docs</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="inline-flex items-center gap-1.5 text-textWeak"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 4.5l7 7m0-7-7 7"/></svg>No</span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="inline-flex items-center gap-1.5 text-textWeak"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 4.5l7 7m0-7-7 7"/></svg>No</span></td></tr><tr><th scope="row" class="sticky left-0 z-10 bg-bgRaised w-32 md:w-72 border-t border-strokeWeak px-4 py-3.5 text-start align-top text-sm md:text-[15px] leading-snug font-medium text-textStrong text-pretty">AI sees the full request</th><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty bg-fillBrand-weak border-x border-x-strokeBrand-strong text-textStrong"><span class="flex items-start gap-1.5"><span class="mt-0.5 text-textSuccess"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5"/></svg></span><span><span class="font-semibold text-textSuccess">Yes</span></span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4.5v4M8 11.5h.01M14 8A6 6 0 1 1 2 8a6 6 0 0 1 12 0"/></svg></span><span>Not by default</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="inline-flex items-center gap-1.5 text-textWeak"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 4.5l7 7m0-7-7 7"/></svg>No</span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4.5v4M8 11.5h.01M14 8A6 6 0 1 1 2 8a6 6 0 0 1 12 0"/></svg></span><span>Only if your telemetry has it</span></span></td></tr><tr><th scope="row" class="sticky left-0 z-10 bg-bgRaised w-32 md:w-72 border-t border-strokeWeak px-4 py-3.5 text-start align-top text-sm md:text-[15px] leading-snug font-medium text-textStrong text-pretty">AI investigates and opens fix PRs</th><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty bg-fillBrand-weak border-x border-x-strokeBrand-strong text-textStrong"><span class="flex items-start gap-1.5"><span class="mt-0.5 text-textSuccess"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5"/></svg></span><span><span class="font-semibold text-textSuccess">Yes</span>, built in</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4.5v4M8 11.5h.01M14 8A6 6 0 1 1 2 8a6 6 0 0 1 12 0"/></svg></span><span>Bits AI, priced separately</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4.5v4M8 11.5h.01M14 8A6 6 0 1 1 2 8a6 6 0 0 1 12 0"/></svg></span><span>Seer, a paid add-on</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-1.5"><span class="mt-0.5 text-textSuccess"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5"/></svg></span><span><span class="font-semibold text-textSuccess">Yes</span>, on top of Datadog or Sentry</span></span></td></tr><tr><th scope="row" class="sticky left-0 z-10 bg-bgRaised w-32 md:w-72 border-t border-strokeWeak px-4 py-3.5 text-start align-top text-sm md:text-[15px] leading-snug font-medium text-textStrong text-pretty">Pricing</th><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty bg-fillBrand-weak border-x border-x-strokeBrand-strong text-textStrong"><span class="flex items-start gap-1.5"><ul class="space-y-1 tabular-nums"><li class="font-semibold text-textSuccess">$29/month for 20M events</li><li>then $1 per million</li><li>Bodies and metrics included</li><li>No host or indexing fees</li></ul></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-1.5"><ul class="space-y-1 tabular-nums"><li>$46/host</li><li>$0.10/GB logs ingested</li><li>$2.50/M logs indexed</li><li>$5/100 custom metrics</li><li>$2.65/1k replays</li></ul></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-1.5"><ul class="space-y-1 tabular-nums"><li>$26/month to start</li><li>$0.29/1k errors</li><li>$1.60/M spans</li><li>$3.75/1k replays</li></ul></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-1.5"><ul class="space-y-1 tabular-nums"><li>Their plan</li><li>plus your Datadog or Sentry bill</li></ul></span></td></tr><tr><th scope="row" class="sticky left-0 z-10 bg-bgRaised w-32 md:w-72 border-t border-strokeWeak px-4 py-3.5 text-start align-top text-sm md:text-[15px] leading-snug font-medium text-textStrong text-pretty">Open source or your own S3</th><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty bg-fillBrand-weak border-x border-x-strokeBrand-strong text-textStrong rounded-b-xl border-b border-b-strokeBrand-strong"><span class="flex items-start gap-1.5"><span class="mt-0.5 text-textSuccess"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5"/></svg></span><span><span class="font-semibold text-textSuccess">Yes</span>, AGPL; S3 from $199/mo</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4.5v4M8 11.5h.01M14 8A6 6 0 1 1 2 8a6 6 0 0 1 12 0"/></svg></span><span>Logs only, via BYOC Logs</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4.5v4M8 11.5h.01M14 8A6 6 0 1 1 2 8a6 6 0 0 1 12 0"/></svg></span><span>Source-available (FSL)</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="inline-flex items-center gap-1.5 text-textWeak"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 4.5l7 7m0-7-7 7"/></svg>No</span></td></tr></tbody>
+            <tbody><tr><th scope="row" class="sticky left-0 z-10 bg-bgRaised w-32 md:w-72 border-t border-strokeWeak px-4 py-3.5 text-start align-top text-sm md:text-[15px] leading-snug font-medium text-textStrong text-pretty">Request and response bodies, in and out</th><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty bg-fillBrand-weak border-x border-x-strokeBrand-strong text-textStrong"><span class="flex items-start gap-1.5"><span class="mt-0.5 text-textSuccess">{{check}}</span><span><span class="font-semibold text-textSuccess">Yes</span>, every call, unsampled on paid plans</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning">{{partial}}</span><span>Not by default; traces are sampled</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning">{{partial}}</span><span>Request bodies on errors, up to ~10 kB</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning">{{partial}}</span><span>Only what your telemetry already has</span></span></td></tr><tr><th scope="row" class="sticky left-0 z-10 bg-bgRaised w-32 md:w-72 border-t border-strokeWeak px-4 py-3.5 text-start align-top text-sm md:text-[15px] leading-snug font-medium text-textStrong text-pretty">Breaking changes in third-party APIs</th><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty bg-fillBrand-weak border-x border-x-strokeBrand-strong text-textStrong"><span class="flex items-start gap-1.5"><span class="mt-0.5 text-textSuccess">{{check}}</span><span><span class="font-semibold text-textSuccess">Yes</span></span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning">{{partial}}</span><span>Not in public docs</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="inline-flex items-center gap-1.5 text-textWeak">{{cross}}No</span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="inline-flex items-center gap-1.5 text-textWeak">{{cross}}No</span></td></tr><tr><th scope="row" class="sticky left-0 z-10 bg-bgRaised w-32 md:w-72 border-t border-strokeWeak px-4 py-3.5 text-start align-top text-sm md:text-[15px] leading-snug font-medium text-textStrong text-pretty">AI sees the full request</th><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty bg-fillBrand-weak border-x border-x-strokeBrand-strong text-textStrong"><span class="flex items-start gap-1.5"><span class="mt-0.5 text-textSuccess">{{check}}</span><span><span class="font-semibold text-textSuccess">Yes</span></span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning">{{partial}}</span><span>Not by default</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="inline-flex items-center gap-1.5 text-textWeak">{{cross}}No</span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning">{{partial}}</span><span>Only if your telemetry has it</span></span></td></tr><tr><th scope="row" class="sticky left-0 z-10 bg-bgRaised w-32 md:w-72 border-t border-strokeWeak px-4 py-3.5 text-start align-top text-sm md:text-[15px] leading-snug font-medium text-textStrong text-pretty">AI investigates and opens fix PRs</th><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty bg-fillBrand-weak border-x border-x-strokeBrand-strong text-textStrong"><span class="flex items-start gap-1.5"><span class="mt-0.5 text-textSuccess">{{check}}</span><span><span class="font-semibold text-textSuccess">Yes</span>, built in</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning">{{partial}}</span><span>Bits AI, priced separately</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning">{{partial}}</span><span>Seer, a paid add-on</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-1.5"><span class="mt-0.5 text-textSuccess">{{check}}</span><span><span class="font-semibold text-textSuccess">Yes</span>, on top of Datadog or Sentry</span></span></td></tr><tr><th scope="row" class="sticky left-0 z-10 bg-bgRaised w-32 md:w-72 border-t border-strokeWeak px-4 py-3.5 text-start align-top text-sm md:text-[15px] leading-snug font-medium text-textStrong text-pretty">Pricing</th><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty bg-fillBrand-weak border-x border-x-strokeBrand-strong text-textStrong"><span class="flex items-start gap-1.5"><ul class="space-y-1 tabular-nums"><li class="font-semibold text-textSuccess">$29/month for 20M events</li><li>then $1 per million</li><li>Bodies and metrics included</li><li>No host or indexing fees</li></ul></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-1.5"><ul class="space-y-1 tabular-nums"><li>$46/host</li><li>$0.10/GB logs ingested</li><li>$2.50/M logs indexed</li><li>$5/100 custom metrics</li><li>$2.65/1k replays</li></ul></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-1.5"><ul class="space-y-1 tabular-nums"><li>$26/month to start</li><li>$0.29/1k errors</li><li>$1.60/M spans</li><li>$3.75/1k replays</li></ul></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-1.5"><ul class="space-y-1 tabular-nums"><li>Their plan</li><li>plus your Datadog or Sentry bill</li></ul></span></td></tr><tr><th scope="row" class="sticky left-0 z-10 bg-bgRaised w-32 md:w-72 border-t border-strokeWeak px-4 py-3.5 text-start align-top text-sm md:text-[15px] leading-snug font-medium text-textStrong text-pretty">Open source or your own S3</th><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty bg-fillBrand-weak border-x border-x-strokeBrand-strong text-textStrong rounded-b-xl border-b border-b-strokeBrand-strong"><span class="flex items-start gap-1.5"><span class="mt-0.5 text-textSuccess">{{check}}</span><span><span class="font-semibold text-textSuccess">Yes</span>, AGPL; S3 from $199/mo</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning">{{partial}}</span><span>Logs only, via BYOC Logs</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="flex items-start gap-2"><span class="mt-0.5 text-iconWarning">{{partial}}</span><span>Source-available (FSL)</span></span></td><td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak"><span class="inline-flex items-center gap-1.5 text-textWeak">{{cross}}No</span></td></tr></tbody>
           </table>
         </div>
         <details class="group max-w-[80ch]">
@@ -1029,7 +971,7 @@ capabilities:
         {% for t in this.frontmatter.testimonials %}{% if t.stat %}
         <div>
           <div class="space-y-1"><p class="text-3xl font-medium tracking-tight tabular-nums text-textStrong">{{t.stat}}</p><p class="text-base leading-snug text-textWeak text-pretty">{{t.desc}}</p></div>
-          <img class="h-5 w-auto self-start brightness-0 dark:invert opacity-60" src="/assets/img/customers/{{t.logo}}" alt="">
+          <img class="h-5 w-auto self-start brightness-0 dark:invert opacity-60" src="/assets/img/customers/{{t.logo}}" alt="" loading="lazy" decoding="async">
         </div>
         {% endif %}{% endfor %}
       </div>
@@ -1038,14 +980,14 @@ capabilities:
         <figure class="card rounded-xl border border-strokeWeak p-6 flex flex-col gap-6">
           <blockquote class="text-base leading-relaxed text-textStrong text-pretty flex-1">{{t.quote}}</blockquote>
           <figcaption class="flex items-center gap-3 text-base">
-            <img class="rounded-lg grayscale w-10 h-10 object-cover" src="/assets/img/love/{{t.photo}}" alt="{{t.name}}">
+            <img class="rounded-lg grayscale w-10 h-10 object-cover" src="/assets/img/love/sm/{{t.photo | split: '.' | first}}.webp" width="120" height="120" loading="lazy" decoding="async" alt="{{t.name}}">
             <div><p class="text-textStrong">{{t.name}}</p><p class="text-[12px] text-textWeak">{{t.title}}</p></div>
           </figcaption>
         </figure>
         {% endunless %}{% endfor %}
       </div>
     </div>
-<link rel="stylesheet" href="/assets/css/home-motion.css?v=3">
+<link rel="stylesheet" href="/assets/css/home-motion.css?v=4">
 <script defer src="/assets/js/home-motion.js?v=3"></script>
 </section>
 

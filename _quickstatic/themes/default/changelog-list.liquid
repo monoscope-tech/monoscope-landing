@@ -5,7 +5,7 @@
 <main id="main" class="pb-24 md:pb-32">
   <section class="tone-brand relative w-full">
     <div aria-hidden="true" class="absolute top-(--inset) bottom-0 left-1/2 -translate-x-1/2 panel-w rounded-[2rem] overflow-hidden bg-(--tone-panel) border border-(--tone-weak)">
-      <img src="/assets/img/home/art/page-changelog.webp" alt="" width="2688" height="448" class="absolute inset-x-0 bottom-0 w-full h-44 md:h-64 object-cover object-left-bottom dark:opacity-60 [mask-image:linear-gradient(to_top,black_30%,rgb(0_0_0/.8)_44%,rgb(0_0_0/.52)_58%,rgb(0_0_0/.26)_72%,rgb(0_0_0/.09)_86%,transparent)]">
+      {% capture art_classes %}absolute inset-x-0 bottom-0 w-full h-44 md:h-64 object-cover object-left-bottom [mask-image:linear-gradient(to_top,black_30%,rgb(0_0_0/.8)_44%,rgb(0_0_0/.52)_58%,rgb(0_0_0/.26)_72%,rgb(0_0_0/.09)_86%,transparent)]{% endcapture %}{% render "default/components/section-art", art:"page-changelog.webp", classes:art_classes, width:2688, height:448 %}
     </div>
     <div class="relative wrap max-w-[80rem] pt-32 md:pt-44 pb-48 md:pb-72">
       <div class="space-y-6 max-w-3xl [&>p:first-child]:mb-3.5">

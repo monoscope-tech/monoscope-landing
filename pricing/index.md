@@ -71,7 +71,7 @@ faqs:
 
 ```=html
 {% render "default/components/page-style" %}
-{% assign check = '<svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5"/></svg>' %}
+{% capture check %}{% render "default/components/status-icon", status:"check" %}{% endcapture %}
 <section class="flex flex-col items-center relative" style="z-index: 1;">
 
   <!-- Plans -->
