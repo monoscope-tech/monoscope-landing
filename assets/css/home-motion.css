@@ -46,18 +46,16 @@ section > .footer-scene { margin-top: 0; }
 .firefly { position: absolute; width: 4px; height: 4px; margin: -2px 0 0 -2px; border-radius: 50%; background: #ffe7a3; box-shadow: 0 0 6px 2px rgb(255 214 120 / .6); opacity: 0; }
 /* Hero follows the site theme: a sunrise sky in light mode, the night sea in dark */
 [data-theme=light] .hero-sky { background: linear-gradient(180deg, rgb(196 222 244) 0, rgb(132 186 230) 300px, rgb(150 198 236) 560px, oklch(96% .02 230) 85%); }
-[data-theme=light] .hero-sky > img[data-anchor-to] { filter: brightness(1.22) saturate(.62); }
+[data-theme=light] .hero-sky > [data-anchor-to] { filter: brightness(1.22) saturate(.62); }
+[data-theme=dark] [data-hero-video] { display: none; }
 [data-theme=light] .hero-sky .art-fx { display: none; }
-/* Daytime hero life: soft wisps drifting and a few gulls gliding past (light mode only) */
+/* Daytime hero life: a few gulls gliding past (light mode only) */
 .sky-fx { position: absolute; inset: 0; pointer-events: none; overflow: hidden; display: none; }
 [data-theme=light] .sky-fx { display: block; }
-.wisp { position: absolute; width: 34rem; height: 7rem; border-radius: 50%; background: radial-gradient(closest-side, rgb(255 255 255 / .55), rgb(255 255 255 / .2) 60%, transparent); filter: blur(6px); opacity: 0; }
 .gull { position: absolute; width: 28px; height: 13px; color: oklch(32% .03 250 / .7); }
 .gull svg { width: 100%; height: 100%; overflow: visible; }
 @media (prefers-reduced-motion: no-preference) {
-  .wisp { animation: wisp-drift var(--t, 90s) linear infinite; animation-delay: var(--d, 0s); }
-  @keyframes wisp-drift { 0% { transform: translateX(-40rem); opacity: 0; } 12%, 88% { opacity: 1; } 100% { transform: translateX(calc(100vw + 10rem)); opacity: 0; } }
-  .gull { animation: gull-glide var(--t, 38s) linear infinite; animation-delay: var(--d, 0s); }
+    .gull { animation: gull-glide var(--t, 38s) linear infinite; animation-delay: var(--d, 0s); }
   .gull svg { animation: gull-flap 1.6s ease-in-out infinite; transform-origin: center; }
   @keyframes gull-glide { 0% { transform: translate(110vw, 0); } 50% { transform: translate(50vw, -18px); } 100% { transform: translate(-10vw, 6px); } }
   @keyframes gull-flap { 0%, 60%, 100% { scale: 1 1; } 30% { scale: 1 .45; } }
