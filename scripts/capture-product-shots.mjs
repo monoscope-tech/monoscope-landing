@@ -21,18 +21,36 @@ const HIDE_CSS = `
 
 const q = s => encodeURIComponent(s);
 const click = (pg, sel, opts) => pg.locator(sel, opts).first().click();
+const hideFilters = pg => pg.locator('#toggle-filters').check({ force: true }); // the explorer's "Hide filters" toggle
+const maskKey = pg => pg.evaluate(() => { // mask the project API key wherever it renders
+  const mask = t => t.replace(/[A-Za-z0-9+/=]{30,}/g, k => k.slice(0, 8) + '•'.repeat(24));
+  document.querySelectorAll('input, textarea').forEach(i => { i.value = mask(i.value); });
+  const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  while (w.nextNode()) w.currentNode.nodeValue = mask(w.currentNode.nodeValue); });
+// Onboarding, Javascript picked; gives the tile time to show its "verified" badge (data is flowing).
+const pickJs = async pg => { await pg.getByText('Javascript', { exact: true }).first().click(); await pg.getByText('verified').first().waitFor({ timeout: 45000 }).catch(() => {}); };
 
 const shots = [
   { name: 'log-explorer', path: '/log_explorer' },
   { name: 'log-explorer-request', path: `/log_explorer?query=${q('body.response_body != null')}`,
-    act: async pg => { await click(pg, 'tr.item-row', { hasText: '/api/products/' }); await pg.getByText('Res Body').first().click(); } },
+    act: async pg => { await hideFilters(pg); await click(pg, 'tr.item-row', { hasText: '/api/products/' }); await pg.getByText('Res Body').first().click(); } },
+  // Ask AI turns the question into a query (each theme is a live AI call; this question reliably yields `duration > 1s`).
+  { name: 'log-explorer-ask', path: '/log_explorer',
+    act: async pg => { const i = pg.locator('#ai-search-input'); await i.fill('requests that took longer than 1 second'); await i.press('Enter');
+      await pg.waitForURL(/query=/, { timeout: 60000 }); await pg.waitForTimeout(4000);
+      // the row-count label sometimes shows only the live-polled rows; fail so the run can be repeated
+      await pg.waitForFunction(() => /K$/.test(document.getElementById('row-count-display')?.textContent ?? ''), null, { timeout: 20000 })
+        .catch(() => { throw new Error('row count not loaded: ' + pg.url()); }); } },
+  // A load-generator checkout trace (dozens of spans across 5+ services) expanded inline in the list.
+  { name: 'trace-inline', path: `/log_explorer?query=${q('name has "user_checkout"')}`,
+    act: async pg => { await hideFilters(pg); await click(pg, 'button[aria-label^="Expand trace"]'); } },
   // A 96-span checkout trace that ended in a shipping error (linked from issue #113627).
   { name: 'trace', path: `/log_explorer?query=${q('trace_id=="71a7e99c2d3e2d94125752b4c4df918d"')}&from=2026-10-28T14:50:00Z&to=2026-10-28T15:00:00Z`,
     act: async pg => { await click(pg, 'tr.item-row'); await pg.waitForTimeout(2500); await pg.getByText('View trace').first().click(); } },
   { name: 'issues', path: '/issues' },
   { name: 'issue-detail', path: '/issues/e76bd12d-0c56-4779-a348-79e758105791' },
   { name: 'dashboard-overview', path: '/dashboards/6f5ee51d-900d-455c-99d9-2f62e6c023b8/tab/overview' },
-  { name: 'dashboard-service', path: '/dashboards/6f5ee51d-900d-455c-99d9-2f62e6c023b8/tab/service?var-service=frontend' },
+  { name: 'dashboard-service', path: '/dashboards/6f5ee51d-900d-455c-99d9-2f62e6c023b8/tab/service?var-service=frontend-proxy' },
   { name: 'session-replay', path: '/rum/sessions',
     act: async pg => { // replay the longest session
       const rows = pg.locator('tr.item-row', { has: pg.locator('[aria-label="Replay session recording"]') });
@@ -46,7 +64,10 @@ const shots = [
   { name: 'monitors', path: '/monitors' },
   { name: 'api-catalog', path: '/api_catalog' },
   { name: 'metrics', path: '/metrics' },
-  { name: 'service-map', path: '/service_map' },
+  { name: 'service-map', path: '/service_map', // pan down so the first node clears the "Requests flow left to right" chip
+    act: async pg => { await pg.mouse.move(1300, 760); await pg.mouse.down(); await pg.mouse.move(1300, 815, { steps: 8 }); await pg.mouse.up(); } },
+  // Endpoint Analytics, Latency tab for POST /api/checkout: p50–p99 cards and percentiles over time.
+  { name: 'apm-endpoint', path: '/dashboards/be6c5d62-d365-45c0-85f3-dbd133c5cda4/tab/latency?var-endpointHash=a213f867&var-host=frontend' },
   // Schema-change issue: a response field's inferred format changed, shown as a before/after diff.
   { name: 'api-changes', path: '/issues/dd87a53a-b8bb-4236-9ae2-0360834e73d7' },
   { name: 'settings-api-keys', path: '/apis' },
@@ -55,12 +76,10 @@ const shots = [
   // The demo has no invited members, so the Teams tab (the @everyone team) is the populated view.
   { name: 'settings-members', path: '/manage_teams' },
   { name: 'onboarding', path: '/onboarding?step=Integration',
-    act: async pg => { await pg.getByText('Javascript', { exact: true }).first().click();
-      await pg.evaluate(() => { // mask the project API key wherever it renders
-        const mask = t => t.replace(/[A-Za-z0-9+/=]{30,}/g, k => k.slice(0, 8) + '•'.repeat(24));
-        document.querySelectorAll('input, textarea').forEach(i => { i.value = mask(i.value); });
-        const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-        while (w.nextNode()) w.currentNode.nodeValue = mask(w.currentNode.nodeValue); }); } },
+    act: async pg => { await pickJs(pg); await maskKey(pg); } },
+  // Same step, scrolled to the guide's OTLP exporter env vars (endpoint + API key resource attribute).
+  { name: 'otel-setup', path: '/onboarding?step=Integration',
+    act: async pg => { await pickJs(pg); await pg.locator('h2', { hasText: 'OpenTelemetry Configuration' }).first().evaluate(e => e.scrollIntoView({ block: 'start' })); await maskKey(pg); } },
 ];
 
 async function settle(pg) {
@@ -85,7 +104,7 @@ async function capture(theme, only) {
       const png = join(TMP, `${s.name}-${theme}.png`), webp = join(OUT, `${s.name}-${theme}.webp`);
       await pg.screenshot({ path: png });
       for (const resize of ['', '-resize 2400 0', '-resize 2000 0']) {
-        execSync(`cwebp -quiet -q 86 -m 6 -sharp_yuv ${resize} "${png}" -o "${webp}"`);
+        execSync(`cwebp -quiet -q 80 -m 6 -sharp_yuv ${resize} "${png}" -o "${webp}"`);
         if (statSync(webp).size <= MAX_BYTES) break;
       }
       console.log(`${s.name}-${theme}`, Math.round(statSync(webp).size / 1024) + 'KB');
