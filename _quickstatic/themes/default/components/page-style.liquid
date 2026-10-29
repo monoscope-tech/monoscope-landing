@@ -1,0 +1,20 @@
+<style>
+  /* Homepage page-local rules, shared with pricing and compare pages */
+  .eyebrow { color: color-mix(in oklab, var(--tone) 72%, black); }
+  [data-theme="dark"] .eyebrow, [data-theme="dark"] [data-theme="dark"] .eyebrow { color: var(--tone); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .eyebrow { color: var(--tone); } }
+  footer h3 { color: var(--color-textWeak) !important; }
+  body { --card-bg: #fff; --card-shadow: 0 1px 2px oklch(0 0 0 / .04); }
+  [data-theme="dark"] { --card-bg: color-mix(in oklab, var(--color-bgBase), var(--color-bgRaised) 55%); --card-shadow: none; }
+  .card { background: var(--card-bg); box-shadow: var(--card-shadow); }
+  @media (min-width: 1360px) { .bleed { --w: min(96rem, 100vw - 2 * (var(--inset) + var(--gutter))); width: var(--w); max-width: none; margin-inline: calc((100% - var(--w)) / 2); } }
+  .max-w-9xl:not(nav):has(> h2) { position: relative; }
+  .max-w-9xl:not(nav):has(> h2)::before { content: ""; position: absolute; top: 0; inset-inline: .75rem; border-top: 1px solid var(--color-strokeWeak); }
+  [data-theme="light"] main a.text-textBrand { color: #005bd1; }
+  [data-theme="light"] main [data-theme="dark"] a.text-textBrand { color: var(--color-textBrand); }
+  .press { transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+  .press:active { transform: scale(0.97); }
+  .faq summary::-webkit-details-marker { display: none; }
+</style>
+<link rel="stylesheet" href="/assets/css/home-motion.css?v=3">
+<script defer src="/assets/js/home-motion.js?v=3"></script>
