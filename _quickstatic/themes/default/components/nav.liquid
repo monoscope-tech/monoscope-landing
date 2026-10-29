@@ -5,7 +5,7 @@
           <img class="h-6 dark:hidden" src="/assets/brand/logo_full_color.svg" alt="monoscope full color logo">
           <img class="h-6 hidden dark:inline-block" src="/assets/brand/logo_full_white.svg" alt="monoscope white logo">
         </a>
-        <button type="button" class="nav-toggle p-2 rounded-lg" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links nav-actions">
+        <button type="button" class="nav-toggle p-2 rounded-lg active:scale-[0.96] transition-transform motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-strokeFocus focus-visible:ring-inset" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links nav-actions">
           <svg class="h-5 w-5" aria-hidden="true"><use href="/assets/deps/sprite.svg#menu"></use></svg>
         </button>
       </div>
@@ -15,25 +15,33 @@
         {% for navItem in config.raw.main_nav %}
           {% if navItem.dropdown %}
             <details class="relative group/nv nav-disclosure">
-              <summary class="flex items-center gap-1.5 px-4 py-2.5 text-textWeak hover:text-textStrong hover:bg-fillWeak rounded-lg nav-link font-normal focus-visible:ring-2 focus-visible:ring-strokeFocus focus-visible:ring-inset" title="{{navItem.title}}">
+              <summary class="flex items-center gap-1.5 px-4 py-2.5 text-textWeak hover:text-textStrong hover:bg-fillWeak rounded-lg nav-link font-normal focus-visible:ring-2 focus-visible:ring-strokeFocus focus-visible:ring-inset">
                 {{navItem.title}}
                 <svg class="shrink-0 h-4 w-4 text-current nav-chevron group-open/nv:rotate-180"><use xlink:href="/assets/deps/sprite.svg#chevron-down"></use></svg>
               </summary>
-              {% assign wide = navItem.dropdown.size %}<div class="nav-dropdown xl:absolute xl:top-full xl:left-0 {% if wide > 7 %}xl:w-[760px]{% else %}xl:w-[420px]{% endif %}">
+              {% assign wide = navItem.dropdown.size %}<div class="nav-dropdown xl:absolute xl:top-full xl:left-0 {% if navItem.agents %}xl:w-[880px]{% elsif wide > 7 %}xl:w-[760px]{% else %}xl:w-[420px]{% endif %}">
 
-                <div class="bg-bgBase border border-strokeWeak rounded-xl shadow-xl p-2 mt-2{% if wide > 7 %} xl:grid xl:grid-cols-2{% endif %}">
+                <div class="nav-dropdown-panel bg-bgBase rounded-2xl p-2 mt-2{% if navItem.agents %} xl:grid xl:grid-cols-[12rem_1fr]{% endif %}">
+                  {% if navItem.agents %}<div class="flex flex-col gap-0.5 pb-2 mb-2 border-b xl:pb-0 xl:mb-0 xl:pe-2 xl:me-2 xl:border-b-0 xl:border-e border-strokeWeak">
+                    <p class="px-3 pt-2 pb-1.5 text-xs font-medium text-textWeak">For agents</p>
+                    {% for a in navItem.agents %}<a href="{{a.url}}" class="flex items-center gap-3 min-h-11 px-3 rounded-lg text-base font-medium whitespace-nowrap text-textStrong hover:bg-fillWeak active:bg-fillPress nav-link focus-visible:ring-2 focus-visible:ring-strokeFocus focus-visible:ring-inset">
+                      <svg class="size-5 shrink-0"{% if a.color %} style="color:{{a.color}}"{% endif %} aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#{{a.sprite}}"></use></svg>{{a.title}}</a>{% endfor %}
+                  </div>
+                  <div><p class="px-3 pt-2 pb-1.5 text-xs font-medium text-textWeak">Product</p>{% endif %}
+                  <div class="{% if wide > 7 %}xl:grid xl:grid-cols-2 xl:gap-x-1{% endif %}">
                   {% for subItem in navItem.dropdown %}
-                    <a href="{{subItem.url}}" class="flex items-start gap-4 p-3 hover:bg-fillWeak active:bg-fillPress rounded-lg nav-link group/item focus-visible:ring-2 focus-visible:ring-strokeFocus focus-visible:ring-inset"
-                      title="{{subItem.title}}">
-                      <div class="w-10 h-10 bg-fillBrand-weak rounded-lg flex items-center justify-center shrink-0 group-hover/item:bg-fillBrand-strong transition-colors">
-                        <svg class="w-5 h-5 text-iconBrand group-hover/item:text-textInverse-strong transition-colors"><use xlink:href="/assets/deps/sprite.svg#{{subItem.sprite}}"></use></svg>
+                    <a href="{{subItem.url}}" class="flex items-start gap-3 px-3 {% if navItem.agents %}py-2{% else %}py-2.5{% endif %} hover:bg-fillWeak active:bg-fillPress rounded-lg nav-link group/item focus-visible:ring-2 focus-visible:ring-strokeFocus focus-visible:ring-inset">
+                      <div class="{% if navItem.agents %}size-5{% else %}size-8 bg-fillBrand-weak rounded-lg group-hover/item:bg-[rgb(0_104_255/0.12)] transition-colors{% endif %} flex items-center justify-center shrink-0">
+                        <svg class="size-4 text-iconBrand" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#{{subItem.sprite}}"></use></svg>
                       </div>
-                      <div class="flex flex-col gap-1">
-                        <h6 class="font-semibold text-textStrong group-hover/item:text-textBrand transition-colors">{{subItem.title}}</h6>
-                        <span class="text-sm text-textWeak leading-tight">{{subItem.description}}</span>
+                      <div class="min-w-0 flex flex-col {% if navItem.agents %}gap-0.5{% else %}gap-1{% endif %}">
+                        <span class="text-base font-semibold leading-5 text-textStrong">{{subItem.title}}</span>
+                        <span class="text-sm text-textWeak leading-5 text-pretty">{{subItem.description}}</span>
                       </div>
                     </a>
                   {% endfor %}
+                  </div>
+                  {% if navItem.agents %}</div>{% endif %}
                 </div>
               </div>
             </details>

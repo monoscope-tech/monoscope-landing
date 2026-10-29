@@ -9,6 +9,7 @@ layouts:
   "./changelog/index.md": default/changelog-list.liquid
   "./changelog/**/index.md": default/changelog-single.liquid
   "./features/**/index.md": default/features-single.liquid
+  "./for/**/index.md": default/features-single.liquid
   "./pricing/index.md": default/index.liquid
   "./index.md": default/index.liquid
   "./docs/**/index.md": docs/page.liquid
@@ -144,57 +145,81 @@ docs_main_pages:
     slug: /docs/api-reference
     icon: code
 
+# The session every /for/<agent>/ page plays in that agent's own chrome (components/agent-terminal.liquid).
+# Rows: user | tool (+args, out) | read | say. Inline <span class=y> marks the evidence.
+agent_session:
+  - user: "orders have been stuck in processing since this morning. did Acme change something?"
+  - tool: search_events
+    args: 'query: "attributes.url.full has \"api.acme-logistics.com\"", since: "12h"'
+    out:
+      - "41 calls to POST /v1/shipments since 07:52, all 200 OK"
+      - 'response body: {"status":"acknowledged","shipment_id":"shp_8812"}'
+      - "tracking_id missing in 41 of 41, present in every response before 07:52"
+  - tool: list_issues
+    args: 'status: "open"'
+    out:
+      - "API change · acme-logistics POST /v1/shipments · tracking_id removed · critical"
+  - read: src/shipments/advance.ts
+  - say: 'Acme stopped returning <span class="y">tracking_id</span> at 07:52. Every call since still gets 200 OK with status "acknowledged", so nothing errored and no alert fired. <span class="y">advance.ts:42</span> needs tracking_id to mark an order shipped, which leaves 41 orders in processing. Your last deploy was two days ago; the stored responses put the change on Acme''s side.'
+  - say: "Want me to fall back to looking the shipment up by shipment_id?"
+
 main_nav:
   - title: Product
+    agents:
+      - { title: Claude Code, url: /for/claude-code/, sprite: claude, color: "#D97757" }
+      - { title: Cursor, url: /for/cursor/, sprite: cursor }
+      - { title: Codex, url: /for/codex/, sprite: openai }
+      - { title: GitHub Copilot, url: /for/github-copilot/, sprite: copilot }
+      - { title: OpenCode, url: /for/opencode/, sprite: opencode }
     dropdown:
       - title: AI SRE
         url: /features/ai-sre/
         sprite: zap
-        description: Investigates errors and answers in Slack from the real request
+        description: Request-backed answers in Slack
       - title: Error tracking
         url: /features/error-tracking/
         sprite: bug
-        description: Every error and crash, with the request that caused it
+        description: Errors with the request that caused them
       - title: Log management
         url: /features/log-management/
         sprite: align-left
-        description: Every log line with the request that wrote it
+        description: Every log tied to its request
       - title: Distributed tracing
         url: /features/distributed-tracing/
         sprite: activity
-        description: Spans with the request and response kept
+        description: Spans with requests and responses
       - title: Application performance
         url: /features/apm/
-        sprite: chart-line
-        description: Latency and errors per endpoint, down to the slow request
+        sprite: gauge
+        description: Find slow requests and endpoint errors
       - title: Metrics & dashboards
         url: /features/dashboards/
         sprite: bar-chart
-        description: Dashboards, metrics and alerts on any query
+        description: Chart and alert on any query
       - title: API monitoring
         url: /features/api-monitoring/
         sprite: plug
-        description: Calls in and out, with bodies and breaking changes
+        description: API calls, bodies and breaking changes
       - title: OpenTelemetry
         url: /features/opentelemetry/
         sprite: radio
-        description: "Point any collector at monoscope for logs, traces and metrics"
+        description: "Logs, traces and metrics via OTLP"
       - title: Logs & traces
         url: /features/logs-and-traces/
         sprite: compass
-        description: Search every log, span and request in one place
+        description: Search logs, spans and requests
       - title: Session replay
         url: /features/session-replay/
         sprite: circle-play
-        description: What the customer saw, next to the failing request
+        description: Replay sessions alongside failed requests
       - title: Real user monitoring
         url: /features/real-user-monitoring/
         sprite: monitor
-        description: Web Vitals and browser errors, tied to the backend
+        description: Web Vitals and errors tied to the backend
       - title: Your own bucket
         url: /features/byob-s3/
         sprite: database
-        description: Your own S3 bucket, in open Parquet
+        description: Open Parquet in your S3 bucket
   - title: Documentation
     dropdown:
       - title: Get Started

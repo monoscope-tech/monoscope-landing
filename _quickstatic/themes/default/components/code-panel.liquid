@@ -1,0 +1,5 @@
+{% comment %}Dark code panel with an optional label bar. Params: code, label, lang (highlight.js class); pass "" for none{% endcomment %}
+<div data-theme="dark" class="relative rounded-xl overflow-hidden border border-white/10 bg-[oklch(18%_0.02_263)]! [&_code]:bg-transparent! [&_code]:p-0! [&_code]:text-inherit!">
+  {% if label.size > 0 %}<p class="px-5 py-2 text-[12px] font-mono text-white/50 border-b border-white/10">{{label}}</p>{% endif %}
+  <pre class="p-5 text-base leading-relaxed overflow-x-auto font-mono text-white/90"><code{% if lang.size > 0 %} class="{{lang}}"{% endif %}>{{code}}</code></pre>
+</div>
