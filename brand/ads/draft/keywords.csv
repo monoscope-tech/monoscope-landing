@@ -1,0 +1,95 @@
+Campaign,Ad group,Keyword,Match type
+C3 Ownership | US,otel-backend,opentelemetry backend,Exact
+C3 Ownership | US,otel-backend,opentelemetry backend,Phrase
+C3 Ownership | US,otel-backend,otel backend,Exact
+C3 Ownership | US,otel-backend,otel backend,Phrase
+C3 Ownership | US,otel-backend,opentelemetry storage,Exact
+C3 Ownership | US,otel-backend,opentelemetry storage,Phrase
+C3 Ownership | US,otel-backend,hosted opentelemetry,Exact
+C3 Ownership | US,otel-backend,hosted opentelemetry,Phrase
+C3 Ownership | US,otel-backend,opentelemetry platform,Exact
+C3 Ownership | US,otel-backend,opentelemetry platform,Phrase
+C3 Ownership | US,otel-backend,opentelemetry observability platform,Exact
+C3 Ownership | US,otel-backend,opentelemetry observability platform,Phrase
+C3 Ownership | US,otel-backend,managed opentelemetry,Exact
+C3 Ownership | US,otel-backend,managed opentelemetry,Phrase
+C3 Ownership | US,self-hosted,self hosted observability,Exact
+C3 Ownership | US,self-hosted,self hosted observability,Phrase
+C3 Ownership | US,self-hosted,open source observability platform,Exact
+C3 Ownership | US,self-hosted,open source observability platform,Phrase
+C3 Ownership | US,self-hosted,self hosted apm,Exact
+C3 Ownership | US,self-hosted,self hosted apm,Phrase
+C3 Ownership | US,self-hosted,open source apm,Exact
+C3 Ownership | US,self-hosted,open source apm,Phrase
+C3 Ownership | US,self-hosted,self hosted log management,Exact
+C3 Ownership | US,self-hosted,self hosted log management,Phrase
+C3 Ownership | US,self-hosted,open source log management,Exact
+C3 Ownership | US,self-hosted,open source log management,Phrase
+C3 Ownership | US,self-hosted,self hosted error tracking,Exact
+C3 Ownership | US,self-hosted,self hosted error tracking,Phrase
+C3 Ownership | US,s3-bucket,logs to s3,Exact
+C3 Ownership | US,s3-bucket,logs to s3,Phrase
+C3 Ownership | US,s3-bucket,store logs in s3,Exact
+C3 Ownership | US,s3-bucket,store logs in s3,Phrase
+C3 Ownership | US,s3-bucket,s3 log storage,Exact
+C3 Ownership | US,s3-bucket,s3 log storage,Phrase
+C3 Ownership | US,s3-bucket,observability s3 storage,Exact
+C3 Ownership | US,s3-bucket,observability s3 storage,Phrase
+C3 Ownership | US,s3-bucket,bring your own bucket observability,Exact
+C3 Ownership | US,s3-bucket,bring your own bucket observability,Phrase
+C3 Ownership | US,s3-bucket,telemetry in s3,Exact
+C3 Ownership | US,s3-bucket,telemetry in s3,Phrase
+C3 Ownership | EU,otel-backend,opentelemetry backend,Exact
+C3 Ownership | EU,otel-backend,opentelemetry backend,Phrase
+C3 Ownership | EU,otel-backend,otel backend,Exact
+C3 Ownership | EU,otel-backend,otel backend,Phrase
+C3 Ownership | EU,otel-backend,opentelemetry storage,Exact
+C3 Ownership | EU,otel-backend,opentelemetry storage,Phrase
+C3 Ownership | EU,otel-backend,hosted opentelemetry,Exact
+C3 Ownership | EU,otel-backend,hosted opentelemetry,Phrase
+C3 Ownership | EU,otel-backend,opentelemetry platform,Exact
+C3 Ownership | EU,otel-backend,opentelemetry platform,Phrase
+C3 Ownership | EU,otel-backend,opentelemetry observability platform,Exact
+C3 Ownership | EU,otel-backend,opentelemetry observability platform,Phrase
+C3 Ownership | EU,otel-backend,managed opentelemetry,Exact
+C3 Ownership | EU,otel-backend,managed opentelemetry,Phrase
+C3 Ownership | EU,self-hosted,self hosted observability,Exact
+C3 Ownership | EU,self-hosted,self hosted observability,Phrase
+C3 Ownership | EU,self-hosted,open source observability platform,Exact
+C3 Ownership | EU,self-hosted,open source observability platform,Phrase
+C3 Ownership | EU,self-hosted,self hosted apm,Exact
+C3 Ownership | EU,self-hosted,self hosted apm,Phrase
+C3 Ownership | EU,self-hosted,open source apm,Exact
+C3 Ownership | EU,self-hosted,open source apm,Phrase
+C3 Ownership | EU,self-hosted,self hosted log management,Exact
+C3 Ownership | EU,self-hosted,self hosted log management,Phrase
+C3 Ownership | EU,self-hosted,open source log management,Exact
+C3 Ownership | EU,self-hosted,open source log management,Phrase
+C3 Ownership | EU,self-hosted,self hosted error tracking,Exact
+C3 Ownership | EU,self-hosted,self hosted error tracking,Phrase
+C3 Ownership | EU,eu-hosting,gdpr log management,Exact
+C3 Ownership | EU,eu-hosting,gdpr log management,Phrase
+C3 Ownership | EU,eu-hosting,eu log management,Exact
+C3 Ownership | EU,eu-hosting,eu log management,Phrase
+C3 Ownership | EU,eu-hosting,eu hosted observability,Exact
+C3 Ownership | EU,eu-hosting,eu hosted observability,Phrase
+C3 Ownership | EU,eu-hosting,european observability platform,Exact
+C3 Ownership | EU,eu-hosting,european observability platform,Phrase
+C3 Ownership | EU,eu-hosting,gdpr observability,Exact
+C3 Ownership | EU,eu-hosting,gdpr observability,Phrase
+C3 Ownership | EU,eu-hosting,eu hosted logging,Exact
+C3 Ownership | EU,eu-hosting,eu hosted logging,Phrase
+C3 Ownership | EU,eu-hosting,eu data residency observability,Exact
+C3 Ownership | EU,eu-hosting,eu data residency observability,Phrase
+C3 Ownership | EU,s3-bucket,logs to s3,Exact
+C3 Ownership | EU,s3-bucket,logs to s3,Phrase
+C3 Ownership | EU,s3-bucket,store logs in s3,Exact
+C3 Ownership | EU,s3-bucket,store logs in s3,Phrase
+C3 Ownership | EU,s3-bucket,s3 log storage,Exact
+C3 Ownership | EU,s3-bucket,s3 log storage,Phrase
+C3 Ownership | EU,s3-bucket,observability s3 storage,Exact
+C3 Ownership | EU,s3-bucket,observability s3 storage,Phrase
+C3 Ownership | EU,s3-bucket,bring your own bucket observability,Exact
+C3 Ownership | EU,s3-bucket,bring your own bucket observability,Phrase
+C3 Ownership | EU,s3-bucket,telemetry in s3,Exact
+C3 Ownership | EU,s3-bucket,telemetry in s3,Phrase

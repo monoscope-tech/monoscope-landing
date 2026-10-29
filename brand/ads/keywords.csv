@@ -1,0 +1,689 @@
+Campaign,Ad group,Keyword,Match type
+C1 Conquest | US,datadog,datadog alternative,Exact
+C1 Conquest | US,datadog,datadog alternative,Phrase
+C1 Conquest | US,datadog,datadog alternatives,Exact
+C1 Conquest | US,datadog,datadog alternatives,Phrase
+C1 Conquest | US,datadog,alternatives to datadog,Exact
+C1 Conquest | US,datadog,alternatives to datadog,Phrase
+C1 Conquest | US,datadog,datadog competitors,Exact
+C1 Conquest | US,datadog,datadog competitors,Phrase
+C1 Conquest | US,datadog,datadog replacement,Exact
+C1 Conquest | US,datadog,datadog replacement,Phrase
+C1 Conquest | US,datadog,open source datadog alternative,Exact
+C1 Conquest | US,datadog,open source datadog alternative,Phrase
+C1 Conquest | US,datadog,cheaper datadog alternative,Exact
+C1 Conquest | US,datadog,cheaper datadog alternative,Phrase
+C1 Conquest | US,newrelic,new relic alternative,Exact
+C1 Conquest | US,newrelic,new relic alternative,Phrase
+C1 Conquest | US,newrelic,new relic alternatives,Exact
+C1 Conquest | US,newrelic,new relic alternatives,Phrase
+C1 Conquest | US,newrelic,alternatives to new relic,Exact
+C1 Conquest | US,newrelic,alternatives to new relic,Phrase
+C1 Conquest | US,newrelic,new relic competitors,Exact
+C1 Conquest | US,newrelic,new relic competitors,Phrase
+C1 Conquest | US,newrelic,newrelic alternative,Exact
+C1 Conquest | US,newrelic,newrelic alternative,Phrase
+C1 Conquest | US,newrelic,new relic replacement,Exact
+C1 Conquest | US,newrelic,new relic replacement,Phrase
+C1 Conquest | US,sentry,sentry alternative,Exact
+C1 Conquest | US,sentry,sentry alternative,Phrase
+C1 Conquest | US,sentry,sentry alternatives,Exact
+C1 Conquest | US,sentry,sentry alternatives,Phrase
+C1 Conquest | US,sentry,alternatives to sentry,Exact
+C1 Conquest | US,sentry,alternatives to sentry,Phrase
+C1 Conquest | US,sentry,sentry competitors,Exact
+C1 Conquest | US,sentry,sentry competitors,Phrase
+C1 Conquest | US,sentry,sentry.io alternative,Exact
+C1 Conquest | US,sentry,sentry.io alternative,Phrase
+C1 Conquest | US,sentry,open source sentry alternative,Exact
+C1 Conquest | US,sentry,open source sentry alternative,Phrase
+C1 Conquest | US,splunk,splunk alternative,Exact
+C1 Conquest | US,splunk,splunk alternative,Phrase
+C1 Conquest | US,splunk,splunk alternatives,Exact
+C1 Conquest | US,splunk,splunk alternatives,Phrase
+C1 Conquest | US,splunk,alternatives to splunk,Exact
+C1 Conquest | US,splunk,alternatives to splunk,Phrase
+C1 Conquest | US,splunk,splunk competitors,Exact
+C1 Conquest | US,splunk,splunk competitors,Phrase
+C1 Conquest | US,splunk,splunk replacement,Exact
+C1 Conquest | US,splunk,splunk replacement,Phrase
+C1 Conquest | US,splunk,open source splunk alternative,Exact
+C1 Conquest | US,splunk,open source splunk alternative,Phrase
+C1 Conquest | US,splunk,splunk observability alternative,Exact
+C1 Conquest | US,splunk,splunk observability alternative,Phrase
+C1 Conquest | US,grafana,grafana alternative,Exact
+C1 Conquest | US,grafana,grafana alternative,Phrase
+C1 Conquest | US,grafana,grafana alternatives,Exact
+C1 Conquest | US,grafana,grafana alternatives,Phrase
+C1 Conquest | US,grafana,alternatives to grafana,Exact
+C1 Conquest | US,grafana,alternatives to grafana,Phrase
+C1 Conquest | US,grafana,grafana competitors,Exact
+C1 Conquest | US,grafana,grafana competitors,Phrase
+C1 Conquest | US,grafana,grafana cloud alternative,Exact
+C1 Conquest | US,grafana,grafana cloud alternative,Phrase
+C1 Conquest | US,elastic,elk alternative,Exact
+C1 Conquest | US,elastic,elk alternative,Phrase
+C1 Conquest | US,elastic,elk stack alternative,Exact
+C1 Conquest | US,elastic,elk stack alternative,Phrase
+C1 Conquest | US,elastic,alternatives to elk stack,Exact
+C1 Conquest | US,elastic,alternatives to elk stack,Phrase
+C1 Conquest | US,elastic,kibana alternative,Exact
+C1 Conquest | US,elastic,kibana alternative,Phrase
+C1 Conquest | US,elastic,elastic observability alternative,Exact
+C1 Conquest | US,elastic,elastic observability alternative,Phrase
+C1 Conquest | US,elastic,elasticsearch logging alternative,Exact
+C1 Conquest | US,elastic,elasticsearch logging alternative,Phrase
+C1 Conquest | US,logrocket,logrocket alternative,Exact
+C1 Conquest | US,logrocket,logrocket alternative,Phrase
+C1 Conquest | US,logrocket,logrocket alternatives,Exact
+C1 Conquest | US,logrocket,logrocket alternatives,Phrase
+C1 Conquest | US,logrocket,alternatives to logrocket,Exact
+C1 Conquest | US,logrocket,alternatives to logrocket,Phrase
+C1 Conquest | US,logrocket,logrocket competitors,Exact
+C1 Conquest | US,logrocket,logrocket competitors,Phrase
+C1 Conquest | US,fullstory,fullstory alternative,Exact
+C1 Conquest | US,fullstory,fullstory alternative,Phrase
+C1 Conquest | US,fullstory,fullstory alternatives,Exact
+C1 Conquest | US,fullstory,fullstory alternatives,Phrase
+C1 Conquest | US,fullstory,alternatives to fullstory,Exact
+C1 Conquest | US,fullstory,alternatives to fullstory,Phrase
+C1 Conquest | US,fullstory,fullstory competitors,Exact
+C1 Conquest | US,fullstory,fullstory competitors,Phrase
+C1 Conquest | US,dynatrace,dynatrace alternative,Exact
+C1 Conquest | US,dynatrace,dynatrace alternative,Phrase
+C1 Conquest | US,dynatrace,dynatrace alternatives,Exact
+C1 Conquest | US,dynatrace,dynatrace alternatives,Phrase
+C1 Conquest | US,dynatrace,alternatives to dynatrace,Exact
+C1 Conquest | US,dynatrace,alternatives to dynatrace,Phrase
+C1 Conquest | US,dynatrace,dynatrace competitors,Exact
+C1 Conquest | US,dynatrace,dynatrace competitors,Phrase
+C1 Conquest | US,better-stack,better stack alternative,Exact
+C1 Conquest | US,better-stack,better stack alternative,Phrase
+C1 Conquest | US,better-stack,betterstack alternative,Exact
+C1 Conquest | US,better-stack,betterstack alternative,Phrase
+C1 Conquest | US,better-stack,better stack alternatives,Exact
+C1 Conquest | US,better-stack,better stack alternatives,Phrase
+C1 Conquest | US,better-stack,better stack competitors,Exact
+C1 Conquest | US,better-stack,better stack competitors,Phrase
+C1 Conquest | US,better-stack,better uptime alternative,Exact
+C1 Conquest | US,better-stack,better uptime alternative,Phrase
+C1 Conquest | US,better-stack,logtail alternative,Exact
+C1 Conquest | US,better-stack,logtail alternative,Phrase
+C1 Conquest | US,signoz,signoz alternative,Exact
+C1 Conquest | US,signoz,signoz alternative,Phrase
+C1 Conquest | US,signoz,signoz alternatives,Exact
+C1 Conquest | US,signoz,signoz alternatives,Phrase
+C1 Conquest | US,signoz,signoz competitors,Exact
+C1 Conquest | US,signoz,signoz competitors,Phrase
+C1 Conquest | US,signoz,alternatives to signoz,Exact
+C1 Conquest | US,signoz,alternatives to signoz,Phrase
+C1 Conquest | US,bugsnag,bugsnag alternative,Exact
+C1 Conquest | US,bugsnag,bugsnag alternative,Phrase
+C1 Conquest | US,bugsnag,bugsnag alternatives,Exact
+C1 Conquest | US,bugsnag,bugsnag alternatives,Phrase
+C1 Conquest | US,bugsnag,bugsnag competitors,Exact
+C1 Conquest | US,bugsnag,bugsnag competitors,Phrase
+C1 Conquest | US,bugsnag,alternatives to bugsnag,Exact
+C1 Conquest | US,bugsnag,alternatives to bugsnag,Phrase
+C1 Conquest | US,honeybadger,honeybadger alternative,Exact
+C1 Conquest | US,honeybadger,honeybadger alternative,Phrase
+C1 Conquest | US,honeybadger,honeybadger alternatives,Exact
+C1 Conquest | US,honeybadger,honeybadger alternatives,Phrase
+C1 Conquest | US,honeybadger,honeybadger competitors,Exact
+C1 Conquest | US,honeybadger,honeybadger competitors,Phrase
+C1 Conquest | US,honeybadger,honeybadger.io alternative,Exact
+C1 Conquest | US,honeybadger,honeybadger.io alternative,Phrase
+C1 Conquest | US,axiom,axiom.co alternative,Exact
+C1 Conquest | US,axiom,axiom.co alternative,Phrase
+C1 Conquest | US,axiom,axiom logging alternative,Exact
+C1 Conquest | US,axiom,axiom logging alternative,Phrase
+C1 Conquest | US,axiom,axiom observability alternative,Exact
+C1 Conquest | US,axiom,axiom observability alternative,Phrase
+C1 Conquest | US,axiom,axiom logs alternative,Exact
+C1 Conquest | US,axiom,axiom logs alternative,Phrase
+C1 Conquest | EU,datadog,datadog alternative,Exact
+C1 Conquest | EU,datadog,datadog alternative,Phrase
+C1 Conquest | EU,datadog,datadog alternatives,Exact
+C1 Conquest | EU,datadog,datadog alternatives,Phrase
+C1 Conquest | EU,datadog,alternatives to datadog,Exact
+C1 Conquest | EU,datadog,alternatives to datadog,Phrase
+C1 Conquest | EU,datadog,datadog competitors,Exact
+C1 Conquest | EU,datadog,datadog competitors,Phrase
+C1 Conquest | EU,datadog,datadog replacement,Exact
+C1 Conquest | EU,datadog,datadog replacement,Phrase
+C1 Conquest | EU,datadog,open source datadog alternative,Exact
+C1 Conquest | EU,datadog,open source datadog alternative,Phrase
+C1 Conquest | EU,datadog,cheaper datadog alternative,Exact
+C1 Conquest | EU,datadog,cheaper datadog alternative,Phrase
+C1 Conquest | EU,newrelic,new relic alternative,Exact
+C1 Conquest | EU,newrelic,new relic alternative,Phrase
+C1 Conquest | EU,newrelic,new relic alternatives,Exact
+C1 Conquest | EU,newrelic,new relic alternatives,Phrase
+C1 Conquest | EU,newrelic,alternatives to new relic,Exact
+C1 Conquest | EU,newrelic,alternatives to new relic,Phrase
+C1 Conquest | EU,newrelic,new relic competitors,Exact
+C1 Conquest | EU,newrelic,new relic competitors,Phrase
+C1 Conquest | EU,newrelic,newrelic alternative,Exact
+C1 Conquest | EU,newrelic,newrelic alternative,Phrase
+C1 Conquest | EU,newrelic,new relic replacement,Exact
+C1 Conquest | EU,newrelic,new relic replacement,Phrase
+C1 Conquest | EU,sentry,sentry alternative,Exact
+C1 Conquest | EU,sentry,sentry alternative,Phrase
+C1 Conquest | EU,sentry,sentry alternatives,Exact
+C1 Conquest | EU,sentry,sentry alternatives,Phrase
+C1 Conquest | EU,sentry,alternatives to sentry,Exact
+C1 Conquest | EU,sentry,alternatives to sentry,Phrase
+C1 Conquest | EU,sentry,sentry competitors,Exact
+C1 Conquest | EU,sentry,sentry competitors,Phrase
+C1 Conquest | EU,sentry,sentry.io alternative,Exact
+C1 Conquest | EU,sentry,sentry.io alternative,Phrase
+C1 Conquest | EU,sentry,open source sentry alternative,Exact
+C1 Conquest | EU,sentry,open source sentry alternative,Phrase
+C1 Conquest | EU,splunk,splunk alternative,Exact
+C1 Conquest | EU,splunk,splunk alternative,Phrase
+C1 Conquest | EU,splunk,splunk alternatives,Exact
+C1 Conquest | EU,splunk,splunk alternatives,Phrase
+C1 Conquest | EU,splunk,alternatives to splunk,Exact
+C1 Conquest | EU,splunk,alternatives to splunk,Phrase
+C1 Conquest | EU,splunk,splunk competitors,Exact
+C1 Conquest | EU,splunk,splunk competitors,Phrase
+C1 Conquest | EU,splunk,splunk replacement,Exact
+C1 Conquest | EU,splunk,splunk replacement,Phrase
+C1 Conquest | EU,splunk,open source splunk alternative,Exact
+C1 Conquest | EU,splunk,open source splunk alternative,Phrase
+C1 Conquest | EU,splunk,splunk observability alternative,Exact
+C1 Conquest | EU,splunk,splunk observability alternative,Phrase
+C1 Conquest | EU,grafana,grafana alternative,Exact
+C1 Conquest | EU,grafana,grafana alternative,Phrase
+C1 Conquest | EU,grafana,grafana alternatives,Exact
+C1 Conquest | EU,grafana,grafana alternatives,Phrase
+C1 Conquest | EU,grafana,alternatives to grafana,Exact
+C1 Conquest | EU,grafana,alternatives to grafana,Phrase
+C1 Conquest | EU,grafana,grafana competitors,Exact
+C1 Conquest | EU,grafana,grafana competitors,Phrase
+C1 Conquest | EU,grafana,grafana cloud alternative,Exact
+C1 Conquest | EU,grafana,grafana cloud alternative,Phrase
+C1 Conquest | EU,elastic,elk alternative,Exact
+C1 Conquest | EU,elastic,elk alternative,Phrase
+C1 Conquest | EU,elastic,elk stack alternative,Exact
+C1 Conquest | EU,elastic,elk stack alternative,Phrase
+C1 Conquest | EU,elastic,alternatives to elk stack,Exact
+C1 Conquest | EU,elastic,alternatives to elk stack,Phrase
+C1 Conquest | EU,elastic,kibana alternative,Exact
+C1 Conquest | EU,elastic,kibana alternative,Phrase
+C1 Conquest | EU,elastic,elastic observability alternative,Exact
+C1 Conquest | EU,elastic,elastic observability alternative,Phrase
+C1 Conquest | EU,elastic,elasticsearch logging alternative,Exact
+C1 Conquest | EU,elastic,elasticsearch logging alternative,Phrase
+C1 Conquest | EU,logrocket,logrocket alternative,Exact
+C1 Conquest | EU,logrocket,logrocket alternative,Phrase
+C1 Conquest | EU,logrocket,logrocket alternatives,Exact
+C1 Conquest | EU,logrocket,logrocket alternatives,Phrase
+C1 Conquest | EU,logrocket,alternatives to logrocket,Exact
+C1 Conquest | EU,logrocket,alternatives to logrocket,Phrase
+C1 Conquest | EU,logrocket,logrocket competitors,Exact
+C1 Conquest | EU,logrocket,logrocket competitors,Phrase
+C1 Conquest | EU,fullstory,fullstory alternative,Exact
+C1 Conquest | EU,fullstory,fullstory alternative,Phrase
+C1 Conquest | EU,fullstory,fullstory alternatives,Exact
+C1 Conquest | EU,fullstory,fullstory alternatives,Phrase
+C1 Conquest | EU,fullstory,alternatives to fullstory,Exact
+C1 Conquest | EU,fullstory,alternatives to fullstory,Phrase
+C1 Conquest | EU,fullstory,fullstory competitors,Exact
+C1 Conquest | EU,fullstory,fullstory competitors,Phrase
+C1 Conquest | EU,dynatrace,dynatrace alternative,Exact
+C1 Conquest | EU,dynatrace,dynatrace alternative,Phrase
+C1 Conquest | EU,dynatrace,dynatrace alternatives,Exact
+C1 Conquest | EU,dynatrace,dynatrace alternatives,Phrase
+C1 Conquest | EU,dynatrace,alternatives to dynatrace,Exact
+C1 Conquest | EU,dynatrace,alternatives to dynatrace,Phrase
+C1 Conquest | EU,dynatrace,dynatrace competitors,Exact
+C1 Conquest | EU,dynatrace,dynatrace competitors,Phrase
+C1 Conquest | EU,better-stack,better stack alternative,Exact
+C1 Conquest | EU,better-stack,better stack alternative,Phrase
+C1 Conquest | EU,better-stack,betterstack alternative,Exact
+C1 Conquest | EU,better-stack,betterstack alternative,Phrase
+C1 Conquest | EU,better-stack,better stack alternatives,Exact
+C1 Conquest | EU,better-stack,better stack alternatives,Phrase
+C1 Conquest | EU,better-stack,better stack competitors,Exact
+C1 Conquest | EU,better-stack,better stack competitors,Phrase
+C1 Conquest | EU,better-stack,better uptime alternative,Exact
+C1 Conquest | EU,better-stack,better uptime alternative,Phrase
+C1 Conquest | EU,better-stack,logtail alternative,Exact
+C1 Conquest | EU,better-stack,logtail alternative,Phrase
+C1 Conquest | EU,signoz,signoz alternative,Exact
+C1 Conquest | EU,signoz,signoz alternative,Phrase
+C1 Conquest | EU,signoz,signoz alternatives,Exact
+C1 Conquest | EU,signoz,signoz alternatives,Phrase
+C1 Conquest | EU,signoz,signoz competitors,Exact
+C1 Conquest | EU,signoz,signoz competitors,Phrase
+C1 Conquest | EU,signoz,alternatives to signoz,Exact
+C1 Conquest | EU,signoz,alternatives to signoz,Phrase
+C1 Conquest | EU,bugsnag,bugsnag alternative,Exact
+C1 Conquest | EU,bugsnag,bugsnag alternative,Phrase
+C1 Conquest | EU,bugsnag,bugsnag alternatives,Exact
+C1 Conquest | EU,bugsnag,bugsnag alternatives,Phrase
+C1 Conquest | EU,bugsnag,bugsnag competitors,Exact
+C1 Conquest | EU,bugsnag,bugsnag competitors,Phrase
+C1 Conquest | EU,bugsnag,alternatives to bugsnag,Exact
+C1 Conquest | EU,bugsnag,alternatives to bugsnag,Phrase
+C1 Conquest | EU,honeybadger,honeybadger alternative,Exact
+C1 Conquest | EU,honeybadger,honeybadger alternative,Phrase
+C1 Conquest | EU,honeybadger,honeybadger alternatives,Exact
+C1 Conquest | EU,honeybadger,honeybadger alternatives,Phrase
+C1 Conquest | EU,honeybadger,honeybadger competitors,Exact
+C1 Conquest | EU,honeybadger,honeybadger competitors,Phrase
+C1 Conquest | EU,honeybadger,honeybadger.io alternative,Exact
+C1 Conquest | EU,honeybadger,honeybadger.io alternative,Phrase
+C1 Conquest | EU,axiom,axiom.co alternative,Exact
+C1 Conquest | EU,axiom,axiom.co alternative,Phrase
+C1 Conquest | EU,axiom,axiom logging alternative,Exact
+C1 Conquest | EU,axiom,axiom logging alternative,Phrase
+C1 Conquest | EU,axiom,axiom observability alternative,Exact
+C1 Conquest | EU,axiom,axiom observability alternative,Phrase
+C1 Conquest | EU,axiom,axiom logs alternative,Exact
+C1 Conquest | EU,axiom,axiom logs alternative,Phrase
+C2 Cost | US,datadog-pricing,datadog pricing,Exact
+C2 Cost | US,datadog-pricing,datadog pricing,Phrase
+C2 Cost | US,datadog-pricing,datadog cost,Exact
+C2 Cost | US,datadog-pricing,datadog cost,Phrase
+C2 Cost | US,datadog-pricing,datadog costs,Exact
+C2 Cost | US,datadog-pricing,datadog costs,Phrase
+C2 Cost | US,datadog-pricing,reduce datadog costs,Exact
+C2 Cost | US,datadog-pricing,reduce datadog costs,Phrase
+C2 Cost | US,datadog-pricing,datadog bill,Exact
+C2 Cost | US,datadog-pricing,datadog bill,Phrase
+C2 Cost | US,datadog-pricing,datadog too expensive,Exact
+C2 Cost | US,datadog-pricing,datadog too expensive,Phrase
+C2 Cost | US,datadog-pricing,datadog apm pricing,Exact
+C2 Cost | US,datadog-pricing,datadog apm pricing,Phrase
+C2 Cost | US,datadog-pricing,datadog log pricing,Exact
+C2 Cost | US,datadog-pricing,datadog log pricing,Phrase
+C2 Cost | US,datadog-pricing,datadog pricing per host,Exact
+C2 Cost | US,datadog-pricing,datadog pricing per host,Phrase
+C2 Cost | US,splunk-pricing,splunk pricing,Exact
+C2 Cost | US,splunk-pricing,splunk pricing,Phrase
+C2 Cost | US,splunk-pricing,splunk cost,Exact
+C2 Cost | US,splunk-pricing,splunk cost,Phrase
+C2 Cost | US,splunk-pricing,splunk license cost,Exact
+C2 Cost | US,splunk-pricing,splunk license cost,Phrase
+C2 Cost | US,splunk-pricing,reduce splunk costs,Exact
+C2 Cost | US,splunk-pricing,reduce splunk costs,Phrase
+C2 Cost | US,splunk-pricing,splunk ingest pricing,Exact
+C2 Cost | US,splunk-pricing,splunk ingest pricing,Phrase
+C2 Cost | US,newrelic-pricing,new relic pricing,Exact
+C2 Cost | US,newrelic-pricing,new relic pricing,Phrase
+C2 Cost | US,newrelic-pricing,new relic cost,Exact
+C2 Cost | US,newrelic-pricing,new relic cost,Phrase
+C2 Cost | US,newrelic-pricing,new relic per user pricing,Exact
+C2 Cost | US,newrelic-pricing,new relic per user pricing,Phrase
+C2 Cost | US,newrelic-pricing,reduce new relic costs,Exact
+C2 Cost | US,newrelic-pricing,reduce new relic costs,Phrase
+C2 Cost | US,log-pricing,log management pricing,Exact
+C2 Cost | US,log-pricing,log management pricing,Phrase
+C2 Cost | US,log-pricing,log management cost,Exact
+C2 Cost | US,log-pricing,log management cost,Phrase
+C2 Cost | US,log-pricing,logging costs,Exact
+C2 Cost | US,log-pricing,logging costs,Phrase
+C2 Cost | US,log-pricing,reduce logging costs,Exact
+C2 Cost | US,log-pricing,reduce logging costs,Phrase
+C2 Cost | US,log-pricing,observability pricing,Exact
+C2 Cost | US,log-pricing,observability pricing,Phrase
+C2 Cost | US,log-pricing,observability costs,Exact
+C2 Cost | US,log-pricing,observability costs,Phrase
+C2 Cost | US,log-pricing,apm pricing,Exact
+C2 Cost | US,log-pricing,apm pricing,Phrase
+C2 Cost | US,log-pricing,monitoring costs,Exact
+C2 Cost | US,log-pricing,monitoring costs,Phrase
+C2 Cost | EU,datadog-pricing,datadog pricing,Exact
+C2 Cost | EU,datadog-pricing,datadog pricing,Phrase
+C2 Cost | EU,datadog-pricing,datadog cost,Exact
+C2 Cost | EU,datadog-pricing,datadog cost,Phrase
+C2 Cost | EU,datadog-pricing,datadog costs,Exact
+C2 Cost | EU,datadog-pricing,datadog costs,Phrase
+C2 Cost | EU,datadog-pricing,reduce datadog costs,Exact
+C2 Cost | EU,datadog-pricing,reduce datadog costs,Phrase
+C2 Cost | EU,datadog-pricing,datadog bill,Exact
+C2 Cost | EU,datadog-pricing,datadog bill,Phrase
+C2 Cost | EU,datadog-pricing,datadog too expensive,Exact
+C2 Cost | EU,datadog-pricing,datadog too expensive,Phrase
+C2 Cost | EU,datadog-pricing,datadog apm pricing,Exact
+C2 Cost | EU,datadog-pricing,datadog apm pricing,Phrase
+C2 Cost | EU,datadog-pricing,datadog log pricing,Exact
+C2 Cost | EU,datadog-pricing,datadog log pricing,Phrase
+C2 Cost | EU,datadog-pricing,datadog pricing per host,Exact
+C2 Cost | EU,datadog-pricing,datadog pricing per host,Phrase
+C2 Cost | EU,splunk-pricing,splunk pricing,Exact
+C2 Cost | EU,splunk-pricing,splunk pricing,Phrase
+C2 Cost | EU,splunk-pricing,splunk cost,Exact
+C2 Cost | EU,splunk-pricing,splunk cost,Phrase
+C2 Cost | EU,splunk-pricing,splunk license cost,Exact
+C2 Cost | EU,splunk-pricing,splunk license cost,Phrase
+C2 Cost | EU,splunk-pricing,reduce splunk costs,Exact
+C2 Cost | EU,splunk-pricing,reduce splunk costs,Phrase
+C2 Cost | EU,splunk-pricing,splunk ingest pricing,Exact
+C2 Cost | EU,splunk-pricing,splunk ingest pricing,Phrase
+C2 Cost | EU,newrelic-pricing,new relic pricing,Exact
+C2 Cost | EU,newrelic-pricing,new relic pricing,Phrase
+C2 Cost | EU,newrelic-pricing,new relic cost,Exact
+C2 Cost | EU,newrelic-pricing,new relic cost,Phrase
+C2 Cost | EU,newrelic-pricing,new relic per user pricing,Exact
+C2 Cost | EU,newrelic-pricing,new relic per user pricing,Phrase
+C2 Cost | EU,newrelic-pricing,reduce new relic costs,Exact
+C2 Cost | EU,newrelic-pricing,reduce new relic costs,Phrase
+C2 Cost | EU,log-pricing,log management pricing,Exact
+C2 Cost | EU,log-pricing,log management pricing,Phrase
+C2 Cost | EU,log-pricing,log management cost,Exact
+C2 Cost | EU,log-pricing,log management cost,Phrase
+C2 Cost | EU,log-pricing,logging costs,Exact
+C2 Cost | EU,log-pricing,logging costs,Phrase
+C2 Cost | EU,log-pricing,reduce logging costs,Exact
+C2 Cost | EU,log-pricing,reduce logging costs,Phrase
+C2 Cost | EU,log-pricing,observability pricing,Exact
+C2 Cost | EU,log-pricing,observability pricing,Phrase
+C2 Cost | EU,log-pricing,observability costs,Exact
+C2 Cost | EU,log-pricing,observability costs,Phrase
+C2 Cost | EU,log-pricing,apm pricing,Exact
+C2 Cost | EU,log-pricing,apm pricing,Phrase
+C2 Cost | EU,log-pricing,monitoring costs,Exact
+C2 Cost | EU,log-pricing,monitoring costs,Phrase
+C4 Brand | US,brand,monoscope,Exact
+C4 Brand | US,brand,monoscope,Phrase
+C4 Brand | US,brand,monoscope tech,Exact
+C4 Brand | US,brand,monoscope tech,Phrase
+C4 Brand | US,brand,monoscope observability,Exact
+C4 Brand | US,brand,monoscope observability,Phrase
+C4 Brand | US,brand,monoscope ai,Exact
+C4 Brand | US,brand,monoscope ai,Phrase
+C4 Brand | US,brand,monoscope pricing,Exact
+C4 Brand | US,brand,monoscope pricing,Phrase
+C4 Brand | US,brand,apitoolkit,Exact
+C4 Brand | US,brand,apitoolkit,Phrase
+C4 Brand | US,brand,api toolkit monitoring,Exact
+C4 Brand | US,brand,api toolkit monitoring,Phrase
+C4 Brand | US,brand,apitoolkit io,Exact
+C4 Brand | US,brand,apitoolkit io,Phrase
+C4 Brand | EU,brand,monoscope,Exact
+C4 Brand | EU,brand,monoscope,Phrase
+C4 Brand | EU,brand,monoscope tech,Exact
+C4 Brand | EU,brand,monoscope tech,Phrase
+C4 Brand | EU,brand,monoscope observability,Exact
+C4 Brand | EU,brand,monoscope observability,Phrase
+C4 Brand | EU,brand,monoscope ai,Exact
+C4 Brand | EU,brand,monoscope ai,Phrase
+C4 Brand | EU,brand,monoscope pricing,Exact
+C4 Brand | EU,brand,monoscope pricing,Phrase
+C4 Brand | EU,brand,apitoolkit,Exact
+C4 Brand | EU,brand,apitoolkit,Phrase
+C4 Brand | EU,brand,api toolkit monitoring,Exact
+C4 Brand | EU,brand,api toolkit monitoring,Phrase
+C4 Brand | EU,brand,apitoolkit io,Exact
+C4 Brand | EU,brand,apitoolkit io,Phrase
+C5 Category | US,log-management,log management,Exact
+C5 Category | US,log-management,log management,Phrase
+C5 Category | US,log-management,log analysis,Exact
+C5 Category | US,log-management,log analysis,Phrase
+C5 Category | US,log-management,log monitoring,Exact
+C5 Category | US,log-management,log monitoring,Phrase
+C5 Category | US,log-management,centralized logging,Exact
+C5 Category | US,log-management,centralized logging,Phrase
+C5 Category | US,log-management,log management software,Exact
+C5 Category | US,log-management,log management software,Phrase
+C5 Category | US,log-management,log management platform,Exact
+C5 Category | US,log-management,log management platform,Phrase
+C5 Category | US,log-management,log aggregation,Exact
+C5 Category | US,log-management,log aggregation,Phrase
+C5 Category | US,log-management,log analysis tool,Exact
+C5 Category | US,log-management,log analysis tool,Phrase
+C5 Category | US,log-management,log management tools,Exact
+C5 Category | US,opentelemetry,opentelemetry,Exact
+C5 Category | US,opentelemetry,opentelemetry,Phrase
+C5 Category | US,opentelemetry,open telemetry,Exact
+C5 Category | US,opentelemetry,open telemetry,Phrase
+C5 Category | US,opentelemetry,opentelemetry collector,Exact
+C5 Category | US,opentelemetry,opentelemetry collector,Phrase
+C5 Category | US,opentelemetry,opentelemetry tracing,Exact
+C5 Category | US,opentelemetry,opentelemetry tracing,Phrase
+C5 Category | US,opentelemetry,opentelemetry logs,Exact
+C5 Category | US,opentelemetry,opentelemetry logs,Phrase
+C5 Category | US,opentelemetry,opentelemetry monitoring,Exact
+C5 Category | US,opentelemetry,opentelemetry monitoring,Phrase
+C5 Category | US,opentelemetry,otel observability,Exact
+C5 Category | US,apm,application performance monitoring,Exact
+C5 Category | US,apm,application performance monitoring,Phrase
+C5 Category | US,apm,apm tools,Exact
+C5 Category | US,apm,apm tools,Phrase
+C5 Category | US,apm,application monitoring,Exact
+C5 Category | US,apm,application monitoring,Phrase
+C5 Category | US,apm,apm software,Exact
+C5 Category | US,apm,apm software,Phrase
+C5 Category | US,apm,application performance monitoring tools,Exact
+C5 Category | US,apm,application performance monitoring tools,Phrase
+C5 Category | US,apm,apm platform,Exact
+C5 Category | US,apm,apm platform,Phrase
+C5 Category | US,apm,application monitoring tools,Exact
+C5 Category | US,apm,application monitoring tools,Phrase
+C5 Category | US,distributed-tracing,distributed tracing,Exact
+C5 Category | US,distributed-tracing,distributed tracing,Phrase
+C5 Category | US,distributed-tracing,distributed tracing tools,Exact
+C5 Category | US,distributed-tracing,distributed tracing tools,Phrase
+C5 Category | US,distributed-tracing,distributed tracing platform,Exact
+C5 Category | US,distributed-tracing,distributed tracing platform,Phrase
+C5 Category | US,distributed-tracing,microservices tracing,Exact
+C5 Category | US,distributed-tracing,microservices tracing,Phrase
+C5 Category | US,distributed-tracing,request tracing,Exact
+C5 Category | US,distributed-tracing,request tracing,Phrase
+C5 Category | US,distributed-tracing,trace monitoring,Exact
+C5 Category | US,distributed-tracing,trace monitoring,Phrase
+C5 Category | US,error-tracking,error tracking,Exact
+C5 Category | US,error-tracking,error tracking,Phrase
+C5 Category | US,error-tracking,error monitoring,Exact
+C5 Category | US,error-tracking,error monitoring,Phrase
+C5 Category | US,error-tracking,error tracking software,Exact
+C5 Category | US,error-tracking,error tracking software,Phrase
+C5 Category | US,error-tracking,error tracking tool,Exact
+C5 Category | US,error-tracking,error tracking tool,Phrase
+C5 Category | US,error-tracking,exception tracking,Exact
+C5 Category | US,error-tracking,exception tracking,Phrase
+C5 Category | US,error-tracking,exception monitoring,Exact
+C5 Category | US,error-tracking,exception monitoring,Phrase
+C5 Category | US,error-tracking,application error monitoring,Exact
+C5 Category | US,error-tracking,application error monitoring,Phrase
+C5 Category | US,api-monitoring,api monitoring,Exact
+C5 Category | US,api-monitoring,api monitoring,Phrase
+C5 Category | US,api-monitoring,api monitoring tools,Exact
+C5 Category | US,api-monitoring,api monitoring tools,Phrase
+C5 Category | US,api-monitoring,api observability,Exact
+C5 Category | US,api-monitoring,api observability,Phrase
+C5 Category | US,api-monitoring,third party api monitoring,Exact
+C5 Category | US,api-monitoring,third party api monitoring,Phrase
+C5 Category | US,api-monitoring,webhook monitoring,Exact
+C5 Category | US,api-monitoring,webhook monitoring,Phrase
+C5 Category | US,api-monitoring,api performance monitoring,Exact
+C5 Category | US,api-monitoring,api performance monitoring,Phrase
+C5 Category | US,api-monitoring,rest api monitoring,Exact
+C5 Category | US,api-monitoring,rest api monitoring,Phrase
+C5 Category | US,api-monitoring,api logging,Exact
+C5 Category | US,api-monitoring,api logging,Phrase
+C5 Category | US,real-user-monitoring,real user monitoring,Exact
+C5 Category | US,real-user-monitoring,real user monitoring,Phrase
+C5 Category | US,real-user-monitoring,rum monitoring,Exact
+C5 Category | US,real-user-monitoring,rum monitoring,Phrase
+C5 Category | US,real-user-monitoring,real user monitoring tools,Exact
+C5 Category | US,real-user-monitoring,real user monitoring tools,Phrase
+C5 Category | US,real-user-monitoring,frontend monitoring,Exact
+C5 Category | US,real-user-monitoring,frontend monitoring,Phrase
+C5 Category | US,real-user-monitoring,web vitals monitoring,Exact
+C5 Category | US,real-user-monitoring,web vitals monitoring,Phrase
+C5 Category | US,session-replay,session replay,Exact
+C5 Category | US,session-replay,session replay,Phrase
+C5 Category | US,session-replay,session replay tool,Exact
+C5 Category | US,session-replay,session replay tool,Phrase
+C5 Category | US,session-replay,session recording,Exact
+C5 Category | US,session-replay,session recording,Phrase
+C5 Category | US,session-replay,session replay software,Exact
+C5 Category | US,session-replay,session replay software,Phrase
+C5 Category | US,session-replay,user session replay,Exact
+C5 Category | US,session-replay,user session replay,Phrase
+C5 Category | US,uptime-monitoring,uptime monitoring,Exact
+C5 Category | US,uptime-monitoring,uptime monitoring,Phrase
+C5 Category | US,uptime-monitoring,website uptime monitoring,Exact
+C5 Category | US,uptime-monitoring,website uptime monitoring,Phrase
+C5 Category | US,uptime-monitoring,uptime monitor,Exact
+C5 Category | US,uptime-monitoring,uptime monitor,Phrase
+C5 Category | US,uptime-monitoring,api uptime monitoring,Exact
+C5 Category | US,uptime-monitoring,api uptime monitoring,Phrase
+C5 Category | US,uptime-monitoring,endpoint monitoring,Exact
+C5 Category | US,uptime-monitoring,endpoint monitoring,Phrase
+C5 Category | US,uptime-monitoring,cron monitoring,Exact
+C5 Category | US,uptime-monitoring,cron monitoring,Phrase
+C5 Category | US,uptime-monitoring,cron job monitoring,Exact
+C5 Category | US,uptime-monitoring,cron job monitoring,Phrase
+C5 Category | US,ai-rca,ai root cause analysis,Exact
+C5 Category | US,ai-rca,ai root cause analysis,Phrase
+C5 Category | US,ai-rca,ai sre,Exact
+C5 Category | US,ai-rca,ai sre,Phrase
+C5 Category | US,ai-rca,ai sre agent,Exact
+C5 Category | US,ai-rca,ai sre agent,Phrase
+C5 Category | US,ai-rca,ai incident investigation,Exact
+C5 Category | US,ai-rca,ai incident investigation,Phrase
+C5 Category | US,ai-rca,ai on call,Exact
+C5 Category | US,ai-rca,ai on call,Phrase
+C5 Category | US,ai-rca,root cause analysis tool,Exact
+C5 Category | US,ai-rca,root cause analysis tool,Phrase
+C5 Category | US,ai-rca,ai for incident response,Exact
+C5 Category | US,ai-rca,ai for incident response,Phrase
+C5 Category | EU,log-management,log management,Exact
+C5 Category | EU,log-management,log management,Phrase
+C5 Category | EU,log-management,log analysis,Exact
+C5 Category | EU,log-management,log analysis,Phrase
+C5 Category | EU,log-management,log monitoring,Exact
+C5 Category | EU,log-management,log monitoring,Phrase
+C5 Category | EU,log-management,centralized logging,Exact
+C5 Category | EU,log-management,centralized logging,Phrase
+C5 Category | EU,log-management,log management software,Exact
+C5 Category | EU,log-management,log management software,Phrase
+C5 Category | EU,log-management,log management platform,Exact
+C5 Category | EU,log-management,log management platform,Phrase
+C5 Category | EU,log-management,log aggregation,Exact
+C5 Category | EU,log-management,log aggregation,Phrase
+C5 Category | EU,log-management,log analysis tool,Exact
+C5 Category | EU,log-management,log analysis tool,Phrase
+C5 Category | EU,log-management,log management tools,Exact
+C5 Category | EU,opentelemetry,opentelemetry,Exact
+C5 Category | EU,opentelemetry,opentelemetry,Phrase
+C5 Category | EU,opentelemetry,open telemetry,Exact
+C5 Category | EU,opentelemetry,open telemetry,Phrase
+C5 Category | EU,opentelemetry,opentelemetry collector,Exact
+C5 Category | EU,opentelemetry,opentelemetry collector,Phrase
+C5 Category | EU,opentelemetry,opentelemetry tracing,Exact
+C5 Category | EU,opentelemetry,opentelemetry tracing,Phrase
+C5 Category | EU,opentelemetry,opentelemetry logs,Exact
+C5 Category | EU,opentelemetry,opentelemetry logs,Phrase
+C5 Category | EU,opentelemetry,opentelemetry monitoring,Exact
+C5 Category | EU,opentelemetry,opentelemetry monitoring,Phrase
+C5 Category | EU,opentelemetry,otel observability,Exact
+C5 Category | EU,apm,application performance monitoring,Exact
+C5 Category | EU,apm,application performance monitoring,Phrase
+C5 Category | EU,apm,apm tools,Exact
+C5 Category | EU,apm,apm tools,Phrase
+C5 Category | EU,apm,application monitoring,Exact
+C5 Category | EU,apm,application monitoring,Phrase
+C5 Category | EU,apm,apm software,Exact
+C5 Category | EU,apm,apm software,Phrase
+C5 Category | EU,apm,application performance monitoring tools,Exact
+C5 Category | EU,apm,application performance monitoring tools,Phrase
+C5 Category | EU,apm,apm platform,Exact
+C5 Category | EU,apm,apm platform,Phrase
+C5 Category | EU,apm,application monitoring tools,Exact
+C5 Category | EU,apm,application monitoring tools,Phrase
+C5 Category | EU,distributed-tracing,distributed tracing,Exact
+C5 Category | EU,distributed-tracing,distributed tracing,Phrase
+C5 Category | EU,distributed-tracing,distributed tracing tools,Exact
+C5 Category | EU,distributed-tracing,distributed tracing tools,Phrase
+C5 Category | EU,distributed-tracing,distributed tracing platform,Exact
+C5 Category | EU,distributed-tracing,distributed tracing platform,Phrase
+C5 Category | EU,distributed-tracing,microservices tracing,Exact
+C5 Category | EU,distributed-tracing,microservices tracing,Phrase
+C5 Category | EU,distributed-tracing,request tracing,Exact
+C5 Category | EU,distributed-tracing,request tracing,Phrase
+C5 Category | EU,distributed-tracing,trace monitoring,Exact
+C5 Category | EU,distributed-tracing,trace monitoring,Phrase
+C5 Category | EU,error-tracking,error tracking,Exact
+C5 Category | EU,error-tracking,error tracking,Phrase
+C5 Category | EU,error-tracking,error monitoring,Exact
+C5 Category | EU,error-tracking,error monitoring,Phrase
+C5 Category | EU,error-tracking,error tracking software,Exact
+C5 Category | EU,error-tracking,error tracking software,Phrase
+C5 Category | EU,error-tracking,error tracking tool,Exact
+C5 Category | EU,error-tracking,error tracking tool,Phrase
+C5 Category | EU,error-tracking,exception tracking,Exact
+C5 Category | EU,error-tracking,exception tracking,Phrase
+C5 Category | EU,error-tracking,exception monitoring,Exact
+C5 Category | EU,error-tracking,exception monitoring,Phrase
+C5 Category | EU,error-tracking,application error monitoring,Exact
+C5 Category | EU,error-tracking,application error monitoring,Phrase
+C5 Category | EU,api-monitoring,api monitoring,Exact
+C5 Category | EU,api-monitoring,api monitoring,Phrase
+C5 Category | EU,api-monitoring,api monitoring tools,Exact
+C5 Category | EU,api-monitoring,api monitoring tools,Phrase
+C5 Category | EU,api-monitoring,api observability,Exact
+C5 Category | EU,api-monitoring,api observability,Phrase
+C5 Category | EU,api-monitoring,third party api monitoring,Exact
+C5 Category | EU,api-monitoring,third party api monitoring,Phrase
+C5 Category | EU,api-monitoring,webhook monitoring,Exact
+C5 Category | EU,api-monitoring,webhook monitoring,Phrase
+C5 Category | EU,api-monitoring,api performance monitoring,Exact
+C5 Category | EU,api-monitoring,api performance monitoring,Phrase
+C5 Category | EU,api-monitoring,rest api monitoring,Exact
+C5 Category | EU,api-monitoring,rest api monitoring,Phrase
+C5 Category | EU,api-monitoring,api logging,Exact
+C5 Category | EU,api-monitoring,api logging,Phrase
+C5 Category | EU,real-user-monitoring,real user monitoring,Exact
+C5 Category | EU,real-user-monitoring,real user monitoring,Phrase
+C5 Category | EU,real-user-monitoring,rum monitoring,Exact
+C5 Category | EU,real-user-monitoring,rum monitoring,Phrase
+C5 Category | EU,real-user-monitoring,real user monitoring tools,Exact
+C5 Category | EU,real-user-monitoring,real user monitoring tools,Phrase
+C5 Category | EU,real-user-monitoring,frontend monitoring,Exact
+C5 Category | EU,real-user-monitoring,frontend monitoring,Phrase
+C5 Category | EU,real-user-monitoring,web vitals monitoring,Exact
+C5 Category | EU,real-user-monitoring,web vitals monitoring,Phrase
+C5 Category | EU,session-replay,session replay,Exact
+C5 Category | EU,session-replay,session replay,Phrase
+C5 Category | EU,session-replay,session replay tool,Exact
+C5 Category | EU,session-replay,session replay tool,Phrase
+C5 Category | EU,session-replay,session recording,Exact
+C5 Category | EU,session-replay,session recording,Phrase
+C5 Category | EU,session-replay,session replay software,Exact
+C5 Category | EU,session-replay,session replay software,Phrase
+C5 Category | EU,session-replay,user session replay,Exact
+C5 Category | EU,session-replay,user session replay,Phrase
+C5 Category | EU,uptime-monitoring,uptime monitoring,Exact
+C5 Category | EU,uptime-monitoring,uptime monitoring,Phrase
+C5 Category | EU,uptime-monitoring,website uptime monitoring,Exact
+C5 Category | EU,uptime-monitoring,website uptime monitoring,Phrase
+C5 Category | EU,uptime-monitoring,uptime monitor,Exact
+C5 Category | EU,uptime-monitoring,uptime monitor,Phrase
+C5 Category | EU,uptime-monitoring,api uptime monitoring,Exact
+C5 Category | EU,uptime-monitoring,api uptime monitoring,Phrase
+C5 Category | EU,uptime-monitoring,endpoint monitoring,Exact
+C5 Category | EU,uptime-monitoring,endpoint monitoring,Phrase
+C5 Category | EU,uptime-monitoring,cron monitoring,Exact
+C5 Category | EU,uptime-monitoring,cron monitoring,Phrase
+C5 Category | EU,uptime-monitoring,cron job monitoring,Exact
+C5 Category | EU,uptime-monitoring,cron job monitoring,Phrase
+C5 Category | EU,ai-rca,ai root cause analysis,Exact
+C5 Category | EU,ai-rca,ai root cause analysis,Phrase
+C5 Category | EU,ai-rca,ai sre,Exact
+C5 Category | EU,ai-rca,ai sre,Phrase
+C5 Category | EU,ai-rca,ai sre agent,Exact
+C5 Category | EU,ai-rca,ai sre agent,Phrase
+C5 Category | EU,ai-rca,ai incident investigation,Exact
+C5 Category | EU,ai-rca,ai incident investigation,Phrase
+C5 Category | EU,ai-rca,ai on call,Exact
+C5 Category | EU,ai-rca,ai on call,Phrase
+C5 Category | EU,ai-rca,root cause analysis tool,Exact
+C5 Category | EU,ai-rca,root cause analysis tool,Phrase
+C5 Category | EU,ai-rca,ai for incident response,Exact
+C5 Category | EU,ai-rca,ai for incident response,Phrase
