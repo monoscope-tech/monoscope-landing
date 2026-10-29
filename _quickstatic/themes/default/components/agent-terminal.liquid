@@ -1,8 +1,9 @@
-{% comment %}A coding-agent session drawn in that agent's own UI. Params: skin (claude | codex | opencode | cursor | copilot), s (rows from config.raw.agent_session){% endcomment %}
+{% comment %}A coding-agent session drawn in that agent's own UI. Params: skin (claude | codex | opencode | warp | cursor | copilot), s (rows from config.raw.agent_session){% endcomment %}
 {% assign ide = false %}{% if skin == "cursor" or skin == "copilot" %}{% assign ide = true %}{% endif %}
 {% case skin %}{% when "claude" %}{% assign bg = "#141413" %}{% assign title = "orders-service — claude" %}{% assign name = "Claude Code" %}
 {% when "codex" %}{% assign bg = "#0d0d0d" %}{% assign title = "orders-service — codex" %}{% assign name = "Codex" %}
 {% when "opencode" %}{% assign bg = "#0a0a0a" %}{% assign title = "orders-service — opencode" %}{% assign name = "OpenCode" %}
+{% when "warp" %}{% assign bg = "#16161a" %}{% assign title = "~/acme/orders-service — Warp" %}{% assign name = "Warp" %}
 {% when "cursor" %}{% assign bg = "#181818" %}{% assign title = "orders-service — Cursor" %}{% assign name = "Cursor" %}
 {% else %}{% assign bg = "#1f1f1f" %}{% assign title = "orders-service — Visual Studio Code" %}{% assign name = "GitHub Copilot" %}{% endcase %}
 <div data-theme="dark" class="rounded-xl overflow-hidden ring-1 ring-white/10 text-[#E8E6E3] shadow-[0_20px_50px_-24px_rgb(0_0_0/0.5)]" style="background:{{bg}}" role="img" aria-label="{{name}} session: monoscope shows that Acme's API stopped returning tracking_id at 07:52, leaving 41 orders stuck in processing">
@@ -20,6 +21,7 @@
     {% when "claude" %}<div class="w-fit rounded-md border border-[#D97757] px-3 py-2 space-y-1"><p><span class="text-[#D97757]">✻</span> Welcome to <b class="text-white">Claude Code</b>!</p><p class="d">/help for help, /status for your current setup</p><p class="d">cwd: ~/acme/orders-service</p></div>
     {% when "codex" %}<div class="w-fit rounded-md border border-white/25 px-3 py-2 space-y-1 whitespace-pre-wrap"><p><b class="text-white">&gt;_ OpenAI Codex</b></p><p class="d">model:     <span class="text-white/80">gpt-5-codex</span>   /model to change</p><p class="d">directory: <span class="text-white/80">~/acme/orders-service</span></p></div>
     {% when "opencode" %}<p class="font-bold tracking-[0.3em] text-white/30">open<span class="text-white">code</span></p>
+    {% when "warp" %}<p class="flex items-center gap-2 text-[12px] font-sans font-medium uppercase tracking-wider text-white/40"><svg class="size-3.5 text-[#01A4FF]" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#warp"></use></svg>Agent mode</p>
     {% when "cursor" %}<p class="text-[12px] font-medium uppercase tracking-wider text-white/40">Agent</p>
     {% else %}<p class="text-[12px] font-medium uppercase tracking-wider text-white/40">Chat</p>{% endcase %}
     {% for r in s %}
@@ -27,17 +29,20 @@
       {% when "claude" %}<p class="d">&gt; {{r.user}}</p>
       {% when "codex" %}<p class="bg-white/[0.07] -mx-2 px-2 py-1 rounded"><span class="d">›</span> {{r.user}}</p>
       {% when "opencode" %}<p class="border-s-2 border-[#FAB283] bg-white/[0.04] ps-3 py-2">{{r.user}}</p>
+      {% when "warp" %}<p class="rounded-md bg-white/[0.05] ring-1 ring-white/10 px-3 py-2"><span class="text-[#01A4FF]">✱</span> {{r.user}}</p>
       {% else %}<p class="rounded-lg bg-white/[0.06] ring-1 ring-white/10 px-3 py-2 text-white">{{r.user}}</p>{% endcase %}
     {% elsif r.tool %}<div>{% case skin %}
       {% when "claude" %}<p><span class="g">⏺</span> <b class="text-white">monoscope - {{r.tool}}</b> (MCP)<span class="d">({{r.args}})</span></p>{% for o in r.out %}<p class="d whitespace-pre-wrap [overflow-wrap:anywhere] ps-[5ch] -indent-[5ch]">{% if forloop.first %}  ⎿  {% else %}     {% endif %}{{o}}</p>{% endfor %}
       {% when "codex" %}<p><span class="g">•</span> Called <b class="text-white">monoscope.{{r.tool}}</b><span class="d">({{r.args}})</span></p>{% for o in r.out %}<p class="d whitespace-pre-wrap [overflow-wrap:anywhere] ps-[4ch] -indent-[4ch]">{% if forloop.first %}  └ {% else %}    {% endif %}{{o}}</p>{% endfor %}
       {% when "opencode" %}<p class="d"><span class="text-[#FAB283]">⚙</span> <span class="text-white/80">monoscope_{{r.tool}}</span> [{{r.args}}]</p>{% for o in r.out %}<p class="d ps-[2ch]">{{o}}</p>{% endfor %}
+      {% when "warp" %}<div class="rounded-md border-s-2 border-[#01A4FF]/60 bg-white/[0.03] ps-3 py-2"><p><span class="g">✓</span> <span class="text-white/80">MCP</span> <b class="text-white">monoscope · {{r.tool}}</b><span class="d">({{r.args}})</span></p>{% for o in r.out %}<p class="d [overflow-wrap:anywhere]">{{o}}</p>{% endfor %}</div>
       {% when "cursor" %}<p class="text-[13px]"><span class="g">✓</span> <span class="text-white/80">Called MCP tool</span> <b class="font-mono text-[12px] text-white">{{r.tool}}</b></p><div class="mt-1 rounded-md bg-black/30 ring-1 ring-white/10 px-3 py-2 font-mono text-[12px] leading-5 [overflow-wrap:anywhere] d">{% for o in r.out %}<p>{{o}}</p>{% endfor %}</div>
       {% else %}<p class="text-[13px]"><span class="g">✓</span> <span class="text-white/80">Ran</span> <b class="font-mono text-[12px] text-white">{{r.tool}}</b> <span class="d">— monoscope (MCP Server)</span></p><div class="mt-1 rounded-md bg-black/30 ring-1 ring-white/10 px-3 py-2 font-mono text-[12px] leading-5 [overflow-wrap:anywhere] d">{% for o in r.out %}<p>{{o}}</p>{% endfor %}</div>{% endcase %}</div>
     {% elsif r.read %}{% case skin %}
       {% when "claude" %}<div><p><span class="g">⏺</span> <b class="text-white">Read</b>({{r.read}})</p><p class="d whitespace-pre">  ⎿  Read 64 lines</p></div>
       {% when "codex" %}<div><p><span class="g">•</span> Explored</p><p class="d whitespace-pre">  └ Read {{r.read | split: "/" | last}}</p></div>
       {% when "opencode" %}<p class="d"><span class="text-[#FAB283]">→</span> Read {{r.read}}</p>
+      {% when "warp" %}<p class="d"><span class="g">✓</span> Read {{r.read}}</p>
       {% when "cursor" %}<p class="text-[13px] d">Read <span class="font-mono text-[12px] text-white/70">{{r.read | split: "/" | last}}</span> L1-64</p>
       {% else %}<p class="text-[13px] d">Read <span class="font-mono text-[12px] text-white/70">{{r.read | split: "/" | last}}</span>, lines 1 to 64</p>{% endcase %}
     {% elsif r.say %}{% case skin %}
@@ -48,6 +53,7 @@
     {% case skin %}
     {% when "claude" %}<div class="space-y-1.5 pt-1"><div class="rounded-md border border-white/20 px-3 py-2"><span class="text-white/60">&gt;</span> <span class="inline-block w-2 h-4 align-[-2px] bg-white/70 motion-safe:animate-pulse"></span></div><p class="d text-[12px] px-1">? for shortcuts</p></div>
     {% when "codex" %}<div class="space-y-1.5 pt-1"><p class="bg-white/[0.07] -mx-2 px-2 py-1 rounded"><span class="d">›</span> <span class="inline-block w-2 h-4 align-[-2px] bg-white/70 motion-safe:animate-pulse"></span> <span class="d">Ask Codex to do anything</span></p><p class="d text-[12px]">100% context left · ? for shortcuts</p></div>
+    {% when "warp" %}<div class="rounded-md ring-1 ring-white/15 bg-white/[0.03] px-3 py-2.5 space-y-1.5"><p><span class="inline-block w-2 h-4 align-[-2px] bg-white/70 motion-safe:animate-pulse"></span> <span class="d">Ask Warp's agent, or run a command</span></p><p class="d text-[12px] font-sans">~/acme/orders-service · git:(main)</p></div>
     {% when "opencode" %}<div class="space-y-1.5 pt-1"><div class="border-s-2 border-[#FAB283] bg-white/[0.04] ps-3 py-2"><span class="inline-block w-2 h-4 align-[-2px] bg-white/70 motion-safe:animate-pulse"></span></div><p class="text-[12px]"><span class="text-[#FAB283]">Build</span> <span class="d">Claude Sonnet 4.5 · tab switch agent</span></p></div>
     {% when "cursor" %}<div class="rounded-xl ring-1 ring-white/15 bg-white/[0.03] px-3 py-2.5 space-y-2"><p class="d text-[13px]">Plan, @ for context, / for commands</p><p class="flex gap-3 text-[12px] text-white/55"><span class="rounded bg-white/10 px-1.5">∞ Agent</span><span>Auto</span></p></div>
     {% else %}<div class="rounded-lg ring-1 ring-white/15 bg-white/[0.03] px-3 py-2.5 space-y-2"><p class="d text-[13px]">Add context (#), extensions (@), commands (/)</p><p class="flex gap-3 text-[12px] text-white/55"><span class="rounded bg-white/10 px-1.5">Agent</span><span>Claude Sonnet 4.5</span></p></div>{% endcase %}

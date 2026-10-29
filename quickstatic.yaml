@@ -171,6 +171,7 @@ main_nav:
       - { title: Codex, url: /for/codex/, sprite: openai }
       - { title: GitHub Copilot, url: /for/github-copilot/, sprite: copilot }
       - { title: OpenCode, url: /for/opencode/, sprite: opencode }
+      - { title: Warp, url: /for/warp/, sprite: warp }
     dropdown:
       - title: AI SRE
         url: /features/ai-sre/
