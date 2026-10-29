@@ -21,7 +21,7 @@ This guide shows how to send Kubernetes logs, metrics, events, and traces to mon
 - A Kubernetes cluster
 - `kubectl` installed
 - Helm 3
-- A monoscope account with an API key
+- A monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
 ## Architecture: Why Two Collectors
 
@@ -68,10 +68,10 @@ mode: daemonset
 
 image:
   # Pin a specific tag so chart upgrades don't silently roll a new collector.
-  # Current as of April 2026 — bump after reviewing the release notes:
+  # Bump after reviewing the release notes:
   # https://github.com/open-telemetry/opentelemetry-collector-releases/releases
   repository: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-k8s
-  tag: "0.149.0"
+  tag: "0.163.2"
 
 # Pod-level limits — required so the chart's GOMEMLIMIT helper activates.
 # Without limits.memory, GOMEMLIMIT is silently disabled and the Go runtime
@@ -98,6 +98,11 @@ presets:
                            # rename it.
   # clusterMetrics and kubernetesEvents intentionally OFF here —
   # they belong on the cluster collector (one replica only).
+
+# The chart creates no Service in daemonset mode unless you enable it.
+# Apps send OTLP to this Service (see "Sending Application Telemetry").
+service:
+  enabled: true
 
 extraEnvs:
   - name: MONOSCOPE_API_KEY
@@ -148,10 +153,8 @@ config:
 
   processors:
     batch: {}
-    memory_limiter:
-      check_interval: 1s
-      limit_mib: 4000
-      spike_limit_mib: 800
+    # memory_limiter comes from the chart defaults: 80% of resources.limits.memory.
+    # Do not set limit_mib here. It would override that and exceed the pod limit.
     resource:
       attributes:
         - key: x-api-key
@@ -207,7 +210,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-k8s
-  tag: "0.149.0"           # see release notes before bumping
+  tag: "0.163.2"           # see release notes before bumping
 
 # See agent values for the GOMEMLIMIT linkage. Cluster collector handles less
 # data, so smaller limits are usually fine.
@@ -250,10 +253,7 @@ config:
 
   processors:
     batch: {}
-    memory_limiter:
-      check_interval: 1s
-      limit_mib: 1000
-      spike_limit_mib: 200
+    # memory_limiter comes from the chart defaults (see agent values).
     resource:
       attributes:
         - key: x-api-key
@@ -327,7 +327,7 @@ Both collectors expose OTLP on `4317` (gRPC) and `4318` (HTTP). Point your instr
 http://monoscope-agent-opentelemetry-collector.default.svc.cluster.local:4318
 ```
 
-By default this `ClusterIP` Service load-balances across every agent pod cluster-wide. If you want each app pod to send to the agent on its own node (lower latency, no cross-node hops), patch the Service with `spec.internalTrafficPolicy: Local`.
+In daemonset mode the chart sets `internalTrafficPolicy: Local` on this Service, so each app pod sends to the agent on its own node. To load-balance across all agents instead, set `service.internalTrafficPolicy: Cluster` in `values-agent.yaml`.
 
 ## Cutting Log Cost: Filter by Service
 
@@ -338,10 +338,10 @@ config:
   processors:
     filter/keep-services:
       error_mode: ignore
-      logs:
-        log_record:
-          # OTTL conditions are DROP conditions; negate to make it a keep-list.
-          - 'not IsMatch(resource.attributes["k8s.deployment.name"] ?? "", "^(cart|checkout|frontend)$")'
+      log_conditions:
+        # OTTL conditions are DROP conditions; negate to make it a keep-list.
+        # Logs with no k8s.deployment.name (DaemonSets, Jobs) do not match, so they are dropped too.
+        - 'not IsMatch(resource.attributes["k8s.deployment.name"], "^(cart|checkout|frontend)$")'
 
   service:
     pipelines:
@@ -437,7 +437,7 @@ spec:
       health_check:
         endpoint: 0.0.0.0:13133
     receivers:
-      filelog:
+      file_log:
         # Path layout: /var/log/pods/<ns>_<pod>_<uid>/<container>/<restart>.log
         include: [/var/log/pods/*/*/*.log]
         start_at: end          # use 'beginning' only for first-install backfill
@@ -454,7 +454,7 @@ spec:
             combine_with: "\n"
             is_first_entry: 'body matches "^\\S"'
             source_identifier: attributes["log.file.path"]
-      kubeletstats:
+      kubelet_stats:
         collection_interval: 10s
         auth_type: serviceAccount
         endpoint: ${env:K8S_NODE_NAME}:10250
@@ -494,11 +494,11 @@ spec:
           processors: [k8s_attributes, memory_limiter, batch, resource]
           exporters: [otlp_grpc]
         metrics:
-          receivers: [otlp, kubeletstats]
+          receivers: [otlp, kubelet_stats]
           processors: [k8s_attributes, memory_limiter, batch, resource]
           exporters: [otlp_grpc]
         logs:
-          receivers: [filelog, otlp]
+          receivers: [file_log, otlp]
           processors: [k8s_attributes, memory_limiter, batch, resource]
           exporters: [otlp_grpc]
 ```

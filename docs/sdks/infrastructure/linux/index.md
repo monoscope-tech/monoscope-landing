@@ -20,7 +20,7 @@ This guide covers how to integrate monoscope with applications running on Linux 
 
 - Linux server (Ubuntu, Debian, CentOS, etc.)
 - Root or sudo access
-- monoscope account with an API key
+- A monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
 ## Installing the OpenTelemetry Collector
 
@@ -31,8 +31,10 @@ The recommended approach for monitoring Linux-based applications is to deploy th
 1. Download the OpenTelemetry Collector Contrib package (which includes additional receivers and processors):
 
 ```bash
-wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v0.88.0/otelcol-contrib_0.88.0_linux_amd64.tar.gz
-tar -xzf otelcol-contrib_0.88.0_linux_amd64.tar.gz
+# Check the releases page for the latest version and your CPU architecture.
+OTELCOL_VERSION=0.163.2
+wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v${OTELCOL_VERSION}/otelcol-contrib_${OTELCOL_VERSION}_linux_amd64.tar.gz
+tar -xzf otelcol-contrib_${OTELCOL_VERSION}_linux_amd64.tar.gz
 sudo mv otelcol-contrib /usr/local/bin/
 ```
 
@@ -41,7 +43,7 @@ sudo mv otelcol-contrib /usr/local/bin/
 ```yaml
 receivers:
   # Collect Linux system metrics
-  hostmetrics:
+  host_metrics:
     collection_interval: 30s
     scrapers:
       cpu:
@@ -53,6 +55,7 @@ receivers:
       paging:
       process:
         include:
+          match_type: strict
           names:
             - httpd
             - nginx
@@ -61,7 +64,7 @@ receivers:
             - java
   
   # Collect Linux logs
-  filelog:
+  file_log:
     include:
       - /var/log/nginx/*.log
       - /var/log/apache2/*.log
@@ -76,8 +79,10 @@ receivers:
     multiline:
       line_start_pattern: '^\S'
     operators:
+      # Parses Nginx error log lines. Lines in other formats pass through unparsed.
       - type: regex_parser
-        regex: '^(?P<time>\\d{4}/\\d{2}/\\d{2} \\d{2}:\\d{2}:\\d{2}) \\[(?P<level>\\w+)\\] (?P<message>.*)$'
+        on_error: send_quiet
+        regex: '^(?P<time>\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}) \[(?P<level>\w+)\] (?P<message>.*)$'
         timestamp:
           parse_from: time
           layout: {% raw %}'%Y/%m/%d %H:%M:%S'{% endraw %}
@@ -104,7 +109,7 @@ processors:
     check_interval: 1s
     limit_mib: 1000
     spike_limit_mib: 200
-  resourcedetection:
+  resource_detection:
     detectors: [env, system]
     override: false
   resource:
@@ -117,7 +122,7 @@ processors:
         action: upsert
 
 exporters:
-  otlp:
+  otlp_grpc:
     endpoint: "otelcol.monoscope.tech:4317"
     tls:
       insecure: true
@@ -126,16 +131,16 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [memory_limiter, batch, resourcedetection, resource]
-      exporters: [otlp]
+      processors: [memory_limiter, batch, resource_detection, resource]
+      exporters: [otlp_grpc]
     metrics:
-      receivers: [hostmetrics, otlp]
-      processors: [memory_limiter, batch, resourcedetection, resource]
-      exporters: [otlp]
+      receivers: [host_metrics, otlp]
+      processors: [memory_limiter, batch, resource_detection, resource]
+      exporters: [otlp_grpc]
     logs:
-      receivers: [filelog, tcplog, otlp]
-      processors: [memory_limiter, batch, resourcedetection, resource]
-      exporters: [otlp]
+      receivers: [file_log, tcplog, otlp]
+      processors: [memory_limiter, batch, resource_detection, resource]
+      exporters: [otlp_grpc]
 ```
 
 Replace `YOUR_API_KEY` with your actual monoscope project key.
@@ -178,22 +183,20 @@ mkdir -p ~/otel-collector
 cd ~/otel-collector
 ```
 
-2. Create the `otel-collector-config.yaml` file with the configuration above
+2. Create the `otel-collector-config.yaml` file with the configuration above. Add `root_path: /hostfs` under `host_metrics` so the collector reads the host's metrics, not the container's.
 
 3. Create a `docker-compose.yml` file:
 
 ```yaml
-version: '3'
 services:
   otel-collector:
     image: otel/opentelemetry-collector-contrib:latest
     command: ["--config=/etc/otel-collector-config.yaml"]
+    user: "0"  # needed to read host log files
     volumes:
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
       - /var/log:/var/log:ro
-      - /proc:/proc:ro  # For hostmetrics
-      - /etc:/etc:ro
-      - /var/run:/var/run:ro
+      - /:/hostfs:ro  # host filesystem for host_metrics
     ports:
       - "4317:4317"   # OTLP gRPC
       - "4318:4318"   # OTLP HTTP
@@ -204,7 +207,7 @@ services:
 4. Start the collector:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ## Monitoring Web Servers
@@ -225,9 +228,9 @@ http {
         '"remote_addr":"$remote_addr",'
         '"remote_user":"$remote_user",'
         '"request":"$request",'
-        '"status": "$status",'
-        '"body_bytes_sent":"$body_bytes_sent",'
-        '"request_time":"$request_time",'
+        '"status":$status,'
+        '"body_bytes_sent":$body_bytes_sent,'
+        '"request_time":$request_time,'
         '"http_referrer":"$http_referer",'
         '"http_user_agent":"$http_user_agent"'
         '}';
@@ -238,27 +241,33 @@ http {
 }
 ```
 
-2. Update the filelog receiver in your OpenTelemetry configuration:
+2. Add a receiver for the access log to your OpenTelemetry configuration. Remove `/var/log/nginx/*.log` from the first `file_log` receiver, and add `file_log/nginx` to the `logs` pipeline:
 
 ```yaml
-filelog:
-  include:
-    - /var/log/nginx/access.log
-  start_at: beginning
-  include_file_path: true
-  multiline:
-    line_start_pattern: '^\S'   # see top filelog block for rationale
-  operators:
-    - type: json_parser
-    - type: timestamp
-      parse_from: attributes.time
-      layout: {% raw %}'%Y-%m-%dT%H:%M:%S%z'{% endraw %}
-    - type: add_attributes
-      attributes:
-        http.request.method: EXPR(attributes.request.split(' ')[0])
-        http.route: EXPR(attributes.request.split(' ')[1])
-        http.response.status_code: EXPR(parseInt(attributes.status))
-        duration.ms: EXPR(parseFloat(attributes.request_time) * 1000)
+receivers:
+  file_log/nginx:
+    include:
+      - /var/log/nginx/access.log
+    include_file_path: true
+    operators:
+      - type: json_parser
+        timestamp:
+          parse_from: attributes.time
+          layout_type: gotime
+          layout: '2006-01-02T15:04:05Z07:00'
+      # Split "GET /users/1 HTTP/1.1" into method and path.
+      - type: regex_parser
+        parse_from: attributes.request
+        regex: '^(?P<method>\S+) (?P<path>\S+)'
+      - type: move
+        from: attributes.method
+        to: attributes["http.request.method"]
+      - type: move
+        from: attributes.path
+        to: attributes["url.path"]
+      - type: move
+        from: attributes.status
+        to: attributes["http.response.status_code"]
 ```
 
 3. Restart Nginx and the OpenTelemetry Collector:
@@ -272,23 +281,16 @@ sudo systemctl restart otel-collector
 
 To monitor Apache without code changes:
 
-1. Configure Apache to output logs in JSON format by editing `/etc/apache2/apache2.conf`. Add these lines:
+1. Configure Apache to write JSON access logs. Add these lines to `/etc/apache2/apache2.conf`:
 
-```
-# Add this to your apache2.conf file
-# LogFormat "JSON_FORMAT_HERE" json_combined
-# CustomLog ${APACHE_LOG_DIR}/access.log json_combined
-```
-
-Where JSON_FORMAT_HERE should be:
-
-``````
 {% raw %}
-{ "time":"%{%Y-%m-%dT%H:%M:%S%z}t", "client":"%a", "request":"%r", "status":%>s, "bytes":%B, "duration":%D, "referer":"%{Referer}i", "user_agent":"%{User-agent}i" }
+```
+LogFormat "{ \"time\":\"%{%Y-%m-%dT%H:%M:%S%z}t\", \"client\":\"%a\", \"request\":\"%r\", \"status\":%>s, \"bytes\":%B, \"duration\":%D, \"referer\":\"%{Referer}i\", \"user_agent\":\"%{User-agent}i\" }" json_combined
+CustomLog ${APACHE_LOG_DIR}/access.log json_combined
+```
 {% endraw %}
-``````
 
-2. Update the filelog receiver in your OpenTelemetry configuration similarly to the Nginx example.
+2. Add a `file_log/apache` receiver like the Nginx one, with `/var/log/apache2/access.log` in `include`. Apache's `%z` writes offsets as `+0000`, so use the layout `'2006-01-02T15:04:05-0700'`.
 
 3. Restart Apache and the OpenTelemetry Collector:
 
@@ -315,6 +317,8 @@ receivers:
     password: ${env:POSTGRES_PASSWORD}
     databases: [postgres]
     collection_interval: 30s
+    tls:
+      insecure: true  # remove if your server requires TLS
   
   # MySQL monitoring
   mysql:
@@ -324,10 +328,13 @@ receivers:
     collection_interval: 30s
 ```
 
+Then add `postgresql` and `mysql` to the `receivers` list of the `metrics` pipeline.
+
 2. Add an environment variable for the database password:
 
 ```bash
-sudo tee -a /etc/systemd/system/otel-collector.service.d/override.conf > /dev/null << 'EOF'
+sudo mkdir -p /etc/systemd/system/otel-collector.service.d
+sudo tee /etc/systemd/system/otel-collector.service.d/override.conf > /dev/null << 'EOF'
 [Service]
 Environment="POSTGRES_PASSWORD=your-postgres-password"
 Environment="MYSQL_PASSWORD=your-mysql-password"
@@ -357,8 +364,9 @@ sudo apt-get update && sudo apt-get install -y tcpdump
 #!/bin/bash
 # /usr/local/bin/api-capture.sh
 
-# Capture HTTP traffic on port 80 and 443, format it, and send to collector
-sudo tcpdump -i any -A -nn -s0 'tcp port 80 or tcp port 443' 2>/dev/null | \
+# Capture plain-HTTP traffic on port 80 and send it to the collector.
+# HTTPS traffic on port 443 is encrypted, so tcpdump cannot read it.
+tcpdump -i any -A -nn -s0 'tcp port 80' 2>/dev/null | \
 while read line; do
   if [[ $line == *"HTTP"* ]]; then
     timestamp=$(date -u +"%Y-%m-%dT%H:%M:%S.%3NZ")

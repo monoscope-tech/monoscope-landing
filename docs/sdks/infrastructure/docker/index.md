@@ -18,9 +18,8 @@ This guide explains how to integrate monoscope with Docker containers using the 
 
 ## Prerequisites
 
-- Docker installed on your system
-- Docker Compose
-- monoscope account with an API key
+- Docker and Docker Compose
+- A monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
 ## Integration with OpenTelemetry Collector in Docker
 
@@ -31,7 +30,6 @@ The recommended approach for monitoring applications in Docker is to use the Ope
 Create a `docker-compose.yml` file that includes the OpenTelemetry Collector and your application services:
 
 ```yaml
-version: '3'
 services:
   # Your application service
   app:
@@ -45,13 +43,16 @@ services:
     image: otel/opentelemetry-collector-contrib:latest
     container_name: otel-collector
     command: ["--config=/etc/otel-collector-config.yaml"]
+    # The collector image runs as a non-root user. It needs root (or the host's
+    # docker group via group_add) to read the Docker socket and container logs.
+    user: "0"
     volumes:
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
     ports:
       - "4317:4317"   # OTLP gRPC receiver
       - "4318:4318"   # OTLP HTTP receiver
-      - "8888:8888"   # Metrics endpoint
-      - "8889:8889"   # Health check endpoint
     environment:
       - MONOSCOPE_API_KEY=YOUR_API_KEY
 ```
@@ -64,35 +65,32 @@ Create an `otel-collector-config.yaml` file:
 receivers:
   # Collect metrics from Docker containers
   docker_stats:
-    collection_interval: 10s
+    endpoint: unix:///var/run/docker.sock
+    collection_interval: 30s
     timeout: 20s
-    api_version: 1.24
-    providers:
-      docker:
-        endpoint: unix:///var/run/docker.sock
-        container_labels_to_resource_attributes:
-          app.name: service.name
-          app.version: service.version
-  
-  # Collect logs from Docker containers
-  filelog:
+    # Copy these container labels onto each metric data point.
+    container_labels_to_metric_labels:
+      app.name: app.name
+      app.version: app.version
+
+  # Collect logs from Docker containers (json-file logging driver)
+  file_log:
     include:
-      - /var/lib/docker/containers/*/*.log
-    # Merge stack traces and other indented continuation lines into the
-    # preceding entry. Without this, every line of a multi-line log (Java
-    # tracebacks, pretty-printed JSON, Python tracebacks) becomes its own
-    # record — useless to read and expensive to store. ^\S (non-whitespace
-    # = new entry) is the safe default; tighten to a timestamp regex if
-    # your apps log indented content that should NOT be merged.
-    multiline:
-      line_start_pattern: '^\S'
+      - /var/lib/docker/containers/*/*-json.log
+    include_file_path: true
     operators:
-      - type: json_parser
-      - type: regex_parser
-        regex: '^(?P<time>[^ ]+) (?P<stream>stdout|stderr) (?P<flags>[^ ]*) (?P<content>.*)$'
-        timestamp:
-          parse_from: time
-          layout: '%Y-%m-%dT%H:%M:%S.%LZ'
+      # Unwrap Docker's JSON envelope: body, stream and timestamp.
+      - type: container
+        format: docker
+        add_metadata_from_filepath: false
+      # Merge stack traces and other indented continuation lines into the
+      # preceding entry. A line that starts with a non-whitespace character
+      # starts a new entry. Tighten this if your apps log indented content
+      # that should stay separate.
+      - type: recombine
+        combine_field: body
+        is_first_entry: body matches "^\\S"
+        source_identifier: attributes["log.file.path"]
 
   # Standard OTLP receiver for any instrumented applications
   otlp:
@@ -108,7 +106,7 @@ processors:
     check_interval: 1s
     limit_mib: 4000
     spike_limit_mib: 800
-  resourcedetection:
+  resource_detection:
     detectors: [env, docker]
     override: false
   resource:
@@ -118,7 +116,7 @@ processors:
         action: upsert
 
 exporters:
-  otlp:
+  otlp_grpc:
     endpoint: "otelcol.monoscope.tech:4317"
     tls:
       insecure: true
@@ -127,31 +125,21 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [memory_limiter, batch, resourcedetection, resource]
-      exporters: [otlp]
+      processors: [memory_limiter, batch, resource_detection, resource]
+      exporters: [otlp_grpc]
     metrics:
       receivers: [otlp, docker_stats]
-      processors: [memory_limiter, batch, resourcedetection, resource]
-      exporters: [otlp]
+      processors: [memory_limiter, batch, resource_detection, resource]
+      exporters: [otlp_grpc]
     logs:
-      receivers: [otlp, filelog]
-      processors: [memory_limiter, batch, resourcedetection, resource]
-      exporters: [otlp]
+      receivers: [otlp, file_log]
+      processors: [memory_limiter, batch, resource_detection, resource]
+      exporters: [otlp_grpc]
 ```
 
 ### Mounting Docker Socket for Container Monitoring
 
-To allow the OpenTelemetry Collector to monitor Docker containers, you need to mount the Docker socket into the collector container:
-
-```yaml
-services:
-  otel-collector:
-    # ... other configuration
-    volumes:
-      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
-      - /var/run/docker.sock:/var/run/docker.sock  # Mount Docker socket
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro  # For container logs
-```
+The collector reads container stats from the Docker socket and container logs from `/var/lib/docker/containers`. The Compose file above mounts both read-only. If you run the collector another way, mount the same two paths.
 
 ## Using Auto-Instrumentation with the Collector
 
@@ -168,6 +156,7 @@ services:
       - OTEL_TRACES_EXPORTER=otlp
       - OTEL_METRICS_EXPORTER=otlp
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
       - OTEL_SERVICE_NAME=your-service-name
     volumes:
       - ./opentelemetry-javaagent.jar:/opentelemetry-javaagent.jar
@@ -177,6 +166,8 @@ services:
 
 ### Node.js Applications
 
+Install `@opentelemetry/api` and `@opentelemetry/auto-instrumentations-node` in the app image first.
+
 ```yaml
 services:
   node-app:
@@ -184,6 +175,7 @@ services:
     environment:
       - NODE_OPTIONS=--require @opentelemetry/auto-instrumentations-node/register
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
       - OTEL_SERVICE_NAME=your-node-service
     depends_on:
       - otel-collector
@@ -191,10 +183,9 @@ services:
 
 ## Monitoring Multiple Services
 
-The collector-based approach is particularly useful for microservices architectures where you have multiple services:
+One collector covers every container on the host. `docker_stats` reports each container with its `container.name` and `container.image.name`. Labels listed under `container_labels_to_metric_labels` are copied onto the metrics too:
 
 ```yaml
-version: '3'
 services:
   api-service:
     image: your-api-service

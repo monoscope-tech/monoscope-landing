@@ -9,7 +9,7 @@ menuWeight: 45
 
 # Flutter Integration Guide
 
-monoscope does not yet ship a native Flutter wrapper, but you can fully instrument a Flutter app — traces, HTTP calls, and **uncaught errors** — by wiring the standard Dart [`opentelemetry`](https://pub.dev/packages/opentelemetry) package directly to monoscope's OTLP endpoint.
+monoscope does not yet ship a native Flutter wrapper, but you can fully instrument a Flutter app — traces, HTTP calls, and **uncaught errors** — by wiring the Dart [`opentelemetry_wk`](https://pub.dev/packages/opentelemetry_wk) package directly to monoscope's OTLP endpoint.
 
 This guide focuses on **error tracking**, which on Flutter requires hooking three different error channels: the Flutter framework, the Dart runtime, and the platform engine. Miss any one of them and you'll lose half your crashes silently.
 
@@ -52,7 +52,7 @@ Add the OpenTelemetry packages to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  opentelemetry: ^0.18.11
+  opentelemetry_wk: ^0.18.11
   http: ^1.2.0
   stack_trace: ^1.11.0
 ```
@@ -63,7 +63,7 @@ Then run:
 flutter pub get
 ```
 
-The `opentelemetry` Dart package speaks **OTLP/HTTP+protobuf**, so point the exporter at monoscope's HTTP endpoint on port `4318` — not the gRPC `:4317` endpoint used by our backend SDKs.
+The `opentelemetry_wk` package (formerly published as `opentelemetry`) speaks **OTLP/HTTP+protobuf**, so point the exporter at monoscope's HTTP endpoint on port `4318` — not the gRPC `:4317` endpoint used by our backend SDKs.
 
 ## Tracer Setup
 
@@ -71,8 +71,8 @@ Initialize the tracer provider once, before `runApp`. The monoscope **API key is
 
 ```dart
 import 'package:flutter/foundation.dart';
-import 'package:opentelemetry/api.dart' as otel_api;
-import 'package:opentelemetry/sdk.dart' as otel_sdk;
+import 'package:opentelemetry_wk/api.dart' as otel_api;
+import 'package:opentelemetry_wk/sdk.dart' as otel_sdk;
 
 late final otel_api.Tracer tracer;
 late final otel_sdk.TracerProviderBase tracerProvider;
@@ -139,7 +139,7 @@ Flutter has **three** distinct error channels. You must hook all of them; otherw
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:opentelemetry/api.dart' as otel_api;
+import 'package:opentelemetry_wk/api.dart' as otel_api;
 import 'package:stack_trace/stack_trace.dart';
 
 void main() {
@@ -216,12 +216,18 @@ void _reportError(
 
 ## HTTP Instrumentation
 
-The `opentelemetry` package does **not** ship an HTTP client wrapper — you wrap each request in a span manually and inject the W3C trace-context headers using the package's propagator. A small `BaseClient` subclass keeps this out of your call sites:
+The `opentelemetry_wk` package does **not** ship an HTTP client wrapper — you wrap each request in a span manually and inject the W3C trace-context headers using the package's propagator. A small `BaseClient` subclass keeps this out of your call sites:
 
 ```dart
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:opentelemetry/api.dart' as otel_api;
+import 'package:opentelemetry_wk/api.dart' as otel_api;
+
+class _HeaderSetter implements otel_api.TextMapSetter<Map<String, String>> {
+  @override
+  void set(Map<String, String> carrier, String key, String value) =>
+      carrier[key] = value;
+}
 
 class TracedClient extends http.BaseClient {
   TracedClient(this._inner);
@@ -237,9 +243,9 @@ class TracedClient extends http.BaseClient {
     try {
       // Inject traceparent / tracestate so the backend span links up.
       _propagator.inject(
-        otel_api.Context.current.withSpan(span),
+        otel_api.contextWithSpan(otel_api.Context.current, span),
         request.headers,
-        otel_api.TextMapSetter<Map<String, String>>(),
+        _HeaderSetter(),
       );
       final res = await _inner.send(request);
       span.setAttributes([
@@ -316,10 +322,11 @@ Mobile apps are killed abruptly. The `BatchSpanProcessor` flushes on a timer —
 ```dart
 class _LifecycleObserver with WidgetsBindingObserver {
   @override
-  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+  void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.detached) {
-      await tracerProvider.forceFlush();
+      // Starts the export of buffered spans. It does not wait for delivery.
+      tracerProvider.forceFlush();
     }
   }
 }
