@@ -76,6 +76,14 @@ Volume = SpyFu monthly US searches (Google-provided where shown); CPC = broad-ma
 - **Better Stack:** one page per category (`/log-management`, `/error-tracking`, `/tracing`, `/uptime`, `/real-user-monitoring`, `/ai-sre`); ads lead with "Say Goodbye to Splunk".
 - **Polylane / Antimetal:** no paid search; Polylane builds `/for/<platform>` and `/integrations/<tool>` pages for organic and agent-ecosystem discovery.
 
+### Claims check (from the sessions that audited the product, 2026-10-29)
+
+- "Unsampled" holds only on paid plans; the free tier samples past 10k events/day.
+- No fix-PR creation or deploy-triggered routines were found in the product code: no "opens the fix" claims in pages or ads until confirmed.
+- Own bucket (BYOB S3) currently applies to session replays only. The playbook's "your telemetry stays in your own S3 bucket" headline is **not true for logs and traces today**; the data-ownership campaign is blocked until the user confirms the roadmap.
+- Existing product pages list other unverified claims in `# UNVERIFIED:` frontmatter comments (SQL endpoint, "780+ integrations"); keep them out of ads.
+- Install command: `curl -fsSL https://monoscopehq.com/install.sh | sh`. Screenshot script: `scripts/capture-product-shots.mjs`.
+
 ## Page Plan
 
 Every page uses the existing `features-single.liquid` template (frontmatter only, schema in `brand/site-plan.md`) or the compare template, the existing screenshots/demos, and the voice in `brand/voice.md`. H1 and first line restate the keyword (message match); the second beat is monoscope's onlyness (the AI SRE reads the full request and response); one CTA ("Start for free"), secondary "Launch playground".
