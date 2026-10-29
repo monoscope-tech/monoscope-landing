@@ -1,30 +1,34 @@
 ---
-title: Project Settings
+title: Project
+ogTitle: Project Settings
 date: 2024-04-22
-updatedDate: 2024-05-07
+updatedDate: 2026-10-29
 menuWeight: 1
 ---
 
-# Project Settings
+# Project
 
-In this guide, you will learn how to effectively navigate through the **Project Settings** page on the monoscope dashboard and maximize all the powerful features accessible in it.
+The **Project** settings page holds the name of the project, its time zone, and the alerts and reports that it sends. Open **Settings** → **Project**.
+
+| Setting | What it does |
+|---|---|
+| **Project Name** | The name shown in the app, in alerts and in reports. |
+| **Timezone** | The time zone of reports and of [routine](/docs/ai/routines/) schedules. |
+| **Description** | A short note about the project. |
+| **New endpoint alerts** | Send an alert when monoscope sees a new endpoint. |
+| **Runtime error alerts** | Send an alert when a new runtime error occurs. |
+| **Weekly reports** | Send the weekly [report](/docs/dashboard/dashboard-pages/reports/) by email. |
+| **Daily reports** | Send a daily report by email. |
+
+Click **Save Changes** to apply the settings. Alerts go to the channels on the [Integrations](/docs/dashboard/settings-pages/integrations/) page.
+
+## Delete a Project
 
 ```=html
-<hr />
+<div class="callout">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p>Deleting a project permanently removes the project and all of its data. You cannot undo it.</p>
+</div>
 ```
 
-On this page, you can edit your project details (title, timezone and description). To get to this page, kindly click on the **`Settings`** tab at the botttom-left section of the dashboard and then click on the **`Project settings`** tab. You will then be redirected to another page where you can make the changes.
-
-![Screenshot of monoscope's project settings page](/docs/dashboard/settings-pages/project-settings/project-settings-1.png)
-
-Click on **`Update project`**.
-
-![Screenshot of monoscope's project settings page](/docs/dashboard/settings-pages/project-settings/project-settings-2.png)
-
-```=html
-<hr />
-<a href="/docs/dashboard/settings-pages/manage-members/" class="w-full btn btn-outline link link-hover">
-    Next: Manage Members
-    <i class="fa-regular fa-arrow-right mr-4"></i>
-</a>
-```
+At the bottom of the page, click **Delete project**, then confirm.

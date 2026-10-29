@@ -1,28 +1,24 @@
 ---
-title: S3 Storage Configuration
+title: Storage (Your Own Bucket)
 ogTitle: Configure Your Own S3 Bucket - Monoscope
 date: 2026-01-26
-updatedDate: 2026-09-27
-menuWeight: 5
+updatedDate: 2026-10-29
+menuWeight: 6
 ---
 
-# S3 Storage Configuration
+# Storage (Your Own Bucket)
 
 Connect your own S3 or S3-compatible bucket and Monoscope uses it as the database for your project. Every request and response payload, log, span, metric and session replay is written to your bucket, and Monoscope queries it from there.
 
 The data is stored as open [Delta Lake](https://delta.io/) tables of Parquet files. The bucket is yours: you control access, encryption and retention, and you can query the data directly with DuckDB, Spark, Polars or your own code.
 
-This feature is available on the **Cloud + Your own S3** plan (from $199/month). See [pricing](/pricing/).
-
-```=html
-<hr />
-```
+Your own bucket is a paid option of $199/month on top of the Cloud plan. See [pricing](/pricing/).
 
 ## Why Use Your Own S3 Bucket?
 
 - **Data Sovereignty**: Keep all data within your own infrastructure
 - **Compliance**: Meet GDPR, HIPAA, and data residency requirements
-- **Unlimited Retention**: Keep data as long as you need it, e.g. to settle a dispute with a supplier months later
+- **Unlimited Retention**: Keep data as long as you need it, for example to settle a dispute with a supplier months later
 - **Open Format**: Delta Lake and Parquet, readable by any tool that supports them. No export step and no lock-in
 - **Build On It**: Power audit trails or activity dashboards for your own customers from the same data
 - **Cost Optimization**: Use your existing storage infrastructure or preferred provider
@@ -67,13 +63,13 @@ Replace `your-bucket-name` with your actual bucket name.
 
 ## Configuration Fields
 
-Navigate to **Settings** → **S3 Storage** in your project dashboard.
+Open **Settings** → **Storage** in your project. A project editor can configure storage.
 
 | Field | Required | Description |
 |-------|----------|-------------|
 | Access Key ID | Yes | Your AWS/S3 access key |
 | Secret Access Key | Yes | Your AWS/S3 secret key |
-| Region | Yes | S3 region (e.g., `us-east-1`, `eu-west-1`) |
+| Region | Yes | S3 region (for example `us-east-1`, `eu-west-1`) |
 | Bucket Name | Yes | Name of your S3 bucket |
 | Custom Endpoint | No | Endpoint URL for S3-compatible providers |
 
@@ -99,7 +95,7 @@ Navigate to **Settings** → **S3 Storage** in your project dashboard.
 
 1. Go to the [IAM Console](https://console.aws.amazon.com/iam/)
 2. Click **Users** → **Create user**
-3. Enter a username (e.g., `monoscope-s3-user`)
+3. Enter a username (for example `monoscope-s3-user`)
 4. Click **Next**
 5. Select **Attach policies directly**
 6. Click **Create policy** and paste the JSON policy above
@@ -124,15 +120,15 @@ Navigate to **Settings** → **S3 Storage** in your project dashboard.
 ### Step 4: Configure in Monoscope
 
 1. Go to your project in Monoscope
-2. Navigate to **Settings** → **S3 Storage**
+2. Open **Settings** → **Storage**
 3. Enter your credentials:
    - Access Key ID
    - Secret Access Key
-   - Region (e.g., `us-east-1`)
+   - Region (for example `us-east-1`)
    - Bucket Name
-4. Click **Save**
+4. Click **Validate & Save**
 
-Monoscope will validate the connection. If successful, you'll see a **Connected** status.
+Monoscope checks that it can reach the bucket before it saves the configuration. If the check passes, the page shows **Connected**.
 
 ## Setup for Other Providers
 
@@ -140,14 +136,14 @@ Monoscope will validate the connection. If successful, you'll see a **Connected*
 
 For MinIO, use the **Custom Endpoint** field:
 
-- **Endpoint**: Your MinIO server URL (e.g., `https://minio.example.com`)
+- **Endpoint**: Your MinIO server URL (for example `https://minio.example.com`)
 - **Region**: Usually `us-east-1` (or as configured)
 - **Access Key / Secret Key**: Your MinIO credentials
 
 ### DigitalOcean Spaces
 
-- **Endpoint**: `https://<region>.digitaloceanspaces.com` (e.g., `https://nyc3.digitaloceanspaces.com`)
-- **Region**: Your Spaces region (e.g., `nyc3`)
+- **Endpoint**: `https://<region>.digitaloceanspaces.com` (for example `https://nyc3.digitaloceanspaces.com`)
+- **Region**: Your Spaces region (for example `nyc3`)
 - **Access Key / Secret Key**: Generate from DigitalOcean API settings
 
 ### Cloudflare R2
@@ -160,7 +156,7 @@ For MinIO, use the **Custom Endpoint** field:
 
 Logs, spans and API requests (including request and response payloads) are written to the `otel_logs_and_spans` Delta table. Metrics are written to `otel_metrics`. Both tables are partitioned by `project_id` and `date`:
 
-```
+```text
 s3://your-bucket/timefusion/otel_logs_and_spans/project_id=<project-id>/date=2026-09-27/*.parquet
 s3://your-bucket/timefusion/otel_metrics/project_id=<project-id>/date=2026-09-27/*.parquet
 ```
@@ -215,7 +211,7 @@ The same tables work with any Delta Lake reader, such as Spark, Polars, `delta-r
 
 ## Connection Status
 
-After saving your configuration, Monoscope validates the connection by checking if the bucket exists. The status indicator shows:
+The status at the top of the **Storage** page shows:
 
 - **Connected**: Bucket is accessible and ready to use
 - **Not connected**: Check your credentials or bucket permissions
@@ -224,16 +220,8 @@ After saving your configuration, Monoscope validates the connection by checking 
 
 To revert to Monoscope's default storage:
 
-1. Go to **Settings** → **S3 Storage**
-2. Click **Remove S3 Configuration**
+1. Open **Settings** → **Storage**
+2. Click **Remove bucket**
 3. Confirm the removal
 
 Your existing data in your S3 bucket will remain intact but Monoscope will stop writing new data there.
-
-```=html
-<hr />
-<a href="/docs/dashboard/settings-pages/integrations/" class="w-full btn btn-outline link link-hover">
-    Next: Integrations
-    <i class="fa-regular fa-arrow-right mr-4"></i>
-</a>
-```

@@ -1,37 +1,20 @@
 ---
-title: Settings Pages
+title: Settings
 date: 2024-05-20
-updatedDate: 2024-05-20
+updatedDate: 2026-10-29
 menuWeight: 2
-pageFullWidth: true
 hideToc: true
-pages:
-  - title: Project Settings
-    slug: /docs/dashboard/settings-pages/project-settings
-    icon: gear
-  - title: Manage Members
-    slug: /docs/dashboard/settings-pages/manage-members
-    icon: user-plus
-  - title: API Keys
-    slug: /docs/dashboard/settings-pages/api-keys
-    icon: key
-  - title: Integrations
-    slug: /docs/dashboard/settings-pages/integrations
-    icon: arrows-turn-right
-  - title: S3 Storage
-    slug: /docs/dashboard/settings-pages/s3-storage
-    icon: bucket
 ---
 
-# Settings Pages
+# Settings
+
+To open the settings of a project, click **Settings** at the bottom of the sidebar. The settings pages are **Project**, **API Keys**, **Team**, **Integrations**, **Prometheus**, **Storage** and **Billing**.
 
 ```=html
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-{% for page in this.frontmatter.pages %}
-  <a href="{{ page.slug }}" class="docs-card-2 rounded-lg">
-    <i class="fa-solid fa-{{ page.icon }}"></i>
-    <p class="text-base">{{ page.title }}</p>
-  </a>
+<nav class="pathway not-prose">
+{% assign pages = file_list | where_glob: 'file_path', './docs/dashboard/settings-pages/*/index.md' | sort: 'frontmatter.menuWeight' %}
+{% for page in pages %}
+  <a href="{{ page.permalink }}"><span class="step">{{ forloop.index }}</span><span class="title">{{ page.frontmatter.title }}</span><i class="fa-solid fa-arrow-right arrow" aria-hidden="true"></i></a>
 {% endfor %}
-</div>
+</nav>
 ```

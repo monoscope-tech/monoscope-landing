@@ -1,46 +1,20 @@
 ---
-title: Dashboard Pages
+title: Pages
 date: 2024-05-20
-updatedDate: 2024-05-20
+updatedDate: 2026-10-29
 menuWeight: 1
-pageFullWidth: true
 hideToc: true
-pages:
-  - title: Get Started
-    slug: /docs/dashboard/dashboard-pages/get-started
-    icon: list-check
-  - title: Dashboard
-    slug: /docs/dashboard/dashboard-pages/dashboard
-    icon: qrcode
-  - title: Endpoints
-    slug: /docs/dashboard/dashboard-pages/endpoints
-    icon: arrow-right-arrow-left
-  - title: API Log Explorer
-    slug: /docs/dashboard/dashboard-pages/api-log-explorer
-    icon: rectangle-list
-  - title: Changes & Errors
-    slug: /docs/dashboard/dashboard-pages/changes-errors
-    icon: bug
-  - title: Outgoing Integrations
-    slug: /docs/dashboard/dashboard-pages/outgoing-integrations
-    icon: arrows-turn-right
-  - title: API Tests
-    slug: /docs/dashboard/dashboard-pages/api-tests
-    icon: list-check
-  - title: Reports
-    slug: /docs/dashboard/dashboard-pages/reports
-    icon: chart-simple
 ---
 
-# Dashboard Pages
+# Pages
+
+Each guide in this section describes one page of the monoscope app.
 
 ```=html
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-{% for page in this.frontmatter.pages %}
-  <a href="{{ page.slug }}" class="docs-card-2 rounded-lg">
-    <i class="fa-solid fa-{{ page.icon }}"></i>
-    <p class="text-base">{{ page.title }}</p>
-  </a>
+<nav class="pathway not-prose">
+{% assign pages = file_list | where_glob: 'file_path', './docs/dashboard/dashboard-pages/*/index.md' | sort: 'frontmatter.menuWeight' %}
+{% for page in pages %}
+  <a href="{{ page.permalink }}"><span class="step">{{ forloop.index }}</span><span class="title">{{ page.frontmatter.title }}</span><i class="fa-solid fa-arrow-right arrow" aria-hidden="true"></i></a>
 {% endfor %}
-</div>
+</nav>
 ```
