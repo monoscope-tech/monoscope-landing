@@ -19,7 +19,7 @@ Already using a language with a native SDK? Check our guides for [Node.js](/docs
 
 ## Prerequisites
 
-Ensure you have completed the first three steps of the [onboarding guide](/docs/onboarding/){target="\_blank"}.
+You need a monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
 ## Install via Claude Code
 
@@ -28,7 +28,7 @@ Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument thi
 ```sh
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-curl https://monoscope.tech/install.sh | sh
+curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 
@@ -395,7 +395,7 @@ After configuring your application:
 
 1. Start your application with the `OTEL_*` environment variables set
 2. Send a few requests to your service
-3. Open the [monoscope dashboard](https://app.monoscope.tech) and check the **API Log Explorer** — your traces should appear within a few seconds
+3. Open the [monoscope dashboard](https://app.monoscope.tech) and check the **Log Explorer** — your traces should appear within a few seconds
 
 You can also use **telemetrygen** to verify your setup independently. See the [Quick Test section](/docs/onboarding/#⑤-quick-test-your-integration) in the onboarding guide.
 

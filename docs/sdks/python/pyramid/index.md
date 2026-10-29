@@ -14,7 +14,7 @@ In this guide, you’ll learn how to integrate OpenTelemetry into your Pyramid a
 
 ## Prerequisites
 
-Ensure you have already completed the first three steps of the [onboarding guide](/docs/onboarding/){target="\_blank"}.
+You need a monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
 ## Install via Claude Code
 
@@ -23,7 +23,7 @@ Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument thi
 ```sh
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-curl https://monoscope.tech/install.sh | sh
+curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 
@@ -37,14 +37,14 @@ The skill drives the CLI to wire up the SDK and verify it. Prefer a human? [Emai
 
 ## Installation
 
-Kindly run the command below to install the monoscope pyramid sdk and necessary opentelemetry packages:
+Run the command below to install the monoscope pyramid sdk and necessary opentelemetry packages:
 
 ```sh
 pip install monoscope-pyramid opentelemetry-distro opentelemetry-exporter-otlp
 opentelemetry-bootstrap -a install
 ```
 
-## Setup Open Telemetry
+## Set Up OpenTelemetry
 
 Setting up open telemetry allows you to send traces, metrics and logs to the Monoscope platform.
 To setup open telemetry, you need to configure the following environment variables:
@@ -52,7 +52,7 @@ To setup open telemetry, you need to configure the following environment variabl
 ```sh
 export OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
 export OTEL_SERVICE_NAME="my-service" # Specifies the name of the service.
-export OTEL_RESOURCE_ATTRIBUTES="x-api-key={ENTER_YOUR_API_KEY_HERE}" # Adds your API KEY to the resource.
+export OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY" # Adds your API KEY to the resource.
 export OTEL_EXPORTER_OTLP_PROTOCOL="grpc" #Specifies the protocol to use for the OpenTelemetry exporter.
 export OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true # enable logging auto instrumentation
 ```
@@ -66,7 +66,7 @@ opentelemetry-instrument python3 myapp.py
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>The <code>{ENTER_YOUR_API_KEY_HERE}</code> demo string should be replaced with the API key generated from the Monoscope dashboard.</p>
+  <p>Replace <code>YOUR_API_KEY</code> with an API key from <b>Settings &gt; API Keys</b> in monoscope.</p>
 </div>
 ```
 
@@ -163,7 +163,7 @@ if __name__ == '__main__':
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>The <code>{ENTER_YOUR_API_KEY_HERE}</code> demo string should be replaced with the API key generated from the Monoscope dashboard.</p>
+  <p>Replace <code>YOUR_API_KEY</code> with an API key from <b>Settings &gt; API Keys</b> in monoscope.</p>
 </div>
 ```
 
@@ -340,7 +340,7 @@ def me_view(request):
 
 ## Monitoring HTTPX requests
 
-Outgoing requests are external API calls you make from your API. By default, Monoscope monitors all requests users make from your application and they will all appear in the [API Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. However, you can separate outgoing requests from others and explore them in the [Outgoing Integrations](/docs/dashboard/dashboard-pages/outgoing-integrations/){target="\_blank"} page, alongside the incoming request that triggered them.
+Outgoing requests are external API calls you make from your API. By default, Monoscope monitors all requests users make from your application and they will all appear in the [Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. To see only outgoing requests, open the **Outgoing** tab of the [API Catalog](/docs/dashboard/dashboard-pages/outgoing-integrations/). Each outgoing request links to the incoming request that triggered it.
 
 To monitor outgoing HTTP requests from your application, use the `observe_request()` function from the `monoscope_pyramid` module, passing in the `request` argument, like so:
 

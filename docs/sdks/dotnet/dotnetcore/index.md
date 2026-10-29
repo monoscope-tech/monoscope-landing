@@ -18,7 +18,7 @@ This setup provides comprehensive observability, helping you track requests and 
 
 ## Prerequisites
 
-Ensure you have already completed the first three steps of the [onboarding guide](/docs/onboarding/){target="\_blank"}.
+You need a monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
 ## Install via Claude Code
 
@@ -27,7 +27,7 @@ Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument thi
 ```sh
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-curl https://monoscope.tech/install.sh | sh
+curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 
@@ -39,7 +39,7 @@ Then run inside Claude Code:
 
 The skill drives the CLI to wire up the SDK and verify it. Prefer a human? [Email us](mailto:hello@monoscope.tech) — happy to jump on a call or connect over Slack.
 
-## Open Telemetry Setup
+## OpenTelemetry Setup
 
 Setting up open telemetry allows you to send traces, metrics and logs to the monoscope platform.
 In this guid, we will be using the opentelemetry auto-instrumentation packages to setup open telemetry.
@@ -72,7 +72,7 @@ After installating .NET autoinstrumentation packages, you can configure the Open
 export OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317" # Specifies the endpoint to send the traces to.
 export OTEL_DOTNET_AUTO_TRACES_ADDITIONAL_SOURCES="monoscope.HTTPInstrumentation" # The monoscope instrumentation  activity resource.
 export OTEL_SERVICE_NAME="my-service" # Specifies the name of the service.
-export OTEL_RESOURCE_ATTRIBUTES="x-api-key={ENTER_YOUR_API_KEY_HERE}" # Adds your API KEY to the resource.
+export OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY" # Adds your API KEY to the resource.
 export OTEL_EXPORTER_OTLP_PROTOCOL="grpc" # Specifies the protocol to use for the OpenTelemetry exporter.
 ```
 
@@ -84,7 +84,7 @@ After setting up open telemetry, you can now configure the monoscope middleware,
 
 #### Installation
 
-Kindly run the command below to install the SDK:
+Run the command below to install the SDK:
 
 ```sh
 dotnet add package ApiToolkit.Net
@@ -145,7 +145,7 @@ In the configuration above you can add the following optional fields:
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
   <ul>
     <li>Please ensure the monoscope middleware is added before <code>UseEndpoint</code> and other middleware are initialized.</li>
-    <li>The <code>{ENTER_YOUR_API_KEY_HERE}</code> demo string should be replaced with the API key generated from the monoscope dashboard.</li>
+    <li>Replace <code>YOUR_API_KEY</code> with an API key from <b>Settings &gt; API Keys</b> in monoscope.</li>
   </ul>
 </div>
 ```
@@ -291,7 +291,7 @@ app.MapGet("/error-tracking", async context =>
 
 ## Monitoring Outgoing Requests
 
-Outgoing requests are external API calls you make from your API. By default, monoscope monitors all requests users make from your application and they will all appear in the [API Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. However, you can separate outgoing requests from others and explore them in the [Outgoing Integrations](/docs/dashboard/dashboard-pages/outgoing-integrations/){target="\_blank"} page, alongside the incoming request that triggered them.
+Outgoing requests are external API calls you make from your API. By default, monoscope monitors all requests users make from your application and they will all appear in the [Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. To see only outgoing requests, open the **Outgoing** tab of the [API Catalog](/docs/dashboard/dashboard-pages/outgoing-integrations/). Each outgoing request links to the incoming request that triggered it.
 
 To monitor outgoing HTTP requests from your application, we provide the `monoscopeObservingHandler()` handler. Here's an example of the outgoing requests configuration with this SDK on a sample `/monitor-requests` endpoint that makes an asynchronous `HttpClient` GET request to a sample public endpoint URL.
 
@@ -303,7 +303,7 @@ var app = builder.Build();
 
 var config = new Config
 {
-  ApiKey = "{ENTER_YOUR_API_KEY_HERE}"
+  ApiKey = "YOUR_API_KEY"
 };
 var client = monoscope.NewClient(config);
 

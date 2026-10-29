@@ -18,7 +18,7 @@ To get started, you'll need the OpenTelemetry Node.js library and some basic con
 
 ## Prerequisites
 
-Ensure you have completed the first three steps of the [onboarding guide](/docs/onboarding/){target="\_blank"}.
+You need a monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
 ## Install via Claude Code
 
@@ -27,7 +27,7 @@ Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument thi
 ```sh
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-curl https://monoscope.tech/install.sh | sh
+curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 
@@ -54,7 +54,7 @@ yarn add @opentelemetry/api @opentelemetry/auto-instrumentations-node
 
 ```
 
-## OpenTelemetery Configuration
+## OpenTelemetry Configuration
 
 This module is highly configurable by setting environment variables. So many aspects of the auto instrumentation’s behavior such as Resource detectors, Exporters, Trace context propagation headers,
 and many more can be configured based on your needs.
@@ -66,7 +66,7 @@ OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
 # Specifies the name of the service.
 OTEL_SERVICE_NAME="{YOUR_SERVICE_NAME}"
 # Adds your API KEY to the resource.
-OTEL_RESOURCE_ATTRIBUTES="x-api-key={YOUR_API_KEY}"
+OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
 # Specifies the protocol to use for the OpenTelemetry exporter.
 OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
 # disable some auto instrumentation libraries
@@ -195,7 +195,7 @@ Fastify integration [fastify guide](/docs/sdks/nodejs/fastifyjs/){target="\_blan
 | `OTEL_EXPORTER_OTLP_ENDPOINT` | Specifies the endpoint URL for the OpenTelemetry collector. In this case, it's set to "http://otelcol.monoscope.tech:4317". |
 | `OTEL_NODE_RESOURCE_DETECTORS` | Defines which resource detectors to use. Here, it's set to detect environment variables, host information, and operating system details. |
 | `OTEL_SERVICE_NAME` | Sets the name of your service. You should replace "your-service-name" with the actual name of your service. |
-| `OTEL_RESOURCE_ATTRIBUTES` | Specifies additional resource attributes. In this case, it's setting an API Toolkit project key. |
+| `OTEL_RESOURCE_ATTRIBUTES` | Specifies additional resource attributes. Holds your monoscope API key (`x-api-key=YOUR_API_KEY`). |
 | `OTEL_EXPORTER_OTLP_PROTOCOL` | Defines the protocol used for exporting telemetry data. It's set to "grpc" (gRPC protocol). |
 | `OTEL_PROPAGATORS` | Specifies which context propagators to use. Here, it's set to use both "baggage" and "tracecontext". |
 :::

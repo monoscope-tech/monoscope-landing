@@ -15,7 +15,7 @@ Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument thi
 ```sh
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-curl https://monoscope.tech/install.sh | sh
+curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 
@@ -98,7 +98,7 @@ Set the following environment variables in your application to enable the SDK:
 :::
 | Variable Name | Description | Required | Example |
 | ----------------------------------- | ------------------------------------------------------------- | -------- | ---------------------------- |
-| `OTEL_RESOURCE_ATTRIBUTES` | monoscope project key (`x-api-key=<YOUR_API_KEY>`) | Yes | `x-api-key=my-api-key` |
+| `OTEL_RESOURCE_ATTRIBUTES` | monoscope project key (`x-api-key=YOUR_API_KEY`) | Yes | `x-api-key=YOUR_API_KEY` |
 | `OTEL_SERVICE_NAME` | The name of the service being monitored | No | `example-chi-server` |
 | `OTEL_SERVICE_VERSION` | The version of your application or service | No | `0.0.1` |
 | `OTEL_EXPORTER_OTLP_ENDPOINT` | The grpc endpoint for the OpenTelemetry collector. | No | `otelcol.monoscope.tech:4317` |

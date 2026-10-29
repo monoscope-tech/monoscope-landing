@@ -34,7 +34,7 @@ This guide walks you through setting up Monoscope: create an account, get an API
       <span class="shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-full bg-fillBrand-strong text-white text-sm font-semibold">2</span>
       <div class="flex-1 min-w-0">
         <p class="m-0 text-textStrong font-medium">Install the CLI (or pick your SDK)</p>
-        <pre class="m-0 mt-2 px-4 py-3 rounded-lg overflow-x-auto text-[13px] leading-relaxed" style="background:#0d1117;color:#e6edf3;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace">curl https://monoscope.tech/install.sh | sh
+        <pre class="m-0 mt-2 px-4 py-3 rounded-lg overflow-x-auto text-[13px] leading-relaxed" style="background:#0d1117;color:#e6edf3;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace">curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login</pre>
         <p class="m-0 mt-2 text-sm text-textWeak">Prefer language-native? Jump to <a href="/docs/sdks/" class="text-fillBrand-strong hover:underline">SDK Guides</a>.</p>
       </div>
@@ -188,7 +188,7 @@ Useful for verifying ingestion at volume before a real deploy.
 ```=html
 <div class="callout">
   <i class="fa-solid fa-check-circle"></i>
-  <p>Check the <b>API Log Explorer</b> in your dashboard — events should appear within a few seconds.</p>
+  <p>Check the <b>Log Explorer</b> in your dashboard — events should appear within a few seconds.</p>
 </div>
 ```
 
@@ -205,7 +205,7 @@ As Monoscope receives traffic, it auto-detects your API endpoints (visible in [E
 | **Get Started** | Onboarding checklist for your integration |
 | **Dashboard** | Analytics overview: requests, anomalies, latency, and errors |
 | **Endpoints** | All detected API endpoints |
-| **API Log Explorer** | Search and filter request logs, create alerts |
+| **Log Explorer** | Search and filter request logs, create alerts |
 | **Changes & Errors** | Detected anomalies and errors |
 | **Outgoing Integrations** | External API calls your service makes |
 | **API Tests** | Create and schedule HTTP response validation tests |

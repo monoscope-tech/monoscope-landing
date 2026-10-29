@@ -16,7 +16,7 @@ To integrate your Elixir Phoenix application with monoscope, you need to use thi
 
 ## Prerequisites
 
-Ensure you have already completed the first three steps of the [onboarding guide](/docs/onboarding/){target="\_blank"}.
+You need a monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
 ## Install via Claude Code
 
@@ -25,7 +25,7 @@ Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument thi
 ```sh
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-curl https://monoscope.tech/install.sh | sh
+curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 
@@ -39,7 +39,7 @@ The skill drives the CLI to wire up the SDK and verify it. Prefer a human? [Emai
 
 ## Installation
 
-To install the SDK, kindly add `monoscope_phoenix` to the list of dependencies in the `mix.exs` file, like so:
+To install the SDK, add `monoscope_phoenix` to the list of dependencies in the `mix.exs` file, like so:
 
 ```elixir
 def deps do
@@ -72,7 +72,7 @@ defmodule HelloWeb.Router do
     plug :accepts, ["json"]
     plug MonoscopePhoenix,
       config: %{
-        api_key: "{ENTER_YOUR_API_KEY_HERE}",
+        api_key: "YOUR_API_KEY",
         debug: false,
       }
     # Other plugs...
@@ -96,7 +96,7 @@ In the configuration above, **only the `api_key` option is required**, but you c
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
   <p>
-    The <code>{ENTER_YOUR_API_KEY_HERE}</code> demo string should be replaced
+    The <code>YOUR_API_KEY</code> demo string should be replaced
     with the API key generated from the monoscope dashboard.
   </p>
 </div>
@@ -178,7 +178,7 @@ defmodule HelloWeb.Router do
     # Other plugs
     plug MonoscopePhoenix,
       config: %{
-        api_key: "{ENTER_YOUR_API_KEY_HERE}",
+        api_key: "YOUR_API_KEY",
         redact_headers: ["content-type", "Authorization", "HOST"],
         redact_request_body: ["$.user.email", "$.user.addresses"],
         redact_response_body: ["$.users[*].email", "$.users[*].credit_card"]

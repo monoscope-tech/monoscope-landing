@@ -18,7 +18,7 @@ To get started, you'll need the OpenTelemetry Node.js library and some basic con
 
 ## Prerequisites
 
-Ensure you have completed the first three steps of the [onboarding guide](/docs/onboarding/){target="\_blank"}.
+You need a monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
 ## Install via Claude Code
 
@@ -27,7 +27,7 @@ Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument thi
 ```sh
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-curl https://monoscope.tech/install.sh | sh
+curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 
@@ -41,13 +41,13 @@ The skill drives the CLI to wire up the SDK and verify it. Prefer a human? [Emai
 
 ## Installation
 
-Run the command below to install the Monoscope nextJs sdk and Open telemetery API, SDK, and auto instrumentation tools.
+Run the command below to install the Monoscope nextJs sdk and OpenTelemetry API, SDK, and auto instrumentation tools.
 
 ```sh
 npm install --save @monoscopetech/next @opentelemetry/api @vercel/otel
 ```
 
-## Setup Open Telemetry
+## Set Up OpenTelemetry
 
 Setting up open telemetry allows you to send traces, metrics and logs to the Monoscope platform.
 Add the following environment variables to your `.env` file:
@@ -55,7 +55,7 @@ Add the following environment variables to your `.env` file:
 ```sh
 OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4318"
 OTEL_SERVICE_NAME="my-service" # Specifies the name of the service.
-OTEL_RESOURCE_ATTRIBUTES="x-api-key={YOUR_API_KEY}" # Adds your API KEY to the resource.
+OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY" # Adds your API KEY to the resource.
 OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf" #Specifies the protocol to use for the OpenTelemetry exporter.
 ```
 

@@ -17,7 +17,7 @@ To integrate your Symfony application with monoscope, you need to use this SDK t
 
 ## Prerequisites
 
-Ensure you have already completed the first three steps of the [onboarding guide](/docs/onboarding/){target="\_blank"}.
+You need a monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
 ## Install via Claude Code
 
@@ -26,7 +26,7 @@ Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument thi
 ```sh
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-curl https://monoscope.tech/install.sh | sh
+curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 
@@ -40,7 +40,7 @@ The skill drives the CLI to wire up the SDK and verify it. Prefer a human? [Emai
 
 ## Installation
 
-Kindly run the command below to install the SDK:
+Run the command below to install the SDK:
 
 ```sh
 composer require monoscope/monoscope-symfony
@@ -60,7 +60,7 @@ OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
 First, add the `MONOSCOPE_API_KEY` environment variable to your `.env` file, like so:
 
 ```sh
-MONOSCOPE_API_KEY={ENTER_YOUR_API_KEY_HERE}
+MONOSCOPE_API_KEY=YOUR_API_KEY
 ```
 
 Then, add the `monoscope\EventSubscriber\monoscopeService` listener and API Key to your `config/service.yaml` file, like so:
@@ -101,7 +101,7 @@ services:
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>The <code>{ENTER_YOUR_API_KEY_HERE}</code> demo string should be replaced with the API key generated from the monoscope dashboard.</p>
+  <p>Replace <code>YOUR_API_KEY</code> with an API key from <b>Settings &gt; API Keys</b> in monoscope.</p>
 </div>
 ```
 

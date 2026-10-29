@@ -19,7 +19,7 @@ This guide focuses on **error tracking**, which on Flutter requires hooking thre
 
 ## Prerequisites
 
-Ensure you have already completed the first three steps of the [onboarding guide](/docs/onboarding/){target="\_blank"}.
+You need a monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
 ## Install via Claude Code
 
@@ -28,7 +28,7 @@ Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument thi
 ```sh
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-curl https://monoscope.tech/install.sh | sh
+curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 
@@ -168,7 +168,7 @@ void main() {
 
 ### Recording the error as a span
 
-Treat each crash as a one-shot span with an exception event. monoscope renders these in the **Errors** view and links them back to the trace they happened in.
+Treat each crash as a one-shot span with an exception event. monoscope renders these in the **Issues** view and links them back to the trace they happened in.
 
 ```dart
 void _reportError(
@@ -338,7 +338,7 @@ WidgetsBinding.instance.addObserver(_LifecycleObserver());
    ```
 
 3. Tap the button, then send the app to the background to flush.
-4. Open the [monoscope dashboard](https://app.monoscope.tech) — you should see the `flutter.error` span in the **API Log Explorer** and a corresponding entry in **Errors**, with `exception.type = StateError` and the terse stack trace.
+4. Open the [monoscope dashboard](https://app.monoscope.tech) — you should see the `flutter.error` span in the **Log Explorer** and a corresponding entry in **Issues**, with `exception.type = StateError` and the terse stack trace.
 
 ```=html
 <div class="callout">

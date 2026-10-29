@@ -18,7 +18,7 @@ To get started, you'll need the OpenTelemetry Node.js library and some basic con
 
 ## Prerequisites
 
-Ensure you have completed the first three steps of the [onboarding guide](/docs/onboarding/){target="\_blank"}.
+You need a monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
 ## Install via Claude Code
 
@@ -27,7 +27,7 @@ Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument thi
 ```sh
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-curl https://monoscope.tech/install.sh | sh
+curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 
@@ -47,7 +47,7 @@ Run the command below to install the API, SDK, and Instrumentation tools.
 npm install --save @monoscopetech/adonis @opentelemetry/api  @opentelemetry/auto-instrumentations-node
 ```
 
-## Open Telemetery Configuration
+## OpenTelemetry Configuration
 
 This module is highly configurable by setting environment variables. So many aspects of the auto instrumentation’s behavior such as Resource detectors, Exporters, Trace context propagation headers,
 and many more can be configured based on your needs.
@@ -60,7 +60,7 @@ OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
 # Specifies the name of the service.
 OTEL_SERVICE_NAME="{YOUR_SERVICE_NAME}"
 # Adds your API KEY to the resource.
-OTEL_RESOURCE_ATTRIBUTES="x-api-key={YOUR_API_KEY}"
+OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
 # Specifies the protocol to use for the OpenTelemetry exporter.
 OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
 # disable some auto instrumentation libraries
