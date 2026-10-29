@@ -525,20 +525,6 @@ C5 Category | US,session-replay,session replay software,Exact
 C5 Category | US,session-replay,session replay software,Phrase
 C5 Category | US,session-replay,user session replay,Exact
 C5 Category | US,session-replay,user session replay,Phrase
-C5 Category | US,uptime-monitoring,uptime monitoring,Exact
-C5 Category | US,uptime-monitoring,uptime monitoring,Phrase
-C5 Category | US,uptime-monitoring,website uptime monitoring,Exact
-C5 Category | US,uptime-monitoring,website uptime monitoring,Phrase
-C5 Category | US,uptime-monitoring,uptime monitor,Exact
-C5 Category | US,uptime-monitoring,uptime monitor,Phrase
-C5 Category | US,uptime-monitoring,api uptime monitoring,Exact
-C5 Category | US,uptime-monitoring,api uptime monitoring,Phrase
-C5 Category | US,uptime-monitoring,endpoint monitoring,Exact
-C5 Category | US,uptime-monitoring,endpoint monitoring,Phrase
-C5 Category | US,uptime-monitoring,cron monitoring,Exact
-C5 Category | US,uptime-monitoring,cron monitoring,Phrase
-C5 Category | US,uptime-monitoring,cron job monitoring,Exact
-C5 Category | US,uptime-monitoring,cron job monitoring,Phrase
 C5 Category | US,ai-rca,ai root cause analysis,Exact
 C5 Category | US,ai-rca,ai root cause analysis,Phrase
 C5 Category | US,ai-rca,ai sre,Exact
@@ -659,20 +645,6 @@ C5 Category | EU,session-replay,session replay software,Exact
 C5 Category | EU,session-replay,session replay software,Phrase
 C5 Category | EU,session-replay,user session replay,Exact
 C5 Category | EU,session-replay,user session replay,Phrase
-C5 Category | EU,uptime-monitoring,uptime monitoring,Exact
-C5 Category | EU,uptime-monitoring,uptime monitoring,Phrase
-C5 Category | EU,uptime-monitoring,website uptime monitoring,Exact
-C5 Category | EU,uptime-monitoring,website uptime monitoring,Phrase
-C5 Category | EU,uptime-monitoring,uptime monitor,Exact
-C5 Category | EU,uptime-monitoring,uptime monitor,Phrase
-C5 Category | EU,uptime-monitoring,api uptime monitoring,Exact
-C5 Category | EU,uptime-monitoring,api uptime monitoring,Phrase
-C5 Category | EU,uptime-monitoring,endpoint monitoring,Exact
-C5 Category | EU,uptime-monitoring,endpoint monitoring,Phrase
-C5 Category | EU,uptime-monitoring,cron monitoring,Exact
-C5 Category | EU,uptime-monitoring,cron monitoring,Phrase
-C5 Category | EU,uptime-monitoring,cron job monitoring,Exact
-C5 Category | EU,uptime-monitoring,cron job monitoring,Phrase
 C5 Category | EU,ai-rca,ai root cause analysis,Exact
 C5 Category | EU,ai-rca,ai root cause analysis,Phrase
 C5 Category | EU,ai-rca,ai sre,Exact

@@ -19,9 +19,9 @@
                 {{navItem.title}}
                 <svg class="shrink-0 h-4 w-4 text-current nav-chevron group-open/nv:rotate-180"><use xlink:href="/assets/deps/sprite.svg#chevron-down"></use></svg>
               </summary>
-              <div class="nav-dropdown xl:absolute xl:top-full xl:left-0 xl:w-[420px]">
+              {% assign wide = navItem.dropdown.size %}<div class="nav-dropdown xl:absolute xl:top-full xl:left-0 {% if wide > 7 %}xl:w-[760px]{% else %}xl:w-[420px]{% endif %}">
 
-                <div class="bg-bgBase border border-strokeWeak rounded-xl shadow-xl p-2 mt-2">
+                <div class="bg-bgBase border border-strokeWeak rounded-xl shadow-xl p-2 mt-2{% if wide > 7 %} xl:grid xl:grid-cols-2{% endif %}">
                   {% for subItem in navItem.dropdown %}
                     <a href="{{subItem.url}}" class="flex items-start gap-4 p-3 hover:bg-fillWeak active:bg-fillPress rounded-lg nav-link group/item focus-visible:ring-2 focus-visible:ring-strokeFocus focus-visible:ring-inset"
                       title="{{subItem.title}}">

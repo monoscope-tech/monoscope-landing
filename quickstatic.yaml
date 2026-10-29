@@ -150,31 +150,51 @@ main_nav:
       - title: AI SRE
         url: /features/ai-sre/
         sprite: zap
-        description: Investigates errors, answers in Slack and opens the fix
+        description: Investigates errors and answers in Slack from the real request
       - title: Error tracking
         url: /features/error-tracking/
         sprite: bug
         description: Every error and crash, with the request that caused it
-      - title: API monitoring
-        url: /features/api-monitoring/
-        sprite: plug
-        description: Calls in and out, with bodies and breaking changes
-      - title: Logs & traces
-        url: /features/logs-and-traces/
+      - title: Log management
+        url: /features/log-management/
         sprite: align-left
-        description: Search every log, span and request, never sampled
+        description: Every log line with the request that wrote it
+      - title: Distributed tracing
+        url: /features/distributed-tracing/
+        sprite: activity
+        description: Spans with the request and response kept
+      - title: Application performance
+        url: /features/apm/
+        sprite: chart-line
+        description: Latency and errors per endpoint, down to the slow request
       - title: Metrics & dashboards
         url: /features/dashboards/
         sprite: bar-chart
         description: Dashboards, metrics and alerts on any query
+      - title: API monitoring
+        url: /features/api-monitoring/
+        sprite: plug
+        description: Calls in and out, with bodies and breaking changes
+      - title: OpenTelemetry
+        url: /features/opentelemetry/
+        sprite: radio
+        description: "Point any collector at monoscope for logs, traces and metrics"
+      - title: Logs & traces
+        url: /features/logs-and-traces/
+        sprite: compass
+        description: Search every log, span and request in one place
       - title: Session replay
         url: /features/session-replay/
         sprite: circle-play
         description: What the customer saw, next to the failing request
+      - title: Real user monitoring
+        url: /features/real-user-monitoring/
+        sprite: monitor
+        description: Web Vitals and browser errors, tied to the backend
       - title: Your own bucket
         url: /features/byob-s3/
         sprite: database
-        description: All your data as open Parquet in your S3
+        description: Your own S3 bucket, in open Parquet
   - title: Documentation
     dropdown:
       - title: Get Started

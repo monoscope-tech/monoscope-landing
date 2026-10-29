@@ -31,3 +31,8 @@
 /docs/features/api-testing/* /docs/dashboard/dashboard-pages/monitors/ 301
 /docs/features /docs/dashboard/ 301
 /docs/features/* /docs/dashboard/ 301
+/log-management /features/log-management/ 301
+/opentelemetry /features/opentelemetry/ 301
+/apm /features/apm/ 301
+/distributed-tracing /features/distributed-tracing/ 301
+/real-user-monitoring /features/real-user-monitoring/ 301
