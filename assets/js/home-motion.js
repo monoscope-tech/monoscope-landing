@@ -9,16 +9,11 @@
     img.complete ? anchor() : img.addEventListener('load', anchor, { once: true });
   });
   if (!matchMedia('(prefers-reduced-motion: no-preference)').matches) return;
-  // Light-mode hero: a looping painted-cloud video over the still, loaded only on wide light-mode screens
-  const vid = document.querySelector('[data-hero-video]');
-  const playVid = () => { if (!vid || vid.src || document.body.dataset.theme === 'dark' || !matchMedia('(min-width: 640px)').matches) return;
-    vid.src = vid.dataset.src; vid.addEventListener('playing', () => vid.style.opacity = 1, { once: true }); vid.play().catch(() => {}); };
-  playVid(); new MutationObserver(playVid).observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
   if (sky) {
     const gull = '<svg viewBox="0 0 22 10"><path d="M1 7 Q6 1 11 6 Q16 1 21 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
     const fx = Object.assign(document.createElement('div'), { className: 'sky-fx', ariaHidden: true });
     fx.innerHTML = [[24, -6, 34], [25.2, -8.5, 34], [21, -24, 42]].map(([top, d, t]) => `<i class="gull" style="top:${top}rem;left:0;--d:${d}s;--t:${t}s">${gull}</i>`).join('');
-    (vid || sky).after(fx);
+    sky.after(fx);
   }
 
   // Map image-relative [fx, fy] to the img box, honouring object-fit: cover and object-position.

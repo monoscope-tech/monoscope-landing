@@ -414,8 +414,7 @@ capabilities:
   <section class="space-y-12 mt-(--inset) w-full flex flex-col items-center">
     <!-- Dark inset hero: gradient sky, painted horizon anchored below the demo -->
     <div class="hero-paint hero-sky relative panel-w rounded-[2rem] overflow-hidden text-textStrong ring-1 ring-black/5 dark:ring-white/10">
-    <img src="/assets/img/home/art/hero-morning.webp?v=4" alt="" data-anchor-to="[data-hero-tabs] [role=tablist]" data-anchor-at="0.8" class="dark:hidden absolute inset-x-0 top-0 w-full h-auto max-sm:h-[44%] max-sm:object-cover max-sm:object-[94%_0%] max-sm:opacity-45 [mask-image:linear-gradient(to_bottom,transparent,black_28%,black_80%,transparent)]">
-    <video data-hero-video data-src="/assets/img/home/art/hero-morning.mp4" data-anchor-to="[data-hero-tabs] [role=tablist]" data-anchor-at="0.8" muted loop playsinline preload="none" aria-hidden="true" class="hidden dark:hidden sm:block absolute inset-x-0 top-0 w-full h-auto opacity-0 transition-opacity duration-1000 [mask-image:linear-gradient(to_bottom,transparent,black_28%,black_80%,transparent)]"></video>
+    <img src="/assets/img/home/art/hero-morning.webp?v=5" alt="" data-anchor-to="[data-hero-tabs] [role=tablist]" data-anchor-at="0.8" class="dark:hidden absolute inset-x-0 top-0 w-full h-auto max-sm:h-[44%] max-sm:object-cover max-sm:object-[94%_0%] max-sm:opacity-45 [mask-image:linear-gradient(to_bottom,transparent,black_28%,black_80%,transparent)]">
     <img src="/assets/img/home/art/hero-shore-morning.webp" alt="" class="dark:hidden absolute inset-x-0 bottom-0 w-full h-auto min-h-48 object-cover object-[18%_100%] [mask-image:linear-gradient(to_top,black_55%,rgb(0_0_0/.5)_78%,transparent)]">
     <img src="/assets/img/home/art/hero-night.webp" alt="" data-art data-lamp="0.821,0.282" data-beam="out" class="hidden dark:block absolute inset-x-0 top-0 w-full h-[62%] object-cover object-[50%_0%] brightness-[.72] saturate-[.85] [mask-image:linear-gradient(to_bottom,transparent,black_12%,black_70%,transparent)]">
     <img src="/assets/img/home/art/hero-shore.webp" alt="" data-art data-glint class="hidden dark:block absolute inset-x-0 bottom-0 w-full h-auto min-h-48 object-cover object-[18%_100%] brightness-[.65] saturate-[.9] [mask-image:linear-gradient(to_top,black_55%,rgb(0_0_0/.5)_78%,transparent)]">
@@ -1148,8 +1147,8 @@ capabilities:
         {% endunless %}{% endfor %}
       </div>
     </div>
-<link rel="stylesheet" href="/assets/css/home-motion.css?v=2">
-<script defer src="/assets/js/home-motion.js?v=2"></script>
+<link rel="stylesheet" href="/assets/css/home-motion.css?v=3">
+<script defer src="/assets/js/home-motion.js?v=3"></script>
 </section>
 
 ```
