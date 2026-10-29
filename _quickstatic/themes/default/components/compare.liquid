@@ -1,3 +1,5 @@
+{% comment %}Compare page body. Frontmatter: name, name_note?, headline, lead, table_title, checked, fit_mono[], fit_them[], sources[{t,url}],
+and them: exactly 8 cells in `labels` order, each {s: yes|part|no|none, t} or {list: [..]}. monoscope's cells live in `mono` below.{% endcomment %}
 {% render "default/components/page-style" %}
 {% assign f = this.frontmatter %}
 {% assign labels = "Request and response bodies, in and out|Breaking changes in third-party APIs|AI sees the full request|AI investigates and opens fix PRs|Pricing|Open source and self-hosting|Data in your own bucket|Coverage" | split: "|" %}

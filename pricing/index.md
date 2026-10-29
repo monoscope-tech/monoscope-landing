@@ -33,8 +33,8 @@ plan_cols: [Free, Cloud, Cloud + your bucket, Self-hosted]
 plan_rows:
   - [Events, 10k a day, "20M included, then $1 per million", "20M included, then $1 per million", Unlimited]
   - [Request and response bodies, Included, Included, Included, Included]
-  - [Metric datapoints, Count toward 10k a day, "20M included, then $1 per 10M", "20M included, then $1 per 10M", Unlimited]
-  - [Session replays, Included, "2,000 included, then $1 per 1,000", "2,000 included, then $1 per 1,000", Unlimited]
+  - [Metric datapoints, "Included, within free limits", "20M included, then $1 per 10M", "20M included, then $1 per 10M", Unlimited]
+  - [Session replays, "Included, within free limits", "2,000 included, then $1 per 1,000", "2,000 included, then $1 per 1,000", Unlimited]
   - [Retention, 30 days, 30 days, Unlimited, You decide]
   - [Where your data lives, monoscope Cloud, monoscope Cloud, Your S3 bucket, Your servers]
   - [Team members, Unlimited, Unlimited, Unlimited, Unlimited]
@@ -62,7 +62,7 @@ faqs:
   - q: Do you offer volume pricing?
     a: Yes, usually above a billion events a month. Email <a href="mailto:hello@monoscope.tech" class="text-textBrand underline underline-offset-2">hello@monoscope.tech</a> or <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" rel="noopener noreferrer" class="text-textBrand underline underline-offset-2">book a call</a> with your numbers.
   - q: Where is my data stored?
-    a: In monoscope Cloud, in the US by default, and in the EU if you prefer. With your own bucket, the data sits in your account. Self-hosted, it never leaves your network.
+    a: In monoscope Cloud, in the US or the EU, your choice. With your own bucket, the data sits in your account. Self-hosted, it never leaves your network.
   - q: Are you SOC 2 or ISO 27001 certified?
     a: Not yet. We sign data processing agreements (DPAs) for GDPR, the code that handles your data is open source, and you can keep every event in your own bucket or on your own servers.
   - q: Is there a startup discount?

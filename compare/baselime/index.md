@@ -4,8 +4,8 @@ updatedDate: 2026-10-29
 title: monoscope vs Baselime (Cloudflare Workers Observability)
 description: Baselime joined Cloudflare in 2024 and became Workers Observability. Here is how monoscope compares for teams that run beyond Cloudflare Workers. A sourced comparison.
 ogImage: https://raw.githubusercontent.com/monoscope/.github/main/images/compare-og.png
-name: Baselime
-name_note: now Cloudflare Workers Observability
+name: Workers Observability
+name_note: Cloudflare, formerly Baselime
 headline: Baselime is now part of Cloudflare. Here’s how monoscope compares.
 lead: Cloudflare acquired Baselime in 2024, and its features now live in Workers Observability, built for apps on Cloudflare Workers. monoscope works with any stack through OpenTelemetry, keeps every request and response, and its AI SRE opens the fix.
 table_title: What you get, and what it costs

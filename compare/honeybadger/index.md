@@ -12,7 +12,7 @@ checked: October 2026
 them:
   - { s: part, t: "Request params on errors; response bodies not in public docs" }
   - { s: part, t: "Not in public docs" }
-  - { s: no, t: "No AI investigation in public docs" }
+  - { s: part, t: "No AI investigation in public docs" }
   - { s: part, t: "Query helper and MCP server; fix PRs not in public docs" }
   - { list: ["Free: 5,000 errors/month, 1 user", "$26/month Team: 50k errors", "$80/month Business"] }
   - { s: none }

@@ -23,7 +23,7 @@ fit_mono:
   - You want logs, traces, metrics and errors next to the payloads
   - You want an AI SRE that investigates and opens pull requests, priced per event
 fit_them:
-  - You publish APIs and want docs, governance and API analytics in one product
+  - You publish APIs and want API docs and API analytics in one product
   - You count your APIs and want a plan sized by them
 sources:
   - { t: "Plans and limits", url: "https://treblle.com/pricing" }

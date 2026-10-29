@@ -23,7 +23,7 @@ fit_mono:
   - You want logs, traces, metrics and errors priced per event, with no per-error tiers
   - You want an open-source (AGPL) platform or your data in your own bucket
 fit_them:
-  - Frontend and mobile crash reporting is your main need, with release health and source maps
+  - Frontend and mobile error tracking is your main need
   - Your team already triages everything in Sentry and only needs error tracking
 sources:
   - { t: "Plans, error, span and replay prices", url: "https://sentry.io/pricing/" }
