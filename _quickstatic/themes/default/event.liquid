@@ -1,0 +1,26 @@
+{% render "default/components/head", this:this, config:config %}
+{% render "default/components/nav", this:this, config:config %}
+{% assign fm = this.frontmatter %}{% assign when = fm.date | date: "%-d %B %Y" %}
+<main>
+  {% render "default/components/page-panel", tone: "brand", art: "fix-lighthouse.webp", eyebrow: fm.kind, title: fm.headline %}
+  <div class="wrap max-w-[80rem] pt-12 md:pt-16 pb-24 md:pb-32 grid lg:grid-cols-[minmax(0,1fr)_20rem] gap-10 lg:gap-16 items-start">
+    <aside class="lg:col-start-2 lg:row-start-1 lg:sticky lg:top-24 card rounded-2xl border border-strokeWeak p-6 space-y-5">
+      {% assign day = fm.date | date: "%Y-%m-%d" %}{% assign today = "now" | date: "%Y-%m-%d" %}{% if day < today %}<p class="tone-warning w-fit rounded-md px-2 py-0.5 bg-(--tone-weak) eyebrow font-mono text-[12px] uppercase tracking-wider">This event has passed</p>{% endif %}
+      <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-3 text-base">
+        <dt class="text-textWeak">Date</dt><dd class="text-textStrong">{{when}}</dd>
+        {% if fm.time %}<dt class="text-textWeak">Time</dt><dd class="text-textStrong">{{fm.time}}</dd>{% endif %}
+        {% if fm.duration %}<dt class="text-textWeak">Length</dt><dd class="text-textStrong">{{fm.duration}}</dd>{% endif %}
+        <dt class="text-textWeak">Where</dt><dd class="text-textStrong">{{fm.location}}</dd>
+      </dl>
+      {% if fm.link %}<a href="{{fm.link.href}}" target="_blank" rel="noopener noreferrer" class="btn w-full justify-center py-2.5 px-5 rounded-lg bg-fillBrand-strong text-textInverse-strong">{{fm.link.label}} <span aria-hidden="true">↗</span></a>{% endif %}
+      <a href="/events/" class="inline-flex items-center gap-2 text-base font-medium text-textBrand underline-offset-4 hover:underline"><span aria-hidden="true">←</span> All events</a>
+    </aside>
+    <article class="lg:col-start-1 lg:row-start-1 space-y-10">
+      <img src="{{fm.banner}}" alt="{{fm.banner_alt}}" class="w-full max-w-3xl rounded-2xl outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10">
+      <div class="prose prose-lg dark:prose-invert max-w-[65ch] prose-p:text-textWeak prose-li:text-textWeak prose-strong:text-textStrong prose-headings:text-textStrong prose-headings:font-semibold prose-h2:text-2xl prose-a:text-textBrand prose-a:underline-offset-4">
+        {{ this.content }}
+      </div>
+    </article>
+  </div>
+</main>
+{% render "default/components/foot", this:this, config:config %}
