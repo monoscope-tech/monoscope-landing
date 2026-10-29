@@ -107,7 +107,7 @@ All site visitors 30/90/180d · pricing viewers · compare/alternative viewers �
 
 ## Founder to-do (in order of payoff)
 
-1. **Reddit spend check (saves money now).** €40/day runs on Reddit. Test `GitHub_Traffic` honestly: pause it for 7 days, run `node brand/ads/report/stars.mjs` daily, and compare stars/day to the ~40/week organic baseline in `stars-daily.csv`. Keep it only if paid weeks beat that by more than spend ÷ €5 stars. Also remove the three 2023 "Traffic May 09" ads still marked active (they point at apitoolkit.io).
+1. **Reddit spend check (saves money now).** €40/day runs on Reddit. Test `GitHub_Traffic` honestly: pause it for 7 days, run `node brand/ads/report/stars.mjs` daily, and compare stars/day to the ~40/week organic baseline in `stars-daily.csv`. Extra stars per paid week = paid-week stars minus the paused-week stars; keep the campaign only if €210 ÷ extra stars is a price you accept per star.
 2. **Merge the app PR**, set the Meta CAPI dataset to `2333667580805655` with a token from Events Manager, and set the Reddit CAPI token. Then flip `signup_start` back to `rdt: ['Custom', 'SignupStart']` and switch the Reddit ad group to optimise on real `SignUp`.
 3. **Google:** log into the account that owns `AW-11285541899` and `GTM-TF4BQQ3D`; pause its click-based "Start for free" conversion (label `XFpwCN3Po7wZEIvoroUq`) as primary, add signup/activated as primary once the app PR ships.
 4. **Meta ad account** in the "monoscope" portfolio (pick currency: EUR matches Reddit billing), then: custom conversions GitHubStarIntent, SignupStart (secondary), Schedule; audiences visitors 30/90/180d, pricing, compare, docs, GitHub clickers.
