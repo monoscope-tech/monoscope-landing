@@ -125,7 +125,7 @@ In conclusion, while Treblle has laid a strong foundation in API monitoring, mon
 
 [How to Generate Automated API Documentation](https://monoscope.tech/blog/how-to-generate-automated-api-documentation/)
 
-[monoscope: Top Atatus Alternative for API Monitoring](https://monoscope.tech/blog/monoscope-top-atatus-alternative/)
+[monoscope: Top Atatus Alternative for API Monitoring](https://monoscope.tech/blog/apitoolkit-top-atatus-alternative/)
 
 [API Documentation vs Specification: What It Means for You](https://monoscope.tech/blog/api-documentation-vs-api-specification/)
 

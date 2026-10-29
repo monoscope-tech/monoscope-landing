@@ -35,7 +35,7 @@ sections:
       - title: "What the customer saw"
         icon: circle-play
         body: "If the error came from a browser or Flutter app with replay on, open the session and scrub to the click that fired the request."
-    link: /docs/features/error-tracking/
+    link: /docs/dashboard/dashboard-pages/issues/
     link_label: "How error tracking works"
   - id: detect
     icon: eye

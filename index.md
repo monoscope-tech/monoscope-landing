@@ -355,7 +355,7 @@ capabilities:
     visual_alt: "Response body, request body and headers tabs showing a 500 error with code, message and collapsed details."
     link_label: "Explore requests and traces"
     details: "Payloads, telemetry and everything else that explains the failure."
-    link: /features/api-logs-and-metrics/
+    link: /features/logs-and-traces/
   - icon: bar-chart
     group: watch
     title: "Metrics and dashboards"

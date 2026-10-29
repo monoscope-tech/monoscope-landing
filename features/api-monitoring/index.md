@@ -35,7 +35,7 @@ sections:
       - title: "Full bodies, never sampled"
         icon: align-left
         body: "Headers, request body and response body for each call, linked to the trace and logs around it. Bodies don't add to the price."
-    link: /docs/dashboard/dashboard-pages/outgoing-integrations/
+    link: /docs/dashboard/dashboard-pages/api-catalog/
     link_label: "Monitor outgoing calls"
   - id: changes
     icon: eye
@@ -58,7 +58,7 @@ sections:
       - title: "Your own deploys too"
         icon: rocket
         body: "A deploy that renames a field your mobile app still reads is caught in the response, before the app store reviews do."
-    link: /docs/dashboard/dashboard-pages/changes-errors/
+    link: /docs/dashboard/dashboard-pages/issues/
     link_label: "How change detection works"
   - id: proof
     icon: database

@@ -274,7 +274,7 @@ $app->run();
 
 ## Monitoring Outgoing Requests
 
-Outgoing requests are external API calls you make from your API. By default, monoscope monitors all requests that your application makes, and they appear on the [Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. To see only outgoing requests, open the **Outgoing** tab of the [API Catalog](/docs/dashboard/dashboard-pages/outgoing-integrations/). Each outgoing request links to the incoming request that triggered it.
+Outgoing requests are external API calls you make from your API. By default, monoscope monitors all requests that your application makes, and they appear on the [Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. To see only outgoing requests, open the **Outgoing** tab of the [API Catalog](/docs/dashboard/dashboard-pages/api-catalog/). Each outgoing request links to the incoming request that triggered it.
 
 To monitor outgoing HTTP requests from your application, call the `observeGuzzle` method of the `APIToolkitSlim` class with the `$request` and an `$options` array:
 

@@ -330,7 +330,7 @@ class AttachIdentityMiddleware:
 
 ## Monitoring HTTPX requests
 
-Outgoing requests are external API calls you make from your API. By default, Monoscope monitors all requests users make from your application and they will all appear in the [Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. To see only outgoing requests, open the **Outgoing** tab of the [API Catalog](/docs/dashboard/dashboard-pages/outgoing-integrations/). Each outgoing request links to the incoming request that triggered it.
+Outgoing requests are external API calls you make from your API. By default, Monoscope monitors all requests users make from your application and they will all appear in the [Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. To see only outgoing requests, open the **Outgoing** tab of the [API Catalog](/docs/dashboard/dashboard-pages/api-catalog/). Each outgoing request links to the incoming request that triggered it.
 
 To monitor outgoing HTTP requests from your application, use the `observe_request` function from the `monoscope_django` module, passing in the `request` argument, like so:
 
