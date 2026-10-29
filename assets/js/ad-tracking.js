@@ -30,13 +30,13 @@
   }
 
   const kind = u => u.hostname == 'calendar.app.google' ? 'demo_booked'
-    : u.hostname == 'app.monoscope.tech' ? 'signup_start'
+    : u.hostname == 'app.monoscope.tech' && !u.pathname.startsWith('/p/') ? 'signup_start'
     : /^(www\.)?github\.com$/.test(u.hostname) && /^\/monoscope-tech\/monoscope(\/|$)/i.test(u.pathname) ? 'github_star_intent' : null;
   const url = a => { try { return new URL(a.href); } catch { return null; } };
 
   ['click', 'auxclick'].forEach(t => document.addEventListener(t, e => {
     const a = e.target.closest?.('a[href]'), u = a && url(a), k = u && kind(u);
-    k && track(k, { label: a.textContent.trim().slice(0, 80), url: a.href });
+    k && !(k == 'signup_start' && /^log\s?in$/i.test(a.textContent.trim())) && track(k, { label: a.textContent.trim().slice(0, 80), url: a.href });
   }, true));
   document.addEventListener('submit', e => {
     const f = e.target;
