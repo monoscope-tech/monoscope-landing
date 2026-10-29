@@ -35,7 +35,7 @@ curl https://monoscope.tech/install.sh | sh -s v1.2.3
 ### Custom install location
 
 ```sh
-MONOSCOPE_INSTALL_DIR=/usr/local/bin curl https://monoscope.tech/install.sh | sh
+curl https://monoscope.tech/install.sh | MONOSCOPE_INSTALL_DIR=/usr/local/bin sh
 ```
 
 ### Upgrading

@@ -1,7 +1,7 @@
 ---
 title: Glossary
 date: 2023-11-27
-updatedDate: 2026-10-01
+updatedDate: 2026-10-29
 faLogo: book-bookmark
 menuWeight: 6
 hideFileTree: true
@@ -11,11 +11,7 @@ hideFromNav: true
 
 # Glossary
 
-The following terms are used in [monoscope's documentation](/docs/) to describe different API monitoring and observability concepts.
-
-```=html
-<hr />
-```
+The following terms are used in [monoscope's documentation](/docs/) for API monitoring and observability.
 
 ## API (Application Programming Interface)
 
@@ -212,6 +208,10 @@ A GET request is a type of HTTP request that is used to retrieve data from a ser
 
 An idempotent API is a type of application programming interface that can be called multiple times without causing different outcomes or side effects. This means that regardless of how many times the API is invoked, the result will be the same as if it were only called once. It ensures consistency and reliability in the execution of operations. Idempotent APIs are particularly important in distributed systems where the same request might be accidentally sent multiple times due to network issues or other uncertainties.
 
+## Issue
+
+An issue is a group of events that need a person to look at them, such as a new error, an API change, or a monitor that fired. monoscope groups matching events into one issue with a count. See [Issues](/docs/dashboard/dashboard-pages/issues/).
+
 ## JSON (JavaScript Object Notation)
 
 JSON is a lightweight data-interchange format that is easy for humans to read and write, as well as easy for machines to parse and generate. JSON is widely used for transmitting data between a server and a web application, or between different parts of a web application. Its simplicity and effectiveness in structuring data have made it a popular choice in API development, particularly for APIs that are used in web services and applications.
@@ -222,7 +222,7 @@ JSONPath is a query language used to select and extract data from JSON files. It
 
 ## KQL (Kusto Query Language)
 
-KQL is a pipe-based query language for logs and metrics. Monoscope uses a subset of KQL in the Log Explorer, dashboards, alerts, the CLI, and the MCP server. See the [query language reference](/docs/dashboard/dashboard-pages/query-language/).
+KQL is a pipe-based query language for logs and metrics. Monoscope uses a subset of KQL in the Explorer, dashboards, monitors, the CLI, and the MCP server. See the [query language reference](/docs/dashboard/dashboard-pages/query-language/).
 
 ## Latency
 
@@ -232,13 +232,25 @@ Latency is the amount of time it takes for a packet of data to travel from one p
 
 Load Balancing is a process in computer networks and applications that distributes workloads across multiple computing resources, such as servers or network links, to optimize resource use, maximize throughput, reduce response time, and avoid overload on any single resource.
 
+## Log Pattern
+
+A log pattern is a group of log messages that have the same shape after the variable parts, such as IDs and numbers, are removed. Patterns make it possible to count and alert on similar messages.
+
 ## Microservices Architecture
 
 Microservices architecture is an approach to software development where an application is built as a collection of small, loosely coupled services that can be independently developed, deployed, and scaled. Each service is responsible for a specific business capability and communicates with other services through lightweight mechanisms, such as APIs. This architecture allows for flexibility, scalability, and easier maintenance of complex applications.
 
+## Monitor
+
+A monitor runs a query on a schedule and sends an alert when the result crosses a threshold. See [Monitors](/docs/dashboard/dashboard-pages/monitors/).
+
 ## OpenAPI Specification
 
 OpenAPI Specification (previously known as the Swagger Specification) is a standardized format used for describing and documenting RESTful APIs. It provides a clear and machine-readable way to define the endpoints, request/response formats, and authentication methods of an API. This specification enables both humans and computers to discover and understand the capabilities of a service.
+
+## OpenTelemetry
+
+OpenTelemetry (OTel) is an open standard and a set of SDKs for logs, traces and metrics. monoscope receives OpenTelemetry data, so any OpenTelemetry SDK or Collector can send data to it.
 
 ## Outgoing Request
 
@@ -276,6 +288,10 @@ The practice of limiting the number of API requests a user can make in a given t
 
 A RESTful API is a type of application programming interface that follows the principles of Representational State Transfer (REST). It allows communication between different software systems over the internet using standard HTTP methods like GET, POST, PUT, DELETE, and others. RESTful API is stateless, meaning each HTTP request happens independently and does not depend on previous requests, and is widely used due to its simplicity, efficiency, and ability to build web services that are lightweight and maintainable.
 
+## Routine
+
+A routine is an AI review of your project that runs on a schedule and posts what it finds. See [Routines](/docs/ai/routines/).
+
 ## SaaS API
 
 SaaS API refers to a software-as-a-service application programming interface. It is a set of rules and protocols that allows different software applications to communicate and interact with each other. This enables developers to integrate third-party services or build custom applications on top of a SaaS platform.
@@ -284,9 +300,21 @@ SaaS API refers to a software-as-a-service application programming interface. It
 
 Serverless Architecture is a design pattern where the management of servers and infrastructure is fully abstracted away, allowing developers to focus purely on the individual functions in their application code.
 
+## Service Map
+
+A service map is a diagram of your services and the calls between them, built from traces. See [Service Map](/docs/dashboard/dashboard-pages/metrics/#Service-Map).
+
+## Session Replay
+
+Session replay records what a user did in the browser and plays it back. See [Session Replay and RUM](/docs/dashboard/dashboard-pages/session-replay/).
+
 ## SOAP API
 
 SOAP API is an acronym for Simple Object Access Protocol API. It's a communication protocol that allows different software systems to exchange data over the internet using the Simple Object Access Protocol (SOAP). It uses XML for message format and HTTP for transport, and it's known for its extensibility and independence from operating systems, making it versatile for various applications.
+
+## Span
+
+A span is one unit of work in a trace, such as an HTTP request or a database query. It has a start time, a duration, attributes and a status.
 
 ## Streaming API
 
@@ -299,6 +327,10 @@ A method in API security where a token is used to verify identity and grant acce
 ## Throughput
 
 Throughput refers to the rate at which an amount of data is transmitted over a given period.
+
+## Trace
+
+A trace is the record of one request as it moves through your services. It is a tree of spans. See [Traces](/docs/dashboard/dashboard-pages/traces/).
 
 ## Webhook
 

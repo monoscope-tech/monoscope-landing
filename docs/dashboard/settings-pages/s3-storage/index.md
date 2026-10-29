@@ -1,12 +1,12 @@
 ---
-title: Storage (Your Own Bucket)
+title: Storage
 ogTitle: Configure Your Own S3 Bucket - Monoscope
 date: 2026-01-26
 updatedDate: 2026-10-29
 menuWeight: 6
 ---
 
-# Storage (Your Own Bucket)
+# Storage: Your Own S3 Bucket
 
 Connect your own S3 or S3-compatible bucket and Monoscope uses it as the database for your project. Every request and response payload, log, span, metric and session replay is written to your bucket, and Monoscope queries it from there.
 

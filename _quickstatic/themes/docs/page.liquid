@@ -306,6 +306,7 @@
       }
       @media (min-width: 640px) {
         .docs-grid { grid-template-columns: 1fr 1fr; }
+        .docs-grid > :last-child:nth-child(odd) { grid-column: 1 / -1; }
       }
       .docs-grid__cell {
         display: flex;
