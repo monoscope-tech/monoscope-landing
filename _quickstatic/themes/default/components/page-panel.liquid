@@ -1,0 +1,25 @@
+{% comment %}Page header on a tinted inset panel with a painted strip, as on the homepage. Params: tone, art, eyebrow, title, lead (optional), art_pos (optional object-position class).{% endcomment %}
+<style>
+  .eyebrow { color: color-mix(in oklab, var(--tone) 72%, black); }
+  [data-theme="dark"] .eyebrow { color: var(--tone); }
+  body { --card-bg: #fff; --card-shadow: 0 1px 2px oklch(0 0 0 / .04); }
+  [data-theme="dark"] { --card-bg: color-mix(in oklab, var(--color-bgBase), var(--color-bgRaised) 55%); --card-shadow: none; }
+  .card { background: var(--card-bg); box-shadow: var(--card-shadow); }
+  a.card { transition: border-color .15s ease, box-shadow .15s ease; }
+  @media (hover: hover) and (pointer: fine) { a.card:hover { border-color: var(--color-strokeStrong); box-shadow: 0 4px 16px -8px oklch(0 0 0 / .15); } }
+  [data-theme="light"] main a.text-textBrand { color: #005bd1; }
+</style>
+<link rel="stylesheet" href="/assets/css/home-motion.css?v=3">
+<script defer src="/assets/js/home-motion.js?v=3"></script>
+<section class="tone-{{tone}} relative w-full mt-(--inset)">
+  <div aria-hidden="true" class="absolute inset-y-0 left-1/2 -translate-x-1/2 panel-w rounded-[2rem] overflow-hidden bg-(--tone-panel) border border-(--tone-weak)">
+    <img src="/assets/img/home/art/{{art}}" alt="" data-art class="absolute inset-x-0 bottom-0 w-full h-48 md:h-72 object-cover {% if art_pos %}{{art_pos}}{% else %}object-left-bottom{% endif %} dark:opacity-60 [mask-image:linear-gradient(to_top,black_30%,rgb(0_0_0/.8)_44%,rgb(0_0_0/.52)_58%,rgb(0_0_0/.26)_72%,rgb(0_0_0/.09)_86%,transparent)]">
+  </div>
+  <div class="relative wrap max-w-[80rem] pt-24 md:pt-36 pb-52 md:pb-80">
+    <div class="space-y-6 max-w-3xl [&>p:first-child]:mb-3.5">
+      <p class="inline-flex rounded-md px-2.5 py-1 eyebrow font-mono text-[12px] uppercase tracking-wider bg-(--tone-weak)">{{eyebrow}}</p>
+      <h1 class="text-4xl md:text-6xl font-medium tracking-tight leading-[1.15] text-balance text-textStrong">{{title}}</h1>
+      {% if lead %}<p class="max-w-[60ch] text-lg md:text-xl leading-[1.65] text-textWeak text-pretty">{{lead}}</p>{% endif %}
+    </div>
+  </div>
+</section>
