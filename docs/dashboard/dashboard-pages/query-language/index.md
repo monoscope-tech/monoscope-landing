@@ -1,21 +1,21 @@
 ---
 title: Query Language
 date: 2026-10-01
-updatedDate: 2026-10-01
-menuWeight: 8
+updatedDate: 2026-10-29
+menuWeight: 11
 ---
 
 # Query Language Reference
 
-Monoscope uses a subset of the Kusto Query Language (KQL) to search and aggregate logs, traces, and metrics. The same dialect runs in the Log Explorer editor, dashboard widgets, alert monitors, the [CLI](/docs/ai/cli/commands/), and the [MCP server](/docs/ai/mcp/).
+Monoscope uses a subset of the Kusto Query Language (KQL) to search and aggregate logs, traces, and metrics. The same dialect runs in the Explorer, dashboard widgets, alert monitors, the [CLI](/docs/ai/cli/commands/), and the [MCP server](/docs/ai/mcp/).
 
 A query is an optional data source, a filter expression, and zero or more pipe operators. Each pipe (`|`) passes its output to the next step.
 
-```
+```kql
 [source] [filter_expression] [| pipe_operator]...
 ```
 
-```
+```kql
 spans
 | where attributes.http.request.method == "GET" and attributes.http.response.status_code >= 400
 | summarize count() by attributes.http.response.status_code
@@ -36,7 +36,7 @@ spans
 |---|---|---|
 | `==`, `!=` | Equal, not equal | `status_code != 200` |
 | `>`, `<`, `>=`, `<=` | Numeric comparison | `duration > 1000` |
-| `has`, `!has` | Contains a whole word (case-insensitive) | `body has "timeout"` |
+| `has`, `!has` | Contains a substring (case-insensitive, same as `contains`) | `body has "timeout"` |
 | `contains`, `!contains` | Contains a substring (case-insensitive) | `attributes.url.path contains "/api"` |
 | `startswith`, `!startswith` | Starts with a string | `resource.service.name startswith "payment-"` |
 | `endswith`, `!endswith` | Ends with a string | `attributes.url.path endswith ".json"` |
@@ -44,9 +44,20 @@ spans
 | `matches`, `=~` | Slash regex, case-insensitive | `body =~ /^ERROR:.*/` |
 | `in`, `!in` | Value is (not) in a list | `attributes.http.request.method in ("GET", "POST")` |
 | `has_any`, `has_all` | Contains any / all of the words | `body has_any ["error", "critical"]` |
-| `and`, `or`, `()` | Logical operators and grouping | `(status_code >= 500) or (duration > 5000)` |
+| `and`, `or`, `()` | Logical operators (also `AND`, `OR`) and grouping | `(status_code >= 500) or (duration > 5000)` |
 
 Precedence is `()`, then `and`, then `or`. Use `==` for equality, not Lucene's `:`.
+
+### Free-Text Search
+
+A quoted string on its own searches the message fields that a person reads: `body`, `status_message` and `name`. The search is case-insensitive. An unquoted word is a field name, not a search term.
+
+```kql
+"deadlock"                       // the message contains "deadlock"
+"deadlock" "retry"               // the message contains both words
+"try restarting transaction"     // the words in this order
+"deadlock" and resource.service.name == "api"
+```
 
 ## Pipe Operators
 
@@ -59,7 +70,7 @@ Precedence is `()`, then `and`, then `or`. Use `==` for equality, not Lucene's `
 | `sort by` / `order by` | `sort by field desc` | Order results (`asc` or `desc`). |
 | `take` / `limit` | `take N` | Limit the number of rows. |
 
-```
+```kql
 | summarize avg(duration), max(duration) by resource.service.name, name
 | extend duration_ms = round(duration / 1e6, 2)
 | project service = resource.service.name, attributes.http.response.status_code
@@ -115,7 +126,7 @@ Metric points need different aggregations depending on the metric type. These fu
 
 **`rateif`, `increaseif` and `lastif`** take a predicate that selects which series are added together for that one aggregate. Each series still calculates its differences from its own points, so two of these aggregates can divide each other. Write the predicate on columns that are the same for every point of a series: `metric_name`, `attributes.*` or `resource.*`. Do not filter on `value` or `timestamp` in the predicate. Keep the `where` wide enough to include every series that the aggregates use. A division by 0 gives 0.
 
-```
+```kql
 // Rollup hit rate in percent: hits / (hits + misses)
 metrics
 | where metric_name in ("rollup.hits", "rollup.misses")
@@ -144,7 +155,7 @@ Choose the aggregation from the OpenTelemetry metric type:
 | A ratio of counters or of gauges | `rateif(value, …) / rate(value)`, `lastif(value, …) / lastif(value, …)` | `sum(value)` ratios of cumulative values |
 | Histogram | `percentile`, `percentiles`, `p50` ... `p99` | |
 
-```
+```kql
 // Requests per second
 metrics | where metric_name == "http.server.request.count" | summarize rate(value) by bin_auto(timestamp)
 
@@ -164,11 +175,14 @@ metrics | where metric_name == "process.memory.usage" | summarize last(value) by
 |---|---|---|
 | `strcat(s1, s2, ...)` | Concatenate strings | `strcat(attributes.http.request.method, " ", attributes.url.path)` |
 | `coalesce(v1, v2, ...)` | First non-null value | `coalesce(user_id, "anonymous")` |
-| `iff(cond, then, else)` | If-then-else | `iff(status_code >= 400, "error", "ok")` |
+| `iff(cond, then, else)`, `iif` | If-then-else | `iff(status_code >= 400, "error", "ok")` |
+| `isnull(v)`, `isnotnull(v)` | The value is (not) null | `isnotnull(attributes.user.id)` |
+| `isempty(v)`, `isnotempty(v)` | The value is (not) null or an empty string | `isnotempty(attributes.exception.type)` |
 | `case(p1, v1, ..., else)` | Multi-branch conditional | `case(status_code >= 500, "5xx", status_code >= 400, "4xx", "ok")` |
 | `tofloat`, `todouble` | Convert to float | `tofloat(errors) / tofloat(total)` |
 | `toint`, `tolong` | Convert to integer | `toint(duration / 1e6)` |
 | `tostring` | Convert to text | `tostring(status_code)` |
+| `tobool` | Convert to a boolean | `tobool(attributes.cache.hit)` |
 | `round(value, decimals)` | Round to N decimal places | `round(error_rate, 2)` |
 
 ## Time Functions
@@ -217,13 +231,13 @@ Values can be strings (`"GET"` or `'GET'`), numbers, `true`/`false`, `null`, lis
 
 Name a result with `alias=function(...)`. Without an alias, the column gets a default name: `count()` is `count_`, `countif(...)` is `countif_`, and other functions use `function_field`, for example `avg_duration` or `p95_duration`.
 
-```
+```kql
 | summarize total=count(), errors=countif(status_code >= 400), p99_latency=p99(duration) by resource.service.name
 ```
 
 ## Examples
 
-```
+```kql
 // Error rate by service over the last day
 timestamp >= ago(24h)
 | summarize total=count(), errors=countif(status_code >= 400), error_rate=round(countif(status_code >= 400) * 100.0 / count(), 2) by resource.service.name

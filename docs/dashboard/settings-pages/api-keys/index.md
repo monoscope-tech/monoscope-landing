@@ -1,62 +1,36 @@
 ---
 title: API Keys
 date: 2024-04-22
-updatedDate: 2025-05-14
-menuWeight: 3
+updatedDate: 2026-10-29
+menuWeight: 2
 ---
 
 # API Keys
 
-In this guide, you will learn how to effectively navigate through the **API Keys** page on the monoscope dashboard and maximize all the powerful features accessible in it. (A video guide is at the bottom of this page).
+An API key connects your services to one monoscope project. Your SDKs and the OpenTelemetry Collector send it with the telemetry, and the [CLI](/docs/ai/cli/), the [MCP server](/docs/ai/mcp/) and the [REST API](/docs/api-reference/) use it to authenticate. Open **Settings** → **API Keys**.
 
 ```=html
-<hr />
+{% render "docs/components/shot", name: "settings-api-keys", alt: "The API keys page with the title, creation date and masked value of each key" %}
 ```
 
-On this page, you view, revoke, and copy all your API keys or create new ones.
+A project editor or admin can create, reveal and manage API keys.
 
-To get to this page, kindly click on **`Settings`** located at the bottom-left section of the dashboard and then click on **`API Keys`**.
+## Create a Key
 
-![Screenshot of monoscope's API keys page](/docs/dashboard/settings-pages/api-keys/api-keys-1.png)
+1. Click **New Key**.
+2. Enter a **Key title** that says where the key is used, for example `checkout-production`.
+3. Click **Create key**.
+4. Click **Copy key** and put the key in your service configuration.
 
-To create a new API key, click on the **`Create an API key`** button, input a title and click on **`Create key`**.
+Use a different key for each service or environment. Then you can revoke one key without stopping the others.
 
-![Screenshot of monoscope's API keys page](/docs/dashboard/settings-pages/api-keys/api-keys-2.png)
-
-A new API key will be generated for you.
-
-![Screenshot of monoscope's API keys page](/docs/dashboard/settings-pages/api-keys/api-keys-3.png)
-
-You can also revoke API keys. Hover on the API key you want to revoke, then click on **`Revoke`**.
-
-NOTE: All revoked API keys can be found under the **Archived keys** tab.
-
-![Screenshot of monoscope's API keys page](/docs/dashboard/settings-pages/api-keys/api-keys-4.png)
-
-
-Video guide:
+## Revoke a Key
 
 ```=html
-<iframe
-  class="w-full h-48 md:h-96 lg:h-96 xl:h-96"
-  src="https://www.youtube.com/embed/4YG1CtHojN4?si=qR_CYehlPqZwJ-Ha"
-  title="How to Use monoscope API Keys"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
-  allowfullscreen
-  ></iframe>
+<div class="callout">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p>monoscope rejects telemetry sent with a revoked key. Before you revoke a key, replace it in every service that uses it.</p>
+</div>
 ```
 
-```=html
-<hr />
-```
-
-
-
-```=html
-<hr />
-<a href="/docs/dashboard/settings-pages/integrations/" class="w-full btn btn-outline link link-hover">
-    Next: Integrations
-    <i class="fa-regular fa-arrow-right mr-4"></i>
-</a>
-```
+Click **Revoke key** next to the key, then confirm. Revoked keys move to **Archived keys**. To use a revoked key again, open **Archived keys** and click **Activate key**.

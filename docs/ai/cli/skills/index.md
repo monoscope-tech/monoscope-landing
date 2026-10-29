@@ -1,14 +1,14 @@
 ---
 title: Claude Code Skills
 date: 2026-05-02
-updatedDate: 2026-10-01
+updatedDate: 2026-10-29
 faLogo: robot
 menuWeight: 4
 ---
 
 # Claude Code Skills
 
-Three drop-in skills that turn natural-language requests into well-formed
+Five drop-in skills that turn natural-language requests into well-formed
 CLI invocations. A
 [skill](https://docs.claude.com/en/docs/claude-code/skills) is a named
 bundle of instructions plus shell access that Claude Code loads on
@@ -28,6 +28,8 @@ applies its playbook.
 |---|---|---|
 | **investigate** | "investigate the 500 errors", "look into payment-api errors", "what happened at 10:34?" | Runs the discover → search → context → triage chain. Uses `facets` to find services/values, `logs search` to drill in, `events context --summary` to pull the surrounding window. |
 | **triage** | "do an on-call sweep", "ack the noisy issues for X", "clear the alert queue" | Reviews open issues, log patterns, and monitors. Acknowledges, archives, mutes, or resolves with the right granularity. |
+| **manage** | "alert me when checkout errors pass 50", "create a dashboard for the payments service", "add a widget" | Creates and changes monitors and dashboards as code with the CLI, so you can keep them in version control. |
+| **instrument** | "add tracing to this app", "send my logs to monoscope", "set up OpenTelemetry" | Adds OpenTelemetry to your application and configures the exporter to send traces, logs and metrics to monoscope. |
 | **kql-reference** | Any time another skill needs to write KQL | Operator/function reference for Monoscope's KQL dialect (also on this site as the [query language reference](/docs/dashboard/dashboard-pages/query-language/)). Rarely invoked directly — other skills pull it in for query construction. |
 
 The skills are open-source and live at

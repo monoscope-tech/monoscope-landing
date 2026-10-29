@@ -1,33 +1,26 @@
 ---
 title: Reports
 date: 2024-04-22
-updatedDate: 2024-05-07
+updatedDate: 2026-10-29
 menuWeight: 9
 ---
 
-# Reports Page
+# Reports
 
-In this guide, you will learn how to effectively navigate through the **Reports** page on the monoscope dashboard and maximize all the powerful features accessible in it.
+A report sums up one period of your project: how many events and errors came in, which issues need review, which monitors are alerting, and how each service compares with the period before. Open **Reports** in the sidebar to see them.
 
-```=html
-<hr />
-```
+## What a Report Contains
 
-On this page, you will find a history of all the email notification reports sent to members of the project. These reports will include a summary of detected anomalies and some performance details. You can choose to receive these reports daily or weekly by selecting any of the options at the top-left section of the page.
+- **This week**: telemetry events, error events (with the error rate), the number of named services, and server requests.
+- **Items that need review**: unacknowledged and critical issues, issues created in the period, and monitors that are alerting. Each item links to the page where you can act on it.
+- **Services**: one block per service, ordered by error events and then by activity. Each block shows events, error events, requests and average request time, compared with the previous period of the same length.
 
-![Screenshot of monoscope's report page](/docs/dashboard/dashboard-pages/reports/screen.png)
+## Scheduled Reports
 
-```=html
-<div class="callout">
-  <i class="fa-regular fa-lightbulb"></i>
-  <p>Aside from the general reports, monoscope will also send you transactional emails for when you create a new project, when a new member is added to a project, when you delete a project, and when a new anomaly is detected.</p>
-</div>
-```
+monoscope makes a weekly report every Monday. Each report stays on the **Reports** page, newest first.
 
-```=html
-<hr />
-<a href="/docs/dashboard/settings-pages/project-settings/" class="w-full btn btn-outline link link-hover">
-    Next: Project Settings
-    <i class="fa-regular fa-arrow-right mr-4"></i>
-</a>
-```
+To receive reports by email, open **Settings** → **Project** and turn on **Weekly reports**, **Daily reports**, or both. Then click **Save Changes**.
+
+## Live Reports
+
+To get a report for the last 7 days now, click **Generate live report** at the top of the **Reports** page. A live report can take a few minutes to prepare.

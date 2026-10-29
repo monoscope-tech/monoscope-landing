@@ -1,103 +1,64 @@
 ---
-title: Dashboard
+title: Dashboards
+ogTitle: Dashboards - Charts, Templates and Dashboards as Code
 date: 2024-04-22
-updatedDate: 2024-05-03
-menuWeight: 2
+updatedDate: 2026-10-29
+menuWeight: 4
 ---
 
-# Dashboard Page
+# Dashboards
 
-In this guide, you will learn how to effectively navigate through the **Dashboard** page on the monoscope dashboard and maximize all the powerful features accessible in it.
-
-```=html
-<hr />
-```
-
-On this page, you will find a summary of all the API analytics, including requests, anomalies, endpoints, etc. alongside all the requests visualized by status code, errors, endpoint, and latency percentiles. You can filter the data using the toggle at the top-left section of the page from the **Last Hour**, **Last 24 Hours**, **Last 7 Days**, **Last 14 Days**, or input a **custom date range** (the default is **Last 7 Days**).
-
-![Screenshot of monoscope's dashboard page](/docs/dashboard/dashboard-pages/dashboard/dashboard-page-new.png)
-
-This page is split into two parts, **Ongoing Anomalies and Monitors** and **Analytics**.
-
-## Ongoing Anomalies and Monitors
-
-This section displays a quick summary of all ongoing anomalies detected from different request types on your API, including the endpoints they were detected on, and the new, updated, or deleted fields detected. You can view all the anomalies alongside errors in more detail on the [Changes & Error](/docs/dashboard/changes-errors/) page.
-
-![Screenshot of monoscope's dashboard page](/docs/dashboard/dashboard-pages/dashboard/changes-and-errors.png)
+A dashboard is a page of charts, tables and stats that run queries on your logs, spans and metrics. Each project starts with built-in dashboards, and you can add your own. Open **Dashboards** in the sidebar.
 
 ```=html
-<div class="callout">
-  <i class="fa-solid fa-book"></i>
-  <p>An <b>anomaly</b> is any user activity (requests) on your API that is significantly different from previously tracked activities. This might surface as increased response times, error rates, or downtimes, and can be caused by a variety of conditions such as API changes, server issues, network issues, or security threats.</p>
-</div>
+{% render "docs/components/shot", name: "dashboard-overview", alt: "The Overview dashboard with traffic, P95 latency, error rate and a services health table" %}
 ```
 
-## API Analytics
+## Built-in Dashboards
 
-This section displays some data analysis and visualization from all the requests tracked from your API. Have you ever seen a website tracking analytics dashboard like Google Analytics or Fathom? This is similar but instead of getting analytics for your website, you get for your API! This section includes the following parameters described below.
-
-### Data Counts
-
-- **Requests**: Total number of requests in the past two weeks.
-- **Anomalies**: Total number of anomalies still active this week vs the last week.
-- **Endpoints**: Total number of endpoints now vs the last week.
-- **Request Shapes**: Total number of request signatures that are active now vs the last week.
-- **Requests per minute**: Total number of requests per minute this week vs the last week.
-
-![Screenshot of monoscope's dashboard page](/docs/dashboard/dashboard-pages/dashboard/section-2.png)
-
-### Graphs
-
-- **Requests by Status Code**: HTTP status code distribution for all requests.
-- **Latency Percentiles**: Response time distribution at the 50th, 75th, and 90th percentiles.
-- **Errors**: Requests with error status responses grouped by status code.
-- **Requests by Endpoint**: All requests grouped by endpoint.
-- **Request Latency Distribution**: Summary of the response time distribution.
+- **Overview** shows the golden signals for the project: traffic, P95 latency, error rate and Apdex score. It also has a **Services Health** table and tabs for **Service**, **Logs**, **Databases** and **Infra**.
+- **Endpoint Analytics** shows traffic, latency and status codes for each endpoint.
+- **Real User Monitoring** shows page views, browser errors, web vitals and sessions from the [browser SDK](/docs/sdks/Javascript/browser/).
 
 ```=html
-<div class="callout">
-  <i class="fa-regular fa-lightbulb"></i>
-  <p>You can hover on all the graphs or click on the options below them to access more filtering options and data previews.</p>
-</div>
+{% render "docs/components/shot", name: "dashboard-service", alt: "A service dashboard with traffic, latency and status code charts" %}
 ```
 
-![Screenshot of monoscope's dashboard page](/docs/dashboard/dashboard-pages/dashboard/graphs.png)
+Use the filters at the top of a dashboard, such as **Service**, to narrow every widget at the same time. Click **Save view** to keep a set of filters.
 
-```=html
-<div class="callout">
-  <i class="fa-solid fa-book"></i>
-  <p><b>Latency</b> is the amount of time it takes for a packet of data to travel from one place (source) to another (destination).</p>
-</div>
+## Create a Dashboard
+
+1. On the **Dashboards** page, click **New Dashboard**.
+2. Select **Find a template** to start from a template, or **Blank dashboard** to start empty.
+3. Click **Add widget**. Write a [query](/docs/dashboard/dashboard-pages/query-language/), select the widget type, and give the widget a name.
+
+Templates include PostgreSQL, MySQL, Redis, RabbitMQ, Elasticsearch, Kubernetes, Docker, Nginx, Apache, HAProxy, the OpenTelemetry Collector, host metrics and more.
+
+Widget types include time series (bars, lines or a stat with a chart), stat, table, top list, distribution, heatmap, pie chart, tree map, funnel, geo map, flame graph, service map, logs and an issues list. A **group** widget holds other widgets.
+
+## Alert from a Widget
+
+Each widget can have a monitor. Open the widget menu and click **Set up a monitor**. The monitor uses the widget query. Select **Show threshold lines** to draw the alert and warning thresholds on the chart. See [Monitors](/docs/dashboard/dashboard-pages/monitors/).
+
+## Dashboards as Code
+
+Every dashboard is a YAML file. Click **Edit YAML** to edit it in the browser, or use **Export** and **Import** to move a dashboard between projects.
+
+```yaml
+title: Checkout
+refresh_interval: 60s
+widgets:
+  - type: timeseries
+    title: Requests by status code
+    query: resource.service.name == "checkout" | summarize count(*) by bin_auto(timestamp), attributes.http.response.status_code
+    unit: reqs
+    layout: { w: 6, h: 4 }
+  - type: stat
+    title: Errors
+    query: resource.service.name == "checkout" and level == "ERROR" | summarize count(*)
+    layout: { w: 3, h: 2 }
 ```
 
-```=html
-<div class="callout">
-  <i class="fa-solid fa-book"></i>
-  <p>A <b>percentile</b> is a statistical term that indicates the value below which a specific percentage of data points fall in comparison to the remainder of the data. For example, a value at the 75th percentile indicates that 75% of the data points are below that value and 25% are above it. Percentiles are commonly used to analyze the distribution of a dataset and to identify outliers or anomalies. Common percentiles include: 25th percentile (Q1), 50th percentile (median or Q2), 75th percentile (Q3), 90th percentile, 95th percentile, and 99th percentile.</p>
-</div>
-```
+A dashboard can also have `tabs` and `variables`. A variable adds a filter at the top of the dashboard, and widget queries can use its value.
 
-```=html
-<hr />
-```
-
-Here's a quick video overview for a visual walkthrough of this page:
-
-```=html
-<iframe
-  class="w-full h-48 md:h-96 lg:h-96 xl:h-96"
-  src="https://www.youtube.com/embed/blf34G9baP8?si=rwQ6Hwg3QEtSXAOW"
-  title="YouTube Video Player: monoscope OpenAPI Spec Documentation"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
-  allowfullscreen
-  ></iframe>
-```
-
-```=html
-<hr />
-<a href="/docs/dashboard/dashboard-pages/endpoints/" class="w-full btn btn-outline link link-hover">
-    Next: Endpoints Page
-    <i class="fa-regular fa-arrow-right mr-4"></i>
-</a>
-```
+To keep dashboards in your Git repository, use **Repository sync**. monoscope then manages the dashboards in a folder of the repository through pull requests. Coding agents can also create and change dashboards with the [CLI](/docs/ai/cli/) or the [MCP server](/docs/ai/mcp/) (`apply_dashboard`).

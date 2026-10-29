@@ -1,43 +1,40 @@
 ---
-title: Manage Members
+title: Team
+ogTitle: Team Members, Roles and Teams
 date: 2024-04-22
-updatedDate: 2024-05-07
-menuWeight: 2
+updatedDate: 2026-10-29
+menuWeight: 3
 ---
 
-# Manage Members
+# Team
 
-In this guide, you will learn how to effectively navigate through the **Manage Members** page on the monoscope dashboard and maximize all the powerful features accessible in it.
+The **Team** page lists the people in a project and the teams that receive alerts. Open **Settings** → **Team**. A project admin can invite members, change roles and remove members.
 
-```=html
-<hr />
-```
+## Invite a Member
 
-On this page, you can add new members, remove existing members, or update the permissions of existing members in your project.
+1. Click **Invite new member**.
+2. Enter the email address of the person.
+3. Select a role.
+4. Click **Invite**.
 
-To get to this page, kindly click on **`Settings`** at the bottom-left section of the page and then click on **`Manage members`** tab. You will then be redirected to another page where you can make the changes.
+| Role | What the member can do |
+|---|---|
+| **Admin** | Manage the team, billing and settings. |
+| **Editor** | Create dashboards, monitors and API keys. |
+| **Viewer** | Read only. |
 
-![Screenshot of monoscope's manage members page](/docs/dashboard/settings-pages/manage-members/manage-members-1.png)
+To change a role or remove a member, use the controls next to the member in the list.
 
-![Screenshot of monoscope's manage members page](/docs/dashboard/settings-pages/manage-members/manage-members-2.png)
+## Teams
 
-Video guide:
+A team is a group of members with its own notification channels. When a [monitor](/docs/dashboard/dashboard-pages/monitors/) fires, it notifies the teams that you selected for it, so each alert goes to the people who own the service.
 
-```=html
-<iframe
-  class="w-full h-48 md:h-96 lg:h-96 xl:h-96"
-  src="https://www.youtube.com/embed/SCl-QipFQpk?si=MnHmWt5yO6rK-eFT"
-  title="How to Manage Team Members in monoscope | Add, Remove, and Set Permissions Easily"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
-  allowfullscreen
-  ></iframe>
-```
+The **@everyone** team includes all members of the project, and it uses the channels on the [Integrations](/docs/dashboard/settings-pages/integrations/) page.
 
-```=html
-<hr />
-<a href="/docs/dashboard/settings-pages/api-keys/" class="w-full btn btn-outline ">
-    Next: API Keys
-    <i class="fa-regular fa-arrow-right mr-4"></i>
-</a>
-```
+To create a team:
+
+1. Click **New Team**.
+2. Enter a name and a **Handle**. A handle is lowercase, starts with a letter, and uses hyphens instead of spaces, for example `payments-oncall`.
+3. Add members.
+4. Select where the team receives alerts: email, Slack, Discord, WhatsApp or PagerDuty.
+5. Save the team.

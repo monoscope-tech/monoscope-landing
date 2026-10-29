@@ -1,56 +1,47 @@
 ---
 title: FAQs
 date: 2024-04-22
-updatedDate: 2024-08-03
+updatedDate: 2026-10-29
 faLogo: question
 menuWeight: 7
 hideFileTree: true
 hideToc: true
-pageFullWidth: true
 hideFromNav: true
 faqs:
-  - q: What programming languages are supported?
-    a: We currently support 17+ web frameworks in different programming languages (Python, Golang, Javascript, PHP, C#, Java, etc.). If we don't support your framework, kindly email us at <a href="mailto:hello@monoscope.tech">hello@monoscope.tech</a> and we'll create an SDK for you ASAP!
-  - q: Do my requests have to leave my server to monoscope servers?
-    a: If you want to benefit from the API monitoring and the log explorer feature, yes. However, we offer an <a href="/pricing/">enterprise plan</a> that allows you to run monoscope on-prem (on your servers).
-  - q: Will your SDKs slow down my backend?
-    a: It depends. Most SDKs stream data asynchronously via Google PubSub, so your requests will see almost zero change in performance. However, if you use PHP you may pay a very tiny performance hit to send data to Google PubSub. This is because PHP doesn't support async workflows by default. But if you have the GRPC extension installed in your PHP environment, it will be used by PubSub to stream data asynchronously like in other languages. But this performance hit is barely noticeable and usually under 5ms added to every request.
-  - q: How do you handle security and sensitive data?
-    a: We take security seriously at monoscope. We employ encryption and authentication measures to ensure the security of your data during transmission and storage. All our SDKs also support redacting data. You can simply specify the JSONPath to the fields that you don't want the SDKs to forward to monoscope, and those sensitive fields will be stripped out/redacted before the data even leaves your servers and replaced with the text "[CLIENT REDACTED]" on our end. We will never see anything you don't want us to see.
-  - q: I really love what you're doing. How can I show support?
-    a: Give us a shout-out on X (Twitter), Discord, or any social media you use. We would also appreciate honest feedback about what we're building and suggestions for what functionality you would love to see next.
-  - q: How are you different from other popular platforms?
-    a: For a start, monoscope is an API-first monitoring and observability platform. We track all the live users' requests that come in and out of your application (for both internal and external APIs in use) and analyze the requests to catch bugs and breaking changes, while also tracking all the errors and exceptions that happen while we are processing the requests. Kindly explore our <a href="/compare/">comparison pages</a> to see how we stand out compared to different platforms.
+  - q: Which languages and frameworks are supported?
+    a: monoscope receives OpenTelemetry data, so any language with an OpenTelemetry SDK can send logs, traces and metrics. We have guides for Node.js, Python, Go, Java, PHP, .NET, Elixir, Flutter and the browser, and for Docker, Kubernetes and Linux hosts. See the <a href="/docs/sdks/">SDK guides</a>. If your stack is missing, email <a href="mailto:hello@monoscope.tech">hello@monoscope.tech</a>.
+  - q: Can I keep my data in my own infrastructure?
+    a: Yes, in two ways. On monoscope Cloud, you can connect your own S3 bucket and monoscope stores all project data there, in open Delta Lake and Parquet files. See <a href="/docs/dashboard/settings-pages/s3-storage/">Storage</a>. Or you can self-host monoscope. It is open source under the AGPL-3.0 license. See the <a href="https://github.com/monoscope-tech/monoscope" target="_blank" rel="noopener noreferrer">GitHub repository</a>.
+  - q: Do request and response bodies cost extra?
+    a: No. Request and response bodies do not add to the price. See <a href="/pricing/">pricing</a>.
+  - q: Is there a free plan?
+    a: Yes. The free plan includes 10,000 events a day. The Cloud plan is $29 a month with 20 million events included, then $1 for each additional million. See <a href="/pricing/">pricing</a>.
+  - q: Will monoscope slow down my application?
+    a: The OpenTelemetry SDKs send data in batches in the background, so they do not wait for monoscope before they answer a request. The cost is small, but it is not zero. Measure it in your own service if latency is critical.
+  - q: How do I keep sensitive data out of monoscope?
+    a: Remove or mask sensitive fields in your application or in the OpenTelemetry Collector before data leaves your servers. Several SDKs have options to redact headers and body fields. See the guide for your <a href="/docs/sdks/">SDK</a>. To keep user names and emails out of Slack alerts, turn off <b>Include affected user identity in alerts</b> on the <a href="/docs/dashboard/settings-pages/integrations/">Integrations</a> page.
+  - q: Where is my data stored?
+    a: monoscope Cloud stores data in the EU by default. If you connect your own S3 bucket, data is stored in your bucket, in the region that you choose.
+  - q: Do you have SOC 2 or ISO 27001?
+    a: Not yet. If you need a security review, email <a href="mailto:hello@monoscope.tech">hello@monoscope.tech</a>.
+  - q: How is monoscope different from other observability tools?
+    a: monoscope keeps every API request and response, yours and your suppliers', next to your logs, traces and metrics. When something breaks, its AI investigates with that evidence. See the <a href="/compare/">comparison pages</a>.
 ---
 
 # Frequently Asked Questions
 
 ```=html
-<section class="max-w-4xl">
-    <div class="flex flex-col gap-4">
-        {% for faq in this.frontmatter.faqs %}
-        <div class="border border-strokeWeak bg-bgRaised rounded-lg overflow-hidden">
-            <button class="flex gap-3 items-center text-left w-full px-6 py-4 hover:bg-fillWeak transition-colors" onclick="toggleFaq(event)">
-                <i class="fa-solid fa-chevron-right text-iconNeutral text-sm transition-transform"></i>
-                <span class="font-medium text-textStrong">{{faq.q}}</span>
-            </button>
-            <div class="px-6 pb-4 pl-12 hidden faq-answer text-textWeak">
-                {{faq.a}}
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+<section class="max-w-3xl not-prose">
+  <div class="flex flex-col gap-3">
+    {% for faq in this.frontmatter.faqs %}
+    <details class="faq group border border-strokeWeak bg-bgRaised rounded-xl overflow-hidden">
+      <summary class="flex gap-3 items-center w-full px-5 py-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden hover:bg-fillWeak transition-colors duration-150 font-medium text-textStrong">
+        <i class="fa-solid fa-chevron-right text-iconNeutral text-xs transition-transform duration-150 group-open:rotate-90" aria-hidden="true"></i>
+        {{ faq.q }}
+      </summary>
+      <div class="px-5 pb-5 pl-11 text-textWeak leading-relaxed faq-answer">{{ faq.a }}</div>
+    </details>
+    {% endfor %}
+  </div>
 </section>
-
-<script>
-function toggleFaq(event) {
-    const button = event.currentTarget;
-    const answer = button.nextElementSibling;
-    const icon = button.querySelector('i');
-    
-    answer.classList.toggle('hidden');
-    icon.classList.toggle('fa-chevron-right');
-    icon.classList.toggle('fa-chevron-down');
-}
-</script>
 ```

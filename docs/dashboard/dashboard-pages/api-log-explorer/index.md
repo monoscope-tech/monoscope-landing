@@ -1,134 +1,92 @@
 ---
-title: API Log Explorer
+title: Explorer
+ogTitle: Explorer - Search Logs, Spans and Requests
 date: 2024-04-22
-updatedDate: 2026-10-01
-menuWeight: 4
+updatedDate: 2026-10-29
+menuWeight: 1
 ---
 
-# API Log Explorer Page
+# Explorer
 
-In this guide, you will learn how to effectively navigate through the **API Log Explorer** page on the monoscope dashboard and maximize all the powerful features accessible in it.
+The Explorer is where you search every log, span and request that your services send. Each HTTP request keeps its headers and its request and response bodies, so you can open the exact request that failed. Open **Explorer** in the sidebar.
 
 ```=html
-<hr />
+{% render "docs/components/shot", name: "log-explorer", alt: "The Explorer with a query bar, an event-count chart, a latency chart and a list of logs and spans" %}
 ```
 
-On this page, you will find a list of all the requests tracked from your API including all the associated fields and parameters and a throughput graph. You can **filter** the data using the toggle at the top-left section of the page (the default is **Last 24 Hours**), toggle any log request to view all the associated details, or further click on a **Trace** to view even more request and response details.
+The Explorer has four tabs at the top:
 
-![Screenshot of monoscope's API log explorer page](/docs/dashboard/dashboard-pages/api-log-explorer/log-explorer-new.png)
+- **Events**: search and chart logs and spans. This page describes it.
+- **Live Tail**: watch new logs and spans arrive as they are sent. You can filter by service and environment, and choose **Logs**, **Spans** or **Logs & spans**.
+- **Metrics**: see [Metrics and Service Map](/docs/dashboard/dashboard-pages/metrics/).
+- **Service Map**: see [Metrics and Service Map](/docs/dashboard/dashboard-pages/metrics/#Service-Map).
 
-![Screenshot of monoscope's API log explorer page](/docs/dashboard/dashboard-pages/api-log-explorer/log-explorer-span.png)
+Use the **All services** picker and the time range picker at the top right to set the scope. Every query, chart and facet on the page uses this scope.
+
+## Write a Query
+
+Type a query in the query bar and press **Enter**, or click the search button. Queries use monoscope's [query language](/docs/dashboard/dashboard-pages/query-language/), a subset of KQL:
+
+```kql
+resource.service.name == "checkout" and attributes.http.response.status_code >= 500
+```
+
+If you do not know the field names, write what you want in plain English in the **Ask AI** box, for example `errors from checkout in the last hour`. monoscope fills in the query, the time range and the visualization for you.
+
+The row under the query bar gives you shortcuts:
+
+- **Try:** chips run common queries, such as **Show errors**, **Show 5xx responses** and **Show slow requests (>1s)**.
+- **Query library** has three tabs. **Popular** lists queries that your team runs often, **Saved** lists named queries, and **Recent** lists your last queries.
+- The save button next to the query bar saves the current query with a name. Saved queries are visible to your team.
+- The span filter next to the query bar selects **All spans**, **Root spans** or **Service entry spans**.
+
+## Choose a Visualization
+
+The tabs under the query bar change how results show:
+
+| Tab | What it shows |
+|---|---|
+| **Logs** | The list of matching events, with an event-count chart and a latency chart above it. |
+| **Bar**, **Line** | A chart of the query results over time. |
+| **Patterns** | Similar log messages grouped into patterns, with a count for each. |
+| **Sessions** | Browser sessions. See [Session Replay](/docs/dashboard/dashboard-pages/session-replay/). |
+
+To chart one series for each service, add a `summarize` step to the query:
+
+```kql
+level == "ERROR" | summarize count() by bin_auto(timestamp), resource.service.name
+```
+
+Select **Hide timeline** to hide the charts. Select **Create monitor** to turn the current query into a [monitor](/docs/dashboard/dashboard-pages/monitors/).
+
+## Filter with Facets
+
+The panel on the left lists the most common values of useful fields, with a count for each. Groups include **Common Filters** (service, operation name, log level, status code), **HTTP**, **Database**, **Errors & Exceptions**, **User & Session** and **Resource**. Select a value to add it to the query.
+
+In the results, right-click a field value to open more actions: **Filter by**, **Exclude**, **Group by**, **Show patterns for**, **Add column for**, and copy actions. Use **Options** above the list to change the columns, and **Tree** or **List** to show spans nested under their parents or as a flat list.
+
+## Inspect an Event
+
+Click a row to open the event. For an HTTP request, the tabs show the full request and response:
+
+```=html
+{% render "docs/components/shot", name: "log-explorer-request", alt: "An open request in the Explorer with tabs for attributes, headers, request body and response body" %}
+```
+
+- **Attributes**, **Headers** and **Params**: the OpenTelemetry attributes, the HTTP headers and the query parameters.
+- **Req Body** and **Res Body**: the request and response bodies.
+- **Stack trace**: shown when the event has an exception.
+- **Raw data**: the event as JSON.
+
+The buttons in the event header do these things:
+
+- **View trace** opens the full trace. See [Traces](/docs/dashboard/dashboard-pages/traces/).
+- **Copy as curl** copies a `curl` command that sends the same request again.
+- **Share link** makes a link that anyone can open without a monoscope account. The link expires after 48 hours.
 
 ```=html
 <div class="callout">
-  <i class="fa-solid fa-book"></i>
-  <p><b>Throughput</b> refers to the rate at which an amount of data is transmitted over a given period of time.</p>
+  <i class="fa-solid fa-circle-info"></i>
+  <p>Request and response bodies are kept only if your SDK sends them. To remove sensitive fields before they leave your servers, configure redaction in your SDK. See the <a href="/docs/sdks/">SDK guides</a>.</p>
 </div>
-```
-
-## Query Results
-
-You can filter the data displayed on the API Log Explorer using one or more fields from the request (`status_code`, `host`, `request_body`, `method`, `request_type`, etc.) using the following comparison symbols:
-
-:::
-| Symbol | Description |
-| :-: | :-: |
-| **==** | **Equals** to another value. |
-| **!=** | **Not equal** to another value. |
-| **>** | **Greater than** another value. |
-| **<** | **Less than** another value. |
-| **>=** | **Greater than or equal** to another value. |
-| **<=** | **Less than or equal** to another value. |
-:::
-
-There are two query filtering options, the **manual selector mode** and the **editor mode**.
-
-You can manually add filters by selecting the fields and sub-fields you want and clicking the **Run Query** button as seen in the image below.
-
-![Screenshot of monoscope's API log explorer page](/docs/dashboard/dashboard-pages/api-log-explorer/screen-3.png)
-
-Alternatively, you can toggle the **Use editor** button, use the text editor to write the query as text and click the **Run Query** button as seen in the image below. See the [query language reference](/docs/dashboard/dashboard-pages/query-language/) for every operator and function.
-
-![Screenshot of monoscope's API log explorer page](/docs/dashboard/dashboard-pages/api-log-explorer/screen-4.png)
-
-If you toggle a request log, you can also manually select a field, click on it, and click the **Filter by field** or **Exclude by field** options to automatically add that field to the list of queries and run the query immediately.
-
-![Screenshot of monoscope's API log explorer page](/docs/dashboard/dashboard-pages/api-log-explorer/screen-5.png)
-
-## Alerts
-
-You can create an alert and get notified via email or a Slack channel (if already configured) when some requests cross a defined throughput threshold. To achieve this, apply your desired filters first, click on the **Save as Alert** tab, input the alert/warning threshold values, define the alert message, and select the notification channels where the alert will be sent.
-
-<!-- You can also use template tags in the subject like so: `Error in {/{alert.tags}}` -->
-
-![Screenshot of monoscope's API log explorer page](/docs/dashboard/dashboard-pages/api-log-explorer/screen-6.png)
-
-```=html
-<div class="callout">
-  <i class="fa-solid fa-book"></i>
-  <p>A <b>threshold</b> level is the the value that must be exceeded for a certain reaction to occur or be triggered.</p>
-</div>
-```
-
-## Share URL
-
-monoscope allows you to publicly share the details of a particular log request to anyone you desire (maybe someone on the customer support team). All you need to do is click on the request, expand it, select the expiry date of the link, and click the **Get link** button. This will create a secure link which you can share with anyone.
-
-![Screenshot of monoscope's API log explorer page](/docs/dashboard/dashboard-pages/api-log-explorer/screen-7.png)
-
-![Screenshot of monoscope's API log explorer page](/docs/dashboard/dashboard-pages/api-log-explorer/screen-8.png)
-
-```=html
-<hr />
-```
-
-Here's a quick video overview for a visual walkthrough of this page:
-
-```=html
-<iframe
-  class="w-full h-48 md:h-96 lg:h-96 xl:h-96"
-  src="https://www.youtube.com/embed/leyBesljr40?si=wwGEO3bItDNIqHzk"
-  title="YouTube Video Player: monoscope OpenAPI Spec Documentation"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
-  allowfullscreen
-  ></iframe>
-```
-
-```=html
-<br />
-```
-
-```=html
-<iframe
-  class="w-full h-48 md:h-96 lg:h-96 xl:h-96"
-  src="https://www.youtube.com/embed/OgHiP3RNJ78?si=UKbpDpDTNUUSBMID"
-  title="YouTube Video Player: monoscope OpenAPI Spec Documentation"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
-  allowfullscreen
-  ></iframe>
-```
-
-```=html
-<br />
-```
-
-```=html
-<iframe
-  class="w-full h-48 md:h-96 lg:h-96 xl:h-96"
-  src="https://www.youtube.com/embed/xRzZNgfARLQ?si=byCc8n9f46G87VP9"
-  title="YouTube Video Player: monoscope OpenAPI Spec Documentation"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
-  allowfullscreen
-  ></iframe>
-```
-
-```=html
-<hr />
-<a href="/docs/dashboard/dashboard-pages/changes-errors/" class="w-full btn btn-outline link link-hover">
-    Next: Changes & Error Page
-    <i class="fa-regular fa-arrow-right mr-4"></i>
-</a>
 ```

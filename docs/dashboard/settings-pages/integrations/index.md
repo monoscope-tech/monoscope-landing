@@ -1,30 +1,39 @@
 ---
 title: Integrations
+ogTitle: Alert Channels - Email, Slack, Discord, WhatsApp and PagerDuty
 date: 2024-06-22
-updatedDate: 2024-06-22
+updatedDate: 2026-10-29
 menuWeight: 4
 ---
 
 # Integrations
 
-In this guide, you will learn how to effectively navigate through the **Integrations** page on the monoscope dashboard and maximize all the powerful features accessible in it.
+The **Integrations** page sets where monoscope sends alerts for the project: email, Slack, Discord, WhatsApp and PagerDuty. Open **Settings** → **Integrations**.
 
 ```=html
-<hr />
+{% render "docs/components/shot", name: "settings-integrations", alt: "The integrations page with email, Slack, Discord, WhatsApp and PagerDuty channels" %}
 ```
 
-On this page, you can configure your email or Slack workspace for receiving project notifications. To get to this page, kindly click on the project name at the top-left section of the dashboard and then click on the **Integrations** tab. You will then be redirected to another page where you can make the changes.
+The channels on this page belong to the **@everyone** team, which includes all project members. To send some alerts to a smaller group, create a [team](/docs/dashboard/settings-pages/manage-members/#Teams) with its own channels.
 
-![Screenshot of monoscope's integrations page](/docs/dashboard/settings-pages/integrations/screen-1.png)
+After you change a channel, click **Save changes**.
 
-![Screenshot of monoscope's integrations page](/docs/dashboard/settings-pages/integrations/screen-2.png)
+## Channels
 
-![Screenshot of monoscope's integrations page](/docs/dashboard/settings-pages/integrations/screen-3.png)
+| Channel | How to connect it |
+|---|---|
+| **Email** | Add the email addresses under **Recipients**. New project members are added automatically. |
+| **Slack** | Click **Connect Slack agent** and approve the app in Slack. Then add channels under **Slack channels**. Invite the monoscope app to each channel. |
+| **Discord** | Click **Add to Discord** and select the server. Then add channels under **Discord**. |
+| **WhatsApp** | Add phone numbers under **Phone numbers**. |
+| **PagerDuty** | In PagerDuty, open **Services** → **Integrations** and add an **Events API v2** integration. Paste its **Integration Key** and click **Connect**. |
 
-<!-- ```=html
-<hr />
-<a href="/docs/dashboard/settings-pages/integrations/" class="w-full btn btn-outline link link-hover">
-    Next: Integrations
-    <i class="fa-regular fa-arrow-right mr-4"></i>
-</a>
-``` -->
+The Slack and Discord apps also let your team ask the [AI SRE](/docs/ai/ai-sre/) questions from a channel.
+
+## Test a Channel
+
+Click **Test** next to a channel to send a test alert. **Test History** lists each test with its status, channel, alert type and time. You can send one test every 60 seconds.
+
+## User Identity in Alerts
+
+**Include affected user identity in alerts** adds the user name and email from your telemetry to Slack error alerts. It is on by default. If alerts for this project must not contain personal data, turn it off.

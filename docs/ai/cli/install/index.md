@@ -35,7 +35,7 @@ curl -fsSL https://monoscopehq.com/install.sh | sh -s v1.2.3
 ### Custom install location
 
 ```sh
-MONOSCOPE_INSTALL_DIR=/usr/local/bin curl -fsSL https://monoscopehq.com/install.sh | sh
+curl -fsSL https://monoscopehq.com/install.sh | MONOSCOPE_INSTALL_DIR=/usr/local/bin sh
 ```
 
 ### Upgrading

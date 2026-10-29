@@ -18,13 +18,13 @@ process.
 ```=html
 <div class="callout">
   <i class="fa-solid fa-bolt"></i>
-  <p>One JSON-RPC endpoint, ~50 tools auto-derived from our public REST API plus a few hand-written workflow tools (<code>analyze_issue</code>, <code>find_error_patterns</code>, <code>search_events_nl</code>). Same API key as the REST API and the CLI.</p>
+  <p>One JSON-RPC endpoint, tools auto-derived from our public REST API plus a few hand-written workflow tools (<code>analyze_issue</code>, <code>find_error_patterns</code>, <code>search_events_nl</code>). Same API key as the REST API and the CLI.</p>
 </div>
 ```
 
 ## What you get
 
-- **REST tools** — every operation in the public API surfaces as a verb-first MCP tool: `list_monitors`, `get_monitor`, `mute_monitor`, `search_events`, `apply_dashboard`, `whoami`, `get_schema`, … About 50 in total. New endpoints become MCP tools automatically; renames don't require a server release.
+- **REST tools** — every operation in the public API surfaces as a verb-first MCP tool: `list_monitors`, `get_monitor`, `mute_monitor`, `search_events`, `apply_dashboard`, `whoami`, `get_schema`, and more. Run `tools/list` for the current list. New endpoints become MCP tools automatically; renames don't require a server release.
 - **Workflow tools** — bundled actions that combine several internal calls into one agent-friendly verb:
   - `find_error_patterns` — top established log patterns ranked by current-hour count. Use to answer "what is blowing up right now" without crafting a query.
   - `search_events_nl` — translate a natural-language description into a KQL query (returns the query for the agent to execute via `search_events`).

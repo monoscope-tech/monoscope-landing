@@ -48,7 +48,7 @@ Force a mode with `--json`, `--yaml`, or `--table`.
   <a href="/docs/ai/mcp/" class="alt-a">
     <span class="label">For any MCP client</span>
     <span class="name">MCP Server</span>
-    <span class="when">Hosted endpoint, ~50 tools, no install. Wire any agent in over the network.</span>
+    <span class="when">Hosted endpoint, a tool for every REST operation, no install. Wire any agent in over the network.</span>
   </a>
   <a href="/docs/ai/cli/skills/" class="alt-b">
     <span class="label">For Claude Code</span>

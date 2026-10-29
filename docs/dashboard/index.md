@@ -1,77 +1,109 @@
 ---
-title: Dashboard
+title: Product Guide
+ogTitle: monoscope Product Guide
 date: 2024-04-22
-updatedDate: 2026-10-01
+updatedDate: 2026-10-29
 faLogo: chart-line
 menuWeight: 4
 pageFullWidth: true
 hideToc: true
 pages:
-  - title: Get Started
-    slug: /docs/dashboard/dashboard-pages/get-started
-    icon: list-check
-    description: First steps after signing in
-  - title: Dashboard
-    slug: /docs/dashboard/dashboard-pages/dashboard
-    icon: qrcode
-    description: Overview of key metrics at a glance
-  - title: Endpoints
-    slug: /docs/dashboard/dashboard-pages/endpoints
-    icon: arrow-right-arrow-left
-    description: Monitor individual endpoint performance
-  - title: API Log Explorer
-    slug: /docs/dashboard/dashboard-pages/api-log-explorer
-    icon: rectangle-list
-    description: Search and inspect individual requests
-  - title: Changes & Errors
-    slug: /docs/dashboard/dashboard-pages/changes-errors
+  - title: Explorer
+    slug: /docs/dashboard/dashboard-pages/api-log-explorer/
+    icon: compass
+    description: Search logs, spans and full requests. Live tail.
+  - title: Traces
+    slug: /docs/dashboard/dashboard-pages/traces/
+    icon: bars-staggered
+    description: Follow one request through every service.
+  - title: Issues
+    slug: /docs/dashboard/dashboard-pages/issues/
     icon: bug
-    description: Track API changes and error patterns
-  - title: Outgoing Integrations
-    slug: /docs/dashboard/dashboard-pages/outgoing-integrations
-    icon: arrows-turn-right
-    description: Send alerts to Slack, PagerDuty, and more
-  - title: API Tests
-    slug: /docs/dashboard/dashboard-pages/api-tests
-    icon: list-check
-    description: Create and manage automated API tests
+    description: Errors, API changes and alerts, grouped and triaged.
+  - title: Dashboards
+    slug: /docs/dashboard/dashboard-pages/dashboard/
+    icon: table-cells-large
+    description: Built-in dashboards, templates and dashboards as YAML.
+  - title: Monitors
+    slug: /docs/dashboard/dashboard-pages/monitors/
+    icon: bell
+    description: Query alerts, uptime checks and cron monitors.
+  - title: Metrics and Service Map
+    slug: /docs/dashboard/dashboard-pages/metrics/
+    icon: chart-line
+    description: Every metric you send, and how your services connect.
+  - title: Session Replay and RUM
+    slug: /docs/dashboard/dashboard-pages/session-replay/
+    icon: circle-play
+    description: Web vitals, browser errors and session playback.
+  - title: API Catalog
+    slug: /docs/dashboard/dashboard-pages/api-catalog/
+    icon: arrow-right-arrow-left
+    description: Every endpoint you serve and call, with learned OpenAPI docs.
+  - title: Infrastructure
+    slug: /docs/dashboard/dashboard-pages/infrastructure/
+    icon: server
+    description: Hosts, containers, images and Kubernetes.
   - title: Reports
-    slug: /docs/dashboard/dashboard-pages/reports
-    icon: chart-simple
-    description: Generate and schedule analytics reports
+    slug: /docs/dashboard/dashboard-pages/reports/
+    icon: file-lines
+    description: Weekly and live summaries of your project.
   - title: Query Language
-    slug: /docs/dashboard/dashboard-pages/query-language
+    slug: /docs/dashboard/dashboard-pages/query-language/
     icon: magnifying-glass
-    description: KQL operators, functions, and metric queries
-  - title: Project Settings
-    slug: /docs/dashboard/settings-pages/project-settings
+    description: Operators, aggregations and metric functions.
+settings:
+  - title: Project
+    slug: /docs/dashboard/settings-pages/project-settings/
     icon: gear
-    description: Configure project-level preferences
-  - title: Manage Members
-    slug: /docs/dashboard/settings-pages/manage-members
-    icon: user-plus
-    description: Invite teammates and manage roles
+    description: Name, time zone, alerts and reports.
   - title: API Keys
-    slug: /docs/dashboard/settings-pages/api-keys
+    slug: /docs/dashboard/settings-pages/api-keys/
     icon: key
-    description: Create and rotate API keys
+    description: Create and revoke the keys your SDKs use.
+  - title: Team
+    slug: /docs/dashboard/settings-pages/manage-members/
+    icon: user-plus
+    description: Members, roles and teams that receive alerts.
+  - title: Integrations
+    slug: /docs/dashboard/settings-pages/integrations/
+    icon: plug
+    description: Email, Slack, Discord, WhatsApp and PagerDuty.
+  - title: Prometheus
+    slug: /docs/dashboard/settings-pages/prometheus/
+    icon: fire
+    description: Scrape metrics from your /metrics endpoints.
+  - title: Storage
+    slug: /docs/dashboard/settings-pages/s3-storage/
+    icon: bucket
+    description: Keep all project data in your own S3 bucket.
 ---
 
-# Dashboard Guides
+# Product Guide
 
-In these guides, you will learn how to effectively navigate through the monoscope dashboard and maximize all the powerful features accessible on different pages of the dashboard. Kindly click on any of the cards below to get started.
+These guides describe each page of the monoscope app: what it shows and how to use it. To send data to monoscope first, see [Getting Started](/docs/onboarding/). To work with monoscope from a terminal or a coding agent, see [AI](/docs/ai/).
+
+## Pages
 
 ```=html
-<hr />
+<div class="docs-grid not-prose">
+{% for page in this.frontmatter.pages %}
+  <a href="{{ page.slug }}" class="docs-grid__cell">
+    <p><i class="fa-solid fa-{{ page.icon }}" aria-hidden="true"></i><strong>{{ page.title }}</strong></p>
+    <span>{{ page.description }}</span>
+  </a>
+{% endfor %}
+</div>
 ```
 
+## Settings
+
 ```=html
-<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
-{% for page in this.frontmatter.pages %}
-  <a href="{{ page.slug }}" class="docs-card-2 rounded-lg">
-    <i class="fa-solid fa-{{ page.icon }}"></i>
-    <p class="text-base text-center">{{ page.title }}</p>
-    {% if page.description %}<span class="text-xs text-textWeak text-center">{{ page.description }}</span>{% endif %}
+<div class="docs-grid not-prose">
+{% for page in this.frontmatter.settings %}
+  <a href="{{ page.slug }}" class="docs-grid__cell">
+    <p><i class="fa-solid fa-{{ page.icon }}" aria-hidden="true"></i><strong>{{ page.title }}</strong></p>
+    <span>{{ page.description }}</span>
   </a>
 {% endfor %}
 </div>
