@@ -1,4 +1,7 @@
 ---
+# UNVERIFIED:
+# - 48-hour read-only share link (FAQ), copied from features/logs-and-traces.
+# - "Every span you send is kept for 30 days" on Cloud: from pricing/index.md.
 # Verified: trace views Waterfall / Timeline / Services / Map, Trace Breakdown, logs joined by trace and
 # span ID (docs/dashboard/dashboard-pages/traces, demo project trace shot), service map (demo project),
 # Trace correlation audit and Dependency degradation digest routines (Issues.routineTemplates),

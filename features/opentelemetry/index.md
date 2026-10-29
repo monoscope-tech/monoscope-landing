@@ -1,4 +1,7 @@
 ---
+# UNVERIFIED:
+# - Collector exporter config mirrors docs/sdks/infrastructure (otlp_grpc, tls insecure); not run end to end.
+# - "four environment variables" counts docs/sdks/opentelemetry, not tested against every SDK.
 # Verified: OTLP gRPC trace/log/metric export services (src/Opentelemetry/OtlpServer.hs), x-api-key as
 # resource attribute or header (OtlpServer.hs, docs/sdks/opentelemetry), otelcol.monoscope.tech:4317/4318
 # (docs), Prometheus scrape targets (Models/Apis/PrometheusScrapeConfigs.hs), OpenTelemetry Collector

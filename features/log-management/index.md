@@ -1,4 +1,8 @@
 ---
+# UNVERIFIED:
+# - Pattern issues come "with example lines and the requests behind them": example lines not checked in the issue UI.
+# - "we'll help move your saved searches and alerts": migration help is validated; saved searches specifically is not.
+# - Log retention 30 days on Cloud and per-event pricing taken from pricing/index.md.
 # Verified against ../monoscope master (2026-10-29): OTLP logs ingest, log pattern clustering and
 # spike/new-pattern issues (BackgroundJobs: processNewLogPatterns, detectLogPatternSpikes),
 # "Noisy log sources" routine template (Issues.routineTemplates), Ask AI + Patterns in the Explorer (demo project).

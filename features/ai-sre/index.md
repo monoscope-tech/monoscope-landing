@@ -1,7 +1,8 @@
 ---
 # UNVERIFIED:
 # - 2026-10-29 (search ads tuning): pkg/Git.hs on master only opens the GitSync PR, so the "fix" section
-#   (incident to pull request) is still unverified; removed fix PRs from description and FAQ only.
+#   (incident to pull request) claim was removed from this page: description, FAQ and the "fix" section.
+#   Restore it if fix generation ships to master.
 # - Fix PRs from incidents: on ../monoscope master the only PR the app opens is GitSync's
 #   "Sync Monoscope dashboards and monitors". Patch/fix-generation commits (a8108129a, d567fd512)
 #   live on work/impact-review-* and work/impact-worker-floor. Homepage and brief already claim it;
@@ -67,9 +68,9 @@ sections:
   - id: fix
     icon: github
     tone: success
-    eyebrow: "Incident to pull request"
-    title: "From the failing request to a fix you can review"
-    lead: "When an issue opens, the AI reads the request that triggered it, rates the severity and writes up the root cause. Then it opens a pull request with the fix and links the request that proves it."
+    eyebrow: "Incident to root cause"
+    title: "From the failing request to the root cause"
+    lead: "When an issue opens, the AI reads the request that triggered it, rates the severity and writes up the root cause, next to the request that shows it."
     shot: issue-detail
     frame: "app.monoscope.tech / issues"
     bullets:
@@ -79,9 +80,9 @@ sections:
       - title: "One issue per problem"
         icon: bug
         body: "Errors are fingerprinted, so one bug hitting thousands of requests is one issue. A monitor that fires again reopens its old issue, history included."
-      - title: "Nothing merges on its own"
+      - title: "Nothing changes on its own"
         icon: code
-        body: "Fixes arrive as pull requests. Your review and your CI decide what ships."
+        body: "The AI investigates and reports. Your review and your CI decide what ships."
   - id: review
     icon: github
     tone: success

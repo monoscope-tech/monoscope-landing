@@ -1,4 +1,8 @@
 ---
+# UNVERIFIED:
+# - Masking, replaySampleRate, batching, 2,000 replays then $1/1k, setUser on sessions: copied from features/session-replay, not re-checked.
+# - "Page views and errors count as events": not checked against the billing meter.
+# - "Each page links to the API requests behind it" requires propagateTraceHeaderCorsUrls to be set.
 # Verified: RUM dashboard tabs Overview / Web Vitals / Errors / Audience / Application, P75 LCP/INP/CLS
 # with ratings, vitals by page, audience by browser/OS/device (static/public/dashboards/rum.yaml, demo
 # project); rage-click and dead-click issues (BackgroundJobs.detectFrontendIssues, Issues.FKRageClick/FKDeadClick);

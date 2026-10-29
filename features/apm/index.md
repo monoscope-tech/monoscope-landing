@@ -1,4 +1,8 @@
 ---
+# UNVERIFIED:
+# - "Every hour" for N+1/slow-query detection: detectPerformanceIssues reads a 1h window; its schedule was not checked.
+# - "Each endpoint lists its slowest traces": Slowest Traces widget is in endpoint-stats.yaml (Latency tab); not opened in the demo.
+# - The 4 MB cart / 900 filters line is an illustration, not customer data.
 # Verified: Overview and Endpoint Analytics dashboards (static/public/dashboards/_overview.yaml,
 # endpoint-stats.yaml: golden signals, Apdex, p50-p99, downstream time spent, slowest traces),
 # N+1 and slow-query performance issues (BackgroundJobs.detectPerformanceIssues, Issues.PKNPlusOne/PKSlowQuery),
