@@ -119,7 +119,8 @@ sections:
       <span class="block whitespace-normal mt-3 text-white">● Orders stopped advancing at 07:52, and it isn’t your code. Acme’s <span class="text-[#F2C27B]">POST /v1/shipments</span> still returns 200, but the response no longer includes <span class="text-[#F2C27B]">tracking_id</span>, so <span class="text-[#F2C27B]">advance()</span> throws and 41 orders are stuck. Your last deploy was <span class="text-[#F2C27B]">b7e21c0</span>, two days ago. Want me to open a pull request with a fallback?</span><span class="block bg-white/10 rounded px-2 py-1 mt-3 text-white"><span class="text-white/50">&gt;</span> yes</span><span class="text-[#4EBA65]">●</span> <b class="text-white">Bash</b>(gh pr create --title "Fall back when tracking_id is absent")
         <span class="text-white/50">⎿  Opened PR #491 · acme/orders-service</span>
   - id: prove
-    art: prove-observatory.webp?v=3
+    art: prove-observatory.webp?v=5
+    art_class: h-64 md:h-[26rem] saturate-[.8]
     icon: database
     tone: success
     eyebrow: Prove it
@@ -651,7 +652,7 @@ capabilities:
     <div class="w-full">
     {% for s in this.frontmatter.sections %}
     <section id="{{s.id}}" class="tone-{{s.tone}} relative w-full scroll-mt-16">
-      {% assign odd = forloop.index | modulo: 2 %}{% if odd == 1 or s.art %}<div aria-hidden="true" class="absolute top-(--inset) bottom-0 left-1/2 -translate-x-1/2 panel-w rounded-[2rem] overflow-hidden bg-(--tone-panel) border border-(--tone-weak)">{% if s.art %}<img src="/assets/img/home/art/{{s.art}}" alt="" loading="lazy" data-art{% if s.id == 'know' or s.id == 'start' %} data-glint{% endif %} class="absolute inset-x-0 bottom-0 w-full h-56 md:h-80 object-cover object-left-bottom dark:opacity-60 [mask-image:linear-gradient(to_top,black_30%,rgb(0_0_0/.8)_44%,rgb(0_0_0/.52)_58%,rgb(0_0_0/.26)_72%,rgb(0_0_0/.09)_86%,transparent)]">{% endif %}</div>{% endif %}
+      {% assign odd = forloop.index | modulo: 2 %}{% if odd == 1 or s.art %}<div aria-hidden="true" class="absolute top-(--inset) bottom-0 left-1/2 -translate-x-1/2 panel-w rounded-[2rem] overflow-hidden bg-(--tone-panel) border border-(--tone-weak)">{% if s.art %}<img src="/assets/img/home/art/{{s.art}}" alt="" loading="lazy" data-art{% if s.id == 'know' or s.id == 'start' %} data-glint{% endif %} class="absolute inset-x-0 bottom-0 w-full {% if s.art_class %}{{s.art_class}}{% else %}h-56 md:h-80{% endif %} object-cover object-left-bottom dark:opacity-60 [mask-image:linear-gradient(to_top,black_30%,rgb(0_0_0/.8)_44%,rgb(0_0_0/.52)_58%,rgb(0_0_0/.26)_72%,rgb(0_0_0/.09)_86%,transparent)]">{% endif %}</div>{% endif %}
       <div class="relative wrap max-w-[80rem] pt-32 md:pt-48 {% if s.id == 'start' %}pb-0{% elsif s.id == 'know' %}pb-0{% elsif s.art %}pb-56 md:pb-96{% else %}pb-24 md:pb-32{% endif %} space-y-24 md:space-y-32 lg:[&>.blk]:ps-12">
         <div aria-hidden="true" class="rail hidden lg:block absolute left-[23px] {% if s.art and s.id != 'know' and s.id != 'start' %}bottom-[21rem]{% else %}bottom-0{% endif %} m-0! w-0.5 bg-(--tone-line) {% if s.id == 'prove' %}top-0{% else %}top-[calc(8rem+13px)] md:top-[calc(12rem+13px)]{% endif %}"></div>
         <div class="space-y-14">
