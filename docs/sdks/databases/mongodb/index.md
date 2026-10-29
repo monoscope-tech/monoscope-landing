@@ -3,7 +3,7 @@ title: Integrating monoscope with MongoDB
 ogTitle: How to Monitor MongoDB Database Operations with monoscope using OpenTelemetry
 faLogo: database
 date: 2024-06-14
-updatedDate: 2024-06-14
+updatedDate: 2026-10-29
 linkTitle: "MongoDB"
 menuWeight: 20
 ---
@@ -16,7 +16,7 @@ This guide demonstrates how to integrate monoscope with MongoDB database operati
 
 - MongoDB database (local or Atlas)
 - MongoDB client application
-- monoscope account with an API key
+- A monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
 ## Setting Up OpenTelemetry for MongoDB
 
@@ -182,7 +182,7 @@ For easier integration, you can use auto-instrumentation libraries:
 1. Install required packages:
 
 ```bash
-npm install @opentelemetry/sdk-node @opentelemetry/auto-instrumentations-node @opentelemetry/exporter-trace-otlp-proto
+npm install @opentelemetry/sdk-node @opentelemetry/resources @opentelemetry/auto-instrumentations-node @opentelemetry/exporter-trace-otlp-proto
 ```
 
 2. Set up auto-instrumentation in your application:
@@ -191,16 +191,17 @@ npm install @opentelemetry/sdk-node @opentelemetry/auto-instrumentations-node @o
 const { NodeSDK } = require('@opentelemetry/sdk-node');
 const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumentations-node');
 const { OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-proto');
+const { resourceFromAttributes } = require('@opentelemetry/resources');
 
 const sdk = new NodeSDK({
   traceExporter: new OTLPTraceExporter({
-    url: 'http://otelcol.monoscope.tech:4317/v1/traces',
+    url: 'http://otelcol.monoscope.tech:4318/v1/traces',
   }),
   instrumentations: [getNodeAutoInstrumentations()],
-  resourceAttributes: {
+  resource: resourceFromAttributes({
     'x-api-key': 'YOUR_API_KEY',
     'service.name': 'mongodb-service',
-  },
+  }),
 });
 
 // Initialize the SDK before importing MongoDB
@@ -224,6 +225,7 @@ wget https://github.com/open-telemetry/opentelemetry-java-instrumentation/releas
 java -javaagent:path/to/opentelemetry-javaagent.jar \
      -Dotel.service.name=mongodb-service \
      -Dotel.exporter.otlp.endpoint=http://otelcol.monoscope.tech:4317 \
+     -Dotel.exporter.otlp.protocol=grpc \
      -Dotel.resource.attributes=x-api-key=YOUR_API_KEY \
      -jar your-application.jar
 ```

@@ -55,10 +55,6 @@ The setup has five short steps. You can change every answer later in **Settings*
 4. **Instrument your apps or servers.** This step shows your API key and setup guides for each stack. Keep this page open for [step 4](#connect-your-application).
 5. **Pick a plan.** Select the free plan or a paid plan.
 
-```=html
-{% render "default/markdown/screenshot.liquid", name: "onboarding", alt: "The monoscope project setup, on the step that shows the API key and a list of stacks" %}
-```
-
 {#get-your-api-key}
 ## 3. Get Your API Key
 
