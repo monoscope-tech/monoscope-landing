@@ -119,7 +119,7 @@ sections:
       <span class="block whitespace-normal mt-3 text-white">● Orders stopped advancing at 07:52, and it isn’t your code. Acme’s <span class="text-[#F2C27B]">POST /v1/shipments</span> still returns 200, but the response no longer includes <span class="text-[#F2C27B]">tracking_id</span>, so <span class="text-[#F2C27B]">advance()</span> throws and 41 orders are stuck. Your last deploy was <span class="text-[#F2C27B]">b7e21c0</span>, two days ago. Want me to open a pull request with a fallback?</span><span class="block bg-white/10 rounded px-2 py-1 mt-3 text-white"><span class="text-white/50">&gt;</span> yes</span><span class="text-[#4EBA65]">●</span> <b class="text-white">Bash</b>(gh pr create --title "Fall back when tracking_id is absent")
         <span class="text-white/50">⎿  Opened PR #491 · acme/orders-service</span>
   - id: prove
-    art: prove-lookout.webp
+    art: prove-observatory.webp
     icon: database
     tone: success
     eyebrow: Prove it
