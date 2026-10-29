@@ -44,7 +44,7 @@ volumes:
   - ["20M (40 GB)", "$29", "About $21"]
   - ["100M (200 GB)", "$109", "About $69"]
   - ["1B (2 TB)", "$1,009", "About $879"]
-price_note: "Grafana Cloud Pro list prices checked 29 October 2026: $19 platform fee, $0.05 per GB processed, $0.40 per GB written after 50 GB free each for logs and traces, 30 days of retention included. Volume discounts can lower it; metric series, host-hours and Assistant users add to it. monoscope: $29 a month includes 20M events and 20M metric datapoints, then $1 per million events. Bodies don’t add to the count."
+price_note: "Grafana Cloud Pro list prices checked 29 October 2026: $19 platform fee, $0.05 per GB processed, $0.40 per GB written after the free 50 GB (we assume 50 GB each for logs and traces, the lower estimate), 30 days of retention included. Volume discounts can lower it; metric series, host-hours and Assistant users add to it. monoscope: $29 a month includes 20M events and 20M metric datapoints, then $1 per million events. Bodies don’t add to the count."
 gaps_title: "What Grafana doesn’t keep, and monoscope does"
 gaps:
   - { icon: align-left, title: "The request and response body", body: "Grafana stores what your instrumentation sends, and OpenTelemetry doesn’t send bodies. monoscope’s SDKs keep headers, request body and response body on the span, and bodies don’t add to the price." }
