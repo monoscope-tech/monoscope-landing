@@ -6,12 +6,12 @@
 # - Session replay linked from an issue: claimed on the homepage; not checked in the demo project.
 # - Crashes: verified for the Flutter SDK (Dart errors + native crash handlers, captureNativeCrashes)
 #   and browser errors (Frontend issue type). No crash reporting found for native iOS/Android SDKs.
-title: "Error tracking with the request behind every error"
-description: "Errors, crashes and changed API responses become issues, each with the exact request and response behind it. Alerts go to Slack, PagerDuty or email."
+title: "Error tracking and monitoring with the request behind every error"
+description: "Error tracking that keeps the exact request and response behind every error, crash and changed API response. Alerts in Slack, PagerDuty or email. Open source."
 eyebrow: Error tracking
 tone: warning
-h1: "Every error, with the request that caused it"
-pitch: "Exceptions, crashes and changed API responses become issues, each with the headers, body and response exactly as they were. You hear about it in Slack before a customer writes in."
+h1: "Error tracking with the request that caused it"
+pitch: "Exceptions, crashes and changed API responses become grouped issues, each with the headers, body and response exactly as they were. You hear about it in Slack before a customer writes in."
 playground: issues
 hero_demo: /assets/demos/know-b.html
 hero_frame: "app.monoscope.tech / issues"
@@ -86,7 +86,9 @@ faqs:
   - q: "How do I keep passwords and tokens out of it?"
     a: "List the headers and JSON paths to redact, such as $.password, in the SDK config. They're removed in your app before any data leaves it."
   - q: "Is anything sampled?"
-    a: "No. Every request, log and span you send is kept for your retention period: 30 days on Cloud, unlimited if you use your own S3 bucket."
+    a: "Not on Cloud: every request, log and span you send is kept for 30 days. The free plan covers 10k events a day."
+  - q: "Can I self-host it, like Sentry?"
+    a: "Yes. monoscope is open source under AGPL. Run it on your own servers, or use monoscope Cloud in the US or EU."
   - q: "Can I run it next to my current error tracker?"
     a: "Yes. Run both for a week or two and compare which errors and API changes each one catches."
 related: [ai-sre, api-monitoring, session-replay]

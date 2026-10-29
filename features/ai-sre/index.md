@@ -1,5 +1,8 @@
 ---
 # UNVERIFIED:
+# - 2026-10-29 (search ads tuning): pkg/Git.hs on master only opens the GitSync PR, so the "fix" section
+#   (incident to pull request) claim was removed from this page: description, FAQ and the "fix" section.
+#   Restore it if fix generation ships to master.
 # - Fix PRs from incidents: on ../monoscope master the only PR the app opens is GitSync's
 #   "Sync Monoscope dashboards and monitors". Patch/fix-generation commits (a8108129a, d567fd512)
 #   live on work/impact-review-* and work/impact-worker-floor. Homepage and brief already claim it;
@@ -9,8 +12,8 @@
 #   daily at 14:00 and diffs service versions). The brief says a deploy trigger exists; if it ships,
 #   change "every afternoon" to "after every deploy".
 # - "About 50 tools" for MCP comes from docs/ai/mcp, not counted in code.
-title: "AI SRE that reads the real request"
-description: "An AI SRE that investigates from the full, unsampled request and response: routines on a schedule, fix PRs, PR checks against production, answers in Slack."
+title: "AI SRE for root cause analysis from the real request"
+description: "An AI SRE that finds the root cause from the full request and response: routines on a schedule, PR checks against production, answers in Slack."
 eyebrow: AI SRE
 tone: success
 h1: "An AI SRE that reads the actual request"
@@ -65,9 +68,9 @@ sections:
   - id: fix
     icon: github
     tone: success
-    eyebrow: "Incident to pull request"
-    title: "From the failing request to a fix you can review"
-    lead: "When an issue opens, the AI reads the request that triggered it, rates the severity and writes up the root cause. Then it opens a pull request with the fix and links the request that proves it."
+    eyebrow: "Incident to root cause"
+    title: "From the failing request to the root cause"
+    lead: "When an issue opens, the AI reads the request that triggered it, rates the severity and writes up the root cause, next to the request that shows it."
     shot: issue-detail
     frame: "app.monoscope.tech / issues"
     bullets:
@@ -77,9 +80,9 @@ sections:
       - title: "One issue per problem"
         icon: bug
         body: "Errors are fingerprinted, so one bug hitting thousands of requests is one issue. A monitor that fires again reopens its old issue, history included."
-      - title: "Nothing merges on its own"
+      - title: "Nothing changes on its own"
         icon: code
-        body: "Fixes arrive as pull requests. Your review and your CI decide what ships."
+        body: "The AI investigates and reports. Your review and your CI decide what ships."
   - id: review
     icon: github
     tone: success
@@ -135,7 +138,7 @@ sections:
     code_class: language-bash
     code: |
       # The CLI, for your terminal, CI and agents
-      curl https://monoscope.tech/install.sh | sh
+      curl -fsSL https://monoscopehq.com/install.sh | sh
       monoscope issues list --json
       monoscope logs search 'body has "tracking_id"' --since 6h
 
@@ -159,9 +162,11 @@ sections:
     link_label: "Connect your agent"
 faqs:
   - q: "Does the AI change production on its own?"
-    a: "No. Fixes arrive as pull requests that go through your review and your CI. Routines can't act unless you allow actions for that routine, and PR reviews are comments only."
+    a: "No. Routines can't act unless you allow actions for that routine, and its pull request reviews are comments only. Your review and your CI decide what ships."
   - q: "What does it read that other AI SREs don't?"
-    a: "The request and response bodies of your API calls and the calls you make to suppliers, never sampled, next to logs, traces and metrics. AI layers that sit on Datadog or Sentry only see what those tools kept."
+    a: "The request and response bodies of your API calls and the calls you make to suppliers, kept on Cloud without sampling, next to logs, traces and metrics. AI layers that sit on Datadog or Sentry only see what those tools kept."
+  - q: "Is this AIOps, or AI root cause analysis?"
+    a: "It does the root cause part. Each new error gets a written root cause and a category, and an investigation cites the requests, traces, logs and deploys it used. It doesn't replace your incident process; it gives it evidence."
   - q: "Do I need your SDK, or is OpenTelemetry enough?"
     a: "Any OpenTelemetry exporter works for logs, traces and metrics. Request and response bodies come from the monoscope SDKs, which redact the fields you list before anything leaves your app."
   - q: "Can it read our code?"
