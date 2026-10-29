@@ -734,6 +734,8 @@ capabilities:
             <div class="order-1 space-y-6 [&>p:first-child]:mb-3.5">
               <h3 class="text-3xl md:text-4xl font-medium tracking-tight leading-[1.1] text-balance text-textStrong">Works with your coding agents</h3>
               <p class="text-xl leading-[1.65] text-textWeak text-pretty">Ask your agent what broke. It reads production through monoscope.</p>
+              <p class="text-base leading-relaxed text-textWeak text-pretty">Plug it into your software factory, or let it run one. monoscope watches performance, errors and deploys, opens pull requests for what it finds, and builds what users ask for in Slack.</p>
+              <p class="flex flex-wrap items-center gap-x-4 gap-y-2 text-base"><a href="/features/software-factory/" class="font-semibold text-textBrand underline-offset-4 hover:underline">monoscope for software factories <span aria-hidden="true">→</span></a><span class="text-textWeak">Set up: {% for n in config.raw.main_nav %}{% if n.agents %}{% for a in n.agents %}<a href="{{a.url}}" class="text-textStrong underline-offset-4 decoration-strokeWeak underline hover:decoration-current">{{a.title}}</a>{% unless forloop.last %} · {% endunless %}{% endfor %}{% endif %}{% endfor %}</span></p>
             </div>
           <div class="ag order-3 min-w-0">
             <style>.ag-panel{display:none}.ag:has(input[value="1"]:checked) [data-panel="1"],.ag:has(input[value="2"]:checked) [data-panel="2"],.ag:has(input[value="3"]:checked) [data-panel="3"]{display:block}</style>

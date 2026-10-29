@@ -6,8 +6,7 @@
 # - Implementing feature requests from Slack or the platform ("requests" section, FAQ): no branch found, unverified.
 # - Issues from in-app user feedback (user.feedback spans) in the "requests" section: branch sentry-issue-layout.
 # - Project memory that learns from feedback across channels ("memory" section, FAQ): branches work/impact-agents-pr*.
-# - Warp reading the same mcpServers JSON as Claude Code and Cursor: nothing in this repo documents Warp;
-#   format not checked against Warp's docs.
+# - Warp: verified 2026-10-29 against docs.warp.dev/agents/capabilities/mcp/ (url + headers JSON); see /for/warp/.
 # Verified on master: hosted MCP server and workflow tools (docs/ai/mcp), CLI with JSON output and Claude Code
 # skills (docs/ai/cli), 18 routine templates on Every/Daily/Weekdays/Weekly schedules incl. Slow endpoint watch,
 # Error regression radar, Deployment regression review (daily at 14:00), Telemetry gap detector (docs/ai/routines),

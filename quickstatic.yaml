@@ -177,6 +177,10 @@ main_nav:
         url: /features/ai-sre/
         sprite: zap
         description: Request-backed answers in Slack
+      - title: Software factory
+        url: /features/software-factory/
+        sprite: rocket
+        description: Plugs into your coding agents, or runs its own loop
       - title: Error tracking
         url: /features/error-tracking/
         sprite: bug
