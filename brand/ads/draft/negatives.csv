@@ -1,0 +1,129 @@
+Campaign,Ad group,Keyword,Criterion Type
+C3 Ownership | US,,jobs,Campaign negative phrase
+C3 Ownership | US,,job,Campaign negative phrase
+C3 Ownership | US,,careers,Campaign negative phrase
+C3 Ownership | US,,career,Campaign negative phrase
+C3 Ownership | US,,salary,Campaign negative phrase
+C3 Ownership | US,,salaries,Campaign negative phrase
+C3 Ownership | US,,hiring,Campaign negative phrase
+C3 Ownership | US,,internship,Campaign negative phrase
+C3 Ownership | US,,resume,Campaign negative phrase
+C3 Ownership | US,,stock,Campaign negative phrase
+C3 Ownership | US,,share price,Campaign negative phrase
+C3 Ownership | US,,ipo,Campaign negative phrase
+C3 Ownership | US,,login,Campaign negative phrase
+C3 Ownership | US,,log in,Campaign negative phrase
+C3 Ownership | US,,sign in,Campaign negative phrase
+C3 Ownership | US,,signin,Campaign negative phrase
+C3 Ownership | US,,certification,Campaign negative phrase
+C3 Ownership | US,,certified,Campaign negative phrase
+C3 Ownership | US,,interview,Campaign negative phrase
+C3 Ownership | US,,interview questions,Campaign negative phrase
+C3 Ownership | US,,tutorial,Campaign negative phrase
+C3 Ownership | US,,course,Campaign negative phrase
+C3 Ownership | US,,courses,Campaign negative phrase
+C3 Ownership | US,,training,Campaign negative phrase
+C3 Ownership | US,,udemy,Campaign negative phrase
+C3 Ownership | US,,download,Campaign negative phrase
+C3 Ownership | US,,free download,Campaign negative phrase
+C3 Ownership | US,,datadog agent,Campaign negative phrase
+C3 Ownership | US,,pdf,Campaign negative phrase
+C3 Ownership | US,,ppt,Campaign negative phrase
+C3 Ownership | US,,youtube,Campaign negative phrase
+C3 Ownership | US,,datadog,Campaign negative phrase
+C3 Ownership | US,,new relic,Campaign negative phrase
+C3 Ownership | US,,newrelic,Campaign negative phrase
+C3 Ownership | US,,sentry,Campaign negative phrase
+C3 Ownership | US,,splunk,Campaign negative phrase
+C3 Ownership | US,,grafana,Campaign negative phrase
+C3 Ownership | US,,elastic,Campaign negative phrase
+C3 Ownership | US,,elk,Campaign negative phrase
+C3 Ownership | US,,kibana,Campaign negative phrase
+C3 Ownership | US,,logrocket,Campaign negative phrase
+C3 Ownership | US,,fullstory,Campaign negative phrase
+C3 Ownership | US,,dynatrace,Campaign negative phrase
+C3 Ownership | US,,better stack,Campaign negative phrase
+C3 Ownership | US,,betterstack,Campaign negative phrase
+C3 Ownership | US,,signoz,Campaign negative phrase
+C3 Ownership | US,,bugsnag,Campaign negative phrase
+C3 Ownership | US,,honeybadger,Campaign negative phrase
+C3 Ownership | US,,axiom,Campaign negative phrase
+C3 Ownership | US,,honeycomb,Campaign negative phrase
+C3 Ownership | US,,sumo logic,Campaign negative phrase
+C3 Ownership | US,,logz,Campaign negative phrase
+C3 Ownership | US,,papertrail,Campaign negative phrase
+C3 Ownership | US,,loggly,Campaign negative phrase
+C3 Ownership | US,,uptimerobot,Campaign negative phrase
+C3 Ownership | US,,pingdom,Campaign negative phrase
+C3 Ownership | US,,hotjar,Campaign negative phrase
+C3 Ownership | US,,posthog,Campaign negative phrase
+C3 Ownership | US,,appdynamics,Campaign negative phrase
+C3 Ownership | US,,instana,Campaign negative phrase
+C3 Ownership | US,,coralogix,Campaign negative phrase
+C3 Ownership | US,,dash0,Campaign negative phrase
+C3 Ownership | US,,monoscope,Campaign negative phrase
+C3 Ownership | US,,apitoolkit,Campaign negative phrase
+C3 Ownership | EU,,jobs,Campaign negative phrase
+C3 Ownership | EU,,job,Campaign negative phrase
+C3 Ownership | EU,,careers,Campaign negative phrase
+C3 Ownership | EU,,career,Campaign negative phrase
+C3 Ownership | EU,,salary,Campaign negative phrase
+C3 Ownership | EU,,salaries,Campaign negative phrase
+C3 Ownership | EU,,hiring,Campaign negative phrase
+C3 Ownership | EU,,internship,Campaign negative phrase
+C3 Ownership | EU,,resume,Campaign negative phrase
+C3 Ownership | EU,,stock,Campaign negative phrase
+C3 Ownership | EU,,share price,Campaign negative phrase
+C3 Ownership | EU,,ipo,Campaign negative phrase
+C3 Ownership | EU,,login,Campaign negative phrase
+C3 Ownership | EU,,log in,Campaign negative phrase
+C3 Ownership | EU,,sign in,Campaign negative phrase
+C3 Ownership | EU,,signin,Campaign negative phrase
+C3 Ownership | EU,,certification,Campaign negative phrase
+C3 Ownership | EU,,certified,Campaign negative phrase
+C3 Ownership | EU,,interview,Campaign negative phrase
+C3 Ownership | EU,,interview questions,Campaign negative phrase
+C3 Ownership | EU,,tutorial,Campaign negative phrase
+C3 Ownership | EU,,course,Campaign negative phrase
+C3 Ownership | EU,,courses,Campaign negative phrase
+C3 Ownership | EU,,training,Campaign negative phrase
+C3 Ownership | EU,,udemy,Campaign negative phrase
+C3 Ownership | EU,,download,Campaign negative phrase
+C3 Ownership | EU,,free download,Campaign negative phrase
+C3 Ownership | EU,,datadog agent,Campaign negative phrase
+C3 Ownership | EU,,pdf,Campaign negative phrase
+C3 Ownership | EU,,ppt,Campaign negative phrase
+C3 Ownership | EU,,youtube,Campaign negative phrase
+C3 Ownership | EU,,datadog,Campaign negative phrase
+C3 Ownership | EU,,new relic,Campaign negative phrase
+C3 Ownership | EU,,newrelic,Campaign negative phrase
+C3 Ownership | EU,,sentry,Campaign negative phrase
+C3 Ownership | EU,,splunk,Campaign negative phrase
+C3 Ownership | EU,,grafana,Campaign negative phrase
+C3 Ownership | EU,,elastic,Campaign negative phrase
+C3 Ownership | EU,,elk,Campaign negative phrase
+C3 Ownership | EU,,kibana,Campaign negative phrase
+C3 Ownership | EU,,logrocket,Campaign negative phrase
+C3 Ownership | EU,,fullstory,Campaign negative phrase
+C3 Ownership | EU,,dynatrace,Campaign negative phrase
+C3 Ownership | EU,,better stack,Campaign negative phrase
+C3 Ownership | EU,,betterstack,Campaign negative phrase
+C3 Ownership | EU,,signoz,Campaign negative phrase
+C3 Ownership | EU,,bugsnag,Campaign negative phrase
+C3 Ownership | EU,,honeybadger,Campaign negative phrase
+C3 Ownership | EU,,axiom,Campaign negative phrase
+C3 Ownership | EU,,honeycomb,Campaign negative phrase
+C3 Ownership | EU,,sumo logic,Campaign negative phrase
+C3 Ownership | EU,,logz,Campaign negative phrase
+C3 Ownership | EU,,papertrail,Campaign negative phrase
+C3 Ownership | EU,,loggly,Campaign negative phrase
+C3 Ownership | EU,,uptimerobot,Campaign negative phrase
+C3 Ownership | EU,,pingdom,Campaign negative phrase
+C3 Ownership | EU,,hotjar,Campaign negative phrase
+C3 Ownership | EU,,posthog,Campaign negative phrase
+C3 Ownership | EU,,appdynamics,Campaign negative phrase
+C3 Ownership | EU,,instana,Campaign negative phrase
+C3 Ownership | EU,,coralogix,Campaign negative phrase
+C3 Ownership | EU,,dash0,Campaign negative phrase
+C3 Ownership | EU,,monoscope,Campaign negative phrase
+C3 Ownership | EU,,apitoolkit,Campaign negative phrase

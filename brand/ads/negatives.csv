@@ -1,0 +1,515 @@
+Campaign,Ad group,Keyword,Criterion Type
+C1 Conquest | US,,jobs,Campaign negative phrase
+C1 Conquest | US,,job,Campaign negative phrase
+C1 Conquest | US,,careers,Campaign negative phrase
+C1 Conquest | US,,career,Campaign negative phrase
+C1 Conquest | US,,salary,Campaign negative phrase
+C1 Conquest | US,,salaries,Campaign negative phrase
+C1 Conquest | US,,hiring,Campaign negative phrase
+C1 Conquest | US,,internship,Campaign negative phrase
+C1 Conquest | US,,resume,Campaign negative phrase
+C1 Conquest | US,,stock,Campaign negative phrase
+C1 Conquest | US,,share price,Campaign negative phrase
+C1 Conquest | US,,ipo,Campaign negative phrase
+C1 Conquest | US,,login,Campaign negative phrase
+C1 Conquest | US,,log in,Campaign negative phrase
+C1 Conquest | US,,sign in,Campaign negative phrase
+C1 Conquest | US,,signin,Campaign negative phrase
+C1 Conquest | US,,certification,Campaign negative phrase
+C1 Conquest | US,,certified,Campaign negative phrase
+C1 Conquest | US,,interview,Campaign negative phrase
+C1 Conquest | US,,interview questions,Campaign negative phrase
+C1 Conquest | US,,tutorial,Campaign negative phrase
+C1 Conquest | US,,course,Campaign negative phrase
+C1 Conquest | US,,courses,Campaign negative phrase
+C1 Conquest | US,,training,Campaign negative phrase
+C1 Conquest | US,,udemy,Campaign negative phrase
+C1 Conquest | US,,download,Campaign negative phrase
+C1 Conquest | US,,free download,Campaign negative phrase
+C1 Conquest | US,,datadog agent,Campaign negative phrase
+C1 Conquest | US,,pdf,Campaign negative phrase
+C1 Conquest | US,,ppt,Campaign negative phrase
+C1 Conquest | US,,youtube,Campaign negative phrase
+C1 Conquest | US,,pricing,Campaign negative phrase
+C1 Conquest | US,,price,Campaign negative phrase
+C1 Conquest | US,,cost,Campaign negative phrase
+C1 Conquest | US,,costs,Campaign negative phrase
+C1 Conquest | US,,monoscope,Campaign negative phrase
+C1 Conquest | US,,apitoolkit,Campaign negative phrase
+C1 Conquest | US,datadog,datadog api,Negative phrase
+C1 Conquest | US,datadog,datadog docs,Negative phrase
+C1 Conquest | US,datadog,datadog status,Negative phrase
+C1 Conquest | US,sentry,sentry mode,Negative phrase
+C1 Conquest | US,sentry,sentry safe,Negative phrase
+C1 Conquest | US,sentry,sentry gun,Negative phrase
+C1 Conquest | US,sentry,sentry self hosted,Negative phrase
+C1 Conquest | US,splunk,siem,Negative phrase
+C1 Conquest | US,splunk,soar,Negative phrase
+C1 Conquest | US,splunk,enterprise security,Negative phrase
+C1 Conquest | US,splunk,splunk phantom,Negative phrase
+C1 Conquest | US,splunk,cyber,Negative phrase
+C1 Conquest | US,grafana,grafana tutorial,Negative phrase
+C1 Conquest | US,grafana,grafana plugin,Negative phrase
+C1 Conquest | US,grafana,grafana docker,Negative phrase
+C1 Conquest | US,elastic,elastic band,Negative phrase
+C1 Conquest | US,elastic,elk hunting,Negative phrase
+C1 Conquest | US,elastic,elk lodge,Negative phrase
+C1 Conquest | US,elastic,vector search,Negative phrase
+C1 Conquest | US,elastic,full text search,Negative phrase
+C1 Conquest | US,logrocket,heatmap,Negative phrase
+C1 Conquest | US,logrocket,heatmaps,Negative phrase
+C1 Conquest | US,logrocket,marketing,Negative phrase
+C1 Conquest | US,logrocket,ux research,Negative phrase
+C1 Conquest | US,fullstory,heatmap,Negative phrase
+C1 Conquest | US,fullstory,heatmaps,Negative phrase
+C1 Conquest | US,fullstory,marketing,Negative phrase
+C1 Conquest | US,fullstory,ux research,Negative phrase
+C1 Conquest | US,fullstory,product analytics,Negative phrase
+C1 Conquest | US,dynatrace,dynatrace university,Negative phrase
+C1 Conquest | US,dynatrace,dynatrace managed,Negative phrase
+C1 Conquest | US,better-stack,status page,Negative phrase
+C1 Conquest | US,axiom,axiom space,Negative phrase
+C1 Conquest | US,axiom,axiom verge,Negative phrase
+C1 Conquest | US,axiom,axiom bank,Negative phrase
+C1 Conquest | US,axiom,axiom telecom,Negative phrase
+C1 Conquest | EU,,jobs,Campaign negative phrase
+C1 Conquest | EU,,job,Campaign negative phrase
+C1 Conquest | EU,,careers,Campaign negative phrase
+C1 Conquest | EU,,career,Campaign negative phrase
+C1 Conquest | EU,,salary,Campaign negative phrase
+C1 Conquest | EU,,salaries,Campaign negative phrase
+C1 Conquest | EU,,hiring,Campaign negative phrase
+C1 Conquest | EU,,internship,Campaign negative phrase
+C1 Conquest | EU,,resume,Campaign negative phrase
+C1 Conquest | EU,,stock,Campaign negative phrase
+C1 Conquest | EU,,share price,Campaign negative phrase
+C1 Conquest | EU,,ipo,Campaign negative phrase
+C1 Conquest | EU,,login,Campaign negative phrase
+C1 Conquest | EU,,log in,Campaign negative phrase
+C1 Conquest | EU,,sign in,Campaign negative phrase
+C1 Conquest | EU,,signin,Campaign negative phrase
+C1 Conquest | EU,,certification,Campaign negative phrase
+C1 Conquest | EU,,certified,Campaign negative phrase
+C1 Conquest | EU,,interview,Campaign negative phrase
+C1 Conquest | EU,,interview questions,Campaign negative phrase
+C1 Conquest | EU,,tutorial,Campaign negative phrase
+C1 Conquest | EU,,course,Campaign negative phrase
+C1 Conquest | EU,,courses,Campaign negative phrase
+C1 Conquest | EU,,training,Campaign negative phrase
+C1 Conquest | EU,,udemy,Campaign negative phrase
+C1 Conquest | EU,,download,Campaign negative phrase
+C1 Conquest | EU,,free download,Campaign negative phrase
+C1 Conquest | EU,,datadog agent,Campaign negative phrase
+C1 Conquest | EU,,pdf,Campaign negative phrase
+C1 Conquest | EU,,ppt,Campaign negative phrase
+C1 Conquest | EU,,youtube,Campaign negative phrase
+C1 Conquest | EU,,pricing,Campaign negative phrase
+C1 Conquest | EU,,price,Campaign negative phrase
+C1 Conquest | EU,,cost,Campaign negative phrase
+C1 Conquest | EU,,costs,Campaign negative phrase
+C1 Conquest | EU,,monoscope,Campaign negative phrase
+C1 Conquest | EU,,apitoolkit,Campaign negative phrase
+C1 Conquest | EU,datadog,datadog api,Negative phrase
+C1 Conquest | EU,datadog,datadog docs,Negative phrase
+C1 Conquest | EU,datadog,datadog status,Negative phrase
+C1 Conquest | EU,sentry,sentry mode,Negative phrase
+C1 Conquest | EU,sentry,sentry safe,Negative phrase
+C1 Conquest | EU,sentry,sentry gun,Negative phrase
+C1 Conquest | EU,sentry,sentry self hosted,Negative phrase
+C1 Conquest | EU,splunk,siem,Negative phrase
+C1 Conquest | EU,splunk,soar,Negative phrase
+C1 Conquest | EU,splunk,enterprise security,Negative phrase
+C1 Conquest | EU,splunk,splunk phantom,Negative phrase
+C1 Conquest | EU,splunk,cyber,Negative phrase
+C1 Conquest | EU,grafana,grafana tutorial,Negative phrase
+C1 Conquest | EU,grafana,grafana plugin,Negative phrase
+C1 Conquest | EU,grafana,grafana docker,Negative phrase
+C1 Conquest | EU,elastic,elastic band,Negative phrase
+C1 Conquest | EU,elastic,elk hunting,Negative phrase
+C1 Conquest | EU,elastic,elk lodge,Negative phrase
+C1 Conquest | EU,elastic,vector search,Negative phrase
+C1 Conquest | EU,elastic,full text search,Negative phrase
+C1 Conquest | EU,logrocket,heatmap,Negative phrase
+C1 Conquest | EU,logrocket,heatmaps,Negative phrase
+C1 Conquest | EU,logrocket,marketing,Negative phrase
+C1 Conquest | EU,logrocket,ux research,Negative phrase
+C1 Conquest | EU,fullstory,heatmap,Negative phrase
+C1 Conquest | EU,fullstory,heatmaps,Negative phrase
+C1 Conquest | EU,fullstory,marketing,Negative phrase
+C1 Conquest | EU,fullstory,ux research,Negative phrase
+C1 Conquest | EU,fullstory,product analytics,Negative phrase
+C1 Conquest | EU,dynatrace,dynatrace university,Negative phrase
+C1 Conquest | EU,dynatrace,dynatrace managed,Negative phrase
+C1 Conquest | EU,better-stack,status page,Negative phrase
+C1 Conquest | EU,axiom,axiom space,Negative phrase
+C1 Conquest | EU,axiom,axiom verge,Negative phrase
+C1 Conquest | EU,axiom,axiom bank,Negative phrase
+C1 Conquest | EU,axiom,axiom telecom,Negative phrase
+C2 Cost | US,,jobs,Campaign negative phrase
+C2 Cost | US,,job,Campaign negative phrase
+C2 Cost | US,,careers,Campaign negative phrase
+C2 Cost | US,,career,Campaign negative phrase
+C2 Cost | US,,salary,Campaign negative phrase
+C2 Cost | US,,salaries,Campaign negative phrase
+C2 Cost | US,,hiring,Campaign negative phrase
+C2 Cost | US,,internship,Campaign negative phrase
+C2 Cost | US,,resume,Campaign negative phrase
+C2 Cost | US,,stock,Campaign negative phrase
+C2 Cost | US,,share price,Campaign negative phrase
+C2 Cost | US,,ipo,Campaign negative phrase
+C2 Cost | US,,login,Campaign negative phrase
+C2 Cost | US,,log in,Campaign negative phrase
+C2 Cost | US,,sign in,Campaign negative phrase
+C2 Cost | US,,signin,Campaign negative phrase
+C2 Cost | US,,certification,Campaign negative phrase
+C2 Cost | US,,certified,Campaign negative phrase
+C2 Cost | US,,interview,Campaign negative phrase
+C2 Cost | US,,interview questions,Campaign negative phrase
+C2 Cost | US,,tutorial,Campaign negative phrase
+C2 Cost | US,,course,Campaign negative phrase
+C2 Cost | US,,courses,Campaign negative phrase
+C2 Cost | US,,training,Campaign negative phrase
+C2 Cost | US,,udemy,Campaign negative phrase
+C2 Cost | US,,download,Campaign negative phrase
+C2 Cost | US,,free download,Campaign negative phrase
+C2 Cost | US,,datadog agent,Campaign negative phrase
+C2 Cost | US,,pdf,Campaign negative phrase
+C2 Cost | US,,ppt,Campaign negative phrase
+C2 Cost | US,,youtube,Campaign negative phrase
+C2 Cost | US,,alternative,Campaign negative phrase
+C2 Cost | US,,alternatives,Campaign negative phrase
+C2 Cost | US,,competitors,Campaign negative phrase
+C2 Cost | US,,monoscope,Campaign negative phrase
+C2 Cost | US,,apitoolkit,Campaign negative phrase
+C2 Cost | US,splunk-pricing,siem,Negative phrase
+C2 Cost | US,splunk-pricing,enterprise security,Negative phrase
+C2 Cost | EU,,jobs,Campaign negative phrase
+C2 Cost | EU,,job,Campaign negative phrase
+C2 Cost | EU,,careers,Campaign negative phrase
+C2 Cost | EU,,career,Campaign negative phrase
+C2 Cost | EU,,salary,Campaign negative phrase
+C2 Cost | EU,,salaries,Campaign negative phrase
+C2 Cost | EU,,hiring,Campaign negative phrase
+C2 Cost | EU,,internship,Campaign negative phrase
+C2 Cost | EU,,resume,Campaign negative phrase
+C2 Cost | EU,,stock,Campaign negative phrase
+C2 Cost | EU,,share price,Campaign negative phrase
+C2 Cost | EU,,ipo,Campaign negative phrase
+C2 Cost | EU,,login,Campaign negative phrase
+C2 Cost | EU,,log in,Campaign negative phrase
+C2 Cost | EU,,sign in,Campaign negative phrase
+C2 Cost | EU,,signin,Campaign negative phrase
+C2 Cost | EU,,certification,Campaign negative phrase
+C2 Cost | EU,,certified,Campaign negative phrase
+C2 Cost | EU,,interview,Campaign negative phrase
+C2 Cost | EU,,interview questions,Campaign negative phrase
+C2 Cost | EU,,tutorial,Campaign negative phrase
+C2 Cost | EU,,course,Campaign negative phrase
+C2 Cost | EU,,courses,Campaign negative phrase
+C2 Cost | EU,,training,Campaign negative phrase
+C2 Cost | EU,,udemy,Campaign negative phrase
+C2 Cost | EU,,download,Campaign negative phrase
+C2 Cost | EU,,free download,Campaign negative phrase
+C2 Cost | EU,,datadog agent,Campaign negative phrase
+C2 Cost | EU,,pdf,Campaign negative phrase
+C2 Cost | EU,,ppt,Campaign negative phrase
+C2 Cost | EU,,youtube,Campaign negative phrase
+C2 Cost | EU,,alternative,Campaign negative phrase
+C2 Cost | EU,,alternatives,Campaign negative phrase
+C2 Cost | EU,,competitors,Campaign negative phrase
+C2 Cost | EU,,monoscope,Campaign negative phrase
+C2 Cost | EU,,apitoolkit,Campaign negative phrase
+C2 Cost | EU,splunk-pricing,siem,Negative phrase
+C2 Cost | EU,splunk-pricing,enterprise security,Negative phrase
+C4 Brand | US,,jobs,Campaign negative phrase
+C4 Brand | US,,job,Campaign negative phrase
+C4 Brand | US,,careers,Campaign negative phrase
+C4 Brand | US,,career,Campaign negative phrase
+C4 Brand | US,,salary,Campaign negative phrase
+C4 Brand | US,,salaries,Campaign negative phrase
+C4 Brand | US,,hiring,Campaign negative phrase
+C4 Brand | US,,internship,Campaign negative phrase
+C4 Brand | US,,resume,Campaign negative phrase
+C4 Brand | US,,stock,Campaign negative phrase
+C4 Brand | US,,share price,Campaign negative phrase
+C4 Brand | US,,ipo,Campaign negative phrase
+C4 Brand | US,,login,Campaign negative phrase
+C4 Brand | US,,log in,Campaign negative phrase
+C4 Brand | US,,sign in,Campaign negative phrase
+C4 Brand | US,,signin,Campaign negative phrase
+C4 Brand | US,,certification,Campaign negative phrase
+C4 Brand | US,,certified,Campaign negative phrase
+C4 Brand | US,,interview,Campaign negative phrase
+C4 Brand | US,,interview questions,Campaign negative phrase
+C4 Brand | US,,tutorial,Campaign negative phrase
+C4 Brand | US,,course,Campaign negative phrase
+C4 Brand | US,,courses,Campaign negative phrase
+C4 Brand | US,,training,Campaign negative phrase
+C4 Brand | US,,udemy,Campaign negative phrase
+C4 Brand | US,,download,Campaign negative phrase
+C4 Brand | US,,free download,Campaign negative phrase
+C4 Brand | US,,datadog agent,Campaign negative phrase
+C4 Brand | US,,pdf,Campaign negative phrase
+C4 Brand | US,,ppt,Campaign negative phrase
+C4 Brand | US,,youtube,Campaign negative phrase
+C4 Brand | US,brand,test card,Negative phrase
+C4 Brand | US,brand,test pattern,Negative phrase
+C4 Brand | US,brand,tv,Negative phrase
+C4 Brand | US,brand,television,Negative phrase
+C4 Brand | US,brand,tube,Negative phrase
+C4 Brand | US,brand,camera,Negative phrase
+C4 Brand | US,brand,microscope,Negative phrase
+C4 Brand | US,brand,telescope,Negative phrase
+C4 Brand | US,brand,wallpaper,Negative phrase
+C4 Brand | US,brand,monoscope pattern,Negative phrase
+C4 Brand | EU,,jobs,Campaign negative phrase
+C4 Brand | EU,,job,Campaign negative phrase
+C4 Brand | EU,,careers,Campaign negative phrase
+C4 Brand | EU,,career,Campaign negative phrase
+C4 Brand | EU,,salary,Campaign negative phrase
+C4 Brand | EU,,salaries,Campaign negative phrase
+C4 Brand | EU,,hiring,Campaign negative phrase
+C4 Brand | EU,,internship,Campaign negative phrase
+C4 Brand | EU,,resume,Campaign negative phrase
+C4 Brand | EU,,stock,Campaign negative phrase
+C4 Brand | EU,,share price,Campaign negative phrase
+C4 Brand | EU,,ipo,Campaign negative phrase
+C4 Brand | EU,,login,Campaign negative phrase
+C4 Brand | EU,,log in,Campaign negative phrase
+C4 Brand | EU,,sign in,Campaign negative phrase
+C4 Brand | EU,,signin,Campaign negative phrase
+C4 Brand | EU,,certification,Campaign negative phrase
+C4 Brand | EU,,certified,Campaign negative phrase
+C4 Brand | EU,,interview,Campaign negative phrase
+C4 Brand | EU,,interview questions,Campaign negative phrase
+C4 Brand | EU,,tutorial,Campaign negative phrase
+C4 Brand | EU,,course,Campaign negative phrase
+C4 Brand | EU,,courses,Campaign negative phrase
+C4 Brand | EU,,training,Campaign negative phrase
+C4 Brand | EU,,udemy,Campaign negative phrase
+C4 Brand | EU,,download,Campaign negative phrase
+C4 Brand | EU,,free download,Campaign negative phrase
+C4 Brand | EU,,datadog agent,Campaign negative phrase
+C4 Brand | EU,,pdf,Campaign negative phrase
+C4 Brand | EU,,ppt,Campaign negative phrase
+C4 Brand | EU,,youtube,Campaign negative phrase
+C4 Brand | EU,brand,test card,Negative phrase
+C4 Brand | EU,brand,test pattern,Negative phrase
+C4 Brand | EU,brand,tv,Negative phrase
+C4 Brand | EU,brand,television,Negative phrase
+C4 Brand | EU,brand,tube,Negative phrase
+C4 Brand | EU,brand,camera,Negative phrase
+C4 Brand | EU,brand,microscope,Negative phrase
+C4 Brand | EU,brand,telescope,Negative phrase
+C4 Brand | EU,brand,wallpaper,Negative phrase
+C4 Brand | EU,brand,monoscope pattern,Negative phrase
+C5 Category | US,,jobs,Campaign negative phrase
+C5 Category | US,,job,Campaign negative phrase
+C5 Category | US,,careers,Campaign negative phrase
+C5 Category | US,,career,Campaign negative phrase
+C5 Category | US,,salary,Campaign negative phrase
+C5 Category | US,,salaries,Campaign negative phrase
+C5 Category | US,,hiring,Campaign negative phrase
+C5 Category | US,,internship,Campaign negative phrase
+C5 Category | US,,resume,Campaign negative phrase
+C5 Category | US,,stock,Campaign negative phrase
+C5 Category | US,,share price,Campaign negative phrase
+C5 Category | US,,ipo,Campaign negative phrase
+C5 Category | US,,login,Campaign negative phrase
+C5 Category | US,,log in,Campaign negative phrase
+C5 Category | US,,sign in,Campaign negative phrase
+C5 Category | US,,signin,Campaign negative phrase
+C5 Category | US,,certification,Campaign negative phrase
+C5 Category | US,,certified,Campaign negative phrase
+C5 Category | US,,interview,Campaign negative phrase
+C5 Category | US,,interview questions,Campaign negative phrase
+C5 Category | US,,tutorial,Campaign negative phrase
+C5 Category | US,,course,Campaign negative phrase
+C5 Category | US,,courses,Campaign negative phrase
+C5 Category | US,,training,Campaign negative phrase
+C5 Category | US,,udemy,Campaign negative phrase
+C5 Category | US,,download,Campaign negative phrase
+C5 Category | US,,free download,Campaign negative phrase
+C5 Category | US,,datadog agent,Campaign negative phrase
+C5 Category | US,,pdf,Campaign negative phrase
+C5 Category | US,,ppt,Campaign negative phrase
+C5 Category | US,,youtube,Campaign negative phrase
+C5 Category | US,,datadog,Campaign negative phrase
+C5 Category | US,,new relic,Campaign negative phrase
+C5 Category | US,,newrelic,Campaign negative phrase
+C5 Category | US,,sentry,Campaign negative phrase
+C5 Category | US,,splunk,Campaign negative phrase
+C5 Category | US,,grafana,Campaign negative phrase
+C5 Category | US,,elastic,Campaign negative phrase
+C5 Category | US,,elk,Campaign negative phrase
+C5 Category | US,,kibana,Campaign negative phrase
+C5 Category | US,,logrocket,Campaign negative phrase
+C5 Category | US,,fullstory,Campaign negative phrase
+C5 Category | US,,dynatrace,Campaign negative phrase
+C5 Category | US,,better stack,Campaign negative phrase
+C5 Category | US,,betterstack,Campaign negative phrase
+C5 Category | US,,signoz,Campaign negative phrase
+C5 Category | US,,bugsnag,Campaign negative phrase
+C5 Category | US,,honeybadger,Campaign negative phrase
+C5 Category | US,,axiom,Campaign negative phrase
+C5 Category | US,,honeycomb,Campaign negative phrase
+C5 Category | US,,sumo logic,Campaign negative phrase
+C5 Category | US,,logz,Campaign negative phrase
+C5 Category | US,,papertrail,Campaign negative phrase
+C5 Category | US,,loggly,Campaign negative phrase
+C5 Category | US,,uptimerobot,Campaign negative phrase
+C5 Category | US,,pingdom,Campaign negative phrase
+C5 Category | US,,hotjar,Campaign negative phrase
+C5 Category | US,,posthog,Campaign negative phrase
+C5 Category | US,,appdynamics,Campaign negative phrase
+C5 Category | US,,instana,Campaign negative phrase
+C5 Category | US,,coralogix,Campaign negative phrase
+C5 Category | US,,dash0,Campaign negative phrase
+C5 Category | US,,pricing,Campaign negative phrase
+C5 Category | US,,monoscope,Campaign negative phrase
+C5 Category | US,,apitoolkit,Campaign negative phrase
+C5 Category | US,opentelemetry,demo,Negative phrase
+C5 Category | US,opentelemetry,specification,Negative phrase
+C5 Category | US,opentelemetry,semantic conventions,Negative phrase
+C5 Category | US,opentelemetry,operator,Negative phrase
+C5 Category | US,opentelemetry,helm,Negative phrase
+C5 Category | US,opentelemetry,what is,Negative phrase
+C5 Category | US,opentelemetry,backend,Negative phrase
+C5 Category | US,opentelemetry,storage,Negative phrase
+C5 Category | US,opentelemetry,hosted,Negative phrase
+C5 Category | US,opentelemetry,platform,Negative phrase
+C5 Category | US,apm,apm terminals,Negative phrase
+C5 Category | US,apm,apm monaco,Negative phrase
+C5 Category | US,apm,apm music,Negative phrase
+C5 Category | US,apm,apm qualification,Negative phrase
+C5 Category | US,apm,project management,Negative phrase
+C5 Category | US,apm,apm planner,Negative phrase
+C5 Category | US,apm,ardupilot,Negative phrase
+C5 Category | US,apm,apm exam,Negative phrase
+C5 Category | US,distributed-tracing,what is,Negative phrase
+C5 Category | US,api-monitoring,postman,Negative phrase
+C5 Category | US,api-monitoring,api gateway,Negative phrase
+C5 Category | US,session-replay,heatmap,Negative phrase
+C5 Category | US,session-replay,heatmaps,Negative phrase
+C5 Category | US,session-replay,shopify,Negative phrase
+C5 Category | US,session-replay,wordpress,Negative phrase
+C5 Category | US,session-replay,marketing,Negative phrase
+C5 Category | US,session-replay,hotjar,Negative phrase
+C5 Category | US,uptime-monitoring,kuma,Negative phrase
+C5 Category | US,uptime-monitoring,uptimerobot,Negative phrase
+C5 Category | US,uptime-monitoring,uptime robot,Negative phrase
+C5 Category | US,uptime-monitoring,uptime command,Negative phrase
+C5 Category | US,uptime-monitoring,linux,Negative phrase
+C5 Category | US,uptime-monitoring,windows,Negative phrase
+C5 Category | US,uptime-monitoring,minecraft,Negative phrase
+C5 Category | US,ai-rca,training,Negative phrase
+C5 Category | US,ai-rca,course,Negative phrase
+C5 Category | US,ai-rca,certification,Negative phrase
+C5 Category | US,ai-rca,six sigma,Negative phrase
+C5 Category | US,ai-rca,template,Negative phrase
+C5 Category | US,ai-rca,fishbone,Negative phrase
+C5 Category | EU,,jobs,Campaign negative phrase
+C5 Category | EU,,job,Campaign negative phrase
+C5 Category | EU,,careers,Campaign negative phrase
+C5 Category | EU,,career,Campaign negative phrase
+C5 Category | EU,,salary,Campaign negative phrase
+C5 Category | EU,,salaries,Campaign negative phrase
+C5 Category | EU,,hiring,Campaign negative phrase
+C5 Category | EU,,internship,Campaign negative phrase
+C5 Category | EU,,resume,Campaign negative phrase
+C5 Category | EU,,stock,Campaign negative phrase
+C5 Category | EU,,share price,Campaign negative phrase
+C5 Category | EU,,ipo,Campaign negative phrase
+C5 Category | EU,,login,Campaign negative phrase
+C5 Category | EU,,log in,Campaign negative phrase
+C5 Category | EU,,sign in,Campaign negative phrase
+C5 Category | EU,,signin,Campaign negative phrase
+C5 Category | EU,,certification,Campaign negative phrase
+C5 Category | EU,,certified,Campaign negative phrase
+C5 Category | EU,,interview,Campaign negative phrase
+C5 Category | EU,,interview questions,Campaign negative phrase
+C5 Category | EU,,tutorial,Campaign negative phrase
+C5 Category | EU,,course,Campaign negative phrase
+C5 Category | EU,,courses,Campaign negative phrase
+C5 Category | EU,,training,Campaign negative phrase
+C5 Category | EU,,udemy,Campaign negative phrase
+C5 Category | EU,,download,Campaign negative phrase
+C5 Category | EU,,free download,Campaign negative phrase
+C5 Category | EU,,datadog agent,Campaign negative phrase
+C5 Category | EU,,pdf,Campaign negative phrase
+C5 Category | EU,,ppt,Campaign negative phrase
+C5 Category | EU,,youtube,Campaign negative phrase
+C5 Category | EU,,datadog,Campaign negative phrase
+C5 Category | EU,,new relic,Campaign negative phrase
+C5 Category | EU,,newrelic,Campaign negative phrase
+C5 Category | EU,,sentry,Campaign negative phrase
+C5 Category | EU,,splunk,Campaign negative phrase
+C5 Category | EU,,grafana,Campaign negative phrase
+C5 Category | EU,,elastic,Campaign negative phrase
+C5 Category | EU,,elk,Campaign negative phrase
+C5 Category | EU,,kibana,Campaign negative phrase
+C5 Category | EU,,logrocket,Campaign negative phrase
+C5 Category | EU,,fullstory,Campaign negative phrase
+C5 Category | EU,,dynatrace,Campaign negative phrase
+C5 Category | EU,,better stack,Campaign negative phrase
+C5 Category | EU,,betterstack,Campaign negative phrase
+C5 Category | EU,,signoz,Campaign negative phrase
+C5 Category | EU,,bugsnag,Campaign negative phrase
+C5 Category | EU,,honeybadger,Campaign negative phrase
+C5 Category | EU,,axiom,Campaign negative phrase
+C5 Category | EU,,honeycomb,Campaign negative phrase
+C5 Category | EU,,sumo logic,Campaign negative phrase
+C5 Category | EU,,logz,Campaign negative phrase
+C5 Category | EU,,papertrail,Campaign negative phrase
+C5 Category | EU,,loggly,Campaign negative phrase
+C5 Category | EU,,uptimerobot,Campaign negative phrase
+C5 Category | EU,,pingdom,Campaign negative phrase
+C5 Category | EU,,hotjar,Campaign negative phrase
+C5 Category | EU,,posthog,Campaign negative phrase
+C5 Category | EU,,appdynamics,Campaign negative phrase
+C5 Category | EU,,instana,Campaign negative phrase
+C5 Category | EU,,coralogix,Campaign negative phrase
+C5 Category | EU,,dash0,Campaign negative phrase
+C5 Category | EU,,pricing,Campaign negative phrase
+C5 Category | EU,,monoscope,Campaign negative phrase
+C5 Category | EU,,apitoolkit,Campaign negative phrase
+C5 Category | EU,opentelemetry,demo,Negative phrase
+C5 Category | EU,opentelemetry,specification,Negative phrase
+C5 Category | EU,opentelemetry,semantic conventions,Negative phrase
+C5 Category | EU,opentelemetry,operator,Negative phrase
+C5 Category | EU,opentelemetry,helm,Negative phrase
+C5 Category | EU,opentelemetry,what is,Negative phrase
+C5 Category | EU,opentelemetry,backend,Negative phrase
+C5 Category | EU,opentelemetry,storage,Negative phrase
+C5 Category | EU,opentelemetry,hosted,Negative phrase
+C5 Category | EU,opentelemetry,platform,Negative phrase
+C5 Category | EU,apm,apm terminals,Negative phrase
+C5 Category | EU,apm,apm monaco,Negative phrase
+C5 Category | EU,apm,apm music,Negative phrase
+C5 Category | EU,apm,apm qualification,Negative phrase
+C5 Category | EU,apm,project management,Negative phrase
+C5 Category | EU,apm,apm planner,Negative phrase
+C5 Category | EU,apm,ardupilot,Negative phrase
+C5 Category | EU,apm,apm exam,Negative phrase
+C5 Category | EU,distributed-tracing,what is,Negative phrase
+C5 Category | EU,api-monitoring,postman,Negative phrase
+C5 Category | EU,api-monitoring,api gateway,Negative phrase
+C5 Category | EU,session-replay,heatmap,Negative phrase
+C5 Category | EU,session-replay,heatmaps,Negative phrase
+C5 Category | EU,session-replay,shopify,Negative phrase
+C5 Category | EU,session-replay,wordpress,Negative phrase
+C5 Category | EU,session-replay,marketing,Negative phrase
+C5 Category | EU,session-replay,hotjar,Negative phrase
+C5 Category | EU,uptime-monitoring,kuma,Negative phrase
+C5 Category | EU,uptime-monitoring,uptimerobot,Negative phrase
+C5 Category | EU,uptime-monitoring,uptime robot,Negative phrase
+C5 Category | EU,uptime-monitoring,uptime command,Negative phrase
+C5 Category | EU,uptime-monitoring,linux,Negative phrase
+C5 Category | EU,uptime-monitoring,windows,Negative phrase
+C5 Category | EU,uptime-monitoring,minecraft,Negative phrase
+C5 Category | EU,ai-rca,training,Negative phrase
+C5 Category | EU,ai-rca,course,Negative phrase
+C5 Category | EU,ai-rca,certification,Negative phrase
+C5 Category | EU,ai-rca,six sigma,Negative phrase
+C5 Category | EU,ai-rca,template,Negative phrase
+C5 Category | EU,ai-rca,fishbone,Negative phrase
