@@ -6,10 +6,11 @@
 
   // The only events ad pixels see. signup_start is a click, not an account, so it goes out under custom names no platform bids on.
   // li/tw take LinkedIn conversion ids and X event ids once those exist in each ads account.
+  // Exception until the app sends Reddit signups: Reddit's live SIGN_UP ad group bids on this click, so it keeps getting SignUp.
   const ADS = {
     demo_booked:        { fb: ['track', 'Schedule'],               rdt: ['Lead'] },
     github_star_intent: { fb: ['trackCustom', 'GitHubStarIntent'], rdt: ['Custom', 'GitHubStarIntent'] },
-    signup_start:       { fb: ['trackCustom', 'SignupStart'],      rdt: ['Custom', 'SignupStart'] },
+    signup_start:       { fb: ['trackCustom', 'SignupStart'],      rdt: ['SignUp'] },
   };
   const afterIdle = f => C.idle ? f() : addEventListener('ms:idle', f, { once: true });
 
