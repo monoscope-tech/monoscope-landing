@@ -36,3 +36,16 @@
 /apm /features/apm/ 301
 /distributed-tracing /features/distributed-tracing/ 301
 /real-user-monitoring /features/real-user-monitoring/ 301
+/splunk-alternative /compare/splunk/ 301
+/grafana-alternative /compare/grafana/ 301
+/elastic-alternative /compare/elastic/ 301
+/elk-alternative /compare/elastic/ 301
+/logrocket-alternative /compare/logrocket/ 301
+/fullstory-alternative /compare/fullstory/ 301
+/dynatrace-alternative /compare/dynatrace/ 301
+/better-stack-alternative /compare/better-stack/ 301
+/betterstack-alternative /compare/better-stack/ 301
+/signoz-alternative /compare/signoz/ 301
+/datadog-alternative /compare/datadog/ 301
+/sentry-alternative /compare/sentry/ 301
+/new-relic-alternative /compare/newrelic/ 301

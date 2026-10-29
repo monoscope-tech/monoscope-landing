@@ -11,14 +11,14 @@ diffs:
 pages:
   - { name: Datadog, slug: /compare/datadog/, img: datadog.svg, line: "Bodies and unsampled traces for $1 per million events, instead of per-host, per-GB and per-index pricing." }
   - { name: Splunk, slug: /compare/splunk/, line: "One price per event instead of per-host APM plus a separate log ingest contract." }
-  - { name: Grafana, slug: /compare/grafana/, line: "The request and response body, not only the span, with errors and an AI SRE on top." }
-  - { name: Elastic, slug: /compare/elastic/, line: "Every request and response kept, without running and tuning an ELK cluster." }
+  - { name: Grafana, slug: /compare/grafana/, img: grafana.svg, line: "The request and response body, not only the span, with errors and an AI SRE on top." }
+  - { name: Elastic, slug: /compare/elastic/, img: elastic.svg, line: "Every request and response kept, without running and tuning an ELK cluster." }
   - { name: Sentry, slug: /compare/sentry/, img: sentry.svg, line: "The request and response behind each error, next to logs, traces and metrics." }
   - { name: New Relic, slug: /compare/newrelic/, img: newrelic.svg, line: "Every request kept, priced per event with unlimited team members, not per GB and per seat." }
-  - { name: Dynatrace, slug: /compare/dynatrace/, line: "Request bodies kept and priced per event, with no annual commitment." }
+  - { name: Dynatrace, slug: /compare/dynatrace/, img: dynatrace.svg, line: "Request bodies kept and priced per event, with no annual commitment." }
   - { name: LogRocket, slug: /compare/logrocket/, line: "Session replay linked to the backend request, trace and logs behind each click." }
   - { name: Fullstory, slug: /compare/fullstory/, line: "Replay for the engineer fixing it, with the server side of every request." }
-  - { name: Better Stack, slug: /compare/better-stack/, line: "The request and response body, yours and your suppliers’, for the AI to read." }
+  - { name: Better Stack, slug: /compare/better-stack/, img: betterstack.svg, line: "The request and response body, yours and your suppliers’, for the AI to read." }
   - { name: SigNoz, slug: /compare/signoz/, line: "Open source and OpenTelemetry too, with request bodies kept without custom attributes." }
   - { name: Honeybadger, slug: /compare/honeybadger/, img: honeybadger.svg, line: "Traces, metrics, replays and full payloads beyond errors and uptime." }
   - { name: BugSnag, slug: /compare/bugsnag/, img: bugsnag.svg, line: "The request behind each crash, plus logs, metrics and session replay." }
@@ -56,7 +56,7 @@ pages:
       <ul class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {% for page in this.frontmatter.pages %}
         <li><a href="{{page.slug}}" class="press group card h-full rounded-2xl border border-strokeWeak p-6 flex flex-col gap-5 transition-[border-color] hover:border-strokeStrong">
-          {% if page.img %}<img class="h-6 w-auto self-start brightness-0 dark:invert opacity-80" src="/assets/img/compare-logos/{{page.img}}" alt="">{% endif %}
+          {% if page.img %}<img class="h-6 w-auto self-start brightness-0 dark:invert opacity-80" src="/assets/img/compare-logos/{{page.img}}" alt="">{% else %}<span class="h-6 self-start text-lg font-semibold leading-6 tracking-tight text-textStrong opacity-80">{{page.name}}</span>{% endif %}
           <span class="text-xl font-semibold leading-[1.35] text-textStrong">monoscope vs {{page.name}}</span>
           <span class="text-base leading-relaxed text-textWeak text-pretty flex-1">{{page.line}}</span>
           <span class="inline-flex items-center gap-2 text-base font-medium text-textBrand">Read the comparison <svg class="h-3 w-3 transition-transform group-hover:translate-x-0.5" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#arrow-right"></use></svg></span>

@@ -2,8 +2,8 @@
 and them: exactly 8 cells in `labels` order, each {s: yes|part|no|none, t} or {list: [..]}. monoscope's cells live in `mono` below.{% endcomment %}
 {% render "default/components/page-style" %}
 {% assign f = this.frontmatter %}
-{% assign labels = "Request and response bodies, in and out|Breaking changes in third-party APIs|AI sees the full request|AI investigates and opens fix PRs|Pricing|Open source and self-hosting|Data in your own bucket|Coverage" | split: "|" %}
-{% assign mono = "yes~Every call, unsampled on paid plans|yes~Caught in the stored responses|yes~Yes|yes~Built in|list~$29/month for 20M events;then $1 per million;Bodies and metrics included;No host or indexing fees|yes~AGPL-3.0, free to self-host|yes~Delta Lake and Parquet in your S3, +$199/month|yes~Logs, traces, metrics, errors and session replay" | split: "|" %}
+{% assign labels = "Request and response bodies, in and out|Breaking changes in third-party APIs|AI sees the full request|AI investigates the root cause|Pricing|Open source and self-hosting|Data in your own bucket|Coverage" | split: "|" %}
+{% assign mono = "yes~Every call, unsampled on paid plans|yes~Caught in the stored responses|yes~Yes|yes~Built in, answers in Slack|list~$29/month for 20M events;then $1 per million;Bodies and metrics included;No host or indexing fees|yes~AGPL-3.0, free to self-host|part~Session replays in your S3 today, +$199/month|yes~Logs, traces, metrics, errors and session replay" | split: "|" %}
 {% capture check %}<svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5"/></svg>{% endcapture %}
 {% capture icon_yes %}<span class="mt-0.5 text-textSuccess">{{check}}</span>{% endcapture %}
 {% capture icon_part %}<span class="mt-0.5 text-iconWarning"><svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4.5v4M8 11.5h.01M14 8A6 6 0 1 1 2 8a6 6 0 0 1 12 0"/></svg></span>{% endcapture %}
@@ -40,7 +40,7 @@ and them: exactly 8 cells in `labels` order, each {s: yes|part|no|none, t} or {l
             <tbody>
               {% for label in labels %}{% assign i = forloop.index0 %}{% assign m = mono[i] | split: "~" %}{% assign t = f.them[i] %}
               <tr><th scope="row" class="sticky left-0 z-10 bg-bgRaised w-36 md:w-72 border-t border-strokeWeak px-4 py-3.5 text-start align-top text-sm md:text-[15px] leading-snug font-medium text-textStrong text-pretty">{{label}}</th>
-                <td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty bg-fillBrand-weak border-x border-x-strokeBrand-strong text-textStrong{% if forloop.last %} rounded-b-xl border-b border-b-strokeBrand-strong{% endif %}">{% if m[0] == 'list' %}{% assign items = m[1] | split: ";" %}<ul class="space-y-1 tabular-nums">{% for it in items %}<li{% if forloop.first %} class="font-semibold text-textSuccess"{% endif %}>{{it}}</li>{% endfor %}</ul>{% else %}<span class="flex items-start gap-2">{{icon_yes}}<span>{{m[1]}}</span></span>{% endif %}</td>
+                <td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty bg-fillBrand-weak border-x border-x-strokeBrand-strong text-textStrong{% if forloop.last %} rounded-b-xl border-b border-b-strokeBrand-strong{% endif %}">{% if m[0] == 'list' %}{% assign items = m[1] | split: ";" %}<ul class="space-y-1 tabular-nums">{% for it in items %}<li{% if forloop.first %} class="font-semibold text-textSuccess"{% endif %}>{{it}}</li>{% endfor %}</ul>{% else %}<span class="flex items-start gap-2">{% if m[0] == 'part' %}{{icon_part}}{% else %}{{icon_yes}}{% endif %}<span>{{m[1]}}</span></span>{% endif %}</td>
                 <td class="border-t border-strokeWeak px-4 py-3.5 align-top text-pretty text-textWeak">{% if t.list %}<ul class="space-y-1 tabular-nums">{% for it in t.list %}<li>{{it}}</li>{% endfor %}</ul>{% elsif t.s == 'none' %}<span title="We couldn’t confirm this from public docs">—</span>{% else %}<span class="flex items-start gap-2">{% if t.s == 'yes' %}{{icon_yes}}{% elsif t.s == 'no' %}{{icon_no}}{% else %}{{icon_part}}{% endif %}<span>{{t.t}}</span></span>{% endif %}</td></tr>
               {% endfor %}
             </tbody>
@@ -84,3 +84,4 @@ and them: exactly 8 cells in `labels` order, each {s: yes|part|no|none, t} or {l
     </div>
   </section>
 </section>
+{% if f.volumes %}{% render "default/components/compare-alternatives", f:f %}{% endif %}
