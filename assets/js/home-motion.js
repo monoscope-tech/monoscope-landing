@@ -1,9 +1,13 @@
 // Homepage micro-motion: lamps and sea glints pinned to painted art, and once-only heading reveals.
 (() => {
-  // Morning hero: slide the painting so the lighthouse's foot sits just above the demo tabs at any width
-  const sky = document.querySelector('[data-anchor-to]'), tabs = sky && document.querySelector(sky.dataset.anchorTo);
-  const anchor = () => { if (!tabs.offsetParent) return sky.style.top = ''; sky.style.top = tabs.getBoundingClientRect().top - sky.parentElement.getBoundingClientRect().top - sky.offsetHeight * +sky.dataset.anchorAt + 'px'; };
-  if (tabs) { new ResizeObserver(anchor).observe(sky.parentElement); sky.complete ? anchor() : sky.addEventListener('load', anchor, { once: true }); }
+  // Hero paintings marked data-anchor-to slide so their landmark's foot sits just above the demo tabs at any width
+  const anchored = [...document.querySelectorAll('[data-anchor-to]')], sky = anchored[0];
+  anchored.forEach(img => {
+    const tabs = document.querySelector(img.dataset.anchorTo); if (!tabs) return;
+    const anchor = () => { img.style.top = tabs.offsetParent && img.offsetHeight ? tabs.getBoundingClientRect().top - img.parentElement.getBoundingClientRect().top - img.offsetHeight * +img.dataset.anchorAt + 'px' : ''; };
+    const ro = new ResizeObserver(anchor); ro.observe(img.parentElement); ro.observe(img);
+    img.complete ? anchor() : img.addEventListener('load', anchor, { once: true });
+  });
   if (!matchMedia('(prefers-reduced-motion: no-preference)').matches) return;
   if (sky) {
     const gull = '<svg viewBox="0 0 22 10"><path d="M1 7 Q6 1 11 6 Q16 1 21 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
