@@ -61,7 +61,7 @@ The setup has five short steps. You can change every answer later in **Settings*
 Every project gets an API key when you create it. The setup shows this key in step 4. To see it later, or to make more keys, open **Settings > API Keys**.
 
 ```=html
-{% render "default/markdown/screenshot.liquid", name: "settings-api-keys", alt: "The API Keys page in monoscope settings, with a list of keys and the date each key was made" %}
+{% render "docs/components/shot", name: "settings-api-keys", alt: "The API Keys page in monoscope settings, with a list of keys and the date each key was made" %}
 ```
 
 ```=html
@@ -153,7 +153,7 @@ monoscope send-event -m "Hello from monoscope"
 Open **Log Explorer** in monoscope and search for `Hello from monoscope`. The event shows in a few seconds. Then send some requests to your application. Its logs, traces and requests show in the same place.
 
 ```=html
-{% render "default/markdown/screenshot.liquid", name: "log-explorer", alt: "Log Explorer in monoscope, with a chart of events over time above a list of logs and spans" %}
+{% render "docs/components/shot", name: "log-explorer", alt: "Log Explorer in monoscope, with a chart of events over time above a list of logs and spans" %}
 ```
 
 To test the pipeline with more data, send synthetic traces:

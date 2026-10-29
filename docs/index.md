@@ -65,12 +65,12 @@ monoscope auth login
       <span>The CLI, agent skills and the hosted MCP server. One API key, one JSON shape, for shells, agents and CI.</span>
     </a>
     <a href="/docs/dashboard/" class="docs-grid__cell">
-      <p><i class="fa-solid fa-chart-line"></i> <strong>Dashboard Guides</strong></p>
+      <p><i class="fa-solid fa-chart-line"></i> <strong>Product Guide</strong></p>
       <span>Log Explorer, issues, monitors, dashboards, the API catalog and reports.</span>
     </a>
-    <a href="/docs/features/" class="docs-grid__cell">
-      <p><i class="fa-solid fa-star"></i> <strong>Features</strong></p>
-      <span>What monoscope does in detail: error tracking, API change detection, monitors and alerts.</span>
+    <a href="/features/" class="docs-grid__cell">
+      <p><i class="fa-solid fa-star"></i> <strong>Product Overview</strong></p>
+      <span>What monoscope does, page by page: the AI SRE, issues, logs and traces, dashboards and session replay.</span>
     </a>
     <a href="/docs/sdks/opentelemetry/" class="docs-grid__cell">
       <p><i class="fa-solid fa-diagram-project"></i> <strong>OpenTelemetry</strong></p>

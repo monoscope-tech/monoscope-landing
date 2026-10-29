@@ -136,13 +136,9 @@ docs_main_pages:
     slug: /docs/sdks
     icon: plug
 
-  - title: Dashboard Guides
+  - title: Product Guide
     slug: /docs/dashboard
     icon: chart-line
-
-  - title: Features
-    slug: /docs/features
-    icon: folder-tree
 
   - title: API Reference
     slug: /docs/api-reference
