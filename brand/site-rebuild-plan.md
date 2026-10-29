@@ -85,12 +85,12 @@ That session owns the product pages: `/features/*` (overview, ai-sre, error-trac
 
 ## Status
 
-- [ ] B screenshots
+- [x] B screenshots
 - [x] C product pages (moved to the other session)
-- [ ] D pricing + compare
-- [ ] E changelog
-- [ ] F1 docs onboarding/SDKs
-- [ ] F2 docs dashboard/features/AI
-- [ ] G company pages + 404
+- [x] D pricing + compare
+- [x] E changelog
+- [x] F1 docs onboarding/SDKs
+- [x] F2 docs dashboard/features/AI
+- [x] G company pages + 404
 - [x] Art (lead): 13 `page-*.webp` strips, commit 90d44d6f
-- [ ] Integration + QA + push (lead)
+- [x] Integration + QA + push (lead)
