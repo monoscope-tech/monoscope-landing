@@ -61,7 +61,7 @@ Force a mode with `--json`, `--yaml`, or `--table`.
 ```=html
 <div class="callout callout-tip">
   <i class="fa-solid fa-bolt"></i>
-  <p><code>curl https://monoscope.tech/install.sh | sh</code> — drops the binary into <code>~/.local/bin</code>. Linux and macOS, x86_64 and arm64.</p>
+  <p><code>curl -fsSL https://monoscopehq.com/install.sh | sh</code> — drops the binary into <code>~/.local/bin</code>. Linux and macOS, x86_64 and arm64.</p>
 </div>
 ```
 

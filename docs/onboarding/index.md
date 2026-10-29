@@ -97,7 +97,7 @@ npx skills add monoscope-tech/skills
 Install the monoscope CLI and log in. The login opens your browser:
 
 ```sh
-curl -fsSL https://monoscope.tech/install.sh | sh
+curl -fsSL https://monoscopehq.com/install.sh | sh
 monoscope auth login
 ```
 
@@ -145,7 +145,7 @@ Any OpenTelemetry SDK or collector reads these variables. To capture request and
 Send a test event with the CLI. If you did not install the CLI in step 4, install it and log in first:
 
 ```sh
-curl -fsSL https://monoscope.tech/install.sh | sh
+curl -fsSL https://monoscopehq.com/install.sh | sh
 monoscope auth login
 monoscope send-event -m "Hello from monoscope"
 ```
