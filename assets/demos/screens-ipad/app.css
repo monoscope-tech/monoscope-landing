@@ -2240,7 +2240,7 @@
 }
 :host { interpolate-size: allow-keywords; }
 :host, [data-theme] { --tw-prose-body: var(--color-textStrong) !important; }
-:host, .app-body, :host { font-family: Inter, "Inter Metric Fallback", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; font-feature-settings: "liga", "calt", "ss01", "ss02", "cv01", "cv02"; line-height: 1.45; overscroll-behavior: none; background-color: var(--color-bgBase); --tags-border-color: var(--color-strokeStrong); --root-bg: var(--color-bgBase); }
+:host, .app-body, :host { font-family:InterVariable, Inter, "Inter Metric Fallback", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; font-feature-settings: "liga", "calt", "ss01", "ss02", "cv01", "cv02"; line-height: 1.45; overscroll-behavior: none; background-color: var(--color-bgBase); --tags-border-color: var(--color-strokeStrong); --root-bg: var(--color-bgBase); }
 @layer custom {
   .badge { padding-inline: calc(var(--spacing) * 2); padding-block: calc(var(--spacing) * 0.5); }
   .badge-ghost { display: inline-flex; width: fit-content; flex-shrink: 0; align-items: center; justify-content: center; gap: var(--spacing); border-radius: var(--radius-md); padding-inline: calc(var(--spacing) * 2); padding-block: calc(var(--spacing) * 0.5); font-size: var(--text-xs); line-height: var(--tw-leading, var(--text-xs--line-height)); font-weight: var(--font-weight-medium); white-space: nowrap; color: var(--color-textWeak); }

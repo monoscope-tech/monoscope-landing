@@ -85,30 +85,33 @@
     // if (window.$crisp) {
     //   window.$crisp.push(['on', 'message:sent', () => track('Contact', { type: 'chat' })]);
     // }
+  }
 
-    // Scroll depth
-    var depths = { 25: 0, 50: 0, 75: 0, 90: 0 };
-    var checkScroll = () => {
-      var pct = Math.round((scrollY + innerHeight) / document.documentElement.scrollHeight * 100);
-      Object.keys(depths).forEach(d => {
-        if (pct >= d && !depths[d]) {
-          depths[d] = 1;
-          track('ViewContent', { label: `Scroll ${d}%`, depth: d });
-        }
-      });
+  // Scroll depth: one passive listener for the page's lifetime
+  function trackScrollDepth() {
+    var depths = [25, 50, 75, 90], pending = false;
+    var check = () => {
+      pending = false;
+      var pct = (scrollY + innerHeight) / document.documentElement.scrollHeight * 100;
+      while (depths.length && pct >= depths[0]) { var d = depths.shift(); track('ViewContent', { label: `Scroll ${d}%`, depth: d }); }
+      if (!depths.length) removeEventListener('scroll', onScroll);
     };
-    var scrollTimer;
-    addEventListener('scroll', () => { clearTimeout(scrollTimer); scrollTimer = setTimeout(checkScroll, 100); });
+    var onScroll = () => { if (!pending) { pending = true; setTimeout(check, 250); } };
+    addEventListener('scroll', onScroll, { passive: true });
   }
 
   function ready(fn) {
     if (!window.rdt && !window.lintrk) return setTimeout(() => ready(fn), 100);
     fn();
+    trackScrollDepth();
     track('PageView', { referrer: document.referrer });
 
-    // Re-init on dynamic content
-    if (window.htmx) document.body.addEventListener('htmx:afterSwap', () => setTimeout(fn, 100));
-    new MutationObserver(() => fn()).observe(document.body, { childList: true, subtree: true });
+    // Re-bind CTAs added later (htmx swaps, forms injected by ConvertKit), at most once per idle period.
+    // Background art adds nodes several times a second, so this must never run per mutation.
+    var queued = false, idle = window.requestIdleCallback || (f => setTimeout(f, 200));
+    var rescan = () => { if (!queued) { queued = true; idle(() => { queued = false; fn(); }, { timeout: 2000 }); } };
+    if (window.htmx) document.body.addEventListener('htmx:afterSwap', rescan);
+    new MutationObserver(rescan).observe(document.body, { childList: true, subtree: true });
   }
 
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', () => ready(init)) : ready(init);

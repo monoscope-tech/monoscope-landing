@@ -66,8 +66,14 @@
     <base href="{{ this.permalink }}">
 
     <!-- end of meta tags and favicons -->
-    <link rel="preconnect" href="https://rsms.me/">
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+    <style>
+      /* Inter 4.1, self-hosted: one variable file per style covers every weight, under both names the site and demos use */
+      @font-face { font-family: InterVariable; font-weight: 100 900; font-display: swap; src: url(/assets/fonts/InterVariable.woff2) format("woff2"); }
+      @font-face { font-family: InterVariable; font-style: italic; font-weight: 100 900; font-display: swap; src: url(/assets/fonts/InterVariable-Italic.woff2) format("woff2"); }
+      @font-face { font-family: Inter; font-weight: 100 900; font-display: swap; src: url(/assets/fonts/InterVariable.woff2) format("woff2"); }
+      @font-face { font-family: Inter; font-style: italic; font-weight: 100 900; font-display: swap; src: url(/assets/fonts/InterVariable-Italic.woff2) format("woff2"); }
+    </style>
 
     <link rel="stylesheet" href="/assets/css/tailwind.min.css?v={{ config.raw.css_version }}">
     <script defer src="/assets/js/main.js"></script>
@@ -140,20 +146,25 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     </style>
 
-    <!-- TrustBox script -->
-    <script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async></script>
-    <!-- End TrustBox script -->
-
-    <script defer src="https://kit.fontawesome.com/67b52e9a3b.js" crossorigin="anonymous"></script>
+    <script>
+      // Font Awesome only where a page uses it; most pages draw icons from the sprite
+      addEventListener('DOMContentLoaded', () => document.querySelector('[class*="fa-"]') && document.head.append(Object.assign(document.createElement('script'), { src: 'https://kit.fontawesome.com/67b52e9a3b.js', crossOrigin: 'anonymous' })));
+      // Third-party tags (analytics, ad pixels, the newsletter popup) are inert text/plain until the page is idle after load,
+      // so they never compete with first paint, the demos or the first scroll
+      addEventListener('load', () => setTimeout(() => (window.requestIdleCallback || setTimeout)(() => document.querySelectorAll('script[data-later]').forEach(o => {
+        const s = document.createElement('script');
+        for (const a of o.attributes) if (a.name !== 'type' && a.name !== 'data-later') s.setAttribute(a.name, a.value);
+        s.text = o.text; o.replaceWith(s);
+      }), { timeout: 3000 }), 1500));
+    </script>
     <script defer src="/assets/deps/htmx/htmx.min.js"></script>
     <script defer src="/assets/deps/htmx/idiomorph-ext.min.js"></script>
     <script defer src="/assets/deps/htmx/preload.js"></script>
     <script defer src="/assets/deps/htmx/head-support.js"></script>
-    <script defer src="https://unpkg.com/hyperscript.org@0.9.12"></script>
 
-    <script defer src="https://f.convertkit.com/ckjs/ck.5.js"></script>
+    <script type="text/plain" data-later src="https://f.convertkit.com/ckjs/ck.5.js"></script>
     <!-- Convertkit newsletter scroll popup form (permanent) -->
-    <script defer data-uid="e05f719e6e" src="https://monoscope.kit.com/e05f719e6e/index.js"></script>
+    <script type="text/plain" data-later data-uid="e05f719e6e" src="https://monoscope.kit.com/e05f719e6e/index.js"></script>
 
     <link
       rel="preload"
@@ -165,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     {% unless config.dev %}
     <!-- Amplitude (with GA Events Forwarder) -->
-    <script type="text/javascript">
+    <script type="text/plain" data-later>
       !function(){"use strict";!function(e,t){var r=e.amplitude||{_q:[],_iq:{}};if(r.invoked)e.console&&console.error&&console.error("Amplitude snippet has been loaded.");else{var n=function(e,t){e.prototype[t]=function(){return this._q.push({name:t,args:Array.prototype.slice.call(arguments,0)}),this}},s=function(e,t,r){return function(n){e._q.push({name:t,args:Array.prototype.slice.call(r,0),resolve:n})}},o=function(e,t,r){e[t]=function(){if(r)return{promise:new Promise(s(e,t,Array.prototype.slice.call(arguments)))}}},i=function(e){for(var t=0;t<m.length;t++)o(e,m[t],!1);for(var r=0;r<y.length;r++)o(e,y[r],!0)};r.invoked=!0;var a=t.createElement("script");a.type="text/javascript",a.crossOrigin="anonymous",a.src="https://cdn.amplitude.com/libs/plugin-ga-events-forwarder-browser-0.2.0-min.js.gz",a.onload=function(){e.gaEventsForwarder&&e.gaEventsForwarder.plugin&&e.amplitude.add(e.gaEventsForwarder.plugin())};var c=t.createElement("script");c.type="text/javascript",c.integrity="sha384-HpnlFSsUOQTaqmMKb6/PqZKVOBEpRji3JNLr81x6XElQ4bkquzRyG/F8rY8IDMuw",c.crossOrigin="anonymous",c.async=!0,c.src="https://cdn.amplitude.com/libs/analytics-browser-2.2.1-min.js.gz",c.onload=function(){e.amplitude.runQueuedFunctions||console.log("[Amplitude] Error: could not load SDK")};var u=t.getElementsByTagName("script")[0];u.parentNode.insertBefore(a,u),u.parentNode.insertBefore(c,u);for(var p=function(){return this._q=[],this},d=["add","append","clearAll","prepend","set","setOnce","unset","preInsert","postInsert","remove","getUserProperties"],l=0;l<d.length;l++)n(p,d[l]);r.Identify=p;for(var g=function(){return this._q=[],this},v=["getEventProperties","setProductId","setQuantity","setPrice","setRevenue","setRevenueType","setEventProperties"],f=0;f<v.length;f++)n(g,v[f]);r.Revenue=g;var m=["getDeviceId","setDeviceId","getSessionId","setSessionId","getUserId","setUserId","setOptOut","setTransport","reset","extendSession"],y=["init","add","remove","track","logEvent","identify","groupIdentify","setGroup","revenue","flush"];i(r),r.createInstance=function(e){return r._iq[e]={_q:[]},i(r._iq[e]),r._iq[e]},e.amplitude=r}}(window,document)}();
       
       amplitude.init('e11d597a7ac4268a7efc286cec3e947d');
@@ -173,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- END Amplitude -->
 
     <!-- Google Tag Manager -->
-    <script>
+    <script type="text/plain" data-later>
       (function (w, d, s, l, i) {
         w[l] = w[l] || [];
         w[l].push({
@@ -191,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- End Google Tag Manager -->
 
     <!-- PostHog -->
-    <script>
+    <script type="text/plain" data-later>
       !(function (t, e) {
         var o, n, p, r;
         e.__SV ||
@@ -238,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- END PostHog -->
 
     <!-- Twitter conversion tracking base code -->
-    <script>
+    <script type="text/plain" data-later>
       !(function (e, t, n, s, u, a) {
         e.twq ||
           ((s = e.twq =
@@ -258,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- End Twitter conversion tracking base code -->
 
     <!-- Facebook Pixel Code -->
-    <script>
+    <script type="text/plain" data-later>
       !(function (f, b, e, v, n, t, s) {
         if (f.fbq) return;
         n = f.fbq = function () {
@@ -291,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- End Facebook Pixel Code -->
 
     <!-- Facebook Pixel Code 2 -->
-    <script>
+    <script type="text/plain" data-later>
       !(function (f, b, e, v, n, t, s) {
         if (f.fbq) return;
         n = f.fbq = function () {
@@ -322,11 +333,11 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- End Facebook Pixel Code -->
 
     <!-- START LINKEDIN -->
-    <script type="text/javascript">
+    <script type="text/plain" data-later>
       window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
       window._linkedin_data_partner_ids.push('8274722');
     </script>
-    <script type="text/javascript">
+    <script type="text/plain" data-later>
       (function (l) {
         if (!l) {
           window.lintrk = function (a, b) {
@@ -343,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })(window.lintrk);
     </script>
 
-<script>!function(key) {
+<script type="text/plain" data-later>!function(key) {
 if (window.reb2b) return;
 window.reb2b = {loaded: true};
 var s = document.createElement("script");
@@ -358,7 +369,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     <!-- END LINKEDIN -->
 
     <!-- Reddit Pixel -->
-    <script>
+    <script type="text/plain" data-later>
     !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
     rdt('init','t2_9wupu0');
 
@@ -379,10 +390,10 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     <!-- End Reddit Pixel -->
 
     <!-- Apollo Website Tracker -->
-    <script>
+    <script type="text/plain" data-later>
     !function(){function t(t){var e=document.getElementsByTagName("script")[0],n=document.createElement("script");n.async=!0,n.src=t,e.parentNode.insertBefore(n,e)}t("https://app.apollo.io/api/v2/wst/intercept.js")}();
     </script>
-    <script>
+    <script type="text/plain" data-later>
     window.websiteTracker = { appId: "66f1f1ed596af3065a8f94f7" }
     </script>
     <!-- End Apollo Website Tracker -->

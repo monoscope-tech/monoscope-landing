@@ -24,8 +24,8 @@
       <footer class="max-w-9xl w-full px-3"><div class="border-t border-strokeWeak pt-20 pb-5 space-y-12">
         <!-- Logo Section -->
         <a href="/" class="py-1 block" aria-label="Back to homepage">
-          <img class="h-8 dark:hidden" src="/assets/brand/logo_full_color.svg" alt="monoscope full color logo">
-          <img class="h-8 hidden dark:inline-block" src="/assets/brand/logo_full_white.svg" alt="monoscope white logo">
+          <img class="h-8 dark:hidden" loading="lazy" src="/assets/brand/logo_full_color.svg" alt="monoscope full color logo">
+          <img class="h-8 hidden dark:inline-block" loading="lazy" src="/assets/brand/logo_full_white.svg" alt="monoscope white logo">
         </a>
 
         <div class="grid grid-cols-2 lg:grid-cols-6 gap-8">
@@ -243,8 +243,8 @@
 
 {% unless config.dev %}
 <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FZERLHDJ7J"></script>
-<script>
+<script type="text/plain" data-later async src="https://www.googletagmanager.com/gtag/js?id=G-FZERLHDJ7J"></script>
+<script type="text/plain" data-later>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments);}
     gtag("js", new Date());
@@ -252,8 +252,8 @@
 </script>
 
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-11285541899"></script>
-<script>
+<script type="text/plain" data-later async src="https://www.googletagmanager.com/gtag/js?id=AW-11285541899"></script>
+<script type="text/plain" data-later>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
@@ -420,7 +420,7 @@
 
 {% unless config.dev %}
 <!-- Google Tag Manager -->
-<script>
+<script type="text/plain" data-later>
   (function (w, d, s, l, i) {
         w[l] = w[l] || []; w[l].push({
           'gtm.start':
@@ -433,7 +433,7 @@
 <!-- End Google Tag Manager -->
 
 <!-- Twitter conversion tracking base code -->
-<script>
+<script type="text/plain" data-later>
       !function (e, t, n, s, u, a) {
         e.twq || (s = e.twq = function () {
           s.exe ? s.exe.apply(s, arguments) : s.queue.push(arguments);
@@ -444,11 +444,11 @@
 </script><!-- End Twitter conversion tracking base code -->
 
 <!-- apollo tag -->
-<script>function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");
+<script type="text/plain" data-later>function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");
 o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,
 o.onload=function(){window.trackingFunctions.onLoad({appId:"66f1f1ed596af3065a8f94f7"})},
 document.head.appendChild(o)}initApollo();</script>
 
-<script>window.lemonSqueezyAffiliateConfig = { store: "monoscope" };</script> <script src="https://lmsqueezy.com/affiliate.js" defer></script>
+<script type="text/plain" data-later>window.lemonSqueezyAffiliateConfig = { store: "monoscope" };</script> <script type="text/plain" data-later src="https://lmsqueezy.com/affiliate.js" defer></script>
 {% endunless %}
 </body></html>
