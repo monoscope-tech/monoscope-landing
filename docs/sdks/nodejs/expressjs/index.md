@@ -8,7 +8,7 @@ menuWeight: 2
 
 # ExpressJs Integration Guide
 
-Monoscope Express Middleware allows you to monitor HTTP requests in your Express applications. It builds upon OpenTelemetry instrumentation to create custom spans for each request, capturing key details such as request and response bodies, headers, and status codes. Additionally, it offers robust support for monitoring outgoing requests and reporting errors automatically.
+The monoscope Express middleware lets you monitor HTTP requests in your Express applications. It builds upon OpenTelemetry instrumentation to create custom spans for each request, capturing key details such as request and response bodies, headers, and status codes. It also monitors outgoing requests and reports errors automatically.
 
 To get started, you'll need the OpenTelemetry Node.js library and some basic configuration.
 
@@ -18,36 +18,42 @@ To get started, you'll need the OpenTelemetry Node.js library and some basic con
 
 ## Prerequisites
 
-Ensure you have completed the first three steps of the [onboarding guide](/docs/onboarding/){target="\_blank"}.
+You need a monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
-## Install via Claude Code
+## Set Up With Your Coding Agent
 
-Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument this project for you. Add the marketplace, install the skill, and install our CLI:
+Your coding agent can add the instrumentation for you. Install the monoscope skills and the monoscope CLI:
 
 ```sh
+# Claude Code
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-curl https://monoscope.tech/install.sh | sh
+
+# Cursor, Codex, Cline and other agents
+npx skills add monoscope-tech/skills
+
+# monoscope CLI
+curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 
-Then run inside Claude Code:
+Then ask your agent to instrument the project. In Claude Code, run:
 
 ```
-/monoscope-skills:instrument OpenTelemetry via Monoscope into this project
+/monoscope-skills:instrument Add OpenTelemetry for monoscope to this project
 ```
 
-The skill drives the CLI to wire up the SDK and verify it. Prefer a human? [Email us](mailto:hello@monoscope.tech) — happy to jump on a call or connect over Slack.
+The skill uses the CLI to add the SDK and to make sure that events arrive. To do the setup by hand, follow the steps below. For help from a person, [email us](mailto:hello@monoscope.tech).
 
 ## Installation
 
-Run the command below to install the Monoscope express sdk and Open telemetery API, SDK, and auto instrumentation tools.
+Install the monoscope Express SDK, the OpenTelemetry API and the auto-instrumentation package:
 
 ```sh
 npm install --save @monoscopetech/express @opentelemetry/api @opentelemetry/auto-instrumentations-node
 ```
 
-## OpenTelemetery Configuration
+## OpenTelemetry Configuration
 
 This module is highly configurable by setting environment variables. So many aspects of the auto instrumentation’s behavior such as Resource detectors, Exporters, Trace context propagation headers,
 and many more can be configured based on your needs.
@@ -59,7 +65,7 @@ OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
 # Specifies the name of the service.
 OTEL_SERVICE_NAME="{YOUR_SERVICE_NAME}"
 # Adds your API KEY to the resource.
-OTEL_RESOURCE_ATTRIBUTES="x-api-key={YOUR_API_KEY}"
+OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
 # Specifies the protocol to use for the OpenTelemetry exporter.
 OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
 # disable some auto instrumentation libraries
@@ -73,9 +79,9 @@ OTEL_NODE_DISABLED_INSTRUMENTATIONS=net,connect,dns,fs
 </div>
 ```
 
-## Setup Monoscope Express Middleware For HTTP Request Monitoring
+## Set Up the Express Middleware
 
-Monoscope Express Middleware is a middleware that can be used to monitor HTTP requests. It is a wrapper around the Express.js middleware and provides additional functionalities on top of the open telemetry instrumentation which creates a custom span for each request capturing details about the request including request and response bodies.
+The middleware adds a span for each request on top of the OpenTelemetry instrumentation. The span holds request and response details, including bodies.
 
 ```js
 import "dotenv/config";
@@ -96,7 +102,7 @@ const monoscopeClient = Monoscope.NewClient({
 app.use(monoscopeClient.middleware);
 
 app.get("/", async (req, res) => {
-  // This axios request get's monitored and appears in the  Monoscope explorer
+  // This axios request is monitored and appears in the monoscope Log Explorer
   const response = await axios.get(
     "https://jsonplaceholder.typicode.com/todos/1"
   );
@@ -111,7 +117,7 @@ app.listen(3000, () => {
 });
 ```
 
-#### Quick overview of the configuration parameters
+#### Configuration Options
 
 An object with the following optional fields can be passed to the middleware function to configure it:
 
@@ -131,12 +137,11 @@ An object with the following optional fields can be passed to the middleware fun
 | `monitorAxios` | Axios instance to monitor. |
 :::
 
-## Reporting errors to Monoscope
+## Reporting Errors
 
-Monoscope detects a lot of API issues automatically, but it's also valuable to report and track errors. This helps you associate more details about the backend with a given failing request.
-If you've used sentry, or rollback, or bugsnag, then you're likely aware of this functionality.
+monoscope detects many API issues automatically. Reporting errors adds backend context to a failing request, as Sentry or Bugsnag do.
 
-To enable automatic error reporting, add the Monoscope `errorMiddleware` function immediately after your app's controllers and Monoscope will handle all uncaught errors that happened during a request and associate the error to that request.
+To report uncaught errors automatically, add `errorMiddleware` immediately after your controllers. monoscope then links each uncaught error to its request.
 
 ```typescript
 import "dotenv/config";
@@ -163,7 +168,7 @@ app.listen(3000, () => {
 });
 ```
 
-Or manually report errors within the context of a web request, by calling the ReportError function.
+To report an error manually inside a request, call `reportError`.
 
 ```typescript
 import "dotenv/config";
@@ -187,7 +192,7 @@ app.get("/", (req, res) => {
     throw new Error("Something went wrong");
     res.send("hello world");
   } catch (error) {
-    // Manually report the error to Monoscope
+    // Manually report the error to monoscope
     reportError(error);
     res.send("Something went wrong");
   }
@@ -218,11 +223,11 @@ app.use((req, res, next) => {
 });
 ```
 
-Both helpers skip undefined/null fields, so partial info is fine. They must run inside a request handled by the Monoscope middleware — calls outside that scope are no-ops with a debug warning.
+Both helpers skip undefined/null fields, so partial info is fine. They must run inside a request handled by the monoscope middleware — calls outside that scope are log a warning and do nothing.
 
-## Tracking sessions
+## Tracking Sessions
 
-If you ship the [Monoscope Browser SDK](/docs/sdks/Javascript/browser/){target="\_blank"} on your frontend, **`session.id` is propagated and tagged automatically** — no Express code required. The browser SDK injects the W3C `baggage` header on every outbound fetch/XHR, and the Monoscope middleware extracts it and tags the request span. The session shows up alongside backend traces under the standard OTel `session.id` attribute, so you can filter, group, and replay them end-to-end.
+If you use the [monoscope browser SDK](/docs/sdks/Javascript/browser/){target="\_blank"} on your frontend, **`session.id` is propagated and tagged automatically** — no Express code required. The browser SDK injects the W3C `baggage` header on every outbound fetch/XHR, and the monoscope middleware extracts it and tags the request span. The session shows up alongside backend traces under the standard OTel `session.id` attribute, so you can filter, group, and replay them end-to-end.
 
 For server-only sessions (background jobs, SSR without the browser SDK, or your own session scheme), set the session ID alongside user and tenant on the active request span. The three together — **who**, **which org**, **which session** — are what makes a trace searchable and replayable in the dashboard:
 
@@ -239,15 +244,15 @@ app.use((req, res, next) => {
 });
 ```
 
-`setSession` writes the standard `session.id` attribute to the active request span. Calls outside the Monoscope middleware scope are no-ops.
+`setSession` writes the standard `session.id` attribute to the active request span. Calls outside the monoscope middleware scope are no-ops.
 
-## Monitoring Axios requests
+## Monitoring Axios Requests
 
-Monoscope supports monitoring outgoing HTTP requests made using libraries like Axios. This can be done either globally or on a per-request basis.
+monoscope can monitor outgoing HTTP requests made with libraries like Axios, either globally or per request.
 
-### Global monitoring
+### Global Monitoring
 
-To monitor all outgoing Axios requests globally, you can use the `monitorAxios` option when initializing the Monoscope client.
+To monitor all outgoing Axios requests, set the `monitorAxios` option when you create the client.
 
 ```typescript
 import "dotenv/config";
@@ -262,11 +267,11 @@ const monoscopeClient = Monoscope.NewClient({
 });
 ```
 
-By doing the above, all axios requests in your server will be monitored by Monoscope.
+monoscope then monitors all Axios requests in your server.
 
-### Per-request monitoring
+### Per-Request Monitoring
 
-To monitor a specific Axios request, you can use the `observeAxios` function provided by the SDK.
+To monitor a specific Axios request, use the `observeAxios` function.
 
 ```typescript
 import "dotenv/config";
@@ -286,9 +291,9 @@ app.get("/", async (req, res) => {
 });
 ```
 
-The `urlWildcard` parameter is used for urls that contain dynamic path parameters. This helps Monoscope to identify request to the same endpoint but with different parameters.
+Use `urlWildcard` for URLs with dynamic path parameters. It lets monoscope group requests to the same endpoint.
 
-#### All observeAxios options
+#### All `observeAxios` Options
 
 Below is the full list of options for the `observeAxios` function:
 
@@ -316,7 +321,7 @@ const monoscopeClient = Monoscope.NewClient({serviceName: "my-service"});
 app.use(monoscopeClient.middleware);
 app.get("/", async (req, res) => {
   const response = await observeAxios({
-    urlWildcard: "/todos/:id"
+    urlWildcard: "/todos/:id",
     redactHeaders: ["Authorization"],
     redactResponseBody: ["$.credit_card_number"],
     redactRequestBody: ["$.password"]
@@ -377,13 +382,19 @@ Same pattern works for `node-cron`, Agenda, raw `setInterval`, or any custom wor
  <li>
   By default, all SDK <a href="https://opentelemetry.io/docs/languages/js/resources/">resource detectors</a> are enabled. However, you can customize this by setting the <code>OTEL_NODE_RESOURCE_DETECTORS</code> environment variable to activate specific detectors or disable them entirely.
  </li>
-  </ul>
+  </ol>
 </div>
 ```
 
+## Next Steps
+
+- Send a few requests to your application. Then open **Log Explorer** in [monoscope](https://app.monoscope.tech) to see the requests, logs and traces.
+- [Find your way around the dashboard](/docs/dashboard/): issues, monitors, dashboards and the API catalog.
+- [Investigate from your terminal or your agent](/docs/ai/) with the CLI, the skills and the MCP server.
+
 ```=html
 <hr />
-<a href="https://github.com/monoscope-tech/monoscope-js/tree/main/packages/adonis" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">
+<a href="https://github.com/monoscope-tech/monoscope-js/tree/main/packages/express" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">
     <i class="fa-brands fa-github"></i>
     Explore the Express SDK
 </a>

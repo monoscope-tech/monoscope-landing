@@ -9,7 +9,7 @@ menuWeight: 45
 
 # Flutter Integration Guide
 
-monoscope does not yet ship a native Flutter wrapper, but you can fully instrument a Flutter app — traces, HTTP calls, and **uncaught errors** — by wiring the standard Dart [`opentelemetry`](https://pub.dev/packages/opentelemetry) package directly to monoscope's OTLP endpoint.
+monoscope does not yet ship a native Flutter wrapper, but you can fully instrument a Flutter app — traces, HTTP calls, and **uncaught errors** — by wiring the Dart [`opentelemetry_wk`](https://pub.dev/packages/opentelemetry_wk) package directly to monoscope's OTLP endpoint.
 
 This guide focuses on **error tracking**, which on Flutter requires hooking three different error channels: the Flutter framework, the Dart runtime, and the platform engine. Miss any one of them and you'll lose half your crashes silently.
 
@@ -19,26 +19,32 @@ This guide focuses on **error tracking**, which on Flutter requires hooking thre
 
 ## Prerequisites
 
-Ensure you have already completed the first three steps of the [onboarding guide](/docs/onboarding/){target="\_blank"}.
+You need a monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
-## Install via Claude Code
+## Set Up With Your Coding Agent
 
-Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument this project for you. Add the marketplace, install the skill, and install our CLI:
+Your coding agent can add the instrumentation for you. Install the monoscope skills and the monoscope CLI:
 
 ```sh
+# Claude Code
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-curl https://monoscope.tech/install.sh | sh
+
+# Cursor, Codex, Cline and other agents
+npx skills add monoscope-tech/skills
+
+# monoscope CLI
+curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 
-Then run inside Claude Code:
+Then ask your agent to instrument the project. In Claude Code, run:
 
 ```
-/monoscope-skills:instrument OpenTelemetry via Monoscope into this project
+/monoscope-skills:instrument Add OpenTelemetry for monoscope to this project
 ```
 
-The skill drives the CLI to wire up the SDK and verify it. Prefer a human? [Email us](mailto:hello@monoscope.tech) — happy to jump on a call or connect over Slack.
+The skill uses the CLI to add the SDK and to make sure that events arrive. To do the setup by hand, follow the steps below. For help from a person, [email us](mailto:hello@monoscope.tech).
 
 ## Installation
 
@@ -46,7 +52,7 @@ Add the OpenTelemetry packages to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  opentelemetry: ^0.18.11
+  opentelemetry_wk: ^0.18.11
   http: ^1.2.0
   stack_trace: ^1.11.0
 ```
@@ -57,7 +63,7 @@ Then run:
 flutter pub get
 ```
 
-The `opentelemetry` Dart package speaks **OTLP/HTTP+protobuf**, so point the exporter at monoscope's HTTP endpoint on port `4318` — not the gRPC `:4317` endpoint used by our backend SDKs.
+The `opentelemetry_wk` package (formerly published as `opentelemetry`) speaks **OTLP/HTTP+protobuf**, so point the exporter at monoscope's HTTP endpoint on port `4318` — not the gRPC `:4317` endpoint used by our backend SDKs.
 
 ## Tracer Setup
 
@@ -65,8 +71,8 @@ Initialize the tracer provider once, before `runApp`. The monoscope **API key is
 
 ```dart
 import 'package:flutter/foundation.dart';
-import 'package:opentelemetry/api.dart' as otel_api;
-import 'package:opentelemetry/sdk.dart' as otel_sdk;
+import 'package:opentelemetry_wk/api.dart' as otel_api;
+import 'package:opentelemetry_wk/sdk.dart' as otel_sdk;
 
 late final otel_api.Tracer tracer;
 late final otel_sdk.TracerProviderBase tracerProvider;
@@ -133,7 +139,7 @@ Flutter has **three** distinct error channels. You must hook all of them; otherw
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:opentelemetry/api.dart' as otel_api;
+import 'package:opentelemetry_wk/api.dart' as otel_api;
 import 'package:stack_trace/stack_trace.dart';
 
 void main() {
@@ -168,7 +174,7 @@ void main() {
 
 ### Recording the error as a span
 
-Treat each crash as a one-shot span with an exception event. monoscope renders these in the **Errors** view and links them back to the trace they happened in.
+Treat each crash as a one-shot span with an exception event. monoscope renders these in the **Issues** view and links them back to the trace they happened in.
 
 ```dart
 void _reportError(
@@ -210,12 +216,18 @@ void _reportError(
 
 ## HTTP Instrumentation
 
-The `opentelemetry` package does **not** ship an HTTP client wrapper — you wrap each request in a span manually and inject the W3C trace-context headers using the package's propagator. A small `BaseClient` subclass keeps this out of your call sites:
+The `opentelemetry_wk` package does **not** ship an HTTP client wrapper — you wrap each request in a span manually and inject the W3C trace-context headers using the package's propagator. A small `BaseClient` subclass keeps this out of your call sites:
 
 ```dart
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:opentelemetry/api.dart' as otel_api;
+import 'package:opentelemetry_wk/api.dart' as otel_api;
+
+class _HeaderSetter implements otel_api.TextMapSetter<Map<String, String>> {
+  @override
+  void set(Map<String, String> carrier, String key, String value) =>
+      carrier[key] = value;
+}
 
 class TracedClient extends http.BaseClient {
   TracedClient(this._inner);
@@ -231,9 +243,9 @@ class TracedClient extends http.BaseClient {
     try {
       // Inject traceparent / tracestate so the backend span links up.
       _propagator.inject(
-        otel_api.Context.current.withSpan(span),
+        otel_api.contextWithSpan(otel_api.Context.current, span),
         request.headers,
-        otel_api.TextMapSetter<Map<String, String>>(),
+        _HeaderSetter(),
       );
       final res = await _inner.send(request);
       span.setAttributes([
@@ -310,10 +322,11 @@ Mobile apps are killed abruptly. The `BatchSpanProcessor` flushes on a timer —
 ```dart
 class _LifecycleObserver with WidgetsBindingObserver {
   @override
-  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+  void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.detached) {
-      await tracerProvider.forceFlush();
+      // Starts the export of buffered spans. It does not wait for delivery.
+      tracerProvider.forceFlush();
     }
   }
 }
@@ -338,7 +351,7 @@ WidgetsBinding.instance.addObserver(_LifecycleObserver());
    ```
 
 3. Tap the button, then send the app to the background to flush.
-4. Open the [monoscope dashboard](https://app.monoscope.tech) — you should see the `flutter.error` span in the **API Log Explorer** and a corresponding entry in **Errors**, with `exception.type = StateError` and the terse stack trace.
+4. Open the [monoscope dashboard](https://app.monoscope.tech) — you should see the `flutter.error` span in the **Log Explorer** and a corresponding entry in **Issues**, with `exception.type = StateError` and the terse stack trace.
 
 ```=html
 <div class="callout">
@@ -346,3 +359,9 @@ WidgetsBinding.instance.addObserver(_LifecycleObserver());
   <p>Want a native Flutter SDK with auto-instrumentation, navigation tracking, and session replay? <a href="mailto:hello@monoscope.tech">Send us an email</a> — we prioritize based on demand.</p>
 </div>
 ```
+
+## Next Steps
+
+- Send a few requests to your application. Then open **Log Explorer** in [monoscope](https://app.monoscope.tech) to see the requests, logs and traces.
+- [Find your way around the dashboard](/docs/dashboard/): issues, monitors, dashboards and the API catalog.
+- [Investigate from your terminal or your agent](/docs/ai/) with the CLI, the skills and the MCP server.

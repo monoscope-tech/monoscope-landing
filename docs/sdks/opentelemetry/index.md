@@ -19,26 +19,32 @@ Already using a language with a native SDK? Check our guides for [Node.js](/docs
 
 ## Prerequisites
 
-Ensure you have completed the first three steps of the [onboarding guide](/docs/onboarding/){target="\_blank"}.
+You need a monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
-## Install via Claude Code
+## Set Up With Your Coding Agent
 
-Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument this project for you. Add the marketplace, install the skill, and install our CLI:
+Your coding agent can add the instrumentation for you. Install the monoscope skills and the monoscope CLI:
 
 ```sh
+# Claude Code
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-curl https://monoscope.tech/install.sh | sh
+
+# Cursor, Codex, Cline and other agents
+npx skills add monoscope-tech/skills
+
+# monoscope CLI
+curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 
-Then run inside Claude Code:
+Then ask your agent to instrument the project. In Claude Code, run:
 
 ```
-/monoscope-skills:instrument OpenTelemetry via Monoscope into this project
+/monoscope-skills:instrument Add OpenTelemetry for monoscope to this project
 ```
 
-The skill drives the CLI to wire up the SDK and verify it. Prefer a human? [Email us](mailto:hello@monoscope.tech) — happy to jump on a call or connect over Slack.
+The skill uses the CLI to add the SDK and to make sure that events arrive. To do the setup by hand, follow the steps below. For help from a person, [email us](mailto:hello@monoscope.tech).
 
 ## Configuration (Environment Variables)
 
@@ -58,7 +64,7 @@ OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
 ```=html
 <div class="callout">
   <i class="fa-regular fa-lightbulb"></i>
-  <p><b>API key options:</b> The legacy key <code>x-api-key</code> is also supported as a resource attribute. Alternatively, you can pass the API key as an OTLP header:<br>
+  <p><b>API key options:</b> The resource attribute above is the default. You can also send the API key as an OTLP header:<br>
   <code>OTEL_EXPORTER_OTLP_HEADERS="x-api-key=YOUR_API_KEY"</code></p>
 </div>
 ```
@@ -77,21 +83,22 @@ Below are minimal examples for languages without a native monoscope SDK. Each ex
     <h3>Rust</h3>
     <p>Install dependencies in your <code>Cargo.toml</code>:</p>
     <pre><code class="language-toml">[dependencies]
-opentelemetry = "0.24"
-opentelemetry_sdk = { version = "0.24", features = ["rt-tokio"] }
-opentelemetry-otlp = { version = "0.17", features = ["grpc-tonic"] }
+opentelemetry = "0.33"
+opentelemetry_sdk = "0.33"
+opentelemetry-otlp = { version = "0.33", features = ["grpc-tonic"] }
+tokio = { version = "1", features = ["full"] }
 tracing = "0.1"
-tracing-opentelemetry = "0.25"
+tracing-opentelemetry = "0.34"
 tracing-subscriber = "0.3"</code></pre>
     <p>Check <a href="https://crates.io/crates/opentelemetry" target="_blank" rel="noopener noreferrer">crates.io</a> for the latest compatible versions. Initialize the tracer (reads <code>OTEL_*</code> env vars automatically):</p>
     <pre><code class="language-rust">use opentelemetry::global;
+use opentelemetry::trace::TracerProvider as _;
 use opentelemetry_sdk::trace::SdkTracerProvider;
-use opentelemetry_sdk::Resource;
 use tracing_opentelemetry::OpenTelemetryLayer;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 
-fn init_tracer() {
+fn init_tracer() -> SdkTracerProvider {
     let exporter = opentelemetry_otlp::SpanExporter::builder()
         .with_tonic()
         .build()
@@ -99,7 +106,6 @@ fn init_tracer() {
 
     let provider = SdkTracerProvider::builder()
         .with_batch_exporter(exporter)
-        .with_resource(Resource::default())
         .build();
 
     global::set_tracer_provider(provider.clone());
@@ -107,13 +113,16 @@ fn init_tracer() {
     tracing_subscriber::registry()
         .with(OpenTelemetryLayer::new(provider.tracer("my-service")))
         .init();
+
+    provider
 }
 
 #[tokio::main]
 async fn main() {
-    init_tracer();
+    let provider = init_tracer();
     tracing::info!("Application started");
-    global::shutdown_tracer_provider();
+    // Flush buffered spans before exit.
+    provider.shutdown().expect("Failed to shut down tracer provider");
 }</code></pre>
   </div>
 
@@ -125,7 +134,8 @@ async fn main() {
     <pre><code class="language-ruby">gem 'opentelemetry-sdk'
 gem 'opentelemetry-exporter-otlp'
 gem 'opentelemetry-instrumentation-all'</code></pre>
-    <p>Initialize OpenTelemetry (e.g., in a Rails initializer or at app startup):</p>
+    <p>The <code>opentelemetry-exporter-otlp</code> gem sends OTLP over HTTP only. Set <code>OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4318"</code> and <code>OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"</code> instead of the gRPC values above.</p>
+    <p>Initialize OpenTelemetry at app startup, for example in a Rails initializer:</p>
     <pre><code class="language-ruby">require 'opentelemetry/sdk'
 require 'opentelemetry/exporter/otlp'
 require 'opentelemetry/instrumentation/all'
@@ -254,7 +264,7 @@ func ProcessEmail(ctx context.Context, t *asynq.Task) error {
   </div>
 
   <div id="bg-rs" class="tab-content">
-    <pre><code class="language-rust">use opentelemetry::{global, trace::{Tracer, Status, SpanKind}, KeyValue};
+    <pre><code class="language-rust">use opentelemetry::{global, trace::{Span, SpanKind, Status, Tracer}, KeyValue};
 
 pub async fn process_email(payload: EmailJob) -> Result<(), Error> {
     let tracer = global::tracer("my-service-worker");
@@ -331,7 +341,8 @@ processors:
   batch:
 
 exporters:
-  otlp:
+  # Collector versions before v0.144 call this exporter `otlp`.
+  otlp_grpc:
     endpoint: "otelcol.monoscope.tech:4317"
     tls:
       insecure: true
@@ -343,15 +354,15 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlp]
+      exporters: [otlp_grpc]
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlp]
+      exporters: [otlp_grpc]
     logs:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlp]
+      exporters: [otlp_grpc]
 ```
 
 ### Docker Compose Setup
@@ -395,7 +406,7 @@ After configuring your application:
 
 1. Start your application with the `OTEL_*` environment variables set
 2. Send a few requests to your service
-3. Open the [monoscope dashboard](https://app.monoscope.tech) and check the **API Log Explorer** — your traces should appear within a few seconds
+3. Open the [monoscope dashboard](https://app.monoscope.tech) and check the **Log Explorer** — your traces should appear within a few seconds
 
 You can also use **telemetrygen** to verify your setup independently. See the [Quick Test section](/docs/onboarding/#⑤-quick-test-your-integration) in the onboarding guide.
 
@@ -405,3 +416,9 @@ You can also use **telemetrygen** to verify your setup independently. See the [Q
   <p>Want a native SDK for your language? <a href="mailto:hello@monoscope.tech">Send us an email</a> and we'll prioritize based on demand.</p>
 </div>
 ```
+
+## Next Steps
+
+- Send a few requests to your application. Then open **Log Explorer** in [monoscope](https://app.monoscope.tech) to see the requests, logs and traces.
+- [Find your way around the dashboard](/docs/dashboard/): issues, monitors, dashboards and the API catalog.
+- [Investigate from your terminal or your agent](/docs/ai/) with the CLI, the skills and the MCP server.

@@ -6,6 +6,8 @@ updatedDate: 2026-05-08
 menuWeight: 4
 ---
 
+# Pyramid SDK Guide
+
 In this guide, you’ll learn how to integrate OpenTelemetry into your Pyramid application and install the Monoscope SDK to enhance its functionalities. By combining OpenTelemetry’s robust tracing and metrics capabilities with the Monoscope SDK, you’ll be able to monitor incoming and outgoing requests, report errors, and gain deeper insights into your application’s performance. This setup provides comprehensive observability, helping you track requests and troubleshoot issues effectively.
 
 ```=html
@@ -14,37 +16,43 @@ In this guide, you’ll learn how to integrate OpenTelemetry into your Pyramid a
 
 ## Prerequisites
 
-Ensure you have already completed the first three steps of the [onboarding guide](/docs/onboarding/){target="\_blank"}.
+You need a monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
-## Install via Claude Code
+## Set Up With Your Coding Agent
 
-Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument this project for you. Add the marketplace, install the skill, and install our CLI:
+Your coding agent can add the instrumentation for you. Install the monoscope skills and the monoscope CLI:
 
 ```sh
+# Claude Code
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-curl https://monoscope.tech/install.sh | sh
+
+# Cursor, Codex, Cline and other agents
+npx skills add monoscope-tech/skills
+
+# monoscope CLI
+curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 
-Then run inside Claude Code:
+Then ask your agent to instrument the project. In Claude Code, run:
 
 ```
-/monoscope-skills:instrument OpenTelemetry via Monoscope into this project
+/monoscope-skills:instrument Add OpenTelemetry for monoscope to this project
 ```
 
-The skill drives the CLI to wire up the SDK and verify it. Prefer a human? [Email us](mailto:hello@monoscope.tech) — happy to jump on a call or connect over Slack.
+The skill uses the CLI to add the SDK and to make sure that events arrive. To do the setup by hand, follow the steps below. For help from a person, [email us](mailto:hello@monoscope.tech).
 
 ## Installation
 
-Kindly run the command below to install the monoscope pyramid sdk and necessary opentelemetry packages:
+Run the command below to install the monoscope pyramid sdk and necessary opentelemetry packages:
 
 ```sh
 pip install monoscope-pyramid opentelemetry-distro opentelemetry-exporter-otlp
 opentelemetry-bootstrap -a install
 ```
 
-## Setup Open Telemetry
+## Set Up OpenTelemetry
 
 Setting up open telemetry allows you to send traces, metrics and logs to the Monoscope platform.
 To setup open telemetry, you need to configure the following environment variables:
@@ -52,7 +60,7 @@ To setup open telemetry, you need to configure the following environment variabl
 ```sh
 export OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
 export OTEL_SERVICE_NAME="my-service" # Specifies the name of the service.
-export OTEL_RESOURCE_ATTRIBUTES="x-api-key={ENTER_YOUR_API_KEY_HERE}" # Adds your API KEY to the resource.
+export OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY" # Adds your API KEY to the resource.
 export OTEL_EXPORTER_OTLP_PROTOCOL="grpc" #Specifies the protocol to use for the OpenTelemetry exporter.
 export OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true # enable logging auto instrumentation
 ```
@@ -66,7 +74,7 @@ opentelemetry-instrument python3 myapp.py
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>The <code>{ENTER_YOUR_API_KEY_HERE}</code> demo string should be replaced with the API key generated from the Monoscope dashboard.</p>
+  <p>Replace <code>YOUR_API_KEY</code> with an API key from <b>Settings &gt; API Keys</b> in monoscope.</p>
 </div>
 ```
 
@@ -79,9 +87,7 @@ opentelemetry-instrument python3 myapp.py
 
 ## Monoscope Pyramid Configuration
 
-After setting up open telemetry, you can now configure and start the monoscope pyramid middleware.
-
-Next, add the configuration variables to your settings or `development.ini` or `production.ini` file, like so:
+Add the monoscope options to your settings dict or to your `development.ini` or `production.ini` file:
 
 ```=html
 <section class="tab-group" data-tab-group="group1">
@@ -106,11 +112,10 @@ settings = {
 ```
 
 ```sh
-MONOSCOPE_DEBUG = False
-MONOSCOPE_TAGS = environment: production, region: us-east-1
-MONOSCOPE_SERVICE_VERSION = "v2.0"
-MONOSCOPE_ROUTES_WHITELIST = /api/first, /api/second
-MONOSCOPE_IGNORE_HTTP_CODES = 404, 429
+MONOSCOPE_TAGS = environment: production,region: us-east-1
+MONOSCOPE_SERVICE_VERSION = v2.0
+MONOSCOPE_ROUTES_WHITELIST = /api/first,/api/second
+MONOSCOPE_IGNORE_HTTP_CODES = 404,429
 ```
 
 ```=html
@@ -118,7 +123,7 @@ MONOSCOPE_IGNORE_HTTP_CODES = 404, 429
 </section>
 ```
 
-Then, initialize Monoscope in your application's entry point (e.g., `app.py`), like so:
+Then register the `monoscope_pyramid.Monoscope` tween in your application's entry point (for example, `app.py`):
 
 ```python
 from wsgiref.simple_server import make_server
@@ -149,23 +154,20 @@ if __name__ == '__main__':
 :::
 | Option | Description |
 | ------ | ----------- |
-| `MONOSCOPE_SERVICE_NAME` | A defined string name of your application |
-| `MONOSCOPE_DEBUG` | Set to `true` to enable debug mode. |
+| `SERVICE_NAME` | A defined string name of your application. |
+| `MONOSCOPE_DEBUG` | Set to `True` to enable debug mode. |
 | `MONOSCOPE_TAGS` | A list of defined tags for your services (used for grouping and filtering data on the dashboard). |
 | `MONOSCOPE_SERVICE_VERSION` | A defined string version of your application (used for further debugging on the dashboard). |
 | `MONOSCOPE_REDACT_HEADERS` | A list of HTTP header keys to redact. |
 | `MONOSCOPE_REDACT_REQUEST_BODY` | A list of JSONPaths from the request body to redact. |
 | `MONOSCOPE_REDACT_RESPONSE_BODY` | A list of JSONPaths from the response body to redact. |
-| `MONOSCOPE_CAPTURE_REQUEST_BODY` | Set to `true` to capture the request body. |
-| `MONOSCOPE_CAPTURE_RESPONSE_BODY` | Set to `true` to capture the response body. |
+| `MONOSCOPE_CAPTURE_REQUEST_BODY` | Set to `True` to capture the request body. |
+| `MONOSCOPE_CAPTURE_RESPONSE_BODY` | Set to `True` to capture the response body. |
+| `MONOSCOPE_ROUTES_WHITELIST` | A list of path prefixes. When set, only requests whose route starts with one of them are traced. |
+| `MONOSCOPE_IGNORE_HTTP_CODES` | A list of HTTP status codes to skip. |
 :::
 
-```=html
-<div class="callout">
-  <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>The <code>{ENTER_YOUR_API_KEY_HERE}</code> demo string should be replaced with the API key generated from the Monoscope dashboard.</p>
-</div>
-```
+In an `.ini` file, write list values as comma-separated strings with no spaces after the commas.
 
 ## Redacting Sensitive Data
 
@@ -233,10 +235,10 @@ Examples of valid JSONPath expressions would be:
 Here's an example of what the configuration would look like with redacted fields:
 
 ```=html
-<section class="tab-group" data-tab-group="group1">
-  <button class="tab-button" data-tab="tab1">settings</button>
-  <button class="tab-button" data-tab="tab2">.ini file</button>
-  <div id="tab1" class="tab-content">
+<section class="tab-group" data-tab-group="group2">
+  <button class="tab-button" data-tab="tab3">settings</button>
+  <button class="tab-button" data-tab="tab4">.ini file</button>
+  <div id="tab3" class="tab-content">
 ```
 
 ```python
@@ -249,13 +251,13 @@ settings = {
 
 ```=html
   </div>
-  <div id="tab2" class="tab-content">
+  <div id="tab4" class="tab-content">
 ```
 
 ```sh
-MONOSCOPE_REDACT_HEADERS: content-type, Authorization, HOST
-MONOSCOPE_REDACT_REQ_BODY: $.user.email, $.user.addresses
-MONOSCOPE_REDACT_RES_BODY: $.users[*].email, $.users[*].credit_card
+MONOSCOPE_REDACT_HEADERS = content-type,Authorization,HOST
+MONOSCOPE_REDACT_REQUEST_BODY = $.user.email,$.user.addresses
+MONOSCOPE_REDACT_RESPONSE_BODY = $.users[*].email,$.users[*].credit_card
 ```
 
 ```=html
@@ -268,7 +270,7 @@ MONOSCOPE_REDACT_RES_BODY: $.users[*].email, $.users[*].credit_card
   <p><i class="fa-regular fa-circle-info"></i> <b>Note</b></p>
   <ul>
     <li>The <code>MONOSCOPE_REDACT_HEADERS</code> variable expects a list of <b>case-insensitive headers as strings</b>.</li>
-    <li>The <code>MONOSCOPE_REDACT_REQ_BODY</code> and <code>MONOSCOPE_REDACT_RES_BODY</code> variables expect a list of <b>JSONPaths as strings</b>.</li>
+    <li>The <code>MONOSCOPE_REDACT_REQUEST_BODY</code> and <code>MONOSCOPE_REDACT_RESPONSE_BODY</code> variables expect a list of <b>JSONPaths as strings</b>.</li>
     <li>The list of items to be redacted will be applied to all endpoint requests and responses on your server.</li>
   </ul>
 </div>
@@ -298,6 +300,13 @@ def home(request):
 
 ## Identifying users & tenants
 
+```=html
+<div class="callout">
+  <i class="fa-solid fa-circle-info"></i>
+  <p><code>set_user</code>, <code>set_tenant</code> and <code>set_session</code> need <code>monoscope-pyramid</code> 1.1.0 or later and <code>monoscope-common</code> 1.2.0 or later.</p>
+</div>
+```
+
 Attach the authenticated user and tenant to every request span so you can filter, group, and search by identity in the dashboard (e.g. "all errors for `user.email = jane@acme.com`"). Call `set_user` and `set_tenant` from a view (or a tween that runs after auth) — the SDK writes them to the active request span using the standard attribute keys (`user.id`, `user.email`, `user.full_name`, `tenant.id`, `tenant.name`).
 
 ```python
@@ -310,7 +319,7 @@ def me_view(request):
     if user is not None:
         set_user({"id": user.id, "email": user.email, "name": user.full_name})
         set_tenant({"id": user.org_id, "name": user.org_name})
-    return {"id": user.id}
+    return {"id": user.id if user else None}
 ```
 
 Both helpers skip missing fields, so partial info is fine. Calls outside a Monoscope-handled request are silent no-ops.
@@ -333,14 +342,14 @@ def me_view(request):
         set_tenant({"id": user.org_id, "name": user.org_name})
     if request.session.id:
         set_session(request.session.id)
-    return {"id": user.id}
+    return {"id": user.id if user else None}
 ```
 
 `set_session` writes the standard `session.id` attribute to the active request span. Calls outside a Monoscope-handled request are silent no-ops.
 
 ## Monitoring HTTPX requests
 
-Outgoing requests are external API calls you make from your API. By default, Monoscope monitors all requests users make from your application and they will all appear in the [API Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. However, you can separate outgoing requests from others and explore them in the [Outgoing Integrations](/docs/dashboard/dashboard-pages/outgoing-integrations/){target="\_blank"} page, alongside the incoming request that triggered them.
+Outgoing requests are external API calls you make from your API. By default, Monoscope monitors all requests users make from your application and they will all appear in the [Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. To see only outgoing requests, open the **Outgoing** tab of the [API Catalog](/docs/dashboard/dashboard-pages/outgoing-integrations/). Each outgoing request links to the incoming request that triggered it.
 
 To monitor outgoing HTTP requests from your application, use the `observe_request()` function from the `monoscope_pyramid` module, passing in the `request` argument, like so:
 
@@ -364,8 +373,8 @@ The `observe_request()` function accepts a **required `request` argument**, and 
 | ------ | ----------- |
 | `url_wildcard` | The `url_path` string for URLs with path parameters. |
 | `redact_headers` | A list of HTTP header keys to redact. |
-| `redact_response_body` | A list of JSONPaths from the request body to redact. |
-| `redact_request_body` | A list of JSONPaths from the response body to redact. |
+| `redact_response_body` | A list of JSONPaths from the response body to redact. |
+| `redact_request_body` | A list of JSONPaths from the request body to redact. |
 :::
 
 ## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)
@@ -418,11 +427,15 @@ For console scripts and other one-shot processes, call `trace.get_tracer_provide
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>The `observe_request()` function wraps an <a href="https://github.com/monoscope-tech/monoscope-python/main/tree/pyramid" target="_blank" rel="noopener noreferrer" class="">HTTPX</a>
-
- client and you can use it just like you would normally use HTTPX for any request.</p>
+  <p>The <code>observe_request()</code> function returns an <a href="https://www.python-httpx.org/" target="_blank" rel="noopener noreferrer">HTTPX</a> client. Use it as you would use any HTTPX client.</p>
 </div>
 ```
+
+## Next Steps
+
+- Send a few requests to your application. Then open **Log Explorer** in [monoscope](https://app.monoscope.tech) to see the requests, logs and traces.
+- [Find your way around the dashboard](/docs/dashboard/): issues, monitors, dashboards and the API catalog.
+- [Investigate from your terminal or your agent](/docs/ai/) with the CLI, the skills and the MCP server.
 
 ```=html
 <hr />

@@ -8,7 +8,7 @@ menuWeight: 1
 
 # Phoenix SDK Guide
 
-To integrate your Elixir Phoenix application with monoscope, you need to use this SDK to monitor incoming traffic, aggregate the requests, and then send them to monoscope's servers. Kindly follow this guide to get started and learn about all the supported features of monoscope's **Phoenix SDK**.
+The monoscope **Phoenix SDK** is a Plug that records incoming requests and sends them to monoscope. This guide shows how to install and configure it.
 
 ```=html
 <hr>
@@ -16,63 +16,62 @@ To integrate your Elixir Phoenix application with monoscope, you need to use thi
 
 ## Prerequisites
 
-Ensure you have already completed the first three steps of the [onboarding guide](/docs/onboarding/){target="\_blank"}.
+You need a monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
-## Install via Claude Code
+## Set Up With Your Coding Agent
 
-Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument this project for you. Add the marketplace, install the skill, and install our CLI:
+Your coding agent can add the instrumentation for you. Install the monoscope skills and the monoscope CLI:
 
 ```sh
+# Claude Code
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-curl https://monoscope.tech/install.sh | sh
+
+# Cursor, Codex, Cline and other agents
+npx skills add monoscope-tech/skills
+
+# monoscope CLI
+curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 
-Then run inside Claude Code:
+Then ask your agent to instrument the project. In Claude Code, run:
 
 ```
-/monoscope-skills:instrument OpenTelemetry via Monoscope into this project
+/monoscope-skills:instrument Add OpenTelemetry for monoscope to this project
 ```
 
-The skill drives the CLI to wire up the SDK and verify it. Prefer a human? [Email us](mailto:hello@monoscope.tech) — happy to jump on a call or connect over Slack.
+The skill uses the CLI to add the SDK and to make sure that events arrive. To do the setup by hand, follow the steps below. For help from a person, [email us](mailto:hello@monoscope.tech).
 
 ## Installation
 
-To install the SDK, kindly add `monoscope_phoenix` to the list of dependencies in the `mix.exs` file, like so:
+Add `apitoolkit_phoenix` to the dependencies in your `mix.exs` file:
 
 ```elixir
 def deps do
   [
-    {:monoscope_phoenix, "~> 0.1.1"}
+    {:apitoolkit_phoenix, "~> 0.1.2"}
   ]
 end
 ```
 
-Then, run the `mix deps.get` command to install the `monoscope_phoenix` dependency.
+Then run `mix deps.get` to install it.
 
 ## Configuration
 
-First, set the following environment variables to configure the OpenTelemetry exporter:
-
-```sh
-OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
-OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
-```
-
-Next, import and initialize the `MonoscopePhoenix` Plug in your `router.ex` file, like so:
+Import the `ApitoolkitPhoenix` Plug in your `router.ex` file and add it to your pipeline:
 
 ```elixir
 defmodule HelloWeb.Router do
   use HelloWeb, :router
   use Plug.ErrorHandler
-  import MonoscopePhoenix
+  import ApitoolkitPhoenix
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug MonoscopePhoenix,
+    plug ApitoolkitPhoenix,
       config: %{
-        api_key: "{ENTER_YOUR_API_KEY_HERE}",
+        api_key: "YOUR_API_KEY",
         debug: false,
       }
     # Other plugs...
@@ -80,7 +79,7 @@ defmodule HelloWeb.Router do
 end
 ```
 
-In the configuration above, **only the `api_key` option is required**, but you can add the following optional fields:
+Only `api_key` is required. These fields are optional:
 
 {class="docs-table"}
 :::
@@ -88,17 +87,15 @@ In the configuration above, **only the `api_key` option is required**, but you c
 | ------ | ----------- |
 | `debug` | Set to `true` to enable debug mode. |
 | `redact_headers` | A list of HTTP header keys to redact. |
-| `redact_response_body` | A list of JSONPaths from the request body to redact. |
-| `redact_request_body` | A list of JSONPaths from the response body to redact. |
+| `redact_request_body` | A list of JSONPaths from the request body to redact. |
+| `redact_response_body` | A list of JSONPaths from the response body to redact. |
+| `root_url` | The monoscope API URL. Defaults to `https://app.apitoolkit.io`. |
 :::
 
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>
-    The <code>{ENTER_YOUR_API_KEY_HERE}</code> demo string should be replaced
-    with the API key generated from the monoscope dashboard.
-  </p>
+  <p>Replace <code>YOUR_API_KEY</code> with an API key from <b>Settings &gt; API Keys</b> in monoscope.</p>
 </div>
 ```
 
@@ -171,14 +168,14 @@ Here's an example of what the configuration would look like with redacted fields
 defmodule HelloWeb.Router do
   use HelloWeb, :router
   use Plug.ErrorHandler
-  import MonoscopePhoenix
+  import ApitoolkitPhoenix
 
   pipeline :api do
     plug :accepts, ["json"]
     # Other plugs
-    plug MonoscopePhoenix,
+    plug ApitoolkitPhoenix,
       config: %{
-        api_key: "{ENTER_YOUR_API_KEY_HERE}",
+        api_key: "YOUR_API_KEY",
         redact_headers: ["content-type", "Authorization", "HOST"],
         redact_request_body: ["$.user.email", "$.user.addresses"],
         redact_response_body: ["$.users[*].email", "$.users[*].credit_card"]
@@ -207,7 +204,7 @@ With monoscope, you can track and report different unhandled or uncaught errors,
   <button class="tab-button" data-tab="tab1">Report All Errors</button>
   <button class="tab-button" data-tab="tab2">Report Specific Errors</button>
   <div id="tab1" class="tab-content">
-To report all uncaught errors and service exceptions, use the `report_error()` method, passing in the `connection` and `error` arguments in the `handle_errors` function, like so:
+To report all uncaught errors, call `report_error()` with the `conn` and the error in your `handle_errors` function:
 ```
 
 ```elixir
@@ -221,22 +218,23 @@ end
 ```=html
   </div>
   <div id="tab2" class="tab-content">
-To manually report specific errors at different parts of your application, call the `report_error()` method anywhere within a controller, also passing in the `connection`, `error`, and `__STACKTRACE__` arguments, like so:
+To report a specific error, call `report_error()` in a controller with the `conn`, the error and `__STACKTRACE__`. It returns the updated `conn`, so keep using that `conn`:
 ```
 
 ```elixir
 defmodule HelloWeb.PageController do
   use HelloWeb, :controller
-  import MonoscopePhoenix
+  import ApitoolkitPhoenix
 
   def home(conn, _params) do
-    try do
-      raise("Oops, something went wrong!")
-    rescue
-      err ->
-        # Report the error to monoscope
-        report_error(conn, err, __STACKTRACE__)
-    end
+    conn =
+      try do
+        raise("Oops, something went wrong!")
+      rescue
+        err ->
+          # Report the error to monoscope
+          report_error(conn, err, __STACKTRACE__)
+      end
 
     json(conn, %{message: "Hello, world!"})
   end
@@ -251,6 +249,15 @@ end
 ## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)
 
 The Phoenix plug only covers HTTP requests. Oban workers, Broadway pipelines, GenServer pollers, and Mix tasks are invisible until you wrap each handler in a span yourself. Always cover these alongside your HTTP routes.
+
+The examples below use OpenTelemetry, not the Phoenix SDK. Add the `opentelemetry` and `opentelemetry_exporter` dependencies, then point the exporter at monoscope:
+
+```sh
+OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4318"
+OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"
+OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
+OTEL_SERVICE_NAME="my-service"
+```
 
 For **Oban**, use the official auto-instrumentation — every job automatically gets a span:
 
@@ -291,9 +298,15 @@ end
 
 For Mix tasks and other one-shot processes, call `:opentelemetry.get_tracer_provider() |> :otel_tracer_provider.force_flush()` before exit so the BatchSpanProcessor flushes; otherwise spans are dropped silently.
 
+## Next Steps
+
+- Send a few requests to your application. Then open **Log Explorer** in [monoscope](https://app.monoscope.tech) to see the requests, logs and traces.
+- [Find your way around the dashboard](/docs/dashboard/): issues, monitors, dashboards and the API catalog.
+- [Investigate from your terminal or your agent](/docs/ai/) with the CLI, the skills and the MCP server.
+
 ```=html
 <hr />
-<a href="https://github.com/monoscope-tech/monoscope-phoenix" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">
+<a href="https://github.com/monoscope-tech/apitoolkit-phoenix" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">
     <i class="fa-brands fa-github"></i>
     Explore the Phoenix SDK
 </a>

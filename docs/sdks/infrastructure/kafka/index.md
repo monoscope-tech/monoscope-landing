@@ -3,7 +3,7 @@ title: Integrating monoscope with Kafka
 ogTitle: How to Monitor Kafka Producers and Consumers with monoscope using OpenTelemetry Collector
 faLogo: message-lines
 date: 2024-06-14
-updatedDate: 2024-06-14
+updatedDate: 2026-10-29
 linkTitle: "Kafka"
 menuWeight: 40
 ---
@@ -19,8 +19,8 @@ This guide demonstrates how to integrate monoscope with Kafka using the OpenTele
 ## Prerequisites
 
 - Apache Kafka cluster
-- OpenTelemetry Collector
-- monoscope account with an API key
+- OpenTelemetry Collector Contrib, version 0.140 or later
+- A monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
 ## Monitoring Kafka with OpenTelemetry Collector
 
@@ -31,7 +31,6 @@ The OpenTelemetry Collector can be deployed alongside your Kafka cluster to coll
 #### Option 1: Using Docker
 
 ```yaml
-version: '3'
 services:
   # Kafka and Zookeeper services (your existing setup)
   zookeeper:
@@ -46,10 +45,11 @@ services:
       
   # OpenTelemetry Collector
   otel-collector:
-    image: otel/opentelemetry-collector-contrib:latest
+    image: otel/opentelemetry-collector-contrib:0.163.2
     command: ["--config=/etc/otel-collector-config.yaml"]
     volumes:
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+      - kafka-logs:/var/log/kafka:ro   # the same volume the broker writes its logs to
     environment:
       - MONOSCOPE_API_KEY=YOUR_API_KEY
     ports:
@@ -79,7 +79,7 @@ spec:
     spec:
       containers:
       - name: otel-collector
-        image: otel/opentelemetry-collector-contrib:latest
+        image: otel/opentelemetry-collector-contrib:0.163.2
         args:
         - "--config=/conf/otel-collector-config.yaml"
         volumeMounts:
@@ -103,65 +103,45 @@ Create an `otel-collector-config.yaml` file with the following configuration:
 
 ```yaml
 receivers:
-  # Kafka metrics receiver
-  kafkametrics:
-    brokers: kafka:9092
-    protocol_version: 2.0.0
+  # Broker, topic and consumer-group metrics from the Kafka protocol
+  kafka_metrics:
+    brokers: [kafka:9092]
     collection_interval: 10s
-    scrape_topics: true
+    scrapers: [brokers, topics, consumers]
     topic_match: ".*"
-    scrape_consumer_groups: true
-    client_id: otel-collector
     group_match: ".*"
-  
-  # JMX metrics for Kafka brokers
-  jmx:
-    endpoint: kafka:1099
-    collection_interval: 10s
-    service_url: "service:jmx:rmi:///jndi/rmi://kafka:1099/jmxrmi"
-    target_system: jvm,kafka
-    groovy_script: |
-      # Various JMX metric collection rules
-      kafka_metrics = [
-        'kafka.server:type=BrokerTopicMetrics,name=MessagesInPerSec,topic=*:OneMinuteRate',
-        'kafka.server:type=BrokerTopicMetrics,name=BytesOutPerSec,topic=*:OneMinuteRate',
-        'kafka.server:type=BrokerTopicMetrics,name=BytesInPerSec,topic=*:OneMinuteRate',
-        'kafka.server:type=ReplicaManager,name=UnderReplicatedPartitions:Value',
-        'kafka.controller:type=KafkaController,name=ActiveControllerCount:Value',
-        'kafka.controller:type=KafkaController,name=OfflinePartitionsCount:Value',
-        'kafka.server:type=ReplicaManager,name=PartitionCount:Value'
-      ]
-      kafka_metrics.each { metric ->
-        def mbean = jmx.getMBean(metric.tokenize(':')[0])
-        def attr = metric.tokenize(':')[1]
-        def value = mbean ? mbean.getAttribute(attr) : null
-        if (value != null) {
-          record.gauge(metric, value)
-        }
-      }
-  
-  # File log receiver for Kafka server logs
-  filelog:
+    client_id: otel-collector
+
+  # Broker JVM and JMX metrics, exposed by the Prometheus JMX exporter (step 3)
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: kafka-jmx
+          scrape_interval: 10s
+          static_configs:
+            - targets: ["kafka:7071"]
+
+  # Kafka server logs
+  file_log:
     include:
       - /var/log/kafka/server.log
       - /var/log/kafka/kafka-request.log
-    start_at: beginning
+    start_at: end
     include_file_path: true
-    # Kafka emits Java stack traces across many lines (Caused by:, \tat ...).
-    # Without multiline, every line becomes its own record. Anchor on the
-    # log-line timestamp prefix; everything else is a continuation.
+    # Kafka writes Java stack traces across many lines. Each record starts
+    # with a timestamp; every other line belongs to the record before it.
     multiline:
-      line_start_pattern: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}'
+      line_start_pattern: '^\[?\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}'
     operators:
       - type: regex_parser
-        regex: '^(?P<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}) (?P<level>\w+) (?P<message>.*)'
+        regex: '^\[?(?P<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3})\]? (?P<level>\w+) (?P<message>(?s).*)'
         timestamp:
-          parse_from: time
+          parse_from: attributes.time
           layout: '%Y-%m-%d %H:%M:%S,%L'
         severity:
-          parse_from: level
-  
-  # OTLP receiver for any instrumented clients
+          parse_from: attributes.level
+
+  # OTLP from instrumented producers and consumers
   otlp:
     protocols:
       grpc:
@@ -170,12 +150,12 @@ receivers:
         endpoint: 0.0.0.0:4318
 
 processors:
-  batch:
   memory_limiter:
     check_interval: 1s
-    limit_mib: 4000
-    spike_limit_mib: 800
-  resourcedetection:
+    limit_percentage: 80
+    spike_limit_percentage: 20
+  batch: {}
+  resource_detection:
     detectors: [env, system]
     override: false
   resource:
@@ -185,10 +165,10 @@ processors:
         action: upsert
       - key: service.name
         value: kafka-broker
-        action: upsert
+        action: insert
 
 exporters:
-  otlp:
+  otlp_grpc:
     endpoint: "otelcol.monoscope.tech:4317"
     tls:
       insecure: true
@@ -197,30 +177,33 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [memory_limiter, batch, resourcedetection, resource]
-      exporters: [otlp]
+      processors: [memory_limiter, resource_detection, resource, batch]
+      exporters: [otlp_grpc]
     metrics:
-      receivers: [kafkametrics, jmx, otlp]
-      processors: [memory_limiter, batch, resourcedetection, resource]
-      exporters: [otlp]
+      receivers: [kafka_metrics, prometheus, otlp]
+      processors: [memory_limiter, resource_detection, resource, batch]
+      exporters: [otlp_grpc]
     logs:
-      receivers: [filelog, otlp]
-      processors: [memory_limiter, batch, resourcedetection, resource]
-      exporters: [otlp]
+      receivers: [file_log, otlp]
+      processors: [memory_limiter, resource_detection, resource, batch]
+      exporters: [otlp_grpc]
 ```
 
-Replace `YOUR_API_KEY` with your actual monoscope project key.
+Set `MONOSCOPE_API_KEY` in the environment of the collector. Collector releases before 0.140 use the old component names: `kafkametrics`, `filelog`, `resourcedetection` and `otlp`.
 
-### 3. Configuring Kafka for JMX Monitoring
+### 3. Expose Broker JMX Metrics
 
-To enable JMX monitoring in Kafka, update your Kafka broker configuration:
+The collector has no JMX receiver. Use the [Prometheus JMX exporter](https://github.com/prometheus/jmx_exporter){target="_blank" rel="noopener noreferrer"} as a Java agent on each broker. The collector then scrapes it on port 7071.
 
-```properties
-# Add to your kafka server.properties or as environment variables in Docker/Kubernetes
-KAFKA_JMX_PORT=1099
-KAFKA_JMX_HOSTNAME=kafka
-KAFKA_JMX_OPTS="-Djava.rmi.server.hostname=kafka -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.rmi.port=1099"
+1. Download `jmx_prometheus_javaagent.jar` from the JMX exporter releases page.
+2. Download the Kafka rules file `kafka-2_0_0.yml` from the `examples` folder of the same repository.
+3. Add the agent to the broker JVM options, then restart the broker:
+
+```sh
+KAFKA_OPTS="-javaagent:/opt/jmx_exporter/jmx_prometheus_javaagent.jar=7071:/opt/jmx_exporter/kafka-2_0_0.yml"
 ```
+
+4. Make sure that `curl http://kafka:7071/metrics` returns metrics.
 
 ## Monitoring Kafka Connect
 

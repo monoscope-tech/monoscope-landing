@@ -3,7 +3,7 @@ title: Integrating monoscope with PostgreSQL
 ogTitle: How to Monitor PostgreSQL Database Operations with monoscope using OpenTelemetry Collector
 faLogo: database
 date: 2024-06-14
-updatedDate: 2024-06-14
+updatedDate: 2026-10-29
 linkTitle: "PostgreSQL"
 menuWeight: 10
 ---
@@ -20,7 +20,7 @@ This guide demonstrates how to integrate monoscope with PostgreSQL databases usi
 
 - PostgreSQL database server
 - OpenTelemetry Collector
-- monoscope account with an API key
+- A monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
 ## Monitoring PostgreSQL with OpenTelemetry Collector
 
@@ -45,7 +45,7 @@ services:
       - postgres-data:/var/lib/postgresql/data
       
   otel-collector:
-    image: otel/opentelemetry-collector-contrib:latest
+    image: otel/opentelemetry-collector-contrib:0.163.2
     command: ["--config=/etc/otel-collector-config.yaml"]
     volumes:
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
@@ -76,7 +76,7 @@ receivers:
       insecure: true
     
   # For logs if enabled in PostgreSQL
-  filelog:
+  file_log:
     include:
       - /var/log/postgresql/*.log
     # Postgres emits multi-line entries for query plans, error contexts,
@@ -88,10 +88,10 @@ receivers:
       - type: regex_parser
         regex: '^(?P<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d{3} \w+) \[(?P<pid>\d+)\] (?P<user>\w+)@(?P<database>\w+) (?P<level>\w+): (?P<message>.*)$'
         timestamp:
-          parse_from: time
+          parse_from: attributes.time
           layout: '%Y-%m-%d %H:%M:%S.%L %z'
         severity:
-          parse_from: level
+          parse_from: attributes.level
           mapping:
             error: ERROR
             warning: WARN
@@ -110,9 +110,9 @@ processors:
   batch:
   memory_limiter:
     check_interval: 1s
-    limit_mib: 4000
-    spike_limit_mib: 800
-  resourcedetection:
+    limit_percentage: 80
+    spike_limit_percentage: 20
+  resource_detection:
     detectors: [env, system]
     override: false
   resource:
@@ -128,7 +128,7 @@ processors:
         action: upsert
 
 exporters:
-  otlp:
+  otlp_grpc:
     endpoint: "otelcol.monoscope.tech:4317"
     tls:
       insecure: true
@@ -137,16 +137,16 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [memory_limiter, batch, resourcedetection, resource]
-      exporters: [otlp]
+      processors: [memory_limiter, batch, resource_detection, resource]
+      exporters: [otlp_grpc]
     metrics:
       receivers: [postgresql, otlp]
-      processors: [memory_limiter, batch, resourcedetection, resource]
-      exporters: [otlp]
+      processors: [memory_limiter, batch, resource_detection, resource]
+      exporters: [otlp_grpc]
     logs:
-      receivers: [filelog, otlp]
-      processors: [memory_limiter, batch, resourcedetection, resource]
-      exporters: [otlp]
+      receivers: [file_log, otlp]
+      processors: [memory_limiter, batch, resource_detection, resource]
+      exporters: [otlp_grpc]
 ```
 
 ### 3. Enable PostgreSQL Monitoring Features
@@ -206,7 +206,7 @@ services:
       - postgres
   
   otel-collector:
-    image: otel/opentelemetry-collector-contrib:latest
+    image: otel/opentelemetry-collector-contrib:0.163.2
     command: ["--config=/etc/otel-collector-config.yaml"]
     volumes:
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
@@ -238,8 +238,8 @@ service:
   pipelines:
     metrics:
       receivers: [prometheus, otlp]
-      processors: [memory_limiter, batch, resourcedetection, resource]
-      exporters: [otlp]
+      processors: [memory_limiter, batch, resource_detection, resource]
+      exporters: [otlp_grpc]
     # ... other pipelines ...
 ```
 
@@ -280,7 +280,7 @@ spec:
           mountPath: /var/lib/postgresql/data
       
       - name: otel-collector
-        image: otel/opentelemetry-collector-contrib:latest
+        image: otel/opentelemetry-collector-contrib:0.163.2
         args:
         - "--config=/etc/otel-collector-config.yaml"
         volumeMounts:
@@ -314,10 +314,10 @@ shared_preload_libraries = 'pg_stat_statements,pgaudit'
 pgaudit.log = 'all'
 ```
 
-2. Update the collector's filelog receiver to parse audit logs:
+2. Update the collector's file_log receiver to parse audit logs:
 
 ```yaml
-filelog:
+file_log:
   include:
     - /var/log/postgresql/*.log
   multiline:

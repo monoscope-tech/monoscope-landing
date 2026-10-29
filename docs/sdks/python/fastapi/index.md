@@ -16,37 +16,43 @@ In this guide, you’ll learn how to integrate OpenTelemetry into your FastAPI a
 
 ## Prerequisites
 
-Ensure you have already completed the first three steps of the [onboarding guide](/docs/onboarding/){target="\_blank"}.
+You need a monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
-## Install via Claude Code
+## Set Up With Your Coding Agent
 
-Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument this project for you. Add the marketplace, install the skill, and install our CLI:
+Your coding agent can add the instrumentation for you. Install the monoscope skills and the monoscope CLI:
 
 ```sh
+# Claude Code
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-curl https://monoscope.tech/install.sh | sh
+
+# Cursor, Codex, Cline and other agents
+npx skills add monoscope-tech/skills
+
+# monoscope CLI
+curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 
-Then run inside Claude Code:
+Then ask your agent to instrument the project. In Claude Code, run:
 
 ```
-/monoscope-skills:instrument OpenTelemetry via Monoscope into this project
+/monoscope-skills:instrument Add OpenTelemetry for monoscope to this project
 ```
 
-The skill drives the CLI to wire up the SDK and verify it. Prefer a human? [Email us](mailto:hello@monoscope.tech) — happy to jump on a call or connect over Slack.
+The skill uses the CLI to add the SDK and to make sure that events arrive. To do the setup by hand, follow the steps below. For help from a person, [email us](mailto:hello@monoscope.tech).
 
 ## Installation
 
-Kindly run the command below to install the monoscope fastapi sdk and necessary opentelemetry packages:
+Run the command below to install the monoscope fastapi sdk and necessary opentelemetry packages:
 
 ```sh
 pip install monoscope-fastapi opentelemetry-distro opentelemetry-exporter-otlp
 opentelemetry-bootstrap -a install
 ```
 
-## Setup Open Telemetry
+## Set Up OpenTelemetry
 
 Setting up open telemetry allows you to send traces, metrics and logs to the Monoscope platform.
 To setup open telemetry, you need to configure the following environment variables:
@@ -54,7 +60,7 @@ To setup open telemetry, you need to configure the following environment variabl
 ```sh
 export OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
 export OTEL_SERVICE_NAME="my-service" # Specifies the name of the service.
-export OTEL_RESOURCE_ATTRIBUTES="x-api-key={ENTER_YOUR_API_KEY_HERE}" # Adds your API KEY to the resource.
+export OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY" # Adds your API KEY to the resource.
 export OTEL_EXPORTER_OTLP_PROTOCOL="grpc" #Specifies the protocol to use for the OpenTelemetry exporter.
 export OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true # enable logging auto instrumentation
 
@@ -75,7 +81,7 @@ opentelemetry-instrument gunicorn -c gunicorn.conf.py main:app
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>The <code>{ENTER_YOUR_API_KEY_HERE}</code> demo string should be replaced with the API key generated from the Monoscope dashboard.</p>
+  <p>Replace <code>YOUR_API_KEY</code> with an API key from <b>Settings &gt; API Keys</b> in monoscope.</p>
 </div>
 ```
 
@@ -88,9 +94,7 @@ opentelemetry-instrument gunicorn -c gunicorn.conf.py main:app
 
 ## Monoscope FastAPI Configuration
 
-After setting up open telemetry, you can now configure the monoscope fastapi middleware.
-
-Next, initialize Monoscope in your application's entry point (e.g., `main.py`), like so:
+Initialize monoscope in your application's entry point (for example, `main.py`):
 
 ```python
 from fastapi import FastAPI
@@ -113,14 +117,14 @@ def read_root():
 | Option | Description |
 | ------ | ----------- |
 | `service_name` | A defined string name of your application (used for further debugging on the dashboard). |
-| `debug` | Set to `true` to enable debug mode. |
+| `debug` | Set to `True` to enable debug mode. |
 | `tags` | A list of defined tags for your services (used for grouping and filtering data on the dashboard). |
 | `service_version` | A defined string version of your application (used for further debugging on the dashboard). |
 | `redact_headers` | A list of HTTP header keys to redact. |
-| `redact_response_body` | A list of JSONPaths from the request body to redact. |
-| `redact_request_body` | A list of JSONPaths from the response body to redact. |
-| `capture_request_body` | Set to `true` to capture the request body. |
-| `capture_response_body` | Set to `true` to capture the response body. |
+| `redact_response_body` | A list of JSONPaths from the response body to redact. |
+| `redact_request_body` | A list of JSONPaths from the request body to redact. |
+| `capture_request_body` | Set to `True` to capture the request body. |
+| `capture_response_body` | Set to `True` to capture the response body. |
 :::
 
 ## Redacting Sensitive Data
@@ -130,8 +134,8 @@ If you have fields that are sensitive and should not be sent to Monoscope server
 To mark a field for redacting via this SDK, you need to add some additional fields to the `monoscope` configuration object with paths to the fields that should be redacted. There are three variables you can provide to configure what gets redacted, namely:
 
 1. `redact_headers`: A list of HTTP header keys.
-2. `redact_response_body`: A list of JSONPaths from the request body.
-3. `redact_request_body`: A list of JSONPaths from the response body.
+2. `redact_response_body`: A list of JSONPaths from the response body.
+3. `redact_request_body`: A list of JSONPaths from the request body.
 
 ```=html
 <hr />
@@ -250,6 +254,13 @@ async def sample_route(request: Request):
 
 ## Identifying users & tenants
 
+```=html
+<div class="callout">
+  <i class="fa-solid fa-circle-info"></i>
+  <p><code>set_user</code>, <code>set_tenant</code> and <code>set_session</code> need <code>monoscope-fastapi</code> 1.1.0 or later and <code>monoscope-common</code> 1.2.0 or later.</p>
+</div>
+```
+
 Attach the authenticated user and tenant to every request span so you can filter, group, and search by identity in the dashboard (e.g. "all errors for `user.email = jane@acme.com`"). Call `set_user` and `set_tenant` from a dependency that runs after auth (or directly inside the route handler) — the SDK writes them to the active request span using the standard attribute keys (`user.id`, `user.email`, `user.full_name`, `tenant.id`, `tenant.name`).
 
 ```python
@@ -291,13 +302,13 @@ async def attach_identity(request: Request, user = Depends(get_current_user)):
 
 ## Monitoring HTTPX requests
 
-Outgoing requests are external API calls you make from your API. By default, Monoscope monitors all requests users make from your application and they will all appear in the [API Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. However, you can separate outgoing requests from others and explore them in the [Outgoing Integrations](/docs/dashboard/dashboard-pages/outgoing-integrations/){target="\_blank"} page, alongside the incoming request that triggered them.
+Outgoing requests are external API calls you make from your API. By default, Monoscope monitors all requests users make from your application and they will all appear in the [Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. To see only outgoing requests, open the **Outgoing** tab of the [API Catalog](/docs/dashboard/dashboard-pages/outgoing-integrations/). Each outgoing request links to the incoming request that triggered it.
 
 To monitor outgoing HTTP requests from your application, use the `observe_request()` function from the `monoscope_fastapi` module, passing in the `request` argument, like so:
 
 ```python
 from fastapi import FastAPI, Request
-from monoscope_fastapi import observe_request
+from monoscope_fastapi import Monoscope, observe_request
 
 app = FastAPI()
 
@@ -307,7 +318,7 @@ app.middleware("http")(monoscope.middleware)
 @app.get('/')
 async def sample_route(request: Request):
   resp = observe_request(request).get("https://jsonplaceholder.typicode.com/todos/2")
-  return resp.read()
+  return resp.json()
 ```
 
 The `observe_request()` function accepts a **required `request` argument**, and the following optional arguments:
@@ -318,8 +329,8 @@ The `observe_request()` function accepts a **required `request` argument**, and 
 | ------ | ----------- |
 | `url_wildcard` | The `url_path` string for URLs with path parameters. |
 | `redact_headers` | A list of HTTP header keys to redact. |
-| `redact_response_body` | A list of JSONPaths from the request body to redact. |
-| `redact_request_body` | A list of JSONPaths from the response body to redact. |
+| `redact_response_body` | A list of JSONPaths from the response body to redact. |
+| `redact_request_body` | A list of JSONPaths from the request body to redact. |
 :::
 
 ## Non-HTTP Entry Points (Background Jobs, Workers, CLIs)
@@ -372,11 +383,15 @@ For one-shot scripts, call `trace.get_tracer_provider().shutdown()` before exiti
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>The `observe_request()` function wraps an <a href="https://github.com/monoscope-tech/monoscope-fastapi" target="_blank" rel="noopener noreferrer" class="">HTTPX</a>
-
- client and you can use it just like you would normally use HTTPX for any request.</p>
+  <p>The <code>observe_request()</code> function returns an <a href="https://www.python-httpx.org/" target="_blank" rel="noopener noreferrer">HTTPX</a> client. Use it as you would use any HTTPX client.</p>
 </div>
 ```
+
+## Next Steps
+
+- Send a few requests to your application. Then open **Log Explorer** in [monoscope](https://app.monoscope.tech) to see the requests, logs and traces.
+- [Find your way around the dashboard](/docs/dashboard/): issues, monitors, dashboards and the API catalog.
+- [Investigate from your terminal or your agent](/docs/ai/) with the CLI, the skills and the MCP server.
 
 ```=html
 <hr />

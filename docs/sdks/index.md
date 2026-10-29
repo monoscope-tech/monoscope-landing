@@ -1,7 +1,7 @@
 ---
 title: SDK Guides
 date: 2022-03-23
-updatedDate: 2024-08-03
+updatedDate: 2026-10-29
 faLogo: plug
 menuWeight: 2
 pageFullWidth: true
@@ -37,14 +37,19 @@ pages:
   - title: OpenTelemetry (Any Language)
     slug: /docs/sdks/opentelemetry
     icon: /assets/img/sdk-icons/opentelemetry.svg
+  - title: Infrastructure
+    slug: /docs/sdks/infrastructure
+    icon: /assets/img/framework-logos/kubernetes.svg
+  - title: Databases
+    slug: /docs/sdks/databases
+    icon: /assets/img/opentelemetry-contrib-logos/postgresql.png
 ---
 
 # SDK Guides
 
-In these guides, you will learn how to integrate monoscope into your application using any of our 17+ platform SDKs in different programming languages and frameworks. Even if your application doesn't use a web framework,
-**these SDKs are also compatible with different HTTP client libraries (e.g., `<i class="fa-brands fa-js"></i>`{=html} fetch, `<i class="fa-brands fa-js"></i>`{=html} axios, `<i class="fa-brands fa-js"></i>`{=html} xhr, `<i class="fa-brands fa-php"></i>`{=html} guzzle, `<i class="fa-brands fa-golang"></i>`{=html} tls, etc.)**.
-If your language doesn't have a native SDK, you can integrate directly via [OpenTelemetry](/docs/sdks/opentelemetry/).
-Kindly select your preferred programming language below to get started.
+Each guide shows how to send logs, traces and metrics from your stack to monoscope with OpenTelemetry. The monoscope SDKs for Node.js, Python, Go, PHP, Java, .NET and Elixir also capture request and response bodies, report errors, and monitor outgoing HTTP calls (for example `fetch`, `axios` and Guzzle).
+
+For a language without a monoscope SDK, use [OpenTelemetry](/docs/sdks/opentelemetry/) directly. To let your coding agent do the setup, read [Get started](/docs/onboarding/#connect-your-application).
 
 ```=html
 <hr />

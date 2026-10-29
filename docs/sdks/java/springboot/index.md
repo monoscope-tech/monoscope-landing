@@ -8,7 +8,7 @@ menuWeight: 1
 
 # Springboot SDK Guide
 
-In this guide, you’ll learn how to integrate OpenTelemetry into your Java application and install the monoscope Springboot SDK to enhance its functionalities. By combining OpenTelemetry’s robust tracing and metrics capabilities with the monoscope SDK, you’ll be able to monitor incoming and outgoing requests, report errors, and gain deeper insights into your application’s performance. This setup provides comprehensive observability, helping you track requests and troubleshoot issues effectively.
+This guide shows how to attach the OpenTelemetry Java agent to your Spring Boot application and install the monoscope SDK. OpenTelemetry sends traces, metrics and logs. The SDK adds request and response details, error reports and outgoing request monitoring.
 
 ```=html
 
@@ -17,76 +17,78 @@ In this guide, you’ll learn how to integrate OpenTelemetry into your Java appl
 
 ## Prerequisites
 
-Ensure you have already completed the first three steps of the [onboarding guide](/docs/onboarding/){target="\_blank"}.
+You need a monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
-## Install via Claude Code
+## Set Up With Your Coding Agent
 
-Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument this project for you. Add the marketplace, install the skill, and install our CLI:
+Your coding agent can add the instrumentation for you. Install the monoscope skills and the monoscope CLI:
 
 ```sh
+# Claude Code
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-curl https://monoscope.tech/install.sh | sh
+
+# Cursor, Codex, Cline and other agents
+npx skills add monoscope-tech/skills
+
+# monoscope CLI
+curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 
-Then run inside Claude Code:
+Then ask your agent to instrument the project. In Claude Code, run:
 
 ```
-/monoscope-skills:instrument OpenTelemetry via Monoscope into this project
+/monoscope-skills:instrument Add OpenTelemetry for monoscope to this project
 ```
 
-The skill drives the CLI to wire up the SDK and verify it. Prefer a human? [Email us](mailto:hello@monoscope.tech) — happy to jump on a call or connect over Slack.
+The skill uses the CLI to add the SDK and to make sure that events arrive. To do the setup by hand, follow the steps below. For help from a person, [email us](mailto:hello@monoscope.tech).
 
 ## Installation
 
-To install the SDK, kindly add the following dependency to your `pom.xml` file within the `<dependencies>` section, like so:
+Add the dependency to the `<dependencies>` section of your `pom.xml` file:
 
 ```xml
 <dependency>
-  <groupId>io.monoscope.springboot</groupId>
-  <artifactId>monoscope-springboot</artifactId>
+  <groupId>io.apitoolkit.springboot</groupId>
+  <artifactId>apitoolkit-springboot</artifactId>
   <version>2.0.9</version>
 </dependency>
 ```
 
-## Open Telemetry Setup
+## OpenTelemetry Setup
 
-Setting up open telemetry allows you to send traces, metrics and logs to the monoscope platform.
-To setup open telemetry, you need to install the opentelemetry-javaagent.jar file.
+The SDK adds its data to OpenTelemetry spans, so the OpenTelemetry Java agent must be attached. Download the agent:
 
 ```sh
 curl -L -O https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar
 ```
 
-### Setup Open Telemetry Variables
+### Set Up OpenTelemetry Variables
 
-The environment variables include your API key and the endpoint to send the data to, this allows you to send data to the monoscope platform.
+Set your API key and the monoscope endpoint:
 
 ```sh
 export OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
 export OTEL_SERVICE_NAME="my-service" # Specifies the name of the service.
-export OTEL_RESOURCE_ATTRIBUTES=x-api-key="{ENTER_YOUR_API_KEY_HERE}" # Adds your API KEY to the resource.
-export OTEL_EXPORTER_OTLP_PROTOCOL="grpc" #Specifies the protocol to use for the OpenTelemetry exporter.
+export OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY" # Adds your API KEY to the resource.
+export OTEL_EXPORTER_OTLP_PROTOCOL="grpc" # Specifies the protocol to use for the OpenTelemetry exporter.
 ```
 
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>
-    The <code>{ENTER_YOUR_API_KEY_HERE}</code> demo string should be replaced
-    with the API key generated from the monoscope dashboard.
-  </p>
+  <p>Replace <code>YOUR_API_KEY</code> with an API key from <b>Settings &gt; API Keys</b> in monoscope.</p>
 </div>
 ```
 
-You can then run the application with opentelemetry instrumented using the following command:
+Run the application with the agent attached:
 
 ```sh
 java -javaagent:<PATH-TO>/opentelemetry-javaagent.jar -jar target/your_app.jar
 ```
 
-or using maven
+Or, with Maven:
 
 ```sh
 mvn spring-boot:run -Dspring-boot.run.jvmArguments="-javaagent:<PATH-TO>/opentelemetry-javaagent.jar"
@@ -94,37 +96,34 @@ mvn spring-boot:run -Dspring-boot.run.jvmArguments="-javaagent:<PATH-TO>/opentel
 
 ## monoscope SDK Configuration
 
-The monoscope sdk can be configured using the following optional properties in your `resource/application.properties` file:
+Configure the SDK with these optional properties in your `src/main/resources/application.properties` file:
 
-```sh
-monoscope.captureRequestBody=true # Capture request body.
-monoscope.captureResponseBody=true # Capture response body.
-monoscope.serviceName=my-service # Service name.
-monoscope.serviceVersion="2.0" # Service version.
-monoscope.tags = "value1,value2" # Comma-separated list of tags.
-monoscope.redactHeaders = "Authorizations, X-Api-Key" # Comma-separated list of headers to redact.
-monoscope.redactRequestBody= "$.password,$.creditCardNumber" # Comma-separated list of JSON paths to redact.
-monoscope.redactResponseBody= "$.password,$.creditCardNumber" # Comma-separated list of JSON paths to redact.
-monoscope.debug=false # Enable debug mode.
-# ...
+```properties
+# Capture request and response bodies (off by default)
+apitoolkit.captureRequest_body=true
+apitoolkit.captureResponse_body=true
+apitoolkit.serviceName=my-service
+apitoolkit.serviceVersion=2.0
+# Comma-separated lists
+apitoolkit.tags=value1,value2
+apitoolkit.redactHeaders=Authorization,X-Api-Key
+apitoolkit.redactRequestBody=$.password,$.creditCardNumber
+apitoolkit.redactResponseBody=$.password,$.creditCardNumber
+apitoolkit.debug=false
 ```
 
-Then, initialize the SDK, like so:
+Then add the `@EnableAPIToolkit` annotation to your application class:
 
 ```java
 package com.example.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-// Import monoscope annotation
-import io.monoscope.springboot.annotations.Enablemonoscope;
-// END Import monoscope annotation
+import io.apitoolkit.springboot.annotations.EnableAPIToolkit;
 import org.springframework.web.bind.annotation.*;
 
 @SpringBootApplication
-// Add monoscope custom annotation
-@Enablemonoscope
-// END Add monoscope custom annotation
+@EnableAPIToolkit
 @RestController
 public class DemoApplication {
 
@@ -204,18 +203,18 @@ Examples of valid JSONPath expressions would be:
 
 Here's an example of what the configuration would look like with redacted fields:
 
-```sh
-monoscope.redactHeaders=content-type,Authorization,HOST
-monoscope.redactRequestBody=$.user.email,$.user.addresses
-monoscope.redactResponseBody=$.users[*].email,$.users[*].credit_card
+```properties
+apitoolkit.redactHeaders=content-type,Authorization,HOST
+apitoolkit.redactRequestBody=$.user.email,$.user.addresses
+apitoolkit.redactResponseBody=$.users[*].email,$.users[*].credit_card
 ```
 
 ```=html
 <div class="callout">
   <p><i class="fa-regular  fa-circle-info"></i> <b>Note</b></p>
   <ul>
-    <li>The <code>monoscope.redactHeaders</code> config field expects a list of <b>case-insensitive headers as strings</b>.</li>
-    <li>The <code>monoscope.redactRequestBody</code> and `monoscope.redactResponseBody` config fields expect a list of <b>JSONPaths as strings</b>.</li>
+    <li>The <code>apitoolkit.redactHeaders</code> property expects a list of <b>case-insensitive headers as strings</b>.</li>
+    <li>The <code>apitoolkit.redactRequestBody</code> and <code>apitoolkit.redactResponseBody</code> properties expect a list of <b>JSONPaths as strings</b>.</li>
     <li>The list of items to be redacted will be applied to all endpoint requests and responses on your server.</li>
   </ul>
 </div>
@@ -225,7 +224,7 @@ monoscope.redactResponseBody=$.users[*].email,$.users[*].credit_card
 
 With monoscope, you can track and report different unhandled or uncaught errors, API issues, and anomalies at different parts of your application. This will help you associate more detail and context from your backend with any failing customer request.
 
-To manually report specific errors at different parts of your application, use the `reportError()` method, passing in the `request` and `exception` parameters, like so:
+To report an error by hand, call the static `APErrors.reportError()` method with the `request` and the exception:
 
 ```java
 package com.example.demo;
@@ -235,11 +234,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 
-import io.monoscope.springboot.APErrors;
-import io.monoscope.springboot.annotations.Enablemonoscope;
+import io.apitoolkit.springboot.APErrors;
+import io.apitoolkit.springboot.annotations.EnableAPIToolkit;
 
-@Enablemonoscope
+@EnableAPIToolkit
 @SpringBootApplication
+@RestController
 public class DemoApplication {
 
   public static void main(String[] args) {
@@ -261,9 +261,9 @@ public class DemoApplication {
 
 ## Monitoring Outgoing Requests
 
-Outgoing requests are external API calls you make from your API. By default, monoscope monitors all requests users make from your application and they will all appear in the [API Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. However, you can separate outgoing requests from others and explore them in the [Outgoing Integrations](/docs/dashboard/dashboard-pages/outgoing-integrations/){target="\_blank"} page, alongside the incoming request that triggered them.
+Outgoing requests are external API calls you make from your API. By default, monoscope monitors all requests users make from your application and they will all appear in the [Log Explorer](/docs/dashboard/dashboard-pages/api-log-explorer/){target="\_blank"} page. To see only outgoing requests, open the **Outgoing** tab of the [API Catalog](/docs/dashboard/dashboard-pages/outgoing-integrations/). Each outgoing request links to the incoming request that triggered it.
 
-The Springboot SDK provides the `ObserveRequest` class for monitoring outgoing requests using the Apache HTTP client. First, you will create an instance of the class, then use the instance to create a new HTTP client, passing in the current `request` context and an optional `url_path` string (for URLs with path parameters), like so:
+To monitor outgoing requests made with the Apache HTTP client, use the `ObserveRequest` class. Create an instance, then call `createHttpClient()` with the current `request` and an optional URL path pattern (for URLs with path parameters):
 
 ```java
 package com.example.demo;
@@ -276,14 +276,14 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import io.monoscope.springboot.annotations.Enablemonoscope;
-import io.monoscope.springboot.integrations.ObserveRequest;
+import io.apitoolkit.springboot.annotations.EnableAPIToolkit;
+import io.apitoolkit.springboot.integrations.ObserveRequest;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.*;
 
 @SpringBootApplication
-@Enablemonoscope
+@EnableAPIToolkit
 @RestController
 public class DemoApplication {
 
@@ -361,12 +361,18 @@ public class EmailWorker {
 }
 ```
 
-For one-shot Spring Boot CLI runs (`SpringApplication.exit(...)`), the agent's shutdown hook flushes spans automatically. If you bypass it (e.g. raw `System.exit(0)`), call `OpenTelemetrySdk.getGlobalTracerProvider().shutdown()` first or you'll lose the final spans.
+For one-shot Spring Boot CLI runs, the OpenTelemetry Java agent flushes pending spans in a JVM shutdown hook. `SpringApplication.exit(...)` and `System.exit(0)` both run this hook. `Runtime.halt()` and `kill -9` do not, so the last spans are lost.
+
+## Next Steps
+
+- Send a few requests to your application. Then open **Log Explorer** in [monoscope](https://app.monoscope.tech) to see the requests, logs and traces.
+- [Find your way around the dashboard](/docs/dashboard/): issues, monitors, dashboards and the API catalog.
+- [Investigate from your terminal or your agent](/docs/ai/) with the CLI, the skills and the MCP server.
 
 ```=html
 <hr />
-<a href="https://github.com/monoscope-tech/monoscope-springboot" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">
+<a href="https://github.com/monoscope-tech/apitoolkit-springboot" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">
     <i class="fa-brands fa-github"></i>
-    Explore the Springboot SDK
+    Explore the Spring Boot SDK
 </a>
 ```

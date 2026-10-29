@@ -8,7 +8,7 @@ menuWeight: 3
 
 # Symfony SDK Guide
 
-To integrate your Symfony application with monoscope, you need to use this SDK to monitor incoming traffic, aggregate the requests, and then send them to monoscope's servers. Kindly follow this guide to get started and learn about all the supported features of monoscope's **Symfony SDK**.
+To integrate your Symfony application with monoscope, you need to use this SDK to monitor incoming traffic, aggregate the requests, and then send them to monoscope's servers. Follow this guide to set up the **Symfony SDK**.
 
 ```=html
 
@@ -17,53 +17,67 @@ To integrate your Symfony application with monoscope, you need to use this SDK t
 
 ## Prerequisites
 
-Ensure you have already completed the first three steps of the [onboarding guide](/docs/onboarding/){target="\_blank"}.
+You need a monoscope project and its API key. If you do not have them yet, follow [Get started](/docs/onboarding/#get-your-api-key).
 
-## Install via Claude Code
+## Set Up With Your Coding Agent
 
-Use [Claude Code](https://claude.com/claude-code)? Our skill will instrument this project for you. Add the marketplace, install the skill, and install our CLI:
+Your coding agent can add the instrumentation for you. Install the monoscope skills and the monoscope CLI:
 
 ```sh
+# Claude Code
 claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
-curl https://monoscope.tech/install.sh | sh
+
+# Cursor, Codex, Cline and other agents
+npx skills add monoscope-tech/skills
+
+# monoscope CLI
+curl -fsSL https://monoscope.tech/install.sh | sh
 monoscope auth login
 ```
 
-Then run inside Claude Code:
+Then ask your agent to instrument the project. In Claude Code, run:
 
 ```
-/monoscope-skills:instrument OpenTelemetry via Monoscope into this project
+/monoscope-skills:instrument Add OpenTelemetry for monoscope to this project
 ```
 
-The skill drives the CLI to wire up the SDK and verify it. Prefer a human? [Email us](mailto:hello@monoscope.tech) — happy to jump on a call or connect over Slack.
+The skill uses the CLI to add the SDK and to make sure that events arrive. To do the setup by hand, follow the steps below. For help from a person, [email us](mailto:hello@monoscope.tech).
 
 ## Installation
 
-Kindly run the command below to install the SDK:
+Run the command below to install the SDK:
 
 ```sh
-composer require monoscope/monoscope-symfony
+composer require apitoolkit/apitoolkit-symfony:dev-master
+```
+
+```=html
+<div class="callout">
+  <p><i class="fa-regular fa-circle-info"></i> <b>Note</b></p>
+  <p>The package has no tagged release yet, so require the <code>dev-master</code> version.</p>
+</div>
 ```
 
 ## OpenTelemetry Configuration
 
-Set the following environment variables to configure the OpenTelemetry exporter:
+The Symfony bundle does not use OpenTelemetry. It sends requests to monoscope directly with your API key. If you add your own OpenTelemetry spans, as in Non-HTTP Entry Points below, set these environment variables to configure the exporter:
 
 ```sh
 OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
 OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
+OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
 ```
 
 ## Configuration
 
-First, add the `MONOSCOPE_API_KEY` environment variable to your `.env` file, like so:
+First, add the `MONOSCOPE_API_KEY` environment variable to your `.env` file:
 
 ```sh
-MONOSCOPE_API_KEY={ENTER_YOUR_API_KEY_HERE}
+MONOSCOPE_API_KEY=YOUR_API_KEY
 ```
 
-Then, add the `monoscope\EventSubscriber\monoscopeService` listener and API Key to your `config/service.yaml` file, like so:
+Then add the `APIToolkit\EventSubscriber\APIToolkitService` listener, the API key and the monoscope URL to your `config/services.yaml` file:
 
 ```yaml
 # This file is the entry point to configure your own services.
@@ -80,10 +94,10 @@ services:
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
   # Initialize the monoscope client
-  monoscope\EventSubscriber\monoscopeService:
+  APIToolkit\EventSubscriber\APIToolkitService:
     arguments:
       $apiKey: "%env(MONOSCOPE_API_KEY)%"
-  # END Initialize the monoscope client
+      $rootURL: "https://app.monoscope.tech"
 
   # makes classes in src/ available to be used as services
   # this creates a service per class whose id is the fully-qualified class name
@@ -101,7 +115,7 @@ services:
 ```=html
 <div class="callout">
   <p><i class="fa-regular fa-lightbulb"></i> <b>Tip</b></p>
-  <p>The <code>{ENTER_YOUR_API_KEY_HERE}</code> demo string should be replaced with the API key generated from the monoscope dashboard.</p>
+  <p>Replace <code>YOUR_API_KEY</code> with an API key from <b>Settings &gt; API Keys</b> in monoscope.</p>
 </div>
 ```
 
@@ -109,7 +123,7 @@ services:
 
 If you have fields that are sensitive and should not be sent to monoscope servers, you can mark those fields to be redacted (the fields will never leave your servers).
 
-To mark a field for redacting via this SDK, you need to add some additional arguments to the configuration with paths to the fields that should be redacted. There are three variables you can provide to configure what gets redacted, namely:
+To redact fields, add these arguments to the service configuration:
 
 1. `$redactHeaders`: A list of HTTP header keys.
 2. `$redactRequestBody`: A list of JSONPaths from the request body.
@@ -155,8 +169,8 @@ Examples of valid JSONPath expressions would be:
 :::
 | JSONPath | Description |
 | -------- | ----------- |
-| `$.user.addresses[*].zip` | In this case, monoscope will replace the `zip` field in all the objects of the `addresses` list inside the `user` object with the string `[CLIENT_REDACTED]`. |
-| `$.user.credit_card` | In this case, monoscope will replace the entire `credit_card` object inside the `user` object with the string `[CLIENT_REDACTED]`. |
+| `$.user.addresses[*].zip` | monoscope replaces the `zip` field in all the objects of the `addresses` list inside the `user` object with the string `[CLIENT_REDACTED]`. |
+| `$.user.credit_card` | monoscope replaces the entire `credit_card` object inside the `user` object with the string `[CLIENT_REDACTED]`. |
 :::
 
 ```=html
@@ -168,14 +182,15 @@ Examples of valid JSONPath expressions would be:
 <hr />
 ```
 
-Here's what the configuration would look like with redacted fields in the `config/service.yaml` file:
+Here is the `config/services.yaml` configuration with redacted fields:
 
 ```yaml
 services:
-  monoscope\EventSubscriber\monoscopeService:
+  APIToolkit\EventSubscriber\APIToolkitService:
     arguments:
       $apiKey: "%env(MONOSCOPE_API_KEY)%"
-      $redactedHeaders:
+      $rootURL: "https://app.monoscope.tech"
+      $redactHeaders:
         - "content-type"
         - "Authorization"
         - "HOST"
@@ -248,9 +263,15 @@ class TraceMiddleware implements MiddlewareInterface {
 
 Wire it into `config/packages/messenger.yaml` under `framework.messenger.buses.<bus>.middleware`. For Console commands and scheduled tasks, wrap the body of `execute()` the same way and call `Globals::tracerProvider()->shutdown()` before returning so the BatchSpanProcessor flushes; otherwise spans are dropped silently.
 
+## Next Steps
+
+- Send a few requests to your application. Then open **Log Explorer** in [monoscope](https://app.monoscope.tech) to see the requests, logs and traces.
+- [Find your way around the dashboard](/docs/dashboard/): issues, monitors, dashboards and the API catalog.
+- [Investigate from your terminal or your agent](/docs/ai/) with the CLI, the skills and the MCP server.
+
 ```=html
 <hr />
-<a href="https://github.com/monoscope-tech/monoscope-symfony" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">
+<a href="https://github.com/monoscope-tech/apitoolkit-symfony" target="_blank" rel="noopener noreferrer" class="w-full btn btn-outline link link-hover">
     <i class="fa-brands fa-github"></i>
     Explore the Symfony SDK
 </a>
