@@ -46,7 +46,7 @@ sections:
     eyebrow: "The slow request"
     title: "From the p95 line to the request that set it"
     lead: "Each endpoint lists its slowest traces. Open one and you see where 3.4 seconds went, span by span, with the request and response body that made it slow."
-    shot: trace
+    shot: apm-endpoint
     frame: "app.monoscope.tech / log_explorer · trace"
     bullets:
       - title: "Waterfall per request"

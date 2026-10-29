@@ -141,9 +141,24 @@ Rules: one git worktree per agent; no `tailwind.min.css` commits; build check wi
 | Item | State |
 |---|---|
 | SpyFu research | done (above) |
-| A category pages | started |
-| B alternatives | started |
-| C ads kit | started |
-| D screenshots | started |
-| P5 art | lead |
-| P6 integration | lead, after A–D |
+| A category pages | done: log-management, opentelemetry, apm, distributed-tracing, real-user-monitoring; error-tracking / api-monitoring / ai-sre tuned. Uptime skipped: checks keep no response body and the demo project has none |
+| B alternatives | done: splunk, grafana, elastic, logrocket, fullstory, dynatrace, better-stack, signoz; shared `compare-alternatives.liquid`; table rows no longer claim fix PRs or all-data-in-your-bucket |
+| C ads kit | done: `brand/ads/` (33 groups, 29 launchable; C3 ownership in `draft/`; uptime group dropped). Blockers before non-brand spend: consent + Ads tag (`tracking.md`), app-side signup conversion |
+| D screenshots | done: otel-setup, log-explorer-ask, trace-inline, apm-endpoint added; 4 recaptured; uptime-check impossible (demo has no checks) |
+| P5 art | done: 6 strips (`page-uptime-monitoring.webp` unused) |
+| P6 integration | done: two-column Product menu, footer, `_redirects` short paths and `-alternative` paths |
+
+## Open Decisions for the User
+
+1. **Own bucket scope.** Master stores session replays only in the customer's bucket; `pricing/index.md`, the API monitoring FAQ and `brand/site-plan.md` say every event. Confirm the roadmap, then either fix those pages or unblock ads campaign C3.
+2. **Fix PRs.** No fix-PR creation exists in the product code, but the homepage Fix chapter and `features/index.md` claim it. Keep (if it ships soon) or reword.
+3. **Ads launch prerequisites** in `brand/ads/tracking.md`: GTM container audit, consent banner/Consent Mode, gclid passthrough to the app, app-side signup conversion.
+4. **Budget split** proposed in `brand/ads/campaigns.md` (category ad groups were not in the playbook).
+
+## Product Bugs Found While Capturing
+
+- Endpoint Overview P95 card shows 13.4s for POST /api/checkout while its chart and the Latency tab show ~66ms.
+- Explorer row count next to "Hide filters" sometimes shows only newly polled rows (2 vs 2.1K); likely `web-components/src/log-list.ts`.
+- Ask AI is nondeterministic and sometimes emits invalid queries (`| top 20 by duration desc` → "Unknown field top").
+- "P95 Latency by Resource" / "Time Spent by Downstream Operations" subtitles show nonsense rates ("803.8M/min").
+- Endpoint Operations tab: "Most Frequent" and "Slowest Operations" empty for an endpoint with 277 traces.

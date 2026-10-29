@@ -25,6 +25,7 @@ sections:
     eyebrow: "OpenTelemetry collector"
     title: "One exporter change, no new agent"
     lead: "monoscope receives OTLP over gRPC on port 4317 and HTTP on 4318. Keep the collector, receivers and processors you run today, add an exporter and your API key, and data starts arriving."
+    shot: otel-setup
     code_label: "otel-collector.yaml · add monoscope as an exporter"
     code_class: language-yaml
     code: |

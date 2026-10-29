@@ -45,8 +45,8 @@ sections:
     tone: brand
     eyebrow: "Log analysis"
     title: "Ask in plain English, or write the query"
-    lead: "Type \"checkout errors since the last deploy\" and monoscope writes the KQL. Read it, change it, save it. Facets on service, level and status code show counts before you click."
-    shot: log-explorer
+    lead: "Type \"requests that took longer than 1 second\" and monoscope writes duration > 1s. Read it, change it, save it. Facets on service, level and status code show counts before you click."
+    shot: log-explorer-ask
     frame: "app.monoscope.tech / log_explorer"
     bullets:
       - title: "Patterns, not 40,000 lines"
