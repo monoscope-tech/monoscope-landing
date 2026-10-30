@@ -1,8 +1,5 @@
 ---
-# UNVERIFIED:
-# - "Opens the fix" (incident to PR): see features/ai-sre/index.md; fix generation is on
-#   ../monoscope work/* branches, not master.
-# Order follows the homepage (Know → Fix → Prove), not the brief's tagline order (Know / Prove / Fix).
+# NOTE: order follows the homepage (Know → Fix → Prove), not the brief's tagline order (Know / Prove / Fix).
 title: "Product: an AI SRE on observability that keeps the request"
 description: "monoscope keeps every API request and response next to your logs, traces and metrics, and its AI SRE reads that record to investigate and open the fix."
 eyebrow: Product

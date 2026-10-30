@@ -1,5 +1,4 @@
 ---
-# NOTE: shots dashboard-overview, monitors, service-map use the fixed W1 names; files were not in assets/img/product/ yet when written.
 # UNVERIFIED: dashboard/monitor sync through GitHub PRs is taken from the commit title of monoscope #671 ("sync dashboards and monitors through PRs"); the user-facing flow wasn't checked in the UI.
 title: "Metrics, dashboards and alerts on any query"
 description: "Dashboards from 20 templates or your own KQL, alerts on any query, infrastructure and a service map, all kept as YAML you can review in a PR."

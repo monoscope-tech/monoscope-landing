@@ -1,8 +1,5 @@
 ---
 # UNVERIFIED (claims not on ../monoscope master as of 2026-10-29; positioning requested by the founder):
-# - monoscope opening pull requests for improvements it finds (pitch, "loop" section lead and bullet,
-#   "requests" section, FAQ): draft fix-PR creation is on branch work/impact-worker-floor.
-# - Hero demo fix-b.html shows the agent opening a PR ("I opened PR #491"), so it carries the same caveat.
 # - Implementing feature requests from Slack or the platform ("requests" section, FAQ): no branch found, unverified.
 # - Issues from in-app user feedback (user.feedback spans) in the "requests" section: branch sentry-issue-layout.
 # - Project memory that learns from feedback across channels ("memory" section, FAQ): branches work/impact-agents-pr*.
@@ -72,7 +69,7 @@ sections:
         body: "Error regression radar flags errors that returned or grew, grouped into one issue per problem."
       - title: "Every new version"
         icon: rocket
-        body: "Deployment regression review compares errors and latency before and after each service version, every afternoon."
+        body: "Deployment regression review compares errors and latency before and after each deploy."
       - title: "Gaps in your telemetry"
         icon: eye
         body: "Telemetry gap detector finds services that stopped sending logs, traces or metrics."

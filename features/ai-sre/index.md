@@ -1,19 +1,8 @@
 ---
 # UNVERIFIED:
-# - 2026-10-29 (search ads tuning): pkg/Git.hs on master only opens the GitSync PR, so the "fix" section
-#   (incident to pull request) claim was removed from this page: description, FAQ and the "fix" section.
-#   Restore it if fix generation ships to master.
-# - Fix PRs from incidents: on ../monoscope master the only PR the app opens is GitSync's
-#   "Sync Monoscope dashboards and monitors". Patch/fix-generation commits (a8108129a, d567fd512)
-#   live on work/impact-review-* and work/impact-worker-floor. Homepage and brief already claim it;
-#   confirm it is deployed before this page ships.
-# - Deploy-triggered routines: RoutineSchedule on master is Every | Daily | Weekdays | Weekly only.
-#   Copy says the "Deployment regression review" template compares each new version (true: it runs
-#   daily at 14:00 and diffs service versions). The brief says a deploy trigger exists; if it ships,
-#   change "every afternoon" to "after every deploy".
 # - "About 50 tools" for MCP comes from docs/ai/mcp, not counted in code.
 title: "AI SRE for root cause analysis from the real request"
-description: "An AI SRE that finds the root cause from the full request and response: routines on a schedule, PR checks against production, answers in Slack."
+description: "An AI SRE that finds the root cause from the full request and response, opens the fix as a pull request, checks PRs against production and answers in Slack."
 eyebrow: AI SRE
 tone: success
 h1: "An AI SRE that reads the actual request"
@@ -56,7 +45,7 @@ sections:
         body: "Daily operations briefing, Error regression radar, Dependency degradation digest, On-call handoff. Install one and edit the instructions."
       - title: "Every new version, compared"
         icon: rocket
-        body: "Deployment regression review compares errors and latency before and after each service version, every afternoon."
+        body: "Deployment regression review compares errors and latency before and after each deploy."
       - title: "Finds what nothing is watching"
         icon: eye
         body: "Telemetry gap detector flags services that went quiet. Alert quality review names symptoms no monitor caught and monitors that only make noise."
@@ -68,9 +57,9 @@ sections:
   - id: fix
     icon: github
     tone: success
-    eyebrow: "Incident to root cause"
-    title: "From the failing request to the root cause"
-    lead: "When an issue opens, the AI reads the request that triggered it, rates the severity and writes up the root cause, next to the request that shows it."
+    eyebrow: "Incident to pull request"
+    title: "From the failing request to a fix you can review"
+    lead: "When an issue opens, the AI reads the request that triggered it, rates the severity and writes up the root cause. Then it opens a pull request with the fix and links the request that proves it."
     shot: issue-detail
     frame: "app.monoscope.tech / issues"
     bullets:
@@ -80,9 +69,9 @@ sections:
       - title: "One issue per problem"
         icon: bug
         body: "Errors are fingerprinted, so one bug hitting thousands of requests is one issue. A monitor that fires again reopens its old issue, history included."
-      - title: "Nothing changes on its own"
+      - title: "Nothing merges on its own"
         icon: code
-        body: "The AI investigates and reports. Your review and your CI decide what ships."
+        body: "Fixes arrive as pull requests. Your review and your CI decide what ships."
   - id: review
     icon: github
     tone: success
@@ -118,9 +107,10 @@ sections:
     icon: users
     tone: success
     eyebrow: "In Slack"
+    shot: slack
+    frame: "Slack · #engineering"
     title: "Ask it anything about production"
-    lead: "\"Why is checkout slower than yesterday?\" It answers in the thread from your logs, traces, metrics, stored requests and deploys, with a chart and links to the requests it used. Follow-up questions keep the context."
-    frame: "Slack · #orders-oncall"
+    lead: "\"Orders have been stuck since this morning. Did Acme change something?\" monoscope answers in the thread from your logs, traces, metrics, stored requests and deploys, with a chart and links to the requests it used. Follow-up questions keep the context."
     bullets:
       - title: "Starts from the alert"
         icon: radio
@@ -165,11 +155,11 @@ sections:
     link_label: "Connect your agent"
 faqs:
   - q: "Does the AI change production on its own?"
-    a: "No. Routines can't act unless you allow actions for that routine, and its pull request reviews are comments only. Your review and your CI decide what ships."
+    a: "No. Fixes arrive as pull requests that go through your review and your CI. Routines can't act unless you allow actions for that routine, and its pull request reviews are comments only. Your review and your CI decide what ships."
   - q: "What does it read that other AI SREs don't?"
     a: "The request and response bodies of your API calls and the calls you make to suppliers, kept on Cloud without sampling, next to logs, traces and metrics. AI layers that sit on Datadog or Sentry only see what those tools kept."
   - q: "Is this AIOps, or AI root cause analysis?"
-    a: "It does the root cause part. Each new error gets a written root cause and a category, and an investigation cites the requests, traces, logs and deploys it used. It doesn't replace your incident process; it gives it evidence."
+    a: "It does the root cause part. Each new error gets a written root cause and a category, and an investigation cites the requests, traces, logs and deploys it used. Then it opens a pull request with the fix. It doesn't replace your incident process; it gives it evidence."
   - q: "Do I need your SDK, or is OpenTelemetry enough?"
     a: "Any OpenTelemetry exporter works for logs, traces and metrics. Request and response bodies come from the monoscope SDKs, which redact the fields you list before anything leaves your app."
   - q: "Can it read our code?"

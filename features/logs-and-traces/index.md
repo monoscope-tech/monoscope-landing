@@ -1,6 +1,5 @@
 ---
 # UNVERIFIED: "780+ integrations" is copied from the homepage; source of the count not found in the repo (assumed: OpenTelemetry registry).
-# NOTE: shots log-explorer-request, log-explorer, trace use the fixed W1 names; files were not in assets/img/product/ yet when written.
 title: "Logs and traces with the full request and response"
 description: "Every log, span and API request in one Explorer, with request and response bodies, trace waterfalls, KQL or plain-English queries and live tail."
 eyebrow: "Logs & traces"

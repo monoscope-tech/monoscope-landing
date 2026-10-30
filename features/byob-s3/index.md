@@ -1,5 +1,4 @@
 ---
-# UNVERIFIED: in ../monoscope/src only session replays read the project's S3 setting (Pages/Replay.hs); the path that writes logs, spans, requests and metrics to a customer's bucket was not found in monoscope or timefusion (TimeFusion takes one AWS_S3_BUCKET per instance). The all-data claim follows brand-brief.md (user-confirmed 2026-09-27) and docs/dashboard/settings-pages/s3-storage.
 # UNVERIFIED: no customer-facing Postgres/SQL endpoint (host, credentials, how it's provisioned) exists in monoscope's code or docs; TimeFusion speaking the Postgres wire protocol is verified. The psql example uses placeholders.
 # UNVERIFIED: "within minutes" relies on TimeFusion's README (WAL + buffer, flush to Delta about every 10 minutes).
 # NOTE: no storage-settings shot in the W1 list, so the hero reuses the homepage Prove demo (prove-b).

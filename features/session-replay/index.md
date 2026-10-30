@@ -1,5 +1,5 @@
 ---
-# NOTE: shot session-replay uses the fixed W1 name; the RUM chapter has no shot (none in the W1 list).
+# NOTE: The RUM chapter has no shot (none in the W1 list).
 # UNVERIFIED: the replay player has a console panel but no network panel; the link to the failing request goes through the trace (Issues page, Explorer), not a request list inside the player.
 title: "Session replay linked to the request that failed"
 description: "Watch what the customer saw, then open the API request behind the error. Session replay, Web Vitals and browser errors, with the backend trace."
