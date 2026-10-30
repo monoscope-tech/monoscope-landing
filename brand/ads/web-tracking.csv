@@ -1,0 +1,9 @@
+Row Type,Action,Campaign,Final URL suffix,Custom parameter
+Campaign,Edit,C1 Conquest | US,utm_source=google&utm_medium=cpc&utm_campaign={_c}&utm_content={adgroupid}&utm_term={keyword}&utm_matchtype={matchtype}&utm_device={device},{_c}=c1-conquest-us
+Campaign,Edit,C1 Conquest | EU,utm_source=google&utm_medium=cpc&utm_campaign={_c}&utm_content={adgroupid}&utm_term={keyword}&utm_matchtype={matchtype}&utm_device={device},{_c}=c1-conquest-eu
+Campaign,Edit,C2 Cost | US,utm_source=google&utm_medium=cpc&utm_campaign={_c}&utm_content={adgroupid}&utm_term={keyword}&utm_matchtype={matchtype}&utm_device={device},{_c}=c2-cost-us
+Campaign,Edit,C2 Cost | EU,utm_source=google&utm_medium=cpc&utm_campaign={_c}&utm_content={adgroupid}&utm_term={keyword}&utm_matchtype={matchtype}&utm_device={device},{_c}=c2-cost-eu
+Campaign,Edit,C4 Brand | US,utm_source=google&utm_medium=cpc&utm_campaign={_c}&utm_content={adgroupid}&utm_term={keyword}&utm_matchtype={matchtype}&utm_device={device},{_c}=c4-brand-us
+Campaign,Edit,C4 Brand | EU,utm_source=google&utm_medium=cpc&utm_campaign={_c}&utm_content={adgroupid}&utm_term={keyword}&utm_matchtype={matchtype}&utm_device={device},{_c}=c4-brand-eu
+Campaign,Edit,C5 Category | US,utm_source=google&utm_medium=cpc&utm_campaign={_c}&utm_content={adgroupid}&utm_term={keyword}&utm_matchtype={matchtype}&utm_device={device},{_c}=c5-category-us
+Campaign,Edit,C5 Category | EU,utm_source=google&utm_medium=cpc&utm_campaign={_c}&utm_content={adgroupid}&utm_term={keyword}&utm_matchtype={matchtype}&utm_device={device},{_c}=c5-category-eu

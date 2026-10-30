@@ -464,9 +464,16 @@ def main():
                   [["Negative keyword", "Add", "Ad group" if a else "Campaign", c, a, k, "Phrase match"] for c, a, k, _ in neg])
             # Locations and the mobile bid adjustment (campaigns.md) as campaign edits: the web template takes both
             # as semicolon lists on the campaign row.
+            camps = [(cid, geo, f"{CAMPAIGNS[cid][0]} | {geo}") for cid, geo in BUDGET]
             write(d / "web-targeting.csv", ["Row Type", "Action", "Campaign", "Location", "Devices"],
-                  [["Campaign", "Edit", f"{CAMPAIGNS[cid][0]} | {geo}", "; ".join(LOCATIONS[geo]),
-                    "Mobile devices with full browsers:-40%"] for cid, geo in BUDGET])
+                  [["Campaign", "Edit", c, "; ".join(LOCATIONS[geo]), "Mobile devices with full browsers:-40%"]
+                   for cid, geo, c in camps])
+            # UTM suffix and the {_c} campaign parameter from tracking.md.
+            suffix = ("utm_source=google&utm_medium=cpc&utm_campaign={_c}&utm_content={adgroupid}&utm_term={keyword}"
+                      "&utm_matchtype={matchtype}&utm_device={device}")
+            write(d / "web-tracking.csv", ["Row Type", "Action", "Campaign", "Final URL suffix", "Custom parameter"],
+                  [["Campaign", "Edit", c, suffix, "{_c}=" + f"{cid}-{CAMPAIGNS[cid][0].split()[1]}-{geo}".lower()]
+                   for cid, geo, c in camps])
 
     # Overlap: same keyword in two ad groups of the same geo
     seen = {}
