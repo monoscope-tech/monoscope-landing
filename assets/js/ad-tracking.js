@@ -4,12 +4,13 @@
   const C = window.msConsent || { granted: true, idle: true, cookie: () => {} };
   const dl = window.dataLayer = window.dataLayer || [];
 
-  // The only events ad pixels see. signup_start is a click, not an account, so it goes out under custom names no platform bids on.
+  // The only events ad pixels see. signup_start is a click, not an account: Reddit gets it as Lead so the website campaign has a
+  // goal with enough volume to optimise (real SIGN_UP comes from the app via CAPI); everywhere else it stays custom.
   // li/tw take LinkedIn conversion ids and X event ids once those exist in each ads account.
   const ADS = {
     demo_booked:        { fb: ['track', 'Schedule'],               rdt: ['Lead'] },
     github_star_intent: { fb: ['trackCustom', 'GitHubStarIntent'], rdt: ['Custom', 'GitHubStarIntent'] },
-    signup_start:       { fb: ['trackCustom', 'SignupStart'],      rdt: ['Custom', 'SignupStart'] },
+    signup_start:       { fb: ['trackCustom', 'SignupStart'],      rdt: ['Lead'] },
   };
   const afterIdle = f => C.idle ? f() : addEventListener('ms:idle', f, { once: true });
 
