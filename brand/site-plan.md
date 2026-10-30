@@ -128,16 +128,23 @@ related: [ai-sre, logs-and-traces]    # slugs of other product pages
 
 A second session (plan: `brand/site-rebuild-plan.md`) runs the same goal. Agreed split: this session owns the product pages (`/features/*`, `features-single.liquid`, `components/chapter.liquid`, `components/frame.liquid`, nav/footer/redirects for them) and the screenshot library. The other session owns pricing, compare, changelog, docs, about/contact/events/thanks/404, `components/bill.liquid` / `compare.liquid`, Midjourney art (strips in `assets/img/home/art/page-*.webp`), and the final CSS rebuild, QA and push. W3, W4, W5 and W5b below were handed over; partial work is in `brand/handoff-session1.*`.
 
-## Status
+## Status (updated 2026-10-30)
+
+The rebuild is merged and live on monoscopehq.com (`3faaeea8` merged every workstream; later commits are follow-ups). The open items below are tracked elsewhere.
 
 | WS | Owner | State |
 |---|---|---|
-| W0 template | lead | done: features-single.liquid + components/chapter.liquid + components/frame.liquid; shared styles moved to tailwind.css; nav "Product" menu, footer, _redirects updated |
-| W1 screenshots | agent | started |
-| W2 product pages | agents A, B | started (frontmatter only) |
-| W3 pricing | agent | started |
-| W4 changelog | agent | started |
-| W5 docs | agent | started |
-| W5b compare/about | agent | started |
-| W6 art | lead | blocked: Chrome remote debugging off (DevTools MCP timed out); existing art in use |
-| W7 QA | lead | last |
+| W0 template | this session | done: `features-single.liquid`, `components/chapter.liquid`, `components/frame.liquid`; nav "Product" menu, footer, redirects |
+| W1 screenshots | other session | done: 19+ light/dark pairs in `assets/img/product/` (see `manifest.md`), plus `slack` from the homepage demo |
+| W2 product pages | this session | done: 8 pages under `/features/`. Fix PRs and deploy-triggered routines restored on 2026-10-30 after the founder confirmed them |
+| W3 pricing | other session | done |
+| W4 changelog | other session | done: monthly entries Feb 2025 to Oct 2026 |
+| W5 docs | other session | done |
+| W5b compare/about | other session | done |
+| W6 art | other session | done: `assets/img/home/art/page-*.webp` |
+| W7 QA | other session | done before the merge; a QA pass on the live site is still open |
+
+**Still open:**
+- `# UNVERIFIED:` notes in `features/*/index.md`: the customer SQL endpoint, "780+ integrations", "about 50 MCP tools", dashboard/monitor GitHub sync, and the software-factory claims.
+- Founder decisions: TimeFusion licence (MIT vs the brief's AGPL) and tagline order (Know → Fix → Prove on the site vs Know / Prove / Fix in the brief).
+- Search-ads landing pages (`/features/{log-management,opentelemetry,apm,...}`, new compare pages) belong to the ads workstream in `brand/search-ads-plan.md`.
