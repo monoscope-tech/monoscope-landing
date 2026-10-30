@@ -31,8 +31,8 @@ ogImage: https://raw.githubusercontent.com/monoscope/.github/main/images/events-
   </ul>
   <div class="card rounded-xl border border-strokeWeak p-5 md:p-6 grid lg:grid-cols-[1fr_auto] items-center gap-5 lg:gap-10">
     <div class="space-y-1.5">
-      <h2 class="text-xl font-semibold leading-[1.35] text-textStrong">Want to talk observability with us?</h2>
-      <p class="text-base leading-relaxed text-textWeak text-pretty max-w-[65ch]">Ask about a talk, a webinar or anything you saw at one of these events.</p>
+      <h2 class="text-xl font-semibold leading-[1.35] text-textStrong">Meet us at an event</h2>
+      <p class="text-base leading-relaxed text-textWeak text-pretty max-w-[65ch]">Say hello if you’ll be at one, or ask about anything you saw at these events.</p>
     </div>
     <a href="/contact/" class="btn w-fit py-2.5 px-5 rounded-lg bg-fillBrand-strong text-textInverse-strong">Contact the team</a>
   </div>

@@ -37,6 +37,7 @@ highlights:
 
 ## Onboarding & Billing
 
+- *Free plan limit.* The free plan now includes 1,000 events a day, and projects that go over see a clearer message explaining the limit.
 - *API keys.* The API keys page has Active and Archived tabs, show and copy buttons, and lets you reactivate a revoked key.
 - The billing page, the time zone picker in project setup and the side navigation were fixed and tidied.
 

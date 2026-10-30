@@ -4,6 +4,7 @@ date: 2025-07-01
 summary: "Alerts from any explorer query, dark mode and the monoscope name, metrics in the explorer, and the AI on WhatsApp."
 description: "Alerts from any explorer query, dark mode and the monoscope name, metrics in the explorer, and the AI on WhatsApp."
 themes:
+  - issues
   - monitors
   - dashboards
   - ai
@@ -17,6 +18,10 @@ highlights:
   - "Metrics have their own page in the explorer."
   - "Ask questions and get alerts on WhatsApp, and mention the bot in Slack."
 ---
+
+## Issues
+
+- *One issue per endpoint.* API changes and anomalies on the same endpoint now collect on a single open issue that tracks the endpoint's change history, instead of opening a new issue for each one. Acknowledging the issue covers every change it tracks.
 
 ## Monitors & Alerts
 

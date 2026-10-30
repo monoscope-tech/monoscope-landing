@@ -33,8 +33,8 @@ plan_cols: [Free, Cloud, Cloud + your bucket, Self-hosted]
 plan_rows:
   - [Events, 10k a day, "20M included, then $1 per million", "20M included, then $1 per million", Unlimited]
   - [Request and response bodies, Included, Included, Included, Included]
-  - [Metric datapoints, "Included, within free limits", "20M included, then $1 per 10M", "20M included, then $1 per 10M", Unlimited]
-  - [Session replays, "Included, within free limits", "2,000 included, then $1 per 1,000", "2,000 included, then $1 per 1,000", Unlimited]
+  - [Metric datapoints, "Counts toward the 10k a day", "20M included, then $1 per 10M", "20M included, then $1 per 10M", Unlimited]
+  - [Session replays, "Counts toward the 10k a day", "2,000 included, then $1 per 1,000", "2,000 included, then $1 per 1,000", Unlimited]
   - [Retention, 30 days, 30 days, Unlimited, You decide]
   - [Where your data lives, monoscope Cloud, monoscope Cloud, Your S3 bucket, Your servers]
   - [Team members, Unlimited, Unlimited, Unlimited, Unlimited]
@@ -46,7 +46,7 @@ event_example:
   - ["order 8812 created", log line, "log"]
 faqs:
   - q: What counts as an event?
-    a: "Each log record and each span is one event. An incoming or outgoing HTTP request is one span, and its headers, request body and response body come with it. Metric datapoints and session replays are metered on their own: 20M datapoints and 2,000 replays are included, then $1 per 10M datapoints and $1 per 1,000 replays."
+    a: "Each log record and each span is one event. An incoming or outgoing HTTP request is one span, and its headers, request body and response body come with it. Metric datapoints and session replays are metered on their own: 20M datapoints and 2,000 replays are included, then $1 per 10M datapoints and $1 per 1,000 replays. On Free, they count toward the 10k events a day."
   - q: Do request and response bodies cost extra?
     a: No. A request with a 40 kB response body is one event, the same as a request with no body. You never have to choose which payloads to keep to control the bill.
   - q: What happens when the free plan goes over 10k events a day?

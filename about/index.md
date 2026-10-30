@@ -22,7 +22,7 @@ beliefs:
     <p>In a couple of the countries we ran in, the apps expected a field the old service sent and the new one didn’t. It wasn’t in the documentation we inherited, and those countries weren’t in the samples we had tested by hand.</p>
     <p>We rolled back and fixed it. The charts told us orders had stopped. Nothing told us why, because nothing had kept the requests and responses that would have shown the missing field in seconds.</p>
     <p class="text-textStrong">monoscope is the tool we needed that day. It keeps every request and response, yours and your suppliers’, flags when a field disappears or changes type, and its AI reads the failing request, finds the cause and opens a pull request with the fix.</p>
-    <p class="pt-2 text-base">Anthony (<a href="https://twitter.com/tonialaribe" target="_blank" rel="noopener noreferrer" class="text-textBrand underline underline-offset-4">@tonialaribe</a>) and Smile (<a href="https://twitter.com/SmileEgbai" target="_blank" rel="noopener noreferrer" class="text-textBrand underline underline-offset-4">@smilecs</a>)</p>
+    <p class="pt-2 text-base">Anthony (<a href="https://twitter.com/tonialaribe" target="_blank" rel="noopener noreferrer" class="text-textBrand underline underline-offset-4">@tonialaribe</a>) and Smile</p>
   </div>
 </div>
 
@@ -67,7 +67,7 @@ beliefs:
     <h2 class="text-xl font-semibold leading-[1.35] text-textStrong">Company</h2>
     <div class="space-y-2 text-base leading-relaxed text-textWeak max-w-[65ch]">
       <p>monoscope, previously called APItoolkit, is a product of <span class="text-textStrong">Past 3 Technologies UG</span>, a software consulting firm based in Berlin, Germany.</p>
-      <p>Gruntaler Str. 18, 13357 Berlin, Germany · <a href="mailto:hello@past3.tech" class="text-textBrand underline underline-offset-4">hello@past3.tech</a></p>
+      <p>Gruntaler Str. 18, 13357 Berlin, Germany · <a href="mailto:hello@monoscope.tech" class="text-textBrand underline underline-offset-4">hello@monoscope.tech</a></p>
       <p><a href="/contact/" class="text-textBrand underline underline-offset-4">All the ways to reach us</a></p>
     </div>
   </div>

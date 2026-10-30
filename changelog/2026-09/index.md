@@ -31,6 +31,7 @@ highlights:
 - *Stack traces as frames.* Your code shows as function and file:line, runtime frames fold away, and each frame can show its source.
 - *Query alerts show the breach.* The threshold, the actual value, the query charted with its threshold line, and a link to the monitor.
 - *One issue per monitor.* A monitor keeps one issue that reopens each time it fires, with one activity timeline. Issues sit right after Explorer in the navigation.
+- *Merging similar errors.* Error groups that are the same failure with different messages can be merged at ingest, so the next variant joins the existing issue. It ships switched off for now.
 - Every issue type shares one fact row: service, environment, first and last seen. Open in Explorer carries the exact query, and acknowledging is near-instant.
 
 ## Monitors & Alerts

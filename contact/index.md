@@ -33,7 +33,7 @@ channels:
     <h2 class="text-xl font-semibold leading-[1.35] text-textStrong">Company</h2>
     <div class="space-y-2 text-base leading-relaxed text-textWeak">
       <p>monoscope is a product of <span class="text-textStrong">Past 3 Technologies UG</span>, a software consulting firm based in Berlin, Germany.</p>
-      <p>Gruntaler Str. 18, 13357 Berlin, Germany · <a href="mailto:hello@past3.tech" class="text-textBrand underline underline-offset-4">hello@past3.tech</a></p>
+      <p>Gruntaler Str. 18, 13357 Berlin, Germany · <a href="mailto:hello@monoscope.tech" class="text-textBrand underline underline-offset-4">hello@monoscope.tech</a></p>
       <p><a href="/about/" class="text-textBrand underline underline-offset-4">Read why we built monoscope</a></p>
     </div>
   </div>
