@@ -16,7 +16,7 @@ no Docker, no package-manager dance — `curl | sh` and you're done.
 ### One-liner (recommended)
 
 ```sh
-curl -fsSL https://monoscopehq.com/install.sh | sh
+curl https://monoscopehq.com/install.sh | sh
 ```
 
 The script:
@@ -29,13 +29,13 @@ The script:
 ### Specific version
 
 ```sh
-curl -fsSL https://monoscopehq.com/install.sh | sh -s v1.2.3
+curl https://monoscopehq.com/install.sh | sh -s v1.2.3
 ```
 
 ### Custom install location
 
 ```sh
-curl -fsSL https://monoscopehq.com/install.sh | MONOSCOPE_INSTALL_DIR=/usr/local/bin sh
+curl https://monoscopehq.com/install.sh | MONOSCOPE_INSTALL_DIR=/usr/local/bin sh
 ```
 
 ### Upgrading
@@ -45,7 +45,7 @@ is already current the script exits with `already up to date`. To force-reinstal
 the same version, pass `--force`:
 
 ```sh
-curl -fsSL https://monoscopehq.com/install.sh | sh -s -- --force
+curl https://monoscopehq.com/install.sh | sh -s -- --force
 ```
 
 ### Verify

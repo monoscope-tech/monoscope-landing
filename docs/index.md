@@ -38,7 +38,7 @@ claude plugin marketplace add monoscope-tech/skills
 claude plugin install monoscope-skills@monoscope-skills
 
 <span style="color:rgba(230,237,243,.45)"># Install the CLI and log in</span>
-curl -fsSL https://monoscopehq.com/install.sh | sh
+curl https://monoscopehq.com/install.sh | sh
 monoscope auth login
 
 <span style="color:rgba(230,237,243,.45)"># Then, in Claude Code:

@@ -115,7 +115,7 @@ sections:
       claude plugin install monoscope-skills@monoscope-skills
 
       # The skills call the monoscope CLI
-      curl -fsSL https://monoscopehq.com/install.sh | sh
+      curl https://monoscopehq.com/install.sh | sh
       monoscope auth login
     bullets:
       - title: "Investigate"

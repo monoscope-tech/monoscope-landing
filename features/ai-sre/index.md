@@ -141,7 +141,7 @@ sections:
     code_class: language-bash
     code: |
       # The CLI, for your terminal, CI and agents
-      curl -fsSL https://monoscopehq.com/install.sh | sh
+      curl https://monoscopehq.com/install.sh | sh
       monoscope issues list --json
       monoscope logs search 'body has "tracking_id"' --since 6h
 

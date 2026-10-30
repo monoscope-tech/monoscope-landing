@@ -32,7 +32,7 @@ claude plugin install monoscope-skills@monoscope-skills
 npx skills add monoscope-tech/skills
 
 # monoscope CLI
-curl -fsSL https://monoscopehq.com/install.sh | sh
+curl https://monoscopehq.com/install.sh | sh
 monoscope auth login
 ```
 

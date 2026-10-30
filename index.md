@@ -274,7 +274,7 @@ agents:
     tab: CLI
     body: One binary that gives your terminal, your CI and your agents the same view of production, with stable JSON output for scripts.
     cmd: |
-      curl -fsSL https://monoscopehq.com/install.sh | sh
+      curl https://monoscopehq.com/install.sh | sh
       monoscope logs search 'body has "tracking_id"' --since 6h
     link: /docs/ai/cli/
   - title: Agent skills
@@ -300,7 +300,7 @@ onboarding:
     body: Ask your agent to instrument the project. It covers HTTP, SQL, queues and jobs, and checks that every route reports in.
     cmd: |
       npx skills add monoscope-tech/skills
-      curl -fsSL https://monoscopehq.com/install.sh | sh
+      curl https://monoscopehq.com/install.sh | sh
     link: /docs/ai/
     link_label: Set up with your agent
   - title: By hand, in any language

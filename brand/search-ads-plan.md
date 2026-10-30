@@ -82,7 +82,7 @@ Volume = SpyFu monthly US searches (Google-provided where shown); CPC = broad-ma
 - No fix-PR creation or deploy-triggered routines were found in the product code: no "opens the fix" claims in pages or ads until confirmed.
 - Own bucket (BYOB S3) currently applies to session replays only. The playbook's "your telemetry stays in your own S3 bucket" headline is **not true for logs and traces today**; the data-ownership campaign is blocked until the user confirms the roadmap.
 - Existing product pages list other unverified claims in `# UNVERIFIED:` frontmatter comments (SQL endpoint, "780+ integrations"); keep them out of ads.
-- Install command: `curl -fsSL https://monoscopehq.com/install.sh | sh`. Screenshot script: `scripts/capture-product-shots.mjs`.
+- Install command: `curl https://monoscopehq.com/install.sh | sh`. Screenshot script: `scripts/capture-product-shots.mjs`.
 
 ## Page Plan
 
