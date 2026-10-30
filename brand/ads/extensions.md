@@ -72,13 +72,16 @@ Second set, header **Service catalog**:
 
 ## Price Assets
 
-Type: Services. Currency USD. Qualifier "From" where shown.
+Type: Service tiers. Currency USD. Qualifier "From" (one qualifier covers every item).
 
 | Kind | Header (≤25) | Description (≤25) | Price | Final URL |
 |---|---|---|---|---|
 | price | Free | Up to 10k events a day | $0 | /pricing/ |
-| price | monoscope Cloud | 20M events included | From $29 per month | /pricing/#plans |
-| price | Self-Hosted | Community Edition, AGPL | $0 | /pricing/#self-hosted |
-| price | Self-Hosted Enterprise | SSO, SLA, support | From $500 per month | /pricing/#enterprise |
+| price | monoscope Cloud | 20M events included | From $29 per month | /pricing/#compare-plans |
+| price | Self-Hosted Enterprise | SSO, SLA, support | From $500 per month | /contact/ |
 
-Google requires a distinct final URL per price item. The anchors are cosmetic unless the lead adds matching `id`s on `/pricing/`; if Google rejects them as duplicates, drop to three items or point Enterprise at `/contact/`.
+Google requires a distinct final URL per price item. `/pricing/` has no `#plans`, `#self-hosted` or `#enterprise` ids, so the live set is three items on `/pricing/`, `/pricing/#compare-plans` and `/contact/`; add the Community Edition item back once the plan cards carry ids.
+
+## Live State
+
+Added 2026-10-30 in account 267-068-0364: the 9 sitelinks, 10 callouts, both snippet sets (Types, Service catalog) and the 3 price items at account level; the C4 set (Pricing, AI SRE, Docs and SDKs, Changelog, Live Demo Project) at campaign level on C4 Brand | US and | EU, where it replaces the account sitelinks.
