@@ -51,13 +51,13 @@ const shots = [
   { name: 'issue-detail', path: '/issues/e76bd12d-0c56-4779-a348-79e758105791' },
   { name: 'dashboard-overview', path: '/dashboards/6f5ee51d-900d-455c-99d9-2f62e6c023b8/tab/overview' },
   { name: 'dashboard-service', path: '/dashboards/6f5ee51d-900d-455c-99d9-2f62e6c023b8/tab/service?var-service=frontend-proxy' },
-  { name: 'session-replay', path: '/rum/sessions',
-    act: async pg => { // replay the longest session
-      const rows = pg.locator('tr.item-row', { has: pg.locator('[aria-label="Replay session recording"]') });
-      const counts = await rows.evaluateAll(rs => rs.map(r => +(r.textContent.match(/(\d+(?:\.\d+)?) s(?!\w)/) || [0, 0])[1]));
-      await rows.nth(counts.indexOf(Math.max(...counts))).locator('[aria-label="Replay session recording"]').click();
-      // first play loads the recording; restarting it captures a frame a few seconds in, with no end card
-      await pg.getByText('Replay from start').click({ timeout: 60000 }); await pg.waitForTimeout(2000); } },
+  // Session "Demo shopper b50add89" (pinned by replay id and time window), on the shop's landing hero. Every demo session
+  // records product images from the shop's internal host (frontend-proxy:8080), so pages with products show alt text.
+  // The player autoplays (and may have finished by now); rewinding the 20 s session to 0 and shooting 2 s later, without a
+  // settle, keeps it mid-playback on the hero (pausing adds a play overlay).
+  { name: 'session-replay', noSettle: true,
+    path: `/log_explorer?viz_type=sessions&query=${q('(resource.telemetry.sdk.language in ("webjs", "javascript", "js") or resource.user_agent.original != null or name in ("documentLoad", "documentFetch") or name startswith "Pageview ")')}&from=2026-10-30T11:00:00Z&to=2026-10-30T11:10:00Z&session_replay=ef29be47-ef21-48ce-9fa3-8ed687aed755`,
+    act: async pg => { for (const _ of [1, 2, 3]) await pg.locator('button[aria-label="Back 10 seconds"]').click({ timeout: 60000 }); await pg.waitForTimeout(2000); } },
   { name: 'ai-chat', path: '/ai/757db319-a5b3-431c-bd47-bedb08f33cf3',
     act: async pg => { await pg.mouse.move(720, 400); await pg.mouse.wheel(0, 100); } },
   { name: 'routines', path: '/ai/routines' },
@@ -73,8 +73,9 @@ const shots = [
   { name: 'settings-api-keys', path: '/apis' },
   { name: 'settings-integrations', path: '/settings/integrations',
     act: pg => pg.evaluate(() => { const w = [...document.querySelectorAll('div')].filter(d => d.textContent.includes('Slack rejected')).at(-1); w && (w.style.display = 'none'); }) },
-  // The demo has no invited members, so the Teams tab (the @everyone team) is the populated view.
-  { name: 'settings-members', path: '/manage_teams' },
+  // The demo has no invited members (Members tab is empty), so this shows the Teams tab with the Create Team dialog open
+  // (members, email and Slack routing). Nothing is submitted.
+  { name: 'settings-members', path: '/manage_teams', act: pg => pg.getByText('New Team').first().click() },
   { name: 'onboarding', path: '/onboarding?step=Integration',
     act: async pg => { await pickJs(pg); await maskKey(pg); } },
   // Same step, scrolled to the guide's OTLP exporter env vars (endpoint + API key resource attribute).
@@ -99,7 +100,7 @@ async function capture(theme, only) {
       await pg.goto(P + s.path, { waitUntil: 'domcontentloaded', timeout: 60000 });
       await settle(pg);
       await pg.addStyleTag({ content: HIDE_CSS });
-      if (s.act) { await s.act(pg); await settle(pg); }
+      if (s.act) { await s.act(pg); s.noSettle || await settle(pg); }
       await pg.mouse.move(1439, 899);
       const png = join(TMP, `${s.name}-${theme}.png`), webp = join(OUT, `${s.name}-${theme}.webp`);
       await pg.screenshot({ path: png });
