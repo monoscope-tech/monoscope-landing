@@ -315,9 +315,10 @@ GROUPS = [
       ["ai root cause analysis", "ai sre", "ai sre agent", "ai incident investigation",
        "ai on call", "root cause analysis tool", "ai for incident response"],
       ["AI Root Cause Analysis", "AI SRE That Reads the Request", "Investigates With the Payload",
-       "Routines Check Production", "Ask It in Slack"],
+       "Routines Check Production", "Ask It in Slack", "It Opens the Fix as a PR"],
       ["It investigates with the failing request and response in front of it, not a sampled span.",
-       "Routines check production on a schedule and post what they find in Slack."],
+       "It finds the root cause, then opens a pull request with the fix.",
+       "Routines check production after each deploy and post what they find in Slack."],
       ("ai-sre",), 6, neg=["six sigma", "template", "fishbone"],
       why="ai root cause analysis 70; 'ai sre' no measured volume, cheap test"),
 ]
@@ -339,9 +340,9 @@ CAMPAIGN_NEG = {
 }
 
 # --- checks -----------------------------------------------------------------
-ACRONYMS = {"AI", "SRE", "APM", "API", "APIs", "EU", "US", "S3", "AGPL", "OTel", "KQL", "GB", "SSO", "SLA",
+ACRONYMS = {"AI", "PR", "SRE", "APM", "API", "APIs", "EU", "US", "S3", "AGPL", "OTel", "KQL", "GB", "SSO", "SLA",
             "RUM", "UK", "CH", "SDK", "NET", "SDKs", "ELK", "URL", "20M", "10k"}
-BANNED = [r"!", r"#1", r"\bSOC\b", r"\bISO\b", r"fix PR", r"opens? the fix", r"\b780", r"\bbest\b", r"fastest",
+BANNED = [r"!", r"#1", r"\bSOC\b", r"\bISO\b", r"\b780", r"\bbest\b", r"fastest",
           r"leading", r"cheapest", r"GDPR[- ]compliant", r"innovative", r"cutting-edge", r"world-class",
           r"next-generation", r"revolutionary", r"game-changing", r"seamless", r"holistic", r"synergy",
           r"leverage", r"empower", r"transform", r"solutions?\b", r"passionate", r"comprehensive", r"robust",

@@ -22,7 +22,7 @@ The playbook's positioning line, "your telemetry stays in your own S3 bucket", i
 | Claim | Status | Where it would have gone | Kit handling |
 |---|---|---|---|
 | Own S3 bucket holds all telemetry (logs, traces, requests) | unconfirmed | C3 `s3-bucket`, price assets | C3 blocked; `s3-bucket` copy is a draft in `draft/rsa.csv` |
-| AI opens a fix PR | not in product code | AI SRE lines everywhere | AI verbs limited to investigates, answers in Slack, routines check production |
+| AI opens a fix PR | confirmed by the founder 2026-10-30 | AI SRE lines | allowed: "opens a pull request with the fix"; routines run after each deploy |
 | Deploy-triggered routines | not in product code | AI SRE lines | not used |
 | "780+ integrations" | unsourced | OTel groups, callouts | not used |
 | Customer SQL endpoint | unconfirmed | BYOB | not used |
