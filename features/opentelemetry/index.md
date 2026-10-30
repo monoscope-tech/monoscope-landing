@@ -107,13 +107,13 @@ sections:
     bullets:
       - title: "Telemetry gap detector"
         icon: radio
-        body: "Flags services that were active and stopped sending logs, traces or metrics."
+        body: "This routine flags services that were active and stopped sending logs, traces or metrics."
       - title: "Trace correlation audit"
         icon: link
-        body: "Finds logs and spans that can't be joined because trace context is missing."
+        body: "This routine finds logs and spans that can't be joined because trace context is missing."
       - title: "Telemetry quality check"
         icon: grid
-        body: "Lists missing or inconsistent service, environment and version attributes, ranked by impact."
+        body: "This routine lists missing or inconsistent service, environment and version attributes, ranked by impact."
     link: /features/ai-sre/
     link_label: "What else routines do"
 faqs:

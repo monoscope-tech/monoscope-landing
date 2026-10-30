@@ -120,16 +120,16 @@ sections:
     bullets:
       - title: "\"What did Acme return for order 8812?\""
         icon: align-left
-        body: "Finds the outbound call by its attributes and returns the stored response body."
+        body: "monoscope finds the outbound call by its attributes and returns the stored response body."
       - title: "\"Did my last deploy slow down checkout?\""
         icon: activity
-        body: "Compares p95 latency per endpoint before and after the new service version."
+        body: "monoscope compares p95 latency per endpoint before and after the new service version."
       - title: "\"Which endpoints started failing in the last hour?\""
         icon: bug
-        body: "Ranks the new error patterns and lists the endpoints and messages behind them."
+        body: "monoscope ranks the new error patterns and lists the endpoints and messages behind them."
       - title: "\"Alert me if checkout errors pass 50 in five minutes.\""
         icon: radio
-        body: "Creates the monitor and returns its link. Ask again to mute it."
+        body: "monoscope creates the monitor and returns its link. Ask again to mute it."
   - id: skills
     icon: zap
     eyebrow: "Skills"

@@ -88,7 +88,7 @@ sections:
     art: fix-lighthouse.webp
     eyebrow: Fix it
     title: "Finds the cause and opens the fix"
-    lead: "Reads the failing request, its trace and recent deploys, then opens a pull request with the fix."
+    lead: "monoscope reads the failing request, its trace and recent deploys, then opens a pull request with the fix."
     demo: "/assets/demos/fix-b.html"
     frame: app.monoscope.tech / ai / routines
     brief: >-
@@ -103,10 +103,10 @@ sections:
         body: "Errors, crashes and regressions get a pull request, with the request that proves it."
       - title: "Answers in Slack"
         icon: users
-        body: "Ask why checkout is slower than yesterday. It answers from logs, traces and deploys."
+        body: "Ask why checkout is slower than yesterday. monoscope answers from logs, traces and deploys."
       - title: "Speeds up slow endpoints"
         icon: activity
-        body: "Finds the slowest endpoints and queries, and opens PRs that make them faster."
+        body: "monoscope finds the slowest endpoints and queries, and opens PRs that make them faster."
     code_label: Claude Code · monoscope-skills:investigate
     code_class: nohighlight
     code: |
@@ -139,7 +139,7 @@ sections:
         body: "Every call in and out, with bodies, trace and replay. One customer took it to court."
       - title: "Puts proof on every pull request"
         icon: github
-        body: "Shows if a PR fixes the issue or breaks something, from real traffic and past incidents."
+        body: "monoscope shows if a PR fixes the issue or breaks something, from real traffic and past incidents."
       - title: "Keeps it in your bucket"
         icon: database
         body: "Open Delta Lake and Parquet in your S3 bucket, queryable with DuckDB or SQL."

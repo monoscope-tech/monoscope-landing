@@ -40,7 +40,7 @@ sections:
         body: "It reads the source around the stack frame at the deployed revision, your runbooks and recent GitHub deployments."
       - title: "Earlier episodes of the same problem"
         icon: activity
-        body: "Recurrences land on the same issue, and it pulls up related past incidents before it guesses at a new cause."
+        body: "Recurrences land on the same issue, and monoscope pulls up related past incidents before it guesses at a new cause."
   - id: routines
     icon: calendar
     tone: success
