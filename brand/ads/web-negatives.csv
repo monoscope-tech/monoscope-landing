@@ -1,0 +1,487 @@
+Row Type,Action,Level,Campaign,Ad group,Negative keyword,Type
+Negative keyword,Add,Campaign,C1 Conquest | US,,jobs,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,careers,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,career,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,salary,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,salaries,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,hiring,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,internship,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,resume,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,stock,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,share price,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,ipo,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,login,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,log in,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,sign in,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,signin,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,certification,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,certified,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,interview,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,interview questions,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,tutorial,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,course,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,courses,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,training,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,udemy,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,download,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,free download,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,datadog agent,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,pdf,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,ppt,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,youtube,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,pricing,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,price,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,cost,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,costs,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,monoscope,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | US,,apitoolkit,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,datadog,datadog api,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,datadog,datadog docs,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,datadog,datadog status,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,sentry,sentry mode,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,sentry,sentry safe,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,sentry,sentry gun,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,sentry,sentry self hosted,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,splunk,siem,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,splunk,soar,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,splunk,enterprise security,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,splunk,splunk phantom,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,splunk,cyber,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,grafana,grafana tutorial,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,grafana,grafana plugin,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,grafana,grafana docker,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,elastic,elastic band,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,elastic,elk hunting,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,elastic,elk lodge,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,elastic,vector search,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,elastic,full text search,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,logrocket,heatmap,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,logrocket,heatmaps,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,logrocket,marketing,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,logrocket,ux research,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,fullstory,heatmap,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,fullstory,heatmaps,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,fullstory,marketing,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,fullstory,ux research,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,fullstory,product analytics,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,dynatrace,dynatrace university,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,dynatrace,dynatrace managed,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,better-stack,status page,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,axiom,axiom space,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,axiom,axiom verge,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,axiom,axiom bank,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | US,axiom,axiom telecom,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,jobs,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,careers,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,career,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,salary,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,salaries,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,hiring,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,internship,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,resume,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,stock,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,share price,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,ipo,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,login,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,log in,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,sign in,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,signin,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,certification,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,certified,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,interview,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,interview questions,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,tutorial,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,course,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,courses,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,training,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,udemy,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,download,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,free download,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,datadog agent,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,pdf,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,ppt,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,youtube,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,pricing,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,price,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,cost,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,costs,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,monoscope,Phrase match
+Negative keyword,Add,Campaign,C1 Conquest | EU,,apitoolkit,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,datadog,datadog api,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,datadog,datadog docs,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,datadog,datadog status,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,sentry,sentry mode,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,sentry,sentry safe,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,sentry,sentry gun,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,sentry,sentry self hosted,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,splunk,siem,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,splunk,soar,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,splunk,enterprise security,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,splunk,splunk phantom,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,splunk,cyber,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,grafana,grafana tutorial,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,grafana,grafana plugin,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,grafana,grafana docker,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,elastic,elastic band,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,elastic,elk hunting,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,elastic,elk lodge,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,elastic,vector search,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,elastic,full text search,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,logrocket,heatmap,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,logrocket,heatmaps,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,logrocket,marketing,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,logrocket,ux research,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,fullstory,heatmap,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,fullstory,heatmaps,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,fullstory,marketing,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,fullstory,ux research,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,fullstory,product analytics,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,dynatrace,dynatrace university,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,dynatrace,dynatrace managed,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,better-stack,status page,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,axiom,axiom space,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,axiom,axiom verge,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,axiom,axiom bank,Phrase match
+Negative keyword,Add,Ad group,C1 Conquest | EU,axiom,axiom telecom,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,jobs,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,careers,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,career,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,salary,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,salaries,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,hiring,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,internship,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,resume,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,stock,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,share price,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,ipo,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,login,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,log in,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,sign in,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,signin,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,certification,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,certified,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,interview,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,interview questions,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,tutorial,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,course,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,courses,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,training,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,udemy,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,download,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,free download,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,datadog agent,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,pdf,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,ppt,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,youtube,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,alternative,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,alternatives,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,competitors,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,monoscope,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | US,,apitoolkit,Phrase match
+Negative keyword,Add,Ad group,C2 Cost | US,splunk-pricing,siem,Phrase match
+Negative keyword,Add,Ad group,C2 Cost | US,splunk-pricing,enterprise security,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,jobs,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,careers,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,career,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,salary,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,salaries,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,hiring,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,internship,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,resume,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,stock,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,share price,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,ipo,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,login,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,log in,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,sign in,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,signin,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,certification,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,certified,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,interview,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,interview questions,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,tutorial,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,course,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,courses,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,training,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,udemy,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,download,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,free download,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,datadog agent,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,pdf,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,ppt,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,youtube,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,alternative,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,alternatives,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,competitors,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,monoscope,Phrase match
+Negative keyword,Add,Campaign,C2 Cost | EU,,apitoolkit,Phrase match
+Negative keyword,Add,Ad group,C2 Cost | EU,splunk-pricing,siem,Phrase match
+Negative keyword,Add,Ad group,C2 Cost | EU,splunk-pricing,enterprise security,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,jobs,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,careers,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,career,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,salary,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,salaries,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,hiring,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,internship,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,resume,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,stock,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,share price,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,ipo,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,login,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,log in,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,sign in,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,signin,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,certification,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,certified,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,interview,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,interview questions,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,tutorial,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,course,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,courses,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,training,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,udemy,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,download,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,free download,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,datadog agent,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,pdf,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,ppt,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | US,,youtube,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | US,brand,test card,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | US,brand,test pattern,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | US,brand,tv,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | US,brand,television,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | US,brand,tube,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | US,brand,camera,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | US,brand,microscope,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | US,brand,telescope,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | US,brand,wallpaper,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | US,brand,monoscope pattern,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,jobs,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,careers,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,career,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,salary,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,salaries,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,hiring,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,internship,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,resume,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,stock,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,share price,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,ipo,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,login,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,log in,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,sign in,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,signin,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,certification,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,certified,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,interview,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,interview questions,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,tutorial,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,course,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,courses,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,training,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,udemy,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,download,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,free download,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,datadog agent,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,pdf,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,ppt,Phrase match
+Negative keyword,Add,Campaign,C4 Brand | EU,,youtube,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | EU,brand,test card,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | EU,brand,test pattern,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | EU,brand,tv,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | EU,brand,television,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | EU,brand,tube,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | EU,brand,camera,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | EU,brand,microscope,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | EU,brand,telescope,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | EU,brand,wallpaper,Phrase match
+Negative keyword,Add,Ad group,C4 Brand | EU,brand,monoscope pattern,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,jobs,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,careers,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,career,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,salary,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,salaries,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,hiring,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,internship,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,resume,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,stock,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,share price,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,ipo,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,login,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,log in,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,sign in,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,signin,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,certification,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,certified,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,interview,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,interview questions,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,tutorial,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,course,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,courses,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,training,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,udemy,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,download,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,free download,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,datadog agent,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,pdf,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,ppt,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,youtube,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,datadog,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,new relic,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,newrelic,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,sentry,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,splunk,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,grafana,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,elastic,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,elk,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,kibana,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,logrocket,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,fullstory,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,dynatrace,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,better stack,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,betterstack,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,signoz,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,bugsnag,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,honeybadger,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,axiom,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,honeycomb,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,sumo logic,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,logz,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,papertrail,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,loggly,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,uptimerobot,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,pingdom,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,hotjar,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,posthog,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,appdynamics,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,instana,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,coralogix,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,dash0,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,pricing,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,monoscope,Phrase match
+Negative keyword,Add,Campaign,C5 Category | US,,apitoolkit,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,opentelemetry,demo,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,opentelemetry,specification,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,opentelemetry,semantic conventions,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,opentelemetry,operator,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,opentelemetry,helm,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,opentelemetry,what is,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,opentelemetry,backend,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,opentelemetry,storage,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,opentelemetry,hosted,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,opentelemetry,platform,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,apm,apm terminals,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,apm,apm monaco,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,apm,apm music,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,apm,apm qualification,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,apm,project management,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,apm,apm planner,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,apm,ardupilot,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,apm,apm exam,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,distributed-tracing,what is,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,api-monitoring,postman,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,api-monitoring,api gateway,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,session-replay,heatmap,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,session-replay,heatmaps,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,session-replay,shopify,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,session-replay,wordpress,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,session-replay,marketing,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,session-replay,hotjar,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,ai-rca,six sigma,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,ai-rca,template,Phrase match
+Negative keyword,Add,Ad group,C5 Category | US,ai-rca,fishbone,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,jobs,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,careers,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,career,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,salary,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,salaries,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,hiring,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,internship,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,resume,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,stock,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,share price,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,ipo,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,login,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,log in,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,sign in,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,signin,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,certification,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,certified,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,interview,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,interview questions,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,tutorial,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,course,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,courses,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,training,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,udemy,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,download,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,free download,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,datadog agent,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,pdf,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,ppt,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,youtube,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,datadog,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,new relic,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,newrelic,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,sentry,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,splunk,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,grafana,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,elastic,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,elk,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,kibana,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,logrocket,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,fullstory,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,dynatrace,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,better stack,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,betterstack,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,signoz,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,bugsnag,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,honeybadger,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,axiom,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,honeycomb,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,sumo logic,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,logz,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,papertrail,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,loggly,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,uptimerobot,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,pingdom,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,hotjar,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,posthog,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,appdynamics,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,instana,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,coralogix,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,dash0,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,pricing,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,monoscope,Phrase match
+Negative keyword,Add,Campaign,C5 Category | EU,,apitoolkit,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,opentelemetry,demo,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,opentelemetry,specification,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,opentelemetry,semantic conventions,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,opentelemetry,operator,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,opentelemetry,helm,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,opentelemetry,what is,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,opentelemetry,backend,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,opentelemetry,storage,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,opentelemetry,hosted,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,opentelemetry,platform,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,apm,apm terminals,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,apm,apm monaco,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,apm,apm music,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,apm,apm qualification,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,apm,project management,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,apm,apm planner,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,apm,ardupilot,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,apm,apm exam,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,distributed-tracing,what is,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,api-monitoring,postman,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,api-monitoring,api gateway,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,session-replay,heatmap,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,session-replay,heatmaps,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,session-replay,shopify,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,session-replay,wordpress,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,session-replay,marketing,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,session-replay,hotjar,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,ai-rca,six sigma,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,ai-rca,template,Phrase match
+Negative keyword,Add,Ad group,C5 Category | EU,ai-rca,fishbone,Phrase match
