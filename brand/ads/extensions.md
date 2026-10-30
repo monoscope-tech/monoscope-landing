@@ -1,6 +1,6 @@
 # Ad Assets: Sitelinks, Callouts, Structured Snippets, Prices
 
-Internal. `build.py` reads every table row below whose first cell is `sitelink`, `callout`, `snippet` or `price` and checks lengths (sitelink text ≤25, description lines ≤35; callout ≤25; snippet value ≤25; price header and description ≤25), banned words and caps. Final URLs are relative to `https://monoscope.tech`.
+Internal. `build.py` reads every table row below whose first cell is `sitelink`, `callout`, `snippet` or `price` and checks lengths (sitelink text ≤25, description lines ≤35; callout ≤25; snippet value ≤25; price header and description ≤25), banned words and caps. Final URLs are relative to `https://monoscopehq.com`.
 
 Rules: no competitor names in any asset (trademark limits apply to assets too); no bucket, fix-PR or "780+" claims (see `campaigns.md`, Unverified claims). Title Case for sitelinks and callouts, matching the headlines.
 
@@ -26,7 +26,7 @@ Brand campaign (C4) set: Pricing, AI SRE, Docs and SDKs, Changelog from above, p
 |---|---|---|---|---|
 | sitelink | Live Demo Project | Explore a real project | No signup needed | https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/ |
 
-The demo project is on `app.monoscope.tech`. Subdomains of the ad's domain normally pass the destination check; if Google flags it, drop this sitelink.
+The demo project is on `app.monoscope.tech`, a different domain from the ads (`monoscopehq.com`), so Google may flag this sitelink as a destination mismatch; if it does, drop it.
 
 When the P1 pages ship, swap Logs and Traces for Log Management (`/features/log-management/`) on C5 only.
 

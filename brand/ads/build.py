@@ -42,13 +42,13 @@ def g(cid, gid, url, status, kws, h, d, path, cap, neg=(), fallback=None, geos=N
 
 def conquest(name, slug, status, kws, a_lines, b_pin, b_lines, d, cap=8, neg=(), why=""):
     """Two RSAs: A echoes the competitor name (may be limited by trademark), B carries none."""
-    url = f"https://monoscope.tech/compare/{slug}/"
+    url = f"{U}/compare/{slug}/"
     return g("C1", slug, url, status, kws, [f"{name} Alternative"] + a_lines + [b_pin] + b_lines, d,
              ("compare", slug[:15]), cap, neg, why=why,
              rsa_b=dict(h=[b_pin] + b_lines, d=[x for x in d if name.split()[0].lower() not in x.lower()],
                         path=("compare", "observability")))
 
-U = "https://monoscope.tech"
+U = "https://monoscopehq.com"
 GROUPS = [
     # C1 Conquest: alternatives. Branded lines only in RSA A.
     conquest("Datadog", "datadog", "live",
@@ -407,6 +407,38 @@ def rows_for(cid):
 RSA_HEAD = (["Campaign", "Ad group"] + [f"Headline {i}" for i in range(1, 16)] + ["Headline 1 position"]
             + [f"Description {i}" for i in range(1, 5)] + ["Final URL", "Path 1", "Path 2"])
 
+# Google Ads Editor import: every campaign paused, with the settings the three CSVs above leave out.
+# Daily budgets are the wave-1 split in campaigns.md, entered in the account currency (EUR).
+BUDGET = {("C1", "US"): 23.70, ("C1", "EU"): 15.80, ("C2", "US"): 14.80, ("C2", "EU"): 9.90,
+          ("C4", "US"): 2.50, ("C4", "EU"): 2.50, ("C5", "US"): 11.80, ("C5", "EU"): 7.90}
+LOCATIONS = {"US": ["United States"], "EU": ["Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czechia", "Denmark",
+    "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania",
+    "Luxembourg", "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden",
+    "Iceland", "Liechtenstein", "Norway", "United Kingdom", "Switzerland"]}
+EDITOR_HEAD = (["Campaign", "Campaign Type", "Networks", "Budget", "Budget type", "Bid Strategy Type", "Campaign Status",
+                "Languages", "Location", "Ad Group", "Max CPC", "Ad Group Status", "Keyword", "Criterion Type", "Ad type"]
+               + RSA_HEAD[2:] + ["Status"])
+
+def editor_rows(rsa, kw, neg):
+    blank = dict.fromkeys(EDITOR_HEAD, "")
+    row = lambda **kv: [{**blank, **kv}[c] for c in EDITOR_HEAD]
+    out, caps = [], {(x["gid"]): x for x in GROUPS}
+    for (cid, geo), budget in BUDGET.items():
+        camp = f"{CAMPAIGNS[cid][0]} | {geo}"
+        out.append(row(**{"Campaign": camp, "Campaign Type": "Search", "Networks": "Google search",
+                          "Budget": f"{budget:.2f}", "Budget type": "Daily", "Bid Strategy Type": "Manual CPC",
+                          "Campaign Status": "Paused", "Languages": "en"}))
+        out += [row(Campaign=camp, Location=loc) for loc in LOCATIONS[geo]]
+    for camp, ag in dict.fromkeys((r[0], r[1]) for r in rsa):
+        grp = caps[ag]
+        out.append(row(**{"Campaign": camp, "Ad Group": ag, "Max CPC": f"{grp['cap']:.2f}",
+                          "Ad Group Status": "Enabled" if grp["status"] == "live" else "Paused"}))
+    out += [row(**{"Campaign": c, "Ad Group": a, "Keyword": k, "Criterion Type": m}) for c, a, k, m in kw]
+    out += [row(**{"Campaign": c, "Ad Group": a, "Keyword": k, "Criterion Type": t}) for c, a, k, t in neg]
+    out += [row(**{"Campaign": r[0], "Ad Group": r[1], "Ad type": "Responsive search ad", "Status": "Enabled",
+                   **dict(zip(RSA_HEAD[2:], r[2:]))}) for r in rsa]
+    return out
+
 def write(path, head, rows):
     path.parent.mkdir(exist_ok=True)
     with open(path, "w", newline="") as f:
@@ -421,6 +453,7 @@ def main():
         write(d / "rsa.csv", RSA_HEAD, rsa)
         write(d / "keywords.csv", ["Campaign", "Ad group", "Keyword", "Match type"], kw)
         write(d / "negatives.csv", ["Campaign", "Ad group", "Keyword", "Criterion Type"], neg)
+        if not blocked: write(d / "editor-import.csv", EDITOR_HEAD, editor_rows(rsa, kw, neg))
 
     # Overlap: same keyword in two ad groups of the same geo
     seen = {}
