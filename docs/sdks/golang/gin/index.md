@@ -372,7 +372,7 @@ Pass these fields to `monoscope.Config{}` to customize middleware behavior:
 | `Tags` | `[]string` | Additional tags for contextual information | `[]` | `[]string{"env:dev", "team:backend"}` |
 | `CaptureRequestBody` | `bool` | Enable capturing of request body | `false` | `true` |
 | `CaptureResponseBody` | `bool` | Enable capturing of response body | `false` | `true` |
-| `RedactHeaders` | `[]string` | List of headers to redact | `[]` | `[]string{"Authorization", "X-Api-Key"}` |
+| `RedactHeaders` | `[]string` | List of headers to redact; `authorization`, `cookie`, `set-cookie` and `proxy-authorization` are always redacted | `[]` | `[]string{"Authorization", "X-Api-Key"}` |
 | `RedactRequestBody` | `[]string` | JSONPath list of request body fields to redact | `[]` | `[]string{"$.password", "$.credit_card"}` |
 | `RedactResponseBody` | `[]string` | JSONPath list of response body fields to redact | `[]` | `[]string{"$.password", "$.credit_card"}` |
 :::

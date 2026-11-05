@@ -98,6 +98,9 @@ services:
     arguments:
       $apiKey: "%env(MONOSCOPE_API_KEY)%"
       $rootURL: "https://app.monoscope.tech"
+      # Request and response bodies are not captured unless enabled here.
+      $captureRequestBody: false
+      $captureResponseBody: false
 
   # makes classes in src/ available to be used as services
   # this creates a service per class whose id is the fully-qualified class name
@@ -120,6 +123,11 @@ services:
 ```
 
 ## Redacting Sensitive Data
+
+<div class="callout">
+  <i class="fa-solid fa-circle-info"></i>
+  <p><code>authorization</code>, <code>cookie</code>, <code>set-cookie</code> and <code>proxy-authorization</code> headers are always redacted, on requests and responses and on outgoing calls, whatever you configure. Header names match case-insensitively.</p>
+</div>
 
 If you have fields that are sensitive and should not be sent to monoscope servers, you can mark those fields to be redacted (the fields will never leave your servers).
 

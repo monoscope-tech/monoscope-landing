@@ -168,7 +168,7 @@ Configure the middleware with these environment variables:
 | `APITOOLKIT_SERVICE_NAME` | The name of your service. |
 | `APITOOLKIT_TAGS` | A list of defined tags for your services (used for grouping and filtering data on the dashboard). |
 | `APITOOLKIT_SERVICE_VERSION` | A defined string version of your application (used for further debugging on the dashboard). |
-| `APITOOLKIT_REDACT_HEADERS` | A list of HTTP header keys to redact. |
+| `APITOOLKIT_REDACT_HEADERS` | A list of HTTP header keys to redact. `authorization`, `cookie`, `set-cookie` and `proxy-authorization` are always redacted. |
 | `APITOOLKIT_REDACT_REQUEST_BODY` | A list of JSONPaths from the request body to redact. |
 | `APITOOLKIT_REDACT_RESPONSE_BODY` | A list of JSONPaths from the response body to redact. |
 | `APITOOLKIT_CAPTURE_REQUEST_BODY` | Set to `true` to capture the request body. Default `false`. |
@@ -176,6 +176,11 @@ Configure the middleware with these environment variables:
 :::
 
 ## Redacting Sensitive Data
+
+<div class="callout">
+  <i class="fa-solid fa-circle-info"></i>
+  <p><code>authorization</code>, <code>cookie</code>, <code>set-cookie</code> and <code>proxy-authorization</code> headers are always redacted, on requests and responses and on outgoing calls, whatever you configure. Header names match case-insensitively.</p>
+</div>
 
 If you have fields that are sensitive and should not be sent to monoscope servers, you can mark those fields to be redacted (the fields will never leave your servers).
 
@@ -359,7 +364,7 @@ The `$options` associative array accepts the following optional fields:
 | Option | Description |
 | ------ | ----------- |
 | `pathPattern` | The `url_path` string for URLs with path parameters. |
-| `redactHeaders` | A list of HTTP header keys to redact. |
+| `redactHeaders` | A list of HTTP header keys to redact. `authorization`, `cookie`, `set-cookie` and `proxy-authorization` are always redacted. |
 | `redactRequestBody` | A list of JSONPaths from the request body to redact. |
 | `redactResponseBody` | A list of JSONPaths from the response body to redact. |
 :::
