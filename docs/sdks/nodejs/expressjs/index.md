@@ -129,7 +129,7 @@ An object with the following optional fields can be passed to the middleware fun
 | `tags` | A list of defined tags for your services (used for grouping and filtering data on the dashboard). |
 | `serviceName` | A defined string name of your application |
 | `serviceVersion` | A defined string version of your application (used for further debugging on the dashboard). |
-| `redactHeaders` | A list of HTTP header keys to redact. |
+| `redactHeaders` | A list of HTTP header keys to redact. `authorization`, `cookie`, `set-cookie` and `proxy-authorization` are always redacted. |
 | `redactResponseBody` | A list of JSONPaths from the response body to redact. |
 | `redactRequestBody` | A list of JSONPaths from the request body to redact. |
 | `captureRequestBody` | default `false`, set to true if you want to capture the request body. |
@@ -302,7 +302,7 @@ Below is the full list of options for the `observeAxios` function:
 | Option | Description |
 | ------ | ----------- |
 | `urlWildcard` | `optional` The route pattern of the url if it has dynamic path parameters. |
-| `redactHeaders` | A list of HTTP header keys to redact. |
+| `redactHeaders` | A list of HTTP header keys to redact. `authorization`, `cookie`, `set-cookie` and `proxy-authorization` are always redacted. |
 | `redactResponseBody` | A list of JSONPaths from the response body to redact. |
 | `redactRequestBody` | A list of JSONPaths from the request body to redact. |
 :::

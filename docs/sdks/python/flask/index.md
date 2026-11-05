@@ -131,14 +131,19 @@ if __name__ == "__main__":
 | `debug` | Set to `True` to enable debug mode. |
 | `tags` | A list of defined tags for your services (used for grouping and filtering data on the dashboard). |
 | `service_version` | A defined string version of your application (used for further debugging on the dashboard). |
-| `redact_headers` | A list of HTTP header keys to redact. |
+| `redact_headers` | A list of HTTP header keys to redact. `authorization`, `cookie`, `set-cookie` and `proxy-authorization` are always redacted. |
 | `redact_response_body` | A list of JSONPaths from the response body to redact. |
 | `redact_request_body` | A list of JSONPaths from the request body to redact. |
-| `capture_request_body` | Set to `True` to capture the request body. |
-| `capture_response_body` | Set to `True` to capture the response body. |
+| `capture_request_body` | Set to `True` to capture the request body. Defaults to `False`. |
+| `capture_response_body` | Set to `True` to capture the response body. Defaults to `False`. |
 :::
 
 ## Redacting Sensitive Data
+
+<div class="callout">
+  <i class="fa-solid fa-circle-info"></i>
+  <p><code>authorization</code>, <code>cookie</code>, <code>set-cookie</code> and <code>proxy-authorization</code> headers are always redacted, on requests and responses and on outgoing calls, whatever you configure. Header names match case-insensitively.</p>
+</div>
 
 If you have fields that are sensitive and should not be sent to Monoscope servers, you can mark those fields to be redacted (the fields will never leave your servers).
 
@@ -371,7 +376,7 @@ The `observe_request()` function accepts a **required `request` argument**, and 
 | Option | Description |
 | ------ | ----------- |
 | `url_wildcard` | The `url_path` string for URLs with path parameters. |
-| `redact_headers` | A list of HTTP header keys to redact. |
+| `redact_headers` | A list of HTTP header keys to redact. `authorization`, `cookie`, `set-cookie` and `proxy-authorization` are always redacted. |
 | `redact_response_body` | A list of JSONPaths from the response body to redact. |
 | `redact_request_body` | A list of JSONPaths from the request body to redact. |
 :::

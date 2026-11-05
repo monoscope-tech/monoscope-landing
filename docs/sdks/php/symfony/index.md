@@ -121,6 +121,11 @@ services:
 
 ## Redacting Sensitive Data
 
+<div class="callout">
+  <i class="fa-solid fa-circle-info"></i>
+  <p><code>authorization</code>, <code>cookie</code>, <code>set-cookie</code> and <code>proxy-authorization</code> headers are always redacted, on requests and responses and on outgoing calls, whatever you configure. Header names match case-insensitively.</p>
+</div>
+
 If you have fields that are sensitive and should not be sent to monoscope servers, you can mark those fields to be redacted (the fields will never leave your servers).
 
 To redact fields, add these arguments to the service configuration:

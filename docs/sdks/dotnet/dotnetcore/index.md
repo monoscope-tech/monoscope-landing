@@ -135,7 +135,7 @@ app.Run();
 | `Debug` | Set to `true` to enable debug mode. |
 | `Tags` | A list of defined tags for your services (used for grouping and filtering data on the dashboard). |
 | `ServiceVersion` | A defined string version of your application (used for further debugging on the dashboard). |
-| `RedactHeaders` | A list of HTTP header keys to redact. |
+| `RedactHeaders` | A list of HTTP header keys to redact. `authorization`, `cookie`, `set-cookie`, `proxy-authorization` and `x-api-key` are always redacted. |
 | `RedactRequestBody` | A list of JSONPaths from the request body to redact. |
 | `RedactResponseBody` | A list of JSONPaths from the response body to redact. |
 | `ServiceName` | Set the name of the service. |
@@ -154,6 +154,11 @@ app.Run();
 ```
 
 ## Redacting Sensitive Data
+
+<div class="callout">
+  <i class="fa-solid fa-circle-info"></i>
+  <p><code>authorization</code>, <code>cookie</code>, <code>set-cookie</code>, <code>proxy-authorization</code> and <code>x-api-key</code> headers are always redacted, on requests and responses and on outgoing calls, whatever you configure. Header names match case-insensitively.</p>
+</div>
 
 If you have fields that are sensitive and should not be sent to monoscope servers, you can mark those fields to be redacted (the fields will never leave your servers).
 
@@ -340,7 +345,7 @@ app.MapGet("/monitor-requests", async (context) =>
 | Option | Description |
 | ------ | ----------- |
 | `PathWildCard` | The `url_path` string for URLs with path parameters. |
-| `RedactHeaders` | A list of HTTP header keys to redact. |
+| `RedactHeaders` | A list of HTTP header keys to redact. `authorization`, `cookie`, `set-cookie`, `proxy-authorization` and `x-api-key` are always redacted. |
 | `RedactRequestBody` | A list of JSONPaths from the request body to redact. |
 | `RedactResponseBody` | A list of JSONPaths from the response body to redact. |
 :::
