@@ -68,9 +68,10 @@ The official instrumentations emit the GenAI conventions directly.
 ```sh
 pip install opentelemetry-distro opentelemetry-exporter-otlp opentelemetry-instrumentation-openai-v2
 export OTEL_SEMCONV_STABILITY_OPT_IN=gen_ai_latest_experimental
-export OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT=true
 opentelemetry-instrument python app.py
 ```
+
+These spans carry the model, tokens, cost and tool calls. Current releases record prompt and completion text only as log events, not on the span, so the transcript stays empty. For transcripts, use OpenLLMetry or OpenInference below, which record message content on the span.
 
 Instrumentations for Anthropic, Google GenAI, Vertex AI and LangChain follow the same pattern in [opentelemetry-python-contrib](https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation-genai).
 
