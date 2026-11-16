@@ -37,6 +37,9 @@ pages:
   - title: OpenTelemetry (Any Language)
     slug: /docs/sdks/opentelemetry
     icon: /assets/img/sdk-icons/opentelemetry.svg
+  - title: LLM & Agents
+    slug: /docs/sdks/llm-observability
+    icon: /assets/img/sdk-icons/opentelemetry.svg
   - title: Infrastructure
     slug: /docs/sdks/infrastructure
     icon: /assets/img/framework-logos/kubernetes.svg
