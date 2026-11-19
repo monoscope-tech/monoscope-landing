@@ -2,7 +2,7 @@
 title: Issues
 ogTitle: Issues - Errors, API Changes and Alerts in One Inbox
 date: 2026-10-29
-updatedDate: 2026-10-29
+updatedDate: 2026-11-19
 menuWeight: 3
 ---
 
@@ -25,6 +25,8 @@ Use the chips above the list to show one type at a time.
 | **Log patterns** | A new log pattern, or a known pattern whose rate changed a lot. |
 | **API changes** | A new endpoint, or fields added to, removed from or changed in a request or response. |
 | **Feedback** | Feedback that your users sent from your app. |
+
+The **Synthetic** tab holds errors seen only from automated browsers, such as end-to-end tests and bots. These stay outside the other tabs until a real user encounters the error.
 
 Frontend issues, such as rage clicks, come from the [browser SDK](/docs/sdks/Javascript/browser/).
 

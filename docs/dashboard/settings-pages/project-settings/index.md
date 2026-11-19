@@ -2,13 +2,13 @@
 title: Project
 ogTitle: Project Settings
 date: 2024-04-22
-updatedDate: 2026-10-29
+updatedDate: 2026-11-19
 menuWeight: 1
 ---
 
 # Project
 
-The **Project** settings page holds the name of the project, its time zone, and the alerts and reports that it sends. Open **Settings** → **Project**.
+The **Project** settings page holds the name of the project, its time zone, and its alert settings. Open **Settings** → **Project**.
 
 | Setting | What it does |
 |---|---|
@@ -17,10 +17,12 @@ The **Project** settings page holds the name of the project, its time zone, and 
 | **Description** | A short note about the project. |
 | **New endpoint alerts** | Send an alert when monoscope sees a new endpoint. |
 | **Runtime error alerts** | Send an alert when a new runtime error occurs. |
-| **Weekly reports** | Send the weekly [report](/docs/dashboard/dashboard-pages/reports/) by email. |
-| **Daily reports** | Send a daily report by email. |
 
 Click **Save Changes** to apply the settings. Alerts go to the channels on the [Integrations](/docs/dashboard/settings-pages/integrations/) page.
+
+## Scheduled Reports
+
+Weekly and daily reports are AI routines. Open **Agents** → **Routines** to manage their schedules and results. See [Routines](/docs/ai/routines/).
 
 ## Delete a Project
 

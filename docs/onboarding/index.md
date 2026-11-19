@@ -2,7 +2,7 @@
 title: Getting Started
 ogTitle: Get Started with monoscope
 date: 2024-05-04
-updatedDate: 2026-10-29
+updatedDate: 2026-11-19
 faLogo: circle-play
 menuWeight: 1
 hideFileTree: true
@@ -123,7 +123,7 @@ OTEL_SERVICE_NAME="orders-service"
 OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
 ```
 
-Any OpenTelemetry SDK or collector reads these variables. To capture request and response bodies, add the monoscope SDK for your framework. Each guide shows the full setup:
+Install and initialize the OpenTelemetry SDK and OTLP exporter for your language. Environment variables configure that setup. They do not install instrumentation or create exporters. To capture request and response bodies, add the monoscope SDK for your framework. Each guide shows the full setup:
 
 - [Node.js](/docs/sdks/nodejs/): Express, Fastify, NestJS, Next.js, AdonisJS
 - [Python](/docs/sdks/python/): Django, FastAPI, Flask, Pyramid
@@ -150,7 +150,7 @@ monoscope auth login
 monoscope send-event -m "Hello from monoscope"
 ```
 
-Open **Log Explorer** in monoscope and search for `Hello from monoscope`. The event shows in a few seconds. Then send some requests to your application. Its logs, traces and requests show in the same place.
+Open **Log Explorer** in monoscope and search for `"Hello from monoscope"`. The event shows in a few seconds. Then send some requests to your application. Its logs, traces and requests show in the same place.
 
 ```=html
 {% render "docs/components/shot", name: "log-explorer", alt: "Log Explorer in monoscope, with a chart of events over time above a list of logs and spans" %}
@@ -183,6 +183,8 @@ If no events arrive after a minute:
 1. Make sure that `OTEL_RESOURCE_ATTRIBUTES` contains your API key, with no spaces.
 2. Make sure that your network allows outgoing traffic to `otelcol.monoscope.tech` on port 4317 (gRPC) or 4318 (HTTP).
 3. Run `monoscope auth status` to see which project the CLI sends to.
+
+If the CLI event arrives but application events do not, inspect the application setup separately. See [integration troubleshooting](/docs/sdks/troubleshooting/) and [data capture and identity](/docs/sdks/data-capture/).
 
 ## Next Steps
 

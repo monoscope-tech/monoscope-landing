@@ -1,20 +1,20 @@
 ---
 title: Databases
 date: 2024-06-14
-updatedDate: 2024-06-14
+updatedDate: 2026-11-19
 menuWeight: 25
 pageFullWidth: true
 hideToc: true
 pages:
   - title: MongoDB
     slug: /docs/sdks/databases/mongodb
-    icon: /assets/img/framework-logos/mongodb-icon.svg
+    icon: /assets/img/opentelemetry-contrib-logos/mongodb.png
   - title: MySQL
     slug: /docs/sdks/databases/mysql
-    icon: /assets/img/framework-logos/mysql-icon.svg
+    icon: /assets/img/opentelemetry-contrib-logos/mysql.png
   - title: PostgreSQL
     slug: /docs/sdks/databases/postgres
-    icon: /assets/img/framework-logos/postgresql-icon.svg
+    icon: /assets/img/opentelemetry-contrib-logos/postgresql.png
 ---
 
 # Database SDKs

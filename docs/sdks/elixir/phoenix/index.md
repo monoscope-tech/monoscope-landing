@@ -2,7 +2,7 @@
 title: Phoenix
 ogTitle: Phoenix SDK Guide
 date: 2022-03-23
-updatedDate: 2024-06-08
+updatedDate: 2026-11-19
 menuWeight: 1
 ---
 
@@ -13,6 +13,16 @@ The monoscope **Phoenix SDK** is a Plug that records incoming requests and sends
 ```=html
 <hr>
 ```
+
+## Choose the Integration Path
+
+The `apitoolkit_phoenix` Plug below uses the legacy request-ingestion client. It captures request and response bodies, and its configuration differs from an OpenTelemetry exporter. The body-capture switches in other language SDKs do not apply to this Plug.
+
+For a new OpenTelemetry integration, use [OpentelemetryPhoenix](https://hexdocs.pm/opentelemetry_phoenix/readme.html) with the appropriate Bandit or Cowboy instrumentation. Initialize its handler before the application supervisor starts. Configure the OTLP exporter through the [OpenTelemetry guide](/docs/sdks/opentelemetry/).
+
+The official Phoenix instrumentation requires `Plug.Telemetry` in the endpoint. Consult its setup guide for adapter options and complete request-lifecycle coverage.
+
+For the legacy Plug, review payload redaction before sending real traffic. If the integration must exclude bodies, use the OpenTelemetry path.
 
 ## Prerequisites
 
@@ -55,7 +65,7 @@ def deps do
 end
 ```
 
-Then run `mix deps.get` to install it.
+Then run `mix deps.get` to install it. See the [Hex package](https://hex.pm/packages/apitoolkit_phoenix) for published releases. A version in repository source does not establish that it is available from Hex.
 
 ## Configuration
 
@@ -73,6 +83,7 @@ defmodule HelloWeb.Router do
       config: %{
         api_key: "YOUR_API_KEY",
         debug: false,
+        redact_headers: ["authorization", "cookie", "set-cookie", "proxy-authorization", "x-api-key"],
       }
     # Other plugs...
   end
@@ -86,7 +97,7 @@ Only `api_key` is required. These fields are optional:
 | Option | Description |
 | ------ | ----------- |
 | `debug` | Set to `true` to enable debug mode. |
-| `redact_headers` | A list of HTTP header keys to redact. `authorization`, `cookie`, `set-cookie` and `proxy-authorization` are always redacted. |
+| `redact_headers` | A list of HTTP header keys to redact. In published `0.1.2`, only `cookie` is redacted automatically. |
 | `redact_request_body` | A list of JSONPaths from the request body to redact. |
 | `redact_response_body` | A list of JSONPaths from the response body to redact. |
 | `root_url` | The monoscope API URL. Defaults to `https://app.apitoolkit.io`. |
@@ -103,7 +114,7 @@ Only `api_key` is required. These fields are optional:
 
 <div class="callout">
   <i class="fa-solid fa-circle-info"></i>
-  <p><code>authorization</code>, <code>cookie</code>, <code>set-cookie</code> and <code>proxy-authorization</code> headers are always redacted, on requests and responses and on outgoing calls, whatever you configure. Header names match case-insensitively.</p>
+  <p>The published <code>0.1.2</code> package automatically redacts <code>cookie</code>. Add <code>authorization</code>, <code>set-cookie</code>, <code>proxy-authorization</code> and application keys explicitly. The newer source defaults are not a guarantee for the published package.</p>
 </div>
 
 If you have fields that are sensitive and should not be sent to monoscope servers, you can mark those fields to be redacted (the fields will never leave your servers).
@@ -181,7 +192,7 @@ defmodule HelloWeb.Router do
     plug ApitoolkitPhoenix,
       config: %{
         api_key: "YOUR_API_KEY",
-        redact_headers: ["content-type", "Authorization", "HOST"],
+        redact_headers: ["authorization", "cookie", "set-cookie", "proxy-authorization", "x-api-key"],
         redact_request_body: ["$.user.email", "$.user.addresses"],
         redact_response_body: ["$.users[*].email", "$.users[*].credit_card"]
       }

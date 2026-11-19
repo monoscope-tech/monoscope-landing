@@ -2,7 +2,7 @@
 title: Dashboards
 ogTitle: Dashboards - Charts, Templates and Dashboards as Code
 date: 2024-04-22
-updatedDate: 2026-10-29
+updatedDate: 2026-11-19
 menuWeight: 4
 ---
 
@@ -26,6 +26,8 @@ A dashboard is a page of charts, tables and stats that run queries on your logs,
 
 Use the filters at the top of a dashboard, such as **Service**, to narrow every widget at the same time. Click **Save view** to keep a set of filters.
 
+Built-in dashboards are read-only and track the shipped templates. Select **Duplicate to edit** to create a dashboard you can change.
+
 ## Create a Dashboard
 
 1. On the **Dashboards** page, click **New Dashboard**.
@@ -36,13 +38,25 @@ Templates include PostgreSQL, MySQL, Redis, RabbitMQ, Elasticsearch, Kubernetes,
 
 Widget types include time series (bars, lines or a stat with a chart), stat, table, top list, distribution, heatmap, pie chart, tree map, funnel, geo map, flame graph, service map, logs and an issues list. A **group** widget holds other widgets.
 
+## Choose How a Metric Stat Summarizes Time
+
+For a `timeseries_stat` widget, match `summarize_by` to the query:
+
+| Query aggregate | `summarize_by` | Result |
+|---|---|---|
+| `increase(value)` | `sum` | Total increase over the selected range. |
+| `rate(value)` | `mean` or `max` | Average or peak rate over the selected range. |
+| `last(value)` | `last` | Latest value across the time bins. |
+
+Do not apply `summarize_by: rate` to a query that already uses `rate(value)`. That divides the rate again. See the [metric function reference](/docs/dashboard/dashboard-pages/query-language/).
+
 ## Alert from a Widget
 
 Each widget can have a monitor. Open the widget menu and click **Set up a monitor**. The monitor uses the widget query. Select **Show threshold lines** to draw the alert and warning thresholds on the chart. See [Monitors](/docs/dashboard/dashboard-pages/monitors/).
 
 ## Dashboards as Code
 
-Every dashboard is a YAML file. Click **Edit YAML** to edit it in the browser, or use **Export** and **Import** to move a dashboard between projects.
+Custom dashboards have a YAML representation. Click **Edit YAML** to edit it in the browser, or use **Export** and **Import** to move a dashboard between projects.
 
 ```yaml
 title: Checkout
@@ -61,4 +75,4 @@ widgets:
 
 A dashboard can also have `tabs` and `variables`. A variable adds a filter at the top of the dashboard, and widget queries can use its value.
 
-To keep dashboards in your Git repository, use **Repository sync**. monoscope then manages the dashboards in a folder of the repository through pull requests. Coding agents can also create and change dashboards with the [CLI](/docs/ai/cli/) or the [MCP server](/docs/ai/mcp/) (`apply_dashboard`).
+To keep dashboards in Git, open **Repositories**, select a repository and configure **Configuration sync**. Assign each custom dashboard to the repository that owns its file. Each repository keeps its own branch, folder and sync state. monoscope then manages the dashboards in a folder of the repository through pull requests. Coding agents can also create and change dashboards with the [CLI](/docs/ai/cli/) or the [MCP server](/docs/ai/mcp/) (`apply_dashboard`).

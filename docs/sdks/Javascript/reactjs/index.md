@@ -2,7 +2,7 @@
 title: React / Next.js
 ogTitle: React & Next.js Integration Guide
 date: 2022-03-23
-updatedDate: 2025-03-25
+updatedDate: 2026-11-19
 menuWeight: 3
 ---
 
@@ -181,7 +181,7 @@ function Dashboard({ id }: { id: string }) {
 
 ## Configuration
 
-`MonoscopeProvider` accepts the same configuration as the base SDK. See the [Browser SDK configuration](/docs/sdks/Javascript/browser/#configuration) for the full list of options.
+`MonoscopeProvider` accepts the same configuration as the base SDK. See the [Browser SDK configuration](/docs/sdks/Javascript/browser/#Configuration) for the full list of options.
 
 {% raw %}
 ```tsx

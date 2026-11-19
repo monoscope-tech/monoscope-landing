@@ -2,7 +2,7 @@
 title: Product Guide
 ogTitle: monoscope Product Guide
 date: 2024-04-22
-updatedDate: 2026-10-29
+updatedDate: 2026-11-19
 faLogo: chart-line
 menuWeight: 4
 pageFullWidth: true
@@ -27,7 +27,7 @@ pages:
   - title: Monitors
     slug: /docs/dashboard/dashboard-pages/monitors/
     icon: bell
-    description: Query alerts, uptime checks and cron monitors.
+    description: Query alerts, uptime probes, cron monitors and status pages.
   - title: Metrics and Service Map
     slug: /docs/dashboard/dashboard-pages/metrics/
     icon: chart-line
@@ -36,6 +36,10 @@ pages:
     slug: /docs/dashboard/dashboard-pages/session-replay/
     icon: circle-play
     description: Web vitals, browser errors and session playback.
+  - title: LLM and Agents
+    slug: /docs/dashboard/dashboard-pages/llm-agents/
+    icon: sparkles
+    description: Conversations, transcripts, model cost, topics and custom signals.
   - title: API Catalog
     slug: /docs/dashboard/dashboard-pages/api-catalog/
     icon: arrow-right-arrow-left
@@ -44,10 +48,14 @@ pages:
     slug: /docs/dashboard/dashboard-pages/infrastructure/
     icon: server
     description: Hosts, containers, images and Kubernetes.
-  - title: Reports
-    slug: /docs/dashboard/dashboard-pages/reports/
-    icon: file-lines
-    description: Weekly and live summaries of your project.
+  - title: Production Impact Reviews
+    slug: /docs/ai/impact-reviews/
+    icon: code-pull-request
+    description: Review changed code with production evidence and recorded proofs.
+  - title: Query Cookbook
+    slug: /docs/dashboard/dashboard-pages/query-cookbook/
+    icon: book-open
+    description: Recipes for errors, latency, users, payloads and metric ratios.
   - title: Query Language
     slug: /docs/dashboard/dashboard-pages/query-language/
     icon: magnifying-glass
@@ -56,7 +64,7 @@ settings:
   - title: Project
     slug: /docs/dashboard/settings-pages/project-settings/
     icon: gear
-    description: Name, time zone, alerts and reports.
+    description: Name, time zone and alert settings.
   - title: API Keys
     slug: /docs/dashboard/settings-pages/api-keys/
     icon: key

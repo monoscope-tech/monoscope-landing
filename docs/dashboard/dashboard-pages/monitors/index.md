@@ -2,7 +2,7 @@
 title: Monitors
 ogTitle: Monitors - Query Alerts, Uptime Checks and Cron Monitors
 date: 2026-10-29
-updatedDate: 2026-10-29
+updatedDate: 2026-11-19
 menuWeight: 5
 ---
 
@@ -13,6 +13,8 @@ A monitor runs a query on a schedule and alerts your team when the result crosse
 ```=html
 {% render "docs/components/shot", name: "monitors", alt: "The monitors list with each monitor's query, schedule, last run and thresholds" %}
 ```
+
+Use the **Alerts**, **Uptime**, **Cron** and **Status pages** tabs to select the monitor workflow.
 
 The list shows each monitor's query, the teams it notifies, its schedule, its last run and its thresholds. A monitor that is over its threshold shows **Alerting**. Use **Active** and **Inactive** in the sidebar to filter the list.
 
@@ -64,7 +66,29 @@ Click a monitor to open **Monitor Overview**. It shows the current value, the qu
 
 An uptime check requests a URL on an interval. Two failed checks in a row open a downtime issue. The next successful check resolves it.
 
-To add a check, open **Monitors** and click **Uptime checks** at the top right. Enter a **Name** and a **URL**, select the interval in **Every**, set the status code to **Expect**, and click **Add check**.
+To add a check, open **Monitors** and select the **Uptime** tab. Enter a **Name** and a **URL**, select the interval in **Every**, set the **Expected status**, and click **Add check**.
+
+### Configure the Probe
+
+Open a check and select **Settings** to configure:
+
+| Setting | Purpose |
+|---|---|
+| **Method** | The HTTP method to send. |
+| **Headers** | Request headers, one `Name: value` per line. |
+| **Body** | A body for POST, PUT, PATCH or DELETE. |
+| **Expected status** | The HTTP response code that counts as success. |
+| **Response contains** | Text that must appear in the response body. |
+| **Notify** | Teams notified when the check fails and recovers. |
+| **Regions** | Probe locations with available workers. |
+
+A HEAD response has no body. Use GET if the check needs **Response contains**. The URL must be a public HTTP or HTTPS endpoint.
+
+If no region is selected, the check runs from the deployment's region. A location becomes selectable when a worker serves it.
+
+Open the check's dashboard to inspect availability history, response performance, errors, incidents and individual probe results. Each probe also produces telemetry for investigation.
+
+**Pause** stops checking and retains history. **Resume** starts checking again.
 
 ## Cron Monitors
 
@@ -73,4 +97,21 @@ A cron monitor alerts you when a scheduled job does not run or fails. Each run o
 - `monitor.slug`: the slug of the cron monitor.
 - `monitor.status`: `ok` or `error`.
 
-A missed run or a run with `error` opens an issue. To add a cron monitor, open **Monitors** and click **Cron monitors** at the top right. Enter a **Slug** and a **Name**, select how often the job **Runs every**, select the **Grace** period, and click **Add monitor**.
+A missed run or a run with `error` opens an issue. To add a cron monitor, open **Monitors** and select the **Cron** tab. Enter a **Slug** and a **Name**, select how often the job **Runs every**, select the **Grace** period, and click **Add monitor**.
+
+
+## Status Pages
+
+The **Status pages** tab first shows the project's own status board. **Published pages** lists the status pages you create.
+
+To create a page:
+
+1. Expand **New status page**.
+2. Enter a **Title**, **Slug** and optional **Description**.
+3. Select **Visibility**.
+4. Select the uptime checks and cron monitors under **Components**.
+5. Click **Create status page**.
+
+**Public, anyone with the link** publishes the board at `/status/<slug>` on the application host. **Internal, project members only** restricts it to project members. Choose the visibility for the audience that needs the component names and health history.
+
+A board shows component health, uptime history, available probe locations and recent incidents. Open a published page to edit it. Deleting the page removes its published URL.

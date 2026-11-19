@@ -1,13 +1,15 @@
 ---
 title: Query Language
 date: 2026-10-01
-updatedDate: 2026-10-29
+updatedDate: 2026-11-19
 menuWeight: 11
 ---
 
 # Query Language Reference
 
 Monoscope uses a subset of the Kusto Query Language (KQL) to search and aggregate logs, traces, and metrics. The same dialect runs in the Explorer, dashboard widgets, alert monitors, the [CLI](/docs/ai/cli/commands/), and the [MCP server](/docs/ai/mcp/).
+
+For complete investigations, start with the [query cookbook](/docs/dashboard/dashboard-pages/query-cookbook/).
 
 A query is an optional data source, a filter expression, and zero or more pipe operators. Each pipe (`|`) passes its output to the next step.
 
@@ -34,8 +36,8 @@ spans
 
 | Operator | Description | Example |
 |---|---|---|
-| `==`, `!=` | Equal, not equal | `status_code != 200` |
-| `>`, `<`, `>=`, `<=` | Numeric comparison | `duration > 1000` |
+| `==`, `!=` | Equal, not equal | `attributes.http.response.status_code != 200` |
+| `>`, `<`, `>=`, `<=` | Numeric comparison | `duration > 1s` |
 | `has`, `!has` | Contains a substring (case-insensitive, same as `contains`) | `body has "timeout"` |
 | `contains`, `!contains` | Contains a substring (case-insensitive) | `attributes.url.path contains "/api"` |
 | `startswith`, `!startswith` | Starts with a string | `resource.service.name startswith "payment-"` |
@@ -44,13 +46,13 @@ spans
 | `matches`, `=~` | Slash regex, case-insensitive | `body =~ /^ERROR:.*/` |
 | `in`, `!in` | Value is (not) in a list | `attributes.http.request.method in ("GET", "POST")` |
 | `has_any`, `has_all` | Contains any / all of the words | `body has_any ["error", "critical"]` |
-| `and`, `or`, `()` | Logical operators (also `AND`, `OR`) and grouping | `(status_code >= 500) or (duration > 5000)` |
+| `and`, `or`, `()` | Logical operators (also `AND`, `OR`) and grouping | `(attributes.http.response.status_code >= 500) or (duration > 5s)` |
 
 Precedence is `()`, then `and`, then `or`. Use `==` for equality, not Lucene's `:`.
 
 ### Free-Text Search
 
-A quoted string on its own searches the message fields that a person reads: `body`, `status_message` and `name`. The search is case-insensitive. An unquoted word is a field name, not a search term.
+A quoted string on its own searches the message fields that a person reads: `body`, `status_message` and `name`. The search is case-insensitive. An unquoted word is a field name, not a search term. Multi-word search matches the words in order, with punctuation or spaces between them. For example, `"hello world"` also matches `hello-world`.
 
 ```kql
 "deadlock"                       // the message contains "deadlock"
@@ -66,14 +68,14 @@ A quoted string on its own searches the message fields that a person reads: `bod
 | `where` | `where condition` | Filter rows. |
 | `summarize` | `summarize agg [, agg...] [by field, ...]` | Aggregate, optionally grouped. |
 | `extend` | `extend name = expr [, ...]` | Add computed columns, keep existing ones. |
-| `project` | `project name = expr [, ...]` | Keep only the listed columns, optionally renamed. |
+| `project` | `project name = expr [, ...]` | Keep only the named expressions. Write each entry as `name = expression`. |
 | `sort by` / `order by` | `sort by field desc` | Order results (`asc` or `desc`). |
 | `take` / `limit` | `take N` | Limit the number of rows. |
 
 ```kql
 | summarize avg(duration), max(duration) by resource.service.name, name
-| extend duration_ms = round(duration / 1e6, 2)
-| project service = resource.service.name, attributes.http.response.status_code
+| extend duration_ms = round(duration / 1000000, 2)
+| project service = resource.service.name, http_status = attributes.http.response.status_code
 ```
 
 ## Aggregation Functions
@@ -97,7 +99,7 @@ A quoted string on its own searches the message fields that a person reads: `bod
 | `percentile(field, N)` | Nth percentile |
 | `percentiles(field, N1, N2, ...)` | Several percentiles at once |
 
-Arithmetic works inside the argument, for example `percentiles(duration / 1e6, 50, 95, 99)` for milliseconds. Percentiles are approximate.
+Use `percentile` or `percentiles` for arithmetic inside an argument. Fixed shorthand functions such as `p95` accept a field. For example, use `percentiles(duration / 1000000, 50, 95, 99)` for milliseconds. Percentiles are approximate.
 
 ### Counter and Gauge Functions
 
@@ -117,12 +119,13 @@ Metric points need different aggregations depending on the metric type. These fu
 - It is calculated per series first. A series is one metric name with one full set of attributes. The per-series rates are then summed into the `by` groups.
 - For cumulative counters, it takes the difference between consecutive points and divides by the elapsed seconds. If the value drops, the counter was reset (for example, a process restart), and the new value counts as the difference. This matches Prometheus.
 - For delta-temporality counters, it is the sum of the deltas divided by the bin width in seconds.
-- It is correct at any time range, including when a bin holds only one point.
+- A cumulative point can use a previous point from up to five minutes before the time range. Sparse data without a preceding point limits the observed increase.
+- Some binned counter charts use five-minute rollups. Increments after a restart within a cell can appear in the next cell. Multiple restarts in one cell can lose the intervening run.
 - It has no meaning for gauges.
 
 **`increase(value)`** uses the same per-series, reset-aware differences, summed per bin. It answers "how many in this interval". A stat tile over `increase(value)` shows the total for the selected time window.
 
-**`last(value)`** returns the last value in each bin. Use it for gauges such as memory in bytes, queue depth, or pressure percentages. A stat tile over `last(value)` shows the latest value, not a sum of bins.
+**`last(value)`** takes the newest point of each series in a bin, then adds those values within each group. Filter to one series or group by its identifying attributes to see separate values. Use it for gauges such as memory in bytes, queue depth, or pressure percentages. A stat tile over `last(value)` shows the latest value, not a sum of bins.
 
 **`rateif`, `increaseif` and `lastif`** take a predicate that selects which series are added together for that one aggregate. Each series still calculates its differences from its own points, so two of these aggregates can divide each other. Write the predicate on columns that are the same for every point of a series: `metric_name`, `attributes.*` or `resource.*`. Do not filter on `value` or `timestamp` in the predicate. Keep the `where` wide enough to include every series that the aggregates use. A division by 0 gives 0.
 
@@ -174,13 +177,13 @@ metrics | where metric_name == "process.memory.usage" | summarize last(value) by
 | Function | Description | Example |
 |---|---|---|
 | `strcat(s1, s2, ...)` | Concatenate strings | `strcat(attributes.http.request.method, " ", attributes.url.path)` |
-| `coalesce(v1, v2, ...)` | First non-null value | `coalesce(user_id, "anonymous")` |
-| `iff(cond, then, else)`, `iif` | If-then-else | `iff(status_code >= 400, "error", "ok")` |
+| `coalesce(v1, v2, ...)` | First non-null value | `coalesce(attributes.user.id, "anonymous")` |
+| `iff(cond, then, else)`, `iif` | If-then-else | `iff(attributes.http.response.status_code >= 400, "error", "ok")` |
 | `isnull(v)`, `isnotnull(v)` | The value is (not) null | `isnotnull(attributes.user.id)` |
 | `isempty(v)`, `isnotempty(v)` | The value is (not) null or an empty string | `isnotempty(attributes.exception.type)` |
-| `case(p1, v1, ..., else)` | Multi-branch conditional | `case(status_code >= 500, "5xx", status_code >= 400, "4xx", "ok")` |
+| `case(p1, v1, ..., else)` | Multi-branch conditional | `case(attributes.http.response.status_code >= 500, "5xx", attributes.http.response.status_code >= 400, "4xx", "ok")` |
 | `tofloat`, `todouble` | Convert to float | `tofloat(errors) / tofloat(total)` |
-| `toint`, `tolong` | Convert to integer | `toint(duration / 1e6)` |
+| `toint`, `tolong` | Convert to integer | `toint(duration / 1000000)` |
 | `tostring` | Convert to text | `tostring(status_code)` |
 | `tobool` | Convert to a boolean | `tobool(attributes.cache.hit)` |
 | `round(value, decimals)` | Round to N decimal places | `round(error_rate, 2)` |
@@ -193,6 +196,7 @@ metrics | where metric_name == "process.memory.usage" | summarize last(value) by
 | `ago(span)` | Time relative to now | `timestamp >= ago(1h)` |
 | `bin(timestamp, span)` | Fixed-width time buckets | `summarize count() by bin(timestamp, 5m)` |
 | `bin_auto(timestamp)` | Bucket width picked from the query time range | `summarize count() by bin_auto(timestamp)` |
+| `log_bin(value)` | Logarithmic buckets for distributions and heatmaps | `summarize count() by bin_auto(timestamp), log_bin(duration)` |
 
 Time spans use `ns`, `us`, `ms`, `s`, `m`, `h`, `d`, `w`, for example `ago(7d)`.
 
@@ -217,7 +221,7 @@ In a time-series query, every column after the time bin in `by` is a grouping ke
 
 | Form | Example |
 |---|---|
-| Top-level field | `status_code >= 400` |
+| Top-level field | `duration > 1s` |
 | Nested JSON | `request_body.user.id == "12345"` |
 | Array index | `errors[0].message has "timeout"` |
 | Any array element | `errors[*].type == "ValidationError"` |
@@ -227,12 +231,56 @@ In a time-series query, every column after the time bin in `by` is a grouping ke
 
 Values can be strings (`"GET"` or `'GET'`), numbers, `true`/`false`, `null`, lists, durations (`5m`), and regexes (`/pattern/`).
 
+## Units and Error Fields
+
+`duration` is in nanoseconds. Use duration literals to avoid a unit mistake:
+
+```kql
+duration > 1s
+| project name = name, duration_ms = duration / 1000000
+| take 20
+```
+
+`duration > 1000` means more than 1,000 nanoseconds, not 1,000 milliseconds.
+
+HTTP response codes and span status are different fields:
+
+| Field | Meaning | Example |
+|---|---|---|
+| `attributes.http.response.status_code` | Numeric HTTP status | `attributes.http.response.status_code >= 500` |
+| `status_code` | OpenTelemetry span status, such as `ERROR` | `status_code == "ERROR"` |
+| `level` | Normalized log severity | `level == "ERROR"` |
+| `errors` | Error flag in Explorer results | `errors == true` |
+
+Use the HTTP attribute for HTTP error-rate queries. The `errors == true` filter includes the error payload on spans and error-severity or exception signals on logs. `errors != null` addresses the stored payload instead.
+
+## Filter Aggregate Results
+
+A `where` after `summarize` filters the grouped result. Name the aggregate, then use that name:
+
+```kql
+resource.service.name == "checkout-api"
+| summarize requests = count() by attributes.http.route
+| where requests > 100
+| sort by requests desc
+```
+
+A filter before `summarize` changes the rows counted. A filter after it selects groups. To calculate a failure percentage, keep successful requests in the input denominator.
+
+## Field Discovery and Query Errors
+
+Open an event's **Raw data** or **Attributes** tab to find fields and types. In the CLI, use `monoscope schema` and `monoscope facets resource.service.name`.
+
+The parser checks field roots against the selected source. For example, `metric_name` belongs to `metrics`. A misspelled root returns a query error with its location. Arbitrary application attributes belong under `attributes.*` or `resource.*`.
+
+An empty result means that no rows matched within the selected scope. A syntax or field error does not establish that no matching events exist.
+
 ## Named Aggregations
 
 Name a result with `alias=function(...)`. Without an alias, the column gets a default name: `count()` is `count_`, `countif(...)` is `countif_`, and other functions use `function_field`, for example `avg_duration` or `p95_duration`.
 
 ```kql
-| summarize total=count(), errors=countif(status_code >= 400), p99_latency=p99(duration) by resource.service.name
+| summarize total=count(), errors=countif(attributes.http.response.status_code >= 400), p99_latency=p99(duration) by resource.service.name
 ```
 
 ## Examples
@@ -240,22 +288,22 @@ Name a result with `alias=function(...)`. Without an alias, the column gets a de
 ```kql
 // Error rate by service over the last day
 timestamp >= ago(24h)
-| summarize total=count(), errors=countif(status_code >= 400), error_rate=round(countif(status_code >= 400) * 100.0 / count(), 2) by resource.service.name
+| summarize total=count(), errors=countif(attributes.http.response.status_code >= 400), error_rate=round(countif(attributes.http.response.status_code >= 400) * 100.0 / count(), 2) by resource.service.name
 | sort by error_rate desc
 
 // Top error messages
-status_code >= 500
+attributes.http.response.status_code >= 500
 | summarize count() by body
 | sort by count_ desc
 | take 10
 
 // Latency percentiles in milliseconds over time
 timestamp >= ago(6h)
-| summarize percentiles(duration / 1e6, 50, 90, 95, 99) by bin(timestamp, 5m)
+| summarize percentiles(duration / 1000000, 50, 90, 95, 99) by bin(timestamp, 5m)
 
 // Unique users per day
 timestamp >= ago(7d)
-| summarize unique_users=dcount(user_id) by bin(timestamp, 1d)
+| summarize unique_users=dcount(attributes.user.id) by bin(timestamp, 1d)
 
 // Request rate per route
 metrics
@@ -266,6 +314,6 @@ metrics
 ## Limitations
 
 - No `join`, `union`, subqueries, `let`, `mv-expand`, or `render`. Visualization is chosen in the widget, not in the query.
-- Comparisons with a missing field return false. Use `coalesce(field, default)` for defaults. Aggregations skip null values.
-- Strings are not converted to numbers. Write `status_code == 200`, not `status_code == "200"`.
-- Filter on a time range first, prefer `has` to `contains`, and use `take` while you explore.
+- Ordinary comparisons with missing values do not match. Use `isnull(field)` or `field == null` to find missing values. Use `coalesce(field, default)` for defaults. Aggregations skip null values.
+- Strings are not converted to numbers. Write `attributes.http.response.status_code == 200`, not `attributes.http.response.status_code == "200"`.
+- Select a bounded time range and use `take` while you explore. `has` and `contains` both perform case-insensitive substring matching.

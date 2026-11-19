@@ -2,7 +2,7 @@
 title: Springboot
 ogTitle: Springboot SDK Guide
 date: 2024-05-28
-updatedDate: 2024-06-10
+updatedDate: 2026-11-19
 menuWeight: 1
 ---
 
@@ -43,6 +43,12 @@ Then ask your agent to instrument the project. In Claude Code, run:
 ```
 
 The skill uses the CLI to add the SDK and to make sure that events arrive. To do the setup by hand, follow the steps below. For help from a person, [email us](mailto:hello@monoscope.tech).
+
+## Release Compatibility
+
+This guide installs the published `2.0.9` package. The [Maven Central metadata](https://repo.maven.apache.org/maven2/io/apitoolkit/springboot/apitoolkit-springboot/maven-metadata.xml) identifies published releases. Repository source can contain changes that are not in that package.
+
+Configure redaction explicitly for this release. Body capture remains opt-in. Query strings and application log messages need their own data-handling rules.
 
 ## Installation
 
@@ -106,7 +112,7 @@ apitoolkit.serviceName=my-service
 apitoolkit.serviceVersion=2.0
 # Comma-separated lists
 apitoolkit.tags=value1,value2
-apitoolkit.redactHeaders=Authorization,X-Api-Key
+apitoolkit.redactHeaders=authorization,cookie,set-cookie,proxy-authorization,x-api-key
 apitoolkit.redactRequestBody=$.password,$.creditCardNumber
 apitoolkit.redactResponseBody=$.password,$.creditCardNumber
 apitoolkit.debug=false
@@ -142,7 +148,7 @@ public class DemoApplication {
 
 <div class="callout">
   <i class="fa-solid fa-circle-info"></i>
-  <p><code>authorization</code>, <code>cookie</code>, <code>set-cookie</code> and <code>proxy-authorization</code> headers are always redacted, on requests and responses and on outgoing calls, whatever you configure. Header names match case-insensitively.</p>
+  <p>The published <code>2.0.9</code> package does not provide the automatic header-redaction defaults in the newer repository source. Explicitly configure <code>authorization,cookie,set-cookie,proxy-authorization,x-api-key</code>. Use lowercase names and inspect a synthetic request before sending real traffic.</p>
 </div>
 
 If you have fields that are sensitive and should not be sent to monoscope servers, you can mark those fields to be redacted (the fields will never leave your servers).
@@ -209,7 +215,7 @@ Examples of valid JSONPath expressions would be:
 Here's an example of what the configuration would look like with redacted fields:
 
 ```properties
-apitoolkit.redactHeaders=content-type,Authorization,HOST
+apitoolkit.redactHeaders=authorization,cookie,set-cookie,proxy-authorization,x-api-key
 apitoolkit.redactRequestBody=$.user.email,$.user.addresses
 apitoolkit.redactResponseBody=$.users[*].email,$.users[*].credit_card
 ```
@@ -218,7 +224,7 @@ apitoolkit.redactResponseBody=$.users[*].email,$.users[*].credit_card
 <div class="callout">
   <p><i class="fa-regular  fa-circle-info"></i> <b>Note</b></p>
   <ul>
-    <li>The <code>apitoolkit.redactHeaders</code> property expects a list of <b>case-insensitive headers as strings</b>.</li>
+    <li>The <code>apitoolkit.redactHeaders</code> property is a comma-separated list. Use lowercase header names for the published 2.0.9 package.</li>
     <li>The <code>apitoolkit.redactRequestBody</code> and <code>apitoolkit.redactResponseBody</code> properties expect a list of <b>JSONPaths as strings</b>.</li>
     <li>The list of items to be redacted will be applied to all endpoint requests and responses on your server.</li>
   </ul>

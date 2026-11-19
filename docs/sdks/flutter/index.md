@@ -2,7 +2,7 @@
 title: Flutter (OpenTelemetry)
 ogTitle: Flutter OpenTelemetry Integration Guide for monoscope
 date: 2026-05-08
-updatedDate: 2026-05-08
+updatedDate: 2026-11-19
 linkTitle: "Flutter"
 menuWeight: 45
 ---
@@ -116,7 +116,7 @@ void initTelemetry() {
 ```=html
 <div class="callout">
   <i class="fa-regular fa-circle-info"></i>
-  <p><b>Need TLS or a stable buffer?</b> Run a local OpenTelemetry Collector on your infrastructure, point your Flutter app at it, and have the collector forward to <code>otelcol.monoscope.tech:4317</code> with the API key in headers. See the <a href="/docs/sdks/opentelemetry/#using-an-otel-collector-as-proxy">collector-as-proxy section</a> of the generic OTel guide.</p>
+  <p><b>Need TLS or a stable buffer?</b> Run a local OpenTelemetry Collector on your infrastructure, point your Flutter app at it, and have the collector forward to <code>otelcol.monoscope.tech:4317</code> with the API key in headers. See the <a href="/docs/sdks/opentelemetry/#Using-an-OTel-Collector-as-Proxy">collector-as-proxy section</a> of the generic OTel guide.</p>
 </div>
 ```
 

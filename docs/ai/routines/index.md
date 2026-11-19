@@ -2,7 +2,7 @@
 title: Routines
 ogTitle: Routines - Scheduled AI Reviews of Your Project
 date: 2026-10-29
-updatedDate: 2026-10-29
+updatedDate: 2026-11-19
 faLogo: repeat
 menuWeight: 2
 ---
@@ -14,6 +14,12 @@ A routine is an AI review that runs on a schedule. It checks your project for on
 ```=html
 {% render "docs/components/shot", name: "routines", alt: "The routines page with installed routines, recent runs and the catalog of built-in routines" %}
 ```
+
+## Reports and Review Workflows
+
+Weekly and daily reports now run as AI routines. The former Reports URL opens Routines. Use **Daily operations briefing** or **Weekly reliability review** for scheduled summaries, then read their results in **Recent runs**.
+
+Pull request reviews use the **Production impact review** routine and repository-specific triggers. See [Production impact reviews](/docs/ai/impact-reviews/) for setup and [Proofs](/docs/ai/proofs/) for recorded comparisons.
 
 ## Add a Built-in Routine
 

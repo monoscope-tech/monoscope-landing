@@ -3,7 +3,7 @@ title: LLM & Agent Observability
 ogTitle: LLM and AI Agent Observability with OpenTelemetry - monoscope
 faLogo: sparkles
 date: 2026-11-16
-updatedDate: 2026-11-16
+updatedDate: 2026-11-19
 linkTitle: "LLM & Agents"
 menuWeight: 45
 ---
@@ -18,18 +18,20 @@ It reads standard OpenTelemetry. Send spans from any SDK or framework below, in 
 <hr>
 ```
 
+After data arrives, use the [LLM and Agents product guide](/docs/dashboard/dashboard-pages/llm-agents/) to investigate conversations, topics and signals.
+
 ## What you get
 
 - **Conversations.** Spans that share `gen_ai.conversation.id` (or `session.id`) are one conversation. A trace that ran an agent but carries no id is its own conversation.
 - **Transcript and timeline.** Each message appears once, with the model, latency, tokens and cost of the call that produced it. Tool calls show their arguments, result and duration.
-- **Cost.** Every model call gets `gen_ai.usage.cost` in US dollars. A cost reported by your SDK or gateway wins. Otherwise monoscope estimates it from the published price of the model, including cache-read and cache-write rates. Because cost is an attribute, you can chart it, alert on it, and group it by any field in [KQL](/docs/dashboard/dashboard-pages/query-language/).
+- **Cost.** Priced model calls carry `gen_ai.usage.cost` in US dollars. Calls without usable pricing or usage data remain unpriced. A cost reported by your SDK or gateway wins. Otherwise monoscope estimates it from the published price of the model, including cache-read and cache-write rates. Because cost is an attribute, you can chart it, alert on it, and group it by any field in [KQL](/docs/dashboard/dashboard-pages/query-language/).
 - **Signals.** Each conversation is checked for tool errors, model errors, truncated replies, content-filter refusals, repeated identical tool calls, and calls that used at least 80% of the model's context window.
 - **Ask AI.** One click hands the conversation to monoscope's assistant, which explains what happened and why.
 - **Dashboard.** A ready-made dashboard charts cost, tokens, calls, latency and tool errors by model, agent and service.
 
 ## Connect monoscope
 
-Every integration below sends OTLP to monoscope with the same three settings:
+Every integration below sends OTLP to monoscope with the same four settings:
 
 ```sh
 OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4318"

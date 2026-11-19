@@ -2,7 +2,7 @@
 title: AI SRE
 ogTitle: AI SRE - Investigate Incidents with monoscope AI
 date: 2026-10-29
-updatedDate: 2026-10-29
+updatedDate: 2026-11-19
 faLogo: wand-magic-sparkles
 menuWeight: 1
 ---
@@ -57,7 +57,7 @@ Open **Repositories** in the sidebar to connect the repositories behind your ser
 When a repository is connected:
 
 - **Source context**: the AI and the issue page read the failing code from the paths in a stack trace.
-- **Automatic pull request reviews**: monoscope comments on GitHub pull requests with the production telemetry of the code they change. This needs the GitHub App.
+- **[Production impact reviews](/docs/ai/impact-reviews/)**: Monoscope reviews changed code with production evidence from mapped services. Enable the GitHub App connection and review routine. [Proofs](/docs/ai/proofs/) can record the behavior on both revisions.
 - **Configuration sync**: dashboards can be kept as YAML files in the repository. See [Dashboards as code](/docs/dashboard/dashboard-pages/dashboard/#Dashboards-as-Code).
 
 ## Use the AI from Your Coding Agent

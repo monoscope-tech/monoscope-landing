@@ -2,7 +2,7 @@
 title: OpenTelemetry (Any Language)
 ogTitle: OpenTelemetry Integration Guide - Use Any Language with monoscope
 date: 2026-03-24
-updatedDate: 2026-03-24
+updatedDate: 2026-11-19
 linkTitle: "OpenTelemetry"
 menuWeight: 50
 ---
@@ -48,7 +48,7 @@ The skill uses the CLI to add the SDK and to make sure that events arrive. To do
 
 ## Configuration (Environment Variables)
 
-The standard way to configure any OpenTelemetry SDK is through environment variables. Set these in your shell, `.env` file, Docker config, or deployment platform:
+Install and initialize an OpenTelemetry SDK and OTLP exporter first. These environment variables configure exporters that support them. Set these in your shell, `.env` file, Docker config, or deployment platform:
 
 ```sh
 # Specifies the endpoint URL for the OpenTelemetry collector.
@@ -68,6 +68,8 @@ OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
   <code>OTEL_EXPORTER_OTLP_HEADERS="x-api-key=YOUR_API_KEY"</code></p>
 </div>
 ```
+
+For HTTP/protobuf, use `http://otelcol.monoscope.tech:4318` and `OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"`. Signal-specific HTTP endpoint variables need the full `/v1/traces`, `/v1/logs` or `/v1/metrics` path. See [exporter configuration](https://opentelemetry.io/docs/languages/sdk-configuration/otlp-exporter/).
 
 ## Language Examples
 
@@ -93,7 +95,7 @@ tracing-subscriber = "0.3"</code></pre>
     <p>Check <a href="https://crates.io/crates/opentelemetry" target="_blank" rel="noopener noreferrer">crates.io</a> for the latest compatible versions. Initialize the tracer (reads <code>OTEL_*</code> env vars automatically):</p>
     <pre><code class="language-rust">use opentelemetry::global;
 use opentelemetry::trace::TracerProvider as _;
-use opentelemetry_sdk::trace::SdkTracerProvider;
+use opentelemetry_sdk::{trace::SdkTracerProvider, Resource};
 use tracing_opentelemetry::OpenTelemetryLayer;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
@@ -105,6 +107,7 @@ fn init_tracer() -> SdkTracerProvider {
         .expect("Failed to create OTLP exporter");
 
     let provider = SdkTracerProvider::builder()
+        .with_resource(Resource::builder().build())
         .with_batch_exporter(exporter)
         .build();
 
@@ -120,7 +123,12 @@ fn init_tracer() -> SdkTracerProvider {
 #[tokio::main]
 async fn main() {
     let provider = init_tracer();
-    tracing::info!("Application started");
+    let span = tracing::info_span!("application.start");
+    {
+        let _entered = span.enter();
+        tracing::info!("Application started");
+    }
+    drop(span); // End the span before flushing.
     // Flush buffered spans before exit.
     provider.shutdown().expect("Failed to shut down tracer provider");
 }</code></pre>
@@ -150,7 +158,7 @@ end</code></pre>
 
   <div id="any" class="tab-content">
     <h3>Any Language</h3>
-    <p>The general pattern works with any OpenTelemetry SDK:</p>
+    <p>The general pattern is:</p>
     <ol>
       <li>Install your language's OpenTelemetry SDK and OTLP exporter</li>
       <li>Set the four environment variables listed above</li>
@@ -264,11 +272,14 @@ func ProcessEmail(ctx context.Context, t *asynq.Task) error {
   </div>
 
   <div id="bg-rs" class="tab-content">
-    <pre><code class="language-rust">use opentelemetry::{global, trace::{Span, SpanKind, Status, Tracer}, KeyValue};
+    <pre><code class="language-rust">use opentelemetry::{
+    global, Context, KeyValue,
+    trace::{FutureExt, SpanKind, Status, TraceContextExt, Tracer},
+};
 
 pub async fn process_email(payload: EmailJob) -> Result<(), Error> {
     let tracer = global::tracer("my-service-worker");
-    let mut span = tracer
+    let span = tracer
         .span_builder("email.send")
         .with_kind(SpanKind::Consumer)
         .with_attributes(vec![
@@ -279,14 +290,14 @@ pub async fn process_email(payload: EmailJob) -> Result<(), Error> {
         ])
         .start(&tracer);
 
-    match send_email(payload).await {
-        Ok(()) => Ok(()),
-        Err(e) => {
-            span.record_error(&e);
-            span.set_status(Status::error(e.to_string()));
-            Err(e)
-        }
+    let context = Context::current_with_span(span);
+    let result = send_email(payload).with_context(context.clone()).await;
+    if let Err(ref error) = result {
+        context.span().record_error(error);
+        context.span().set_status(Status::error(error.to_string()));
     }
+    context.span().end();
+    result
 }</code></pre>
   </div>
 
@@ -298,9 +309,8 @@ OpenTelemetry::SDK.configure do |c|
   c.use 'OpenTelemetry::Instrumentation::Sidekiq'
 end</code></pre>
     <p>For ActiveJob, raw threads, or anything else, use the tracer API directly:</p>
-    <pre><code class="language-ruby">tracer = OpenTelemetry.tracer_provider.tracer('my-service-worker')
-
-def process_email(payload)
+    <pre><code class="language-ruby">def process_email(payload)
+  tracer = OpenTelemetry.tracer_provider.tracer('my-service-worker')
   tracer.in_span('email.send', kind: :consumer, attributes: {
     'messaging.system' => 'sidekiq',
     'messaging.operation' => 'process',
@@ -394,7 +404,7 @@ Then point your application's `OTEL_EXPORTER_OTLP_ENDPOINT` to `http://localhost
 | Endpoint detection | Yes | Yes |
 :::
 
-Native SDKs provide deeper integration features like automatic body capture and field redaction. Direct OpenTelemetry still gives you full observability for traces, metrics, and logs.
+Framework SDKs provide opt-in body capture and field redaction. Defaults and available helpers depend on the package and version. The legacy Phoenix client uses a separate ingestion path. Direct OpenTelemetry still gives you full observability for traces, metrics, and logs.
 
 ```=html
 <hr>
@@ -408,7 +418,7 @@ After configuring your application:
 2. Send a few requests to your service
 3. Open the [monoscope dashboard](https://app.monoscope.tech) and check the **Log Explorer** — your traces should appear within a few seconds
 
-You can also use **telemetrygen** to verify your setup independently. See the [Quick Test section](/docs/onboarding/#⑤-quick-test-your-integration) in the onboarding guide.
+You can also use **telemetrygen** to verify your setup independently. See the [Quick Test section](/docs/onboarding/#check-that-events-arrive) in the onboarding guide.
 
 ```=html
 <div class="callout">
@@ -416,6 +426,10 @@ You can also use **telemetrygen** to verify your setup independently. See the [Q
   <p>Want a native SDK for your language? <a href="mailto:hello@monoscope.tech">Send us an email</a> and we'll prioritize based on demand.</p>
 </div>
 ```
+
+## Troubleshooting and Capture
+
+A trace exporter does not export application logs or metrics by itself. Configure each signal separately. If data is missing, use [integration troubleshooting](/docs/sdks/troubleshooting/). For optional payloads and identity, see [data capture and identity](/docs/sdks/data-capture/).
 
 ## Next Steps
 

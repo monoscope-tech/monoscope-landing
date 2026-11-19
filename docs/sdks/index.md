@@ -1,7 +1,7 @@
 ---
 title: SDK Guides
 date: 2022-03-23
-updatedDate: 2026-10-29
+updatedDate: 2026-11-19
 faLogo: plug
 menuWeight: 2
 pageFullWidth: true
@@ -50,9 +50,15 @@ pages:
 
 # SDK Guides
 
-Each guide shows how to send logs, traces and metrics from your stack to monoscope with OpenTelemetry. The monoscope SDKs for Node.js, Python, Go, PHP, Java, .NET and Elixir also capture request and response bodies, report errors, and monitor outgoing HTTP calls (for example `fetch`, `axios` and Guzzle).
+Each guide shows how to send logs, traces and metrics from your stack to monoscope with OpenTelemetry. The Monoscope SDKs for Node.js, Python, Go, PHP, Java and .NET add optional request and response bodies, error reporting and supported outgoing HTTP clients. The [Phoenix guide](/docs/sdks/elixir/phoenix/) distinguishes the legacy request client from an OpenTelemetry integration.
 
 For a language without a monoscope SDK, use [OpenTelemetry](/docs/sdks/opentelemetry/) directly. To let your coding agent do the setup, read [Get started](/docs/onboarding/#connect-your-application).
+
+## Configure and Verify Your Integration
+
+- [Data capture and identity](/docs/sdks/data-capture/): payload capture, redaction, users, tenants and sessions.
+- [Integration troubleshooting](/docs/sdks/troubleshooting/): missing signals, exporter configuration, propagation and shutdown.
+- [LLM and agent observability](/docs/sdks/llm-observability/): model calls, conversations, tokens and cost.
 
 ```=html
 <hr />

@@ -1,7 +1,7 @@
 ---
 title: Command Reference
 date: 2026-05-02
-updatedDate: 2026-10-01
+updatedDate: 2026-11-19
 faLogo: keyboard
 menuWeight: 2
 ---
@@ -42,7 +42,7 @@ are aliases for `events` with a `--kind` filter pre-applied.
 monoscope logs search POISON_ROW_DROPPED --since 24h
 
 # Recent errors across all services (KQL)
-monoscope events search 'severity.text=="error"' --since 1h
+monoscope events search 'errors == true' --since 1h
 
 # Service + level shorthands compose with the positional KQL query.
 # --service is repeatable; --level normalises to upper-case.
@@ -60,7 +60,7 @@ CURSOR=$(monoscope events search "" --since 1h --limit 100 | jq -r .cursor)
 monoscope events search "" --since 1h --limit 100 --cursor "$CURSOR"
 
 # "Just give me one event id to chain"
-monoscope logs search 'severity.text=="error"' --first --id-only
+monoscope logs search 'errors == true' --first --id-only
 
 # Trace tree
 monoscope traces get <trace-id> --tree
@@ -84,7 +84,7 @@ into a one-liner with a "narrow `--since`" hint and one jittered retry.
 KQL operator reference: see the [query language reference](/docs/dashboard/dashboard-pages/query-language/) or the
 [kql-reference skill](https://github.com/monoscope-tech/skills/blob/master/skills/kql-reference/SKILL.md).
 Use `==`/`!=` (not Lucene `:`) for equality, `and`/`or` for logical, `has` for
-word-search inside text fields.
+case-insensitive substring search inside text fields.
 
 ## Discovery
 

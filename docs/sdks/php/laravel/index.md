@@ -2,7 +2,7 @@
 title: Laravel
 ogTitle: Laravel SDK Guide
 date: 2022-03-23
-updatedDate: 2024-06-17
+updatedDate: 2026-11-19
 menuWeight: 1
 ---
 
@@ -158,7 +158,23 @@ Route::get('/', function () {
 
 ## Middleware Configuration Options
 
-Configure the middleware with these environment variables:
+Configure the middleware with these environment variables. List values are comma-separated.
+
+```ini
+APITOOLKIT_REDACT_HEADERS=x-api-key,x-internal-token
+APITOOLKIT_REDACT_REQUEST_BODY=$.password,$.payment.card_number
+APITOOLKIT_REDACT_RESPONSE_BODY=$.access_token
+APITOOLKIT_CAPTURE_REQUEST_BODY=false
+APITOOLKIT_CAPTURE_RESPONSE_BODY=false
+```
+
+The middleware reads Laravel's `apitoolkit` configuration. After changing these values in a deployment that caches configuration, rebuild the cache:
+
+```sh
+php artisan config:cache
+```
+
+Restart long-running application workers after changing their configuration.
 
 {class="docs-table"}
 :::

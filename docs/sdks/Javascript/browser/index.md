@@ -2,7 +2,7 @@
 title: Browser
 ogTitle: Browser Integration Guide
 date: 2022-03-23
-updatedDate: 2025-03-25
+updatedDate: 2026-11-19
 menuWeight: 2
 ---
 
@@ -282,7 +282,7 @@ monoscope.recordEvent("feature_flag_evaluated", {
 
 ### React Components
 
-For instrumenting React components with custom spans and events, see the [React / Next.js guide](/docs/sdks/Javascript/reactjs/#custom-spans-in-components).
+For instrumenting React components with custom spans and events, see the [React / Next.js guide](/docs/sdks/Javascript/reactjs/#Custom-Spans-in-Components).
 
 ### Additional OpenTelemetry Instrumentations
 

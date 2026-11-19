@@ -2,7 +2,7 @@
 title: Home
 ogTitle: Monoscope Docs
 date: 2022-03-23
-updatedDate: 2026-10-29
+updatedDate: 2026-11-19
 linkTitle: "Documentation"
 menuWeight: 20
 hideFileTree: true
@@ -66,7 +66,7 @@ monoscope auth login
     </a>
     <a href="/docs/dashboard/" class="docs-grid__cell">
       <p><i class="fa-solid fa-chart-line"></i> <strong>Product Guide</strong></p>
-      <span>Log Explorer, issues, monitors, dashboards, the API catalog and reports.</span>
+      <span>Explorer, issues, monitors, dashboards, the API catalog and production impact reviews.</span>
     </a>
     <a href="/features/" class="docs-grid__cell">
       <p><i class="fa-solid fa-star"></i> <strong>Product Overview</strong></p>
@@ -77,6 +77,17 @@ monoscope auth login
       <span>Send traces, logs and metrics from any language or collector with four environment variables.</span>
     </a>
   </div>
+
+  <nav class="mt-10 not-prose" aria-label="Documentation workflows">
+    <p class="font-semibold">Common workflows</p>
+    <ul class="mt-3 space-y-2">
+      <li><a class="underline" href="/docs/dashboard/dashboard-pages/query-cookbook/">Investigate errors and latency with KQL</a></li>
+      <li><a class="underline" href="/docs/ai/impact-reviews/">Set up production impact reviews</a></li>
+      <li><a class="underline" href="/docs/ai/proofs/">Record proof of a pull request</a></li>
+      <li><a class="underline" href="/docs/sdks/data-capture/">Capture payloads and identify users</a></li>
+      <li><a class="underline" href="/docs/sdks/troubleshooting/">Troubleshoot missing telemetry</a></li>
+    </ul>
+  </nav>
 
   <figure class="mt-20 md:mt-24 max-w-3xl not-prose border-l-2 border-strokeBrand-weak pl-6">
     <blockquote class="text-textStrong font-medium tracking-tight" style="font-size:clamp(1.125rem, 1.6vw, 1.5rem); line-height:1.45;">

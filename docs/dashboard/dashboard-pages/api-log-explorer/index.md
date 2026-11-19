@@ -2,13 +2,13 @@
 title: Explorer
 ogTitle: Explorer - Search Logs, Spans and Requests
 date: 2024-04-22
-updatedDate: 2026-10-29
+updatedDate: 2026-11-19
 menuWeight: 1
 ---
 
 # Explorer
 
-The Explorer is where you search every log, span and request that your services send. Each HTTP request keeps its headers and its request and response bodies, so you can open the exact request that failed. Open **Explorer** in the sidebar.
+The Explorer is where you search every log, span and request that your services send. With the framework SDK and body capture enabled, an HTTP request can include its headers and request and response bodies. Open the request to inspect the captured data. Open **Explorer** in the sidebar.
 
 ```=html
 {% render "docs/components/shot", name: "log-explorer", alt: "The Explorer with a query bar, an event-count chart, a latency chart and a list of logs and spans" %}
@@ -30,6 +30,8 @@ Type a query in the query bar and press **Enter**, or click the search button. Q
 ```kql
 resource.service.name == "checkout" and attributes.http.response.status_code >= 500
 ```
+
+For complete investigation recipes, see the [query cookbook](/docs/dashboard/dashboard-pages/query-cookbook/).
 
 If you do not know the field names, write what you want in plain English in the **Ask AI** box, for example `errors from checkout in the last hour`. monoscope fills in the query, the time range and the visualization for you.
 

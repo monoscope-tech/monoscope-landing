@@ -1,7 +1,7 @@
 ---
 title: AI
 date: 2026-05-03
-updatedDate: 2026-10-29
+updatedDate: 2026-11-19
 faLogo: robot
 menuWeight: 3
 pageFullWidth: true
@@ -27,11 +27,15 @@ hideToc: true
   <a href="/docs/ai/routines/">
     <span class="label">Reviews on a schedule</span>
     <span class="name">Routines</span>
-    <span class="when">18 built-in reviews, such as error regressions, traffic drops and on-call handoffs, or your own prompt. Each runs on a schedule and posts what it finds.</span>
+    <span class="when">Built-in reviews, such as error regressions, traffic drops and on-call handoffs, or your own prompt. Each runs on a schedule and posts what it finds.</span>
     <span class="footer">Add a routine <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
   </a>
 </div>
 ```
+
+## In Your Pull Requests
+
+[Production impact reviews](/docs/ai/impact-reviews/) connect a GitHub pull request to production telemetry from its mapped services. [Proofs](/docs/ai/proofs/) record the behavior on the merge base and head, with commands, browser interactions and explicit coverage gaps.
 
 ## In Your Coding Agent
 
