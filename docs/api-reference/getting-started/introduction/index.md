@@ -1,39 +1,39 @@
 ---
-title: "Introduction"
-ogTitle: "API Reference - Introduction"
+title: Introduction
+ogTitle: Monoscope API Introduction
+updatedDate: 2026-11-19
 menuWeight: 10
-hideToc: true
 ---
 
-The Monoscope API gives you programmatic access to your observability data. Query metrics, retrieve telemetry schemas, and manage monitors — all from your own code or scripts.
+# Monoscope API
+
+Use the REST API to query events and metrics, inspect schemas and facets, and manage resources such as issues, monitors and dashboards.
 
 ## Base URL
 
-```
-https://api.monoscope.tech
-```
-
-All API endpoints are served over HTTPS. HTTP requests will be redirected.
-
-## Request Format
-
-- Send request bodies as JSON with `Content-Type: application/json`
-- Query parameters should be URL-encoded
-- All timestamps use ISO 8601 format (`2025-01-15T10:30:00Z`)
-
-## Response Format
-
-All responses return JSON. Successful responses return a `2xx` status code. Error responses include a descriptive message:
-
-```json
-{
-  "error": "Invalid query parameters",
-  "code": 422
-}
+```text
+https://api.monoscope.tech/api/v1
 ```
 
-## Getting Started
+Authenticate with a project API key and `X-Project-Id`. See [Authentication](/docs/api-reference/getting-started/authentication/).
 
-1. [Get your API key](/docs/api-reference/authentication/) from the dashboard
-2. Try a request using the **Try it** button on any endpoint page
-3. Browse [available endpoints](/docs/api-reference/endpoints/)
+## Search Recent Events
+
+```sh
+curl --get 'https://api.monoscope.tech/api/v1/events' \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'X-Project-Id: YOUR_PROJECT_ID' \
+  --data-urlencode 'query=errors == true' \
+  --data-urlencode 'since=1h' \
+  --data-urlencode 'limit=20'
+```
+
+`--data-urlencode` preserves spaces and query operators. Use the same [KQL dialect](/docs/dashboard/dashboard-pages/query-language/) as Explorer. Read the event endpoint's response schema before building a client around returned columns and pagination fields.
+
+## Select an Interface
+
+- [REST endpoints](/docs/api-reference/endpoints/): HTTP requests from applications and scripts.
+- [CLI](/docs/ai/cli/): terminal investigations, shell automation and resource configuration.
+- [MCP](/docs/ai/mcp/): tools for an MCP-compatible agent.
+
+Download the [OpenAPI specification](/assets/api/openapi.json) for the documented schema. The application also publishes its current schema at [the live OpenAPI endpoint](https://app.monoscope.tech/api/v1/openapi.json).

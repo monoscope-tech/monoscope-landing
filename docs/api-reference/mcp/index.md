@@ -1,7 +1,7 @@
 ---
 title: MCP Server
 date: 2026-05-03
-updatedDate: 2026-05-03
+updatedDate: 2026-11-19
 faLogo: plug
 menuWeight: 30
 hideToc: true
@@ -11,7 +11,7 @@ hideToc: true
 
 The Monoscope REST API is also exposed as a
 [Model Context Protocol](https://modelcontextprotocol.io) server at
-`https://api.monoscope.tech/api/v1/mcp`. About 50 tools auto-derive from
+`https://api.monoscope.tech/api/v1/mcp`. API tools derive from
 the same endpoints documented in this section — no separate auth, no
 extra service to deploy, no parallel API to learn. New REST endpoints
 become MCP tools automatically.

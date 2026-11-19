@@ -42,13 +42,16 @@ npm i
 make css-prod
 sed -i "s|^css_version:.*|css_version: $(md5sum assets/css/tailwind.min.css | cut -c1-10)|" quickstatic.yaml
 
-node scripts/generate-og-images.mjs
-
 # Fetch OpenAPI spec and generate API reference docs
-if [ -n "$OPENAPI_SPEC_URL" ]; then
-  curl -sf "$OPENAPI_SPEC_URL" -o assets/api/openapi.json || echo "Using cached spec"
+SPEC_URL="${OPENAPI_SPEC_URL:-https://app.monoscope.tech/api/v1/openapi.json}"
+if curl -fsS --max-time 30 "$SPEC_URL" -o assets/api/openapi.json.tmp; then
+  node -e 'const s=JSON.parse(require("fs").readFileSync("assets/api/openapi.json.tmp")); if (!s.paths || !s.openapi) process.exit(1)' && mv assets/api/openapi.json.tmp assets/api/openapi.json
+else
+  echo "Using cached OpenAPI spec"
 fi
-node scripts/generate-api-docs.mjs
+rm -f assets/api/openapi.json.tmp
+node scripts/generate-api-docs.mjs || exit 1
+node scripts/generate-og-images.mjs
 
 # Run the binary to generate the static site
 ./$BINARY_NAME build

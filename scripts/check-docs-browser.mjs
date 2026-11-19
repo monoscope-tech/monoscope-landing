@@ -1,0 +1,61 @@
+// Serve the QuickStatic output on localhost:3001 before running. API calls are intercepted.
+import { execSync } from 'node:child_process';
+import { join } from 'node:path';
+const { chromium } = await import(join(execSync('npm root -g').toString().trim(), 'playwright/index.mjs'));
+import assert from 'node:assert/strict';
+const browser = await chromium.launch();
+const page = await browser.newPage({viewport:{width:1280,height:900}});
+page.setDefaultTimeout(15000);
+const errors=[];
+page.on('pageerror',error=>errors.push(error.message));
+await page.route('https://api.monoscope.tech/**',route=>route.fulfill({status:200,contentType:'application/json',body:'{"ok":true}'}));
+await page.goto('http://127.0.0.1:3001/docs/api-reference/endpoints/get-events-event-id-time-timestamp/');
+const trigger=page.getByRole('button',{name:'Try it',exact:true});
+await trigger.click();
+await page.getByLabel('Authorization',{exact:true}).fill('Bearer test-key');
+await page.getByLabel('X-Project-Id (header, required)',{exact:true}).fill('00000000-0000-0000-0000-000000000000');
+await page.getByLabel('event_id (path, required)',{exact:true}).fill('event-123');
+await page.getByLabel('timestamp (path, required)',{exact:true}).fill('2026-11-19T10:00:00Z');
+let requestPromise = page.waitForRequest('https://api.monoscope.tech/**');
+await page.getByRole('button',{name:'Send Request',exact:true}).click();
+let request=await requestPromise;
+assert.equal(request.headers()['x-project-id'],'00000000-0000-0000-0000-000000000000');
+assert.equal(request.headers().authorization,'Bearer test-key');
+assert.match(request.url(),/\/events\/event-123\/time\/2026-11-19T10%3A00%3A00Z$/);
+await page.getByRole('status').filter({hasText:'HTTP 200'}).waitFor();
+await page.keyboard.press('Escape');
+await page.waitForFunction(()=>!document.querySelector('dialog').open);
+assert(await trigger.evaluate(el=>el===document.activeElement));
+assert.equal(await page.locator('#tryit-auth').inputValue(),'');
+
+await page.goto('http://127.0.0.1:3001/docs/api-reference/endpoints/post-monitors/');
+await page.getByRole('button',{name:'Try it',exact:true}).click();
+await page.getByLabel('Authorization',{exact:true}).fill('Bearer test-key');
+await page.getByLabel('X-Project-Id (header, required)',{exact:true}).fill('00000000-0000-0000-0000-000000000000');
+const body=page.getByLabel('JSON request body',{exact:true});
+await body.fill('{invalid');
+await page.getByRole('button',{name:'Send Request',exact:true}).click();
+assert.equal(await body.evaluate(el=>el.validationMessage),'Enter a valid JSON request body.');
+await body.fill('{"title":"Example","query":"errors == true"}');
+requestPromise = page.waitForRequest('https://api.monoscope.tech/**');
+await page.getByRole('button',{name:'Send Request',exact:true}).click();
+request=await requestPromise;
+assert.equal(request.method(),'POST');
+assert.deepEqual(JSON.parse(request.postData()),{title:'Example',query:'errors == true'});
+await page.getByRole('status').filter({hasText:'HTTP 200'}).waitFor();
+await page.keyboard.press('Escape');
+
+for (const route of ['ai/impact-reviews','ai/proofs','dashboard/dashboard-pages/query-cookbook','sdks/data-capture','sdks/troubleshooting','dashboard/dashboard-pages/llm-agents','api-reference/endpoints/get-events-event-id-time-timestamp']) {
+ await page.goto('http://127.0.0.1:3001/docs/'+route+'/');
+ assert.equal(await page.locator('#mainArticle h1').count(),1,route+' heading');
+ assert(!/\{%|\{\{/.test(await page.locator('#mainArticle').innerText()),route+' Liquid');
+ await page.setViewportSize({width:390,height:844});
+ assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),route+' mobile overflow');
+}
+await page.goto('http://127.0.0.1:3001/docs/ai/impact-reviews/');
+await page.screenshot({path:'/tmp/monoscope-impact-doc-mobile.png',fullPage:true});
+await page.setViewportSize({width:1440,height:1000});
+await page.screenshot({path:'/tmp/monoscope-impact-doc-desktop.png',fullPage:false});
+assert.deepEqual(errors,[]);
+console.log('Passed: project/auth headers, encoded path parameters, JSON body validation and POST, Escape/focus restore, key clearing, seven representative page headings and mobile overflow. API requests were intercepted.');
+await browser.close();

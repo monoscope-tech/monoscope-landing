@@ -1,149 +1,82 @@
 ---
-title: "Get Telemetry Schema"
-menuWeight: 30
+title: "GET /api/v1/schema"
+menuWeight: 60
 httpMethod: GET
 apiPath: "/api/v1/schema"
 hideToc: true
-pageFullWidth: true
 ---
 
+{% raw %}
 ```=html
-<div class="not-prose">
+<h1 style="overflow-wrap:anywhere">GET /api/v1/schema</h1>
+<div class="api-endpoint-bar"><span class="api-method-badge api-method-get">GET</span><code class="api-endpoint-path">/api/v1/schema</code><button type="button" class="api-tryit-btn" data-method="GET" data-path="/api/v1/schema" data-body="false" data-params="[{&quot;name&quot;:&quot;X-Project-Id&quot;,&quot;in&quot;:&quot;header&quot;,&quot;required&quot;:true,&quot;type&quot;:&quot;string (uuid)&quot;,&quot;description&quot;:&quot;Project UUID. Use the project associated with your API key.&quot;}]">Try it</button></div>
 
-<div class="api-breadcrumb">Schema</div>
+<p>Authenticate with <code>Authorization: Bearer YOUR_API_KEY</code> and <code>X-Project-Id: YOUR_PROJECT_ID</code>. Replace path placeholders and example values with your project's values.</p>
+<h2>Parameters</h2>
+<div class="overflow-x-auto"><table><thead><tr><th>Name</th><th>Location</th><th>Type</th><th>Presence</th><th>Description</th></tr></thead><tbody><tr><td><code>X-Project-Id</code></td><td>header</td><td>string (uuid)</td><td>Required</td><td>Project UUID. Use the project associated with your API key.</td></tr></tbody></table></div>
 
-<div class="api-endpoint-bar">
-  <span class="api-method-badge api-method-get">GET</span>
-  <code class="api-endpoint-path">/api/v1/schema</code>
-  <button class="api-tryit-btn" data-method="GET" data-path="/api/v1/schema" data-params="[{&quot;name&quot;:&quot;pid&quot;,&quot;in&quot;:&quot;query&quot;,&quot;required&quot;:true,&quot;type&quot;:&quot;string&quot;,&quot;description&quot;:&quot;Project ID to retrieve the schema for.&quot;}]">Try it <i class="fa-solid fa-play fa-xs"></i></button>
-</div>
-
-<p style="margin: 1rem 0; color: var(--color-textWeak); font-size: 0.875rem; line-height: 1.6;">
-  Returns the telemetry schema for a project, including all known field names, types, and cardinality estimates. Useful for building query UIs or autocomplete.
-</p>
-
-<div class="api-two-col">
-<div>
-
-<div class="api-section-title">Authorization</div>
-<div class="api-param">
-  <div class="api-param-header">
-    <span class="api-param-name">Authorization</span>
-    <span class="api-type-badge">header</span>
-    <span class="api-required-badge">required</span>
-  </div>
-  <div class="api-param-desc">Bearer token using your project API key.</div>
-</div>
-
-<div class="api-section-title" style="margin-top: 1.5rem;">Parameters</div>
-<div class="api-param">
-  <div class="api-param-header">
-    <span class="api-param-name">pid</span>
-    <span class="api-type-badge">string&lt;uuid&gt;</span> <span class="api-type-badge">query</span> <span class="api-required-badge">required</span>
-  </div>
-  <div class="api-param-desc">Project ID to retrieve the schema for.</div>
-</div>
-
-<div class="api-section-title" style="margin-top: 1.5rem;">Responses</div>
-<div style="margin-bottom: 0.75rem;">
-  <span class="api-status-badge api-status-2xx">200</span>
-  <span class="api-param-desc" style="margin-left: 0.5rem;">Schema returned successfully.</span>
-</div>
-<div style="margin-bottom: 0.75rem;">
-  <span class="api-status-badge api-status-4xx">401</span>
-  <span class="api-param-desc" style="margin-left: 0.5rem;">Missing or invalid authentication.</span>
-</div>
-<div style="margin-bottom: 0.75rem;">
-  <span class="api-status-badge api-status-4xx">403</span>
-  <span class="api-param-desc" style="margin-left: 0.5rem;">Insufficient permissions for this project.</span>
-</div>
-
-
-<div class="api-section-title" style="margin-top: 1.5rem;">Response Fields</div>
-<div class="api-param">
-  <div class="api-param-header">
-    <span class="api-param-name">fields</span>
-    <span class="api-type-badge">object[]</span>
-    
-  </div>
-  <div class="api-param-desc">List of known telemetry fields.</div>
-</div><div class="api-param">
-  <div class="api-param-header">
-    <span class="api-param-name">fields[].name</span>
-    <span class="api-type-badge">string</span>
-    
-  </div>
-  <div class="api-param-desc">Fully qualified field name (e.g. `http.status_code`).</div>
-</div>
-<div class="api-param">
-  <div class="api-param-header">
-    <span class="api-param-name">fields[].type</span>
-    <span class="api-type-badge">string | number | boolean | timestamp</span>
-    
-  </div>
-  <div class="api-param-desc">Field data type.</div>
-</div>
-<div class="api-param">
-  <div class="api-param-header">
-    <span class="api-param-name">fields[].cardinality</span>
-    <span class="api-type-badge">integer</span>
-    
-  </div>
-  <div class="api-param-desc">Estimated number of unique values.</div>
-</div>
-
-</div>
-<div class="api-examples">
-
-<div class="api-example-panel">
-  <section class="tab-group" data-tab-group="lang-getschema">
-    <div class="api-example-panel-header api-lang-tabs">
-      <button class="tab-button" data-tab="lang-curl-getschema">cURL</button>
-      <button class="tab-button" data-tab="lang-python-getschema">Python</button>
-      <button class="tab-button" data-tab="lang-js-getschema">JavaScript</button>
-    </div>
-    <div id="lang-curl-getschema" class="tab-content"><pre><code class="language-bash">curl -X GET "https://api.monoscope.tech/api/v1/schema?pid=YOUR_PROJECT_ID" \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -H "Content-Type: application/json"</code></pre></div>
-    <div id="lang-python-getschema" class="tab-content"><pre><code class="language-python">import requests
+<h2>Examples</h2>
+<section class="tab-group" data-tab-group="getschema"><button type="button" class="tab-button" data-tab="getschema-curl">cURL</button><button type="button" class="tab-button" data-tab="getschema-python">Python</button><button type="button" class="tab-button" data-tab="getschema-js">JavaScript</button><div id="getschema-curl" class="tab-content"><pre><code class="language-bash">curl --request GET 'https://api.monoscope.tech/api/v1/schema' \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'X-Project-Id: YOUR_PROJECT_ID'</code></pre></div>
+<div id="getschema-python" class="tab-content"><pre><code class="language-python">import requests
 
 response = requests.get(
-  "https://api.monoscope.tech/api/v1/schema?pid=YOUR_PROJECT_ID",
+  &quot;https://api.monoscope.tech/api/v1/schema&quot;,
   headers={
-    "Authorization": "Bearer YOUR_API_KEY",
-    "Content-Type": "application/json"
-  }
+  &quot;Authorization&quot;: &quot;Bearer YOUR_API_KEY&quot;,
+  &quot;X-Project-Id&quot;: &quot;YOUR_PROJECT_ID&quot;
+},
+  timeout=30,
 )
-print(response.json())</code></pre></div>
-    <div id="lang-js-getschema" class="tab-content"><pre><code class="language-javascript">const response = await fetch("https://api.monoscope.tech/api/v1/schema?pid=YOUR_PROJECT_ID", {
-  method: "GET",
+response.raise_for_status()
+print(response.text)</code></pre></div>
+<div id="getschema-js" class="tab-content"><pre><code class="language-javascript">const response = await fetch(&quot;https://api.monoscope.tech/api/v1/schema&quot;, {
+  method: &quot;GET&quot;,
   headers: {
-    "Authorization": "Bearer YOUR_API_KEY",
-    "Content-Type": "application/json"
-  }
+  &quot;Authorization&quot;: &quot;Bearer YOUR_API_KEY&quot;,
+  &quot;X-Project-Id&quot;: &quot;YOUR_PROJECT_ID&quot;
+},
 });
-const data = await response.json();
-console.log(data);</code></pre></div>
-  </section>
-</div>
-
-<div class="api-example-panel">
-  <div class="api-example-panel-header">
-    <span class="api-response-status-tab api-status-2xx">200</span>
-    <span style="margin-left: 0.5rem;">application/json</span>
-  </div>
-  <pre><code class="language-json">{
-  "fields": [
-    {
-      "name": "example",
-      "type": "string",
-      "cardinality": 42
+if (!response.ok) throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+console.log(await response.text());</code></pre></div></section>
+<h2>Responses</h2>
+<h3>HTTP 200</h3><p>Response defined by the API schema.</p><div class="overflow-x-auto"><table><thead><tr><th>Field</th><th>Type</th><th>Presence</th><th>Description</th></tr></thead><tbody><tr><td><code>fields</code></td><td>object</td><td>Required</td><td></td></tr></tbody></table></div><details><summary>JSON schema</summary><pre><code class="language-json">{
+  &quot;properties&quot;: {
+    &quot;fields&quot;: {
+      &quot;additionalProperties&quot;: {
+        &quot;$ref&quot;: &quot;#/components/schemas/FieldInfo&quot;
+      },
+      &quot;type&quot;: &quot;object&quot;
     }
-  ]
-}</code></pre>
-</div>
-
-</div>
-</div>
-</div>
+  },
+  &quot;required&quot;: [
+    &quot;fields&quot;
+  ],
+  &quot;type&quot;: &quot;object&quot;
+}</code></pre></details>
+<h3>HTTP 400</h3><p>Refused; error.code says why</p><div class="overflow-x-auto"><table><thead><tr><th>Field</th><th>Type</th><th>Presence</th><th>Description</th></tr></thead><tbody><tr><td><code>error</code></td><td>object</td><td>Required</td><td></td></tr></tbody></table></div><details><summary>JSON schema</summary><pre><code class="language-json">{
+  &quot;properties&quot;: {
+    &quot;error&quot;: {
+      &quot;$ref&quot;: &quot;#/components/schemas/ApiProblem&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;error&quot;
+  ],
+  &quot;type&quot;: &quot;object&quot;
+}</code></pre></details>
+<h3>HTTP 401</h3><p>Refused; error.code says why</p><div class="overflow-x-auto"><table><thead><tr><th>Field</th><th>Type</th><th>Presence</th><th>Description</th></tr></thead><tbody><tr><td><code>error</code></td><td>object</td><td>Required</td><td></td></tr></tbody></table></div><details><summary>JSON schema</summary><pre><code class="language-json">{
+  &quot;properties&quot;: {
+    &quot;error&quot;: {
+      &quot;$ref&quot;: &quot;#/components/schemas/ApiProblem&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;error&quot;
+  ],
+  &quot;type&quot;: &quot;object&quot;
+}</code></pre></details>
+<p><a href="/docs/api-reference/getting-started/authentication/">Authentication</a> · <a href="/docs/api-reference/getting-started/rate-limits/">Errors and retries</a> · <a href="/assets/api/openapi.json">OpenAPI specification</a></p>
 ```
+{% endraw %}

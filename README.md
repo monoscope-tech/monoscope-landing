@@ -19,6 +19,7 @@
 - [Setup and Installation](#setup-and-installation)
 - [Directories Overview](#directories-overview)
 - [Docs Style Guide](#docs-style-guide)
+- [Documentation Maintenance](#documentation-maintenance)
 - [Contributing and Help](#contributing-and-help)
 - [License](#license)
 
@@ -211,3 +212,41 @@ This repository is published under the [MIT](LICENSE) license.
 <a href="https://monoscope.tech?utm_source=github-sdks" target="_blank" rel="noopener noreferrer"><img src="https://github.com/monoscope-tech/.github/blob/main/images/icon.png?raw=true" width="40" /></a>
 
 </div>
+
+## Documentation Maintenance
+
+Use the application source and published SDK packages to verify behavior. Repository source can contain changes that are not in a released package.
+
+The API reference is generated from `assets/api/openapi.json`. `build.sh` refreshes this file from the application's public schema, with the checked-in copy as a fallback. To refresh it locally:
+
+```sh
+curl -fsS https://app.monoscope.tech/api/v1/openapi.json -o /tmp/monoscope-openapi.json
+node -e 'const s=JSON.parse(require("fs").readFileSync("/tmp/monoscope-openapi.json")); if (!s.openapi || !s.paths) process.exit(1)'
+cp /tmp/monoscope-openapi.json assets/api/openapi.json
+node scripts/generate-api-docs.mjs
+```
+
+Edit the generator for changes to endpoint pages. Keep handwritten API guides outside `docs/api-reference/endpoints/`.
+
+After editing documentation, build the site and check its local links:
+
+```sh
+quickstatic build
+python3 scripts/check-docs-links.py
+```
+
+The checker covers rendered documentation links, fragments and image paths. QuickStatic retains stale output files. After removing a page, remove its generated file before checking, or build from a clean output directory.
+
+For the browser checks, install Playwright globally as required by the existing screenshot scripts. Serve the output in one terminal:
+
+```sh
+python3 -m http.server 3001 --bind 127.0.0.1 --directory _quickstatic/public
+```
+
+Run the checks in another terminal:
+
+```sh
+node scripts/check-docs-browser.mjs
+```
+
+The browser checks cover API request construction, JSON validation, dialog focus and mobile overflow on representative guides. They intercept API requests and send no writes to Monoscope.

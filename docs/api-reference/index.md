@@ -5,16 +5,16 @@ menuWeight: 50
 hideToc: true
 ---
 
-The Monoscope API lets you programmatically query metrics, retrieve telemetry schemas, and manage monitors for your projects.
+The Monoscope API lets you programmatically query logs, traces and metrics, inspect schemas, and manage issues, monitors and dashboards for your projects.
 
 ## Base URL
 
 ```
-https://api.monoscope.tech
+https://api.monoscope.tech/api/v1
 ```
 
 ## Quick Links
 
-- [Getting Started](/docs/api-reference/getting-started/) — Introduction, authentication, and rate limits
+- [Getting Started](/docs/api-reference/getting-started/) — Introduction, authentication, errors and retries
 - [Endpoints](/docs/api-reference/endpoints/) — Full endpoint reference
 - [MCP Server](/docs/api-reference/mcp/) — Same surface, exposed as a Model Context Protocol endpoint for agentic clients (Claude Code, Cursor, Cline, …)
