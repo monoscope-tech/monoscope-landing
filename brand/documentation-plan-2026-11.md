@@ -38,7 +38,7 @@ Merge `llm-observability-docs` into master, then make the documentation reflect 
 - [x] Integration troubleshooting and capture/identity guide.
 - [x] Reports migration and navigation corrections.
 - [x] Broader consistency pass and rendered verification.
-- [ ] Final commit and remote master verification.
+- [x] Final commits and remote master verification.
 
 
 ## Further source review and implemented changes
@@ -58,7 +58,7 @@ Merge `llm-observability-docs` into master, then make the documentation reflect 
 - `python3 scripts/check-docs-links.py`: zero broken local links, fragments or image paths (165 documentation pages at the final pass).
 - `node scripts/check-docs-browser.mjs`: project/auth headers, encoded path parameters, JSON validation and POST payload, Escape/focus restoration, key clearing, headings and mobile overflow on seven representative pages. All API requests intercepted.
 - Current spec operation count equals generated endpoint page count: 76/76.
-- Python snippets extracted from all 76 generated endpoint pages compile.
+- All 76 Python, 76 JavaScript and 76 shell examples from the generated pages pass syntax checks.
 - Rust setup snippet and worker snippet compile with the documented dependencies. The worker check supplies application-specific type/function placeholders. Logs: `/tmp/monoscope-docs-rust-check.log`.
 - Six representative demo queries checked live: service discovery, HTTP failure ratio, grouped latency with an aggregate filter, projection/unit conversion, error flags and metric inventory. Service, route and metric queries returned data. The HTTP ratio was zero in that window. Do not treat the absence of an error or an empty projected result as a demonstrated incident.
 - Demo validation exposed and corrected three syntax traps: fixed `p95` only accepts a field, `project` needs explicit aliases, and its arithmetic parser needs `1000000` rather than `1e6`.
@@ -67,3 +67,11 @@ Merge `llm-observability-docs` into master, then make the documentation reflect 
 ## Limits
 
 The work checks SDK guidance against source and selected published artifacts. It does not claim end-to-end runtime testing for every language or framework. No blog incident or screenshot was fabricated. The public demo was used for read-only query verification. Homepage and newsletter working edits remain outside this change.
+
+
+## Delivery
+
+- `3f62fddf`: product, review/proof, query and integration documentation, redirects and link checker.
+- `a998369f`: complete generated API reference, request console, browser checks and maintenance instructions.
+- Both commits and the three original LLM documentation commits were pushed to `origin/master`. The remote ref was verified at `a998369f8ad5f5773bbb5a36296396d093758cb5` before this final record update.
+- Social-preview generation completed successfully for the standard build. Generated preview files remain ignored build artifacts.
