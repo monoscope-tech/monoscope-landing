@@ -201,7 +201,7 @@ async function send(entry) {
       attributes: Object.entries(entry).map(([k, v]) => attr("booth." + k, v)),
     }] }],
   }] };
-  const res = await fetch("https://otelcol.monoscope.tech/v1/traces", {
+  const res = await fetch("https://otel.monoscopehq.com/v1/traces", {
     method: "POST", keepalive: true,
     headers: { "Content-Type": "application/json", "x-api-key": API_KEY }, body: JSON.stringify(body),
   });

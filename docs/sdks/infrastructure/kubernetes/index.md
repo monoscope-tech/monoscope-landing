@@ -162,12 +162,8 @@ config:
           action: upsert
 
   exporters:
-    # tls.insecure is safe here: the monoscope ingest endpoint terminates TLS at
-    # its load balancer; the collector connects over a plaintext-tolerant L4 path.
     otlp_grpc:
-      endpoint: "otelcol.monoscope.tech:4317"
-      tls:
-        insecure: true
+      endpoint: "otel.monoscopehq.com:443"
 
   # IMPORTANT: when you override service.pipelines, you must list every receiver
   # and processor you want active — including the ones the presets contribute
@@ -262,9 +258,7 @@ config:
 
   exporters:
     otlp_grpc:
-      endpoint: "otelcol.monoscope.tech:4317"
-      tls:
-        insecure: true     # see note in agent values
+      endpoint: "otel.monoscopehq.com:443"
 
   service:
     extensions: [health_check]
@@ -483,9 +477,7 @@ spec:
             action: upsert
     exporters:
       otlp_grpc:
-        endpoint: "otelcol.monoscope.tech:4317"
-        tls:
-          insecure: true
+        endpoint: "otel.monoscopehq.com:443"
     service:
       extensions: [health_check]
       pipelines:
@@ -544,9 +536,7 @@ spec:
             action: upsert
     exporters:
       otlp_grpc:
-        endpoint: "otelcol.monoscope.tech:4317"
-        tls:
-          insecure: true
+        endpoint: "otel.monoscopehq.com:443"
     service:
       extensions: [health_check]
       pipelines:

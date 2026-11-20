@@ -100,7 +100,7 @@ We must now export the necessary environment variables to configure OpenTelemetr
 
 ```javascript
   //Specifies the endpoint URL for the OpenTelemetry collector.
-  export OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
+  export OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscopehq.com"
 
   //Specifies the name of the service.
   export OTEL_SERVICE_NAME="{YOUR_SERVICE_NAME}"

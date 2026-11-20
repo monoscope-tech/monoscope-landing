@@ -269,7 +269,7 @@ The Phoenix plug only covers HTTP requests. Oban workers, Broadway pipelines, Ge
 The examples below use OpenTelemetry, not the Phoenix SDK. Add the `opentelemetry` and `opentelemetry_exporter` dependencies, then point the exporter at monoscope:
 
 ```sh
-OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4318"
+OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscopehq.com"
 OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"
 OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
 OTEL_SERVICE_NAME="my-service"

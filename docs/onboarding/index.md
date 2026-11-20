@@ -117,7 +117,7 @@ The skill adds the OpenTelemetry SDK for your language. It covers HTTP, SQL, que
 Set these four environment variables in your application. Replace `YOUR_API_KEY` with the key from step 3:
 
 ```ini
-OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
+OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscopehq.com"
 OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
 OTEL_SERVICE_NAME="orders-service"
 OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
@@ -181,7 +181,7 @@ monoscope telemetrygen --kind=trace --rate=5 --count=50 --service=my-service
 If no events arrive after a minute:
 
 1. Make sure that `OTEL_RESOURCE_ATTRIBUTES` contains your API key, with no spaces.
-2. Make sure that your network allows outgoing traffic to `otelcol.monoscope.tech` on port 4317 (gRPC) or 4318 (HTTP).
+2. Make sure that your network allows outgoing traffic to `otel.monoscopehq.com` on port 443 (HTTPS, for both gRPC and HTTP).
 3. Run `monoscope auth status` to see which project the CLI sends to.
 
 If the CLI event arrives but application events do not, inspect the application setup separately. See [integration troubleshooting](/docs/sdks/troubleshooting/) and [data capture and identity](/docs/sdks/data-capture/).

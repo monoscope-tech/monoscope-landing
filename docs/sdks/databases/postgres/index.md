@@ -129,9 +129,7 @@ processors:
 
 exporters:
   otlp_grpc:
-    endpoint: "otelcol.monoscope.tech:4317"
-    tls:
-      insecure: true
+    endpoint: "otel.monoscopehq.com:443"
 
 service:
   pipelines:

@@ -28,8 +28,8 @@ Use one of these pairs:
 
 | Transport | `OTEL_EXPORTER_OTLP_ENDPOINT` | `OTEL_EXPORTER_OTLP_PROTOCOL` |
 |---|---|---|
-| gRPC | `http://otelcol.monoscope.tech:4317` | `grpc` |
-| HTTP with protobuf | `http://otelcol.monoscope.tech:4318` | `http/protobuf` |
+| gRPC | `https://otel.monoscopehq.com` | `grpc` |
+| HTTP with protobuf | `https://otel.monoscopehq.com` | `http/protobuf` |
 
 Use the endpoint supplied by your project if it differs from these defaults. The exporter package must support the selected transport.
 

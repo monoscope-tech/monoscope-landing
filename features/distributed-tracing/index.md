@@ -84,7 +84,7 @@ sections:
     code_label: "Environment · any OpenTelemetry SDK"
     code_class: language-bash
     code: |
-      OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
+      OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscopehq.com"
       OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
       OTEL_SERVICE_NAME="checkout"
       OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
