@@ -34,13 +34,13 @@ After data arrives, use the [LLM and Agents product guide](/docs/dashboard/dashb
 Every integration below sends OTLP to monoscope with the same four settings:
 
 ```sh
-OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4318"
+OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscope.tech"
 OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"
 OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
 OTEL_SERVICE_NAME="your-agent"
 ```
 
-gRPC also works: use port `4317` and `OTEL_EXPORTER_OTLP_PROTOCOL="grpc"`. To send the key as a header instead, set `OTEL_EXPORTER_OTLP_HEADERS="x-api-key=YOUR_API_KEY"`.
+gRPC also works on the same endpoint: set `OTEL_EXPORTER_OTLP_PROTOCOL="grpc"`. To send the key as a header instead, set `OTEL_EXPORTER_OTLP_HEADERS="x-api-key=YOUR_API_KEY"`.
 
 ```=html
 <div class="callout">
@@ -83,7 +83,7 @@ Instrumentations for Anthropic, Google GenAI, Vertex AI and LangChain follow the
 
 ```sh
 pip install traceloop-sdk
-export TRACELOOP_BASE_URL="http://otelcol.monoscope.tech:4318"
+export TRACELOOP_BASE_URL="https://otel.monoscope.tech"
 export TRACELOOP_HEADERS="x-api-key=YOUR_API_KEY"
 ```
 
@@ -169,7 +169,7 @@ import * as traceloop from '@traceloop/node-server-sdk';
 
 traceloop.initialize({
   appName: 'your-agent',
-  baseUrl: 'http://otelcol.monoscope.tech:4318',
+  baseUrl: 'https://otel.monoscope.tech',
   headers: { 'x-api-key': process.env.MONOSCOPE_API_KEY },
 });
 ```
@@ -202,7 +202,7 @@ export CLAUDE_CODE_ENABLE_TELEMETRY=1
 export OTEL_LOGS_EXPORTER=otlp
 export OTEL_METRICS_EXPORTER=otlp
 export OTEL_EXPORTER_OTLP_PROTOCOL=grpc
-export OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
+export OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscope.tech"
 export OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
 export OTEL_LOG_USER_PROMPTS=1   # optional: record prompt text
 ```
@@ -218,7 +218,7 @@ Spans with the OpenTelemetry MCP attributes (`mcp.method.name`, `mcp.session.id`
 A single model call, sent with `curl`:
 
 ```sh
-curl -X POST http://otelcol.monoscope.tech:4318/v1/traces \
+curl -X POST https://otel.monoscope.tech/v1/traces \
   -H 'Content-Type: application/json' -H 'x-api-key: YOUR_API_KEY' \
   -d '{"resourceSpans":[{"resource":{"attributes":[{"key":"service.name","value":{"stringValue":"my-agent"}}]},
        "scopeSpans":[{"spans":[{"traceId":"5b8efff798038103d269b633813fc60c","spanId":"eee19b7ec3c1b174",

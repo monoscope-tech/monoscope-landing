@@ -1,9 +1,9 @@
 ---
 # UNVERIFIED:
-# - Collector exporter config mirrors docs/sdks/infrastructure (otlp_grpc, tls insecure); not run end to end.
+# - Collector exporter config mirrors docs/sdks/infrastructure (otlp_grpc over TLS); not run end to end.
 # - "four environment variables" counts docs/sdks/opentelemetry, not tested against every SDK.
 # Verified: OTLP gRPC trace/log/metric export services (src/Opentelemetry/OtlpServer.hs), x-api-key as
-# resource attribute or header (OtlpServer.hs, docs/sdks/opentelemetry), otelcol.monoscope.tech:4317/4318
+# resource attribute or header (OtlpServer.hs, docs/sdks/opentelemetry), otel.monoscope.tech:443
 # (docs), Prometheus scrape targets (Models/Apis/PrometheusScrapeConfigs.hs), OpenTelemetry Collector
 # dashboard template (static/public/dashboards/opentelemetry-collector.yaml), routine templates
 # Telemetry gap detector / Trace correlation audit / Telemetry quality check (Issues.routineTemplates).
@@ -24,7 +24,7 @@ sections:
     tone: brand
     eyebrow: "OpenTelemetry collector"
     title: "One exporter change, no new agent"
-    lead: "monoscope receives OTLP over gRPC on port 4317 and HTTP on 4318. Keep the collector, receivers and processors you run today, add an exporter and your API key, and data starts arriving."
+    lead: "monoscope receives OTLP over gRPC and HTTP at https://otel.monoscope.tech. Keep the collector, receivers and processors you run today, add an exporter and your API key, and data starts arriving."
     shot: otel-setup
     code_label: "otel-collector.yaml · add monoscope as an exporter"
     code_class: language-yaml
@@ -36,8 +36,7 @@ sections:
 
       exporters:
         otlp_grpc:
-          endpoint: "otelcol.monoscope.tech:4317"
-          tls: { insecure: true }
+          endpoint: "otel.monoscope.tech:443"
 
       service:
         pipelines:
@@ -120,7 +119,7 @@ faqs:
   - q: "Do I need the monoscope SDK?"
     a: "No. Any OpenTelemetry SDK or collector sends logs, traces and metrics. Our SDKs add request and response bodies, with redaction."
   - q: "Which protocols do you accept?"
-    a: "OTLP over gRPC (port 4317) and over HTTP (port 4318). Send your API key as the x-api-key resource attribute or header."
+    a: "OTLP over gRPC and over HTTP, both on https://otel.monoscope.tech (port 443). Send your API key as the x-api-key resource attribute or header."
   - q: "Can I send to monoscope and my current vendor at once?"
     a: "Yes. Add monoscope as a second exporter in your collector and compare the two for a week or two before you switch."
   - q: "How is it priced?"

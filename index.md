@@ -310,7 +310,7 @@ onboarding:
     lang: ini
     body: Set four environment variables. Our SDKs for Node.js, Python, Go, PHP, Java, .NET and Elixir also capture bodies.
     cmd: |
-      OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
+      OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscope.tech"
       OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
       OTEL_SERVICE_NAME="orders-service"
       OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"

@@ -64,7 +64,7 @@ composer require apitoolkit/apitoolkit-symfony:dev-master
 The Symfony bundle does not use OpenTelemetry. It sends requests to monoscope directly with your API key. If you add your own OpenTelemetry spans, as in Non-HTTP Entry Points below, set these environment variables to configure the exporter:
 
 ```sh
-OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
+OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscope.tech"
 OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
 OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
 ```

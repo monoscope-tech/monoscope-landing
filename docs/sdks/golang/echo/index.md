@@ -46,7 +46,7 @@ go get github.com/monoscope-tech/monoscope-go/echo
 Set these environment variables, for example in a `.env` file or your deployment config. Always set `OTEL_EXPORTER_OTLP_ENDPOINT`: without it, the SDK sends data to an old default endpoint.
 
 ```sh
-OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
+OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscope.tech"
 OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
 OTEL_SERVICE_NAME="monoscope-otel-go-demo"
 OTEL_SERVICE_VERSION="0.0.1"

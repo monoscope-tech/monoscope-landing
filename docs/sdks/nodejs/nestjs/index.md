@@ -64,7 +64,7 @@ Add the following environment variables to your `.env` file:
 
 ```sh
 # Specifies the endpoint URL for the OpenTelemetry collector.
-OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.monoscope.tech:4317"
+OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscope.tech"
 # Specifies the name of the service.
 OTEL_SERVICE_NAME="{YOUR_SERVICE_NAME}"
 # Adds your API KEY to the resource.
@@ -202,7 +202,7 @@ If your NestJs app uses the Fastify adapter, follow the [Fastify guide](/docs/sd
 :::
 | Attribute | Description |
 | --------- | ----------- |
-| `OTEL_EXPORTER_OTLP_ENDPOINT` | The endpoint URL of the OpenTelemetry collector: `http://otelcol.monoscope.tech:4317`. |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | The endpoint URL of the OpenTelemetry collector: `https://otel.monoscope.tech`. |
 | `OTEL_SERVICE_NAME` | The name of your service. |
 | `OTEL_RESOURCE_ATTRIBUTES` | Specifies additional resource attributes. Holds your monoscope API key (`x-api-key=YOUR_API_KEY`). |
 | `OTEL_EXPORTER_OTLP_PROTOCOL` | The protocol for exporting telemetry data: `grpc`. |
