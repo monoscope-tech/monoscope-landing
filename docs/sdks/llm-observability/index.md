@@ -34,7 +34,7 @@ After data arrives, use the [LLM and Agents product guide](/docs/dashboard/dashb
 Every integration below sends OTLP to monoscope with the same four settings:
 
 ```sh
-OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscope.tech"
+OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscopehq.com"
 OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"
 OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
 OTEL_SERVICE_NAME="your-agent"
@@ -83,7 +83,7 @@ Instrumentations for Anthropic, Google GenAI, Vertex AI and LangChain follow the
 
 ```sh
 pip install traceloop-sdk
-export TRACELOOP_BASE_URL="https://otel.monoscope.tech"
+export TRACELOOP_BASE_URL="https://otel.monoscopehq.com"
 export TRACELOOP_HEADERS="x-api-key=YOUR_API_KEY"
 ```
 
@@ -169,7 +169,7 @@ import * as traceloop from '@traceloop/node-server-sdk';
 
 traceloop.initialize({
   appName: 'your-agent',
-  baseUrl: 'https://otel.monoscope.tech',
+  baseUrl: 'https://otel.monoscopehq.com',
   headers: { 'x-api-key': process.env.MONOSCOPE_API_KEY },
 });
 ```
@@ -202,7 +202,7 @@ export CLAUDE_CODE_ENABLE_TELEMETRY=1
 export OTEL_LOGS_EXPORTER=otlp
 export OTEL_METRICS_EXPORTER=otlp
 export OTEL_EXPORTER_OTLP_PROTOCOL=grpc
-export OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscope.tech"
+export OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscopehq.com"
 export OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
 export OTEL_LOG_USER_PROMPTS=1   # optional: record prompt text
 ```
@@ -218,7 +218,7 @@ Spans with the OpenTelemetry MCP attributes (`mcp.method.name`, `mcp.session.id`
 A single model call, sent with `curl`:
 
 ```sh
-curl -X POST https://otel.monoscope.tech/v1/traces \
+curl -X POST https://otel.monoscopehq.com/v1/traces \
   -H 'Content-Type: application/json' -H 'x-api-key: YOUR_API_KEY' \
   -d '{"resourceSpans":[{"resource":{"attributes":[{"key":"service.name","value":{"stringValue":"my-agent"}}]},
        "scopeSpans":[{"spans":[{"traceId":"5b8efff798038103d269b633813fc60c","spanId":"eee19b7ec3c1b174",

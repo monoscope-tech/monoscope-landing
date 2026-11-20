@@ -60,7 +60,7 @@ code_label: "otel-collector.yaml"
 code: |
   exporters:
     otlp_grpc/monoscope:
-      endpoint: "otel.monoscope.tech:443"
+      endpoint: "otel.monoscopehq.com:443"
       headers:
         x-api-key: YOUR_API_KEY
 

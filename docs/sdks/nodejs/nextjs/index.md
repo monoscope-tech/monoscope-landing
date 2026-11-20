@@ -58,7 +58,7 @@ npm install --save @monoscopetech/next @opentelemetry/api @vercel/otel
 OpenTelemetry sends traces, metrics and logs to monoscope. Add these environment variables to your `.env` file:
 
 ```sh
-OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscope.tech"
+OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscopehq.com"
 OTEL_SERVICE_NAME="my-service" # Specifies the name of the service.
 OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY" # Adds your API KEY to the resource.
 OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf" #Specifies the protocol to use for the OpenTelemetry exporter.

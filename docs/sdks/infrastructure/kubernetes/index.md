@@ -163,7 +163,7 @@ config:
 
   exporters:
     otlp_grpc:
-      endpoint: "otel.monoscope.tech:443"
+      endpoint: "otel.monoscopehq.com:443"
 
   # IMPORTANT: when you override service.pipelines, you must list every receiver
   # and processor you want active — including the ones the presets contribute
@@ -258,7 +258,7 @@ config:
 
   exporters:
     otlp_grpc:
-      endpoint: "otel.monoscope.tech:443"
+      endpoint: "otel.monoscopehq.com:443"
 
   service:
     extensions: [health_check]
@@ -477,7 +477,7 @@ spec:
             action: upsert
     exporters:
       otlp_grpc:
-        endpoint: "otel.monoscope.tech:443"
+        endpoint: "otel.monoscopehq.com:443"
     service:
       extensions: [health_check]
       pipelines:
@@ -536,7 +536,7 @@ spec:
             action: upsert
     exporters:
       otlp_grpc:
-        endpoint: "otel.monoscope.tech:443"
+        endpoint: "otel.monoscopehq.com:443"
     service:
       extensions: [health_check]
       pipelines:

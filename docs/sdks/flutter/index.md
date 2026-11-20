@@ -63,7 +63,7 @@ Then run:
 flutter pub get
 ```
 
-The `opentelemetry_wk` package (formerly published as `opentelemetry`) speaks **OTLP/HTTP+protobuf**, so point the exporter at monoscope's OTLP/HTTP endpoint, `https://otel.monoscope.tech/v1/traces`.
+The `opentelemetry_wk` package (formerly published as `opentelemetry`) speaks **OTLP/HTTP+protobuf**, so point the exporter at monoscope's OTLP/HTTP endpoint, `https://otel.monoscopehq.com/v1/traces`.
 
 ## Tracer Setup
 
@@ -80,7 +80,7 @@ late final otel_sdk.TracerProviderBase tracerProvider;
 void initTelemetry() {
   // OTLP/HTTP+protobuf endpoint. Note the /v1/traces path.
   final exporter = otel_sdk.CollectorExporter(
-    Uri.parse('https://otel.monoscope.tech/v1/traces'),
+    Uri.parse('https://otel.monoscopehq.com/v1/traces'),
   );
 
   final provider = otel_sdk.TracerProviderBase(
@@ -116,7 +116,7 @@ void initTelemetry() {
 ```=html
 <div class="callout">
   <i class="fa-regular fa-circle-info"></i>
-  <p><b>Need a stable buffer?</b> Run a local OpenTelemetry Collector on your infrastructure, point your Flutter app at it, and have the collector forward to <code>otel.monoscope.tech:443</code> with the API key in headers. See the <a href="/docs/sdks/opentelemetry/#Using-an-OTel-Collector-as-Proxy">collector-as-proxy section</a> of the generic OTel guide.</p>
+  <p><b>Need a stable buffer?</b> Run a local OpenTelemetry Collector on your infrastructure, point your Flutter app at it, and have the collector forward to <code>otel.monoscopehq.com:443</code> with the API key in headers. See the <a href="/docs/sdks/opentelemetry/#Using-an-OTel-Collector-as-Proxy">collector-as-proxy section</a> of the generic OTel guide.</p>
 </div>
 ```
 

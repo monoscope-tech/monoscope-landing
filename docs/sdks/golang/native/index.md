@@ -46,7 +46,7 @@ go get github.com/monoscope-tech/monoscope-go/native
 Set these environment variables, for example in a `.env` file or your deployment config. Always set `OTEL_EXPORTER_OTLP_ENDPOINT`: without it, the SDK sends data to an old default endpoint.
 
 ```sh
-OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscope.tech"
+OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscopehq.com"
 OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY"
 OTEL_SERVICE_NAME="monoscope-otel-go-demo"
 OTEL_SERVICE_VERSION="0.0.1"
@@ -106,7 +106,7 @@ Set the following environment variables in your application to enable the SDK:
 | `OTEL_RESOURCE_ATTRIBUTES` | Your monoscope API key (`x-api-key=YOUR_API_KEY`) | Yes | `x-api-key=YOUR_API_KEY` |
 | `OTEL_SERVICE_NAME` | The name of the service being monitored | No | `example-chi-server` |
 | `OTEL_SERVICE_VERSION` | The version of your application or service | No | `0.0.1` |
-| `OTEL_EXPORTER_OTLP_ENDPOINT` | The OpenTelemetry collector endpoint | Yes | `https://otel.monoscope.tech` |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | The OpenTelemetry collector endpoint | Yes | `https://otel.monoscopehq.com` |
 | `OTEL_TRACES_ENABLED` | Enable or disable tracing | No | `true` |
 | `OTEL_METRICS_ENABLED` | Enable or disable metrics | No | `true` |
 | `OTEL_LOG_LEVEL` | The log level for the SDK (Set to debug to enable debug logs) | No | `info` |

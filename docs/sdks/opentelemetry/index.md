@@ -52,7 +52,7 @@ Install and initialize an OpenTelemetry SDK and OTLP exporter first. These envir
 
 ```sh
 # Specifies the endpoint URL for the OpenTelemetry collector.
-OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscope.tech"
+OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscopehq.com"
 # Specifies the name of the service.
 OTEL_SERVICE_NAME="your-service-name"
 # Adds your API KEY to the resource.
@@ -69,7 +69,7 @@ OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
 </div>
 ```
 
-For HTTP/protobuf, use `https://otel.monoscope.tech` and `OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"`. Signal-specific HTTP endpoint variables need the full `/v1/traces`, `/v1/logs` or `/v1/metrics` path. See [exporter configuration](https://opentelemetry.io/docs/languages/sdk-configuration/otlp-exporter/).
+For HTTP/protobuf, use `https://otel.monoscopehq.com` and `OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"`. Signal-specific HTTP endpoint variables need the full `/v1/traces`, `/v1/logs` or `/v1/metrics` path. See [exporter configuration](https://opentelemetry.io/docs/languages/sdk-configuration/otlp-exporter/).
 
 ## Language Examples
 
@@ -142,7 +142,7 @@ async fn main() {
     <pre><code class="language-ruby">gem 'opentelemetry-sdk'
 gem 'opentelemetry-exporter-otlp'
 gem 'opentelemetry-instrumentation-all'</code></pre>
-    <p>The <code>opentelemetry-exporter-otlp</code> gem sends OTLP over HTTP only. Set <code>OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscope.tech"</code> and <code>OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"</code> instead of the gRPC values above.</p>
+    <p>The <code>opentelemetry-exporter-otlp</code> gem sends OTLP over HTTP only. Set <code>OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscopehq.com"</code> and <code>OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"</code> instead of the gRPC values above.</p>
     <p>Initialize OpenTelemetry at app startup, for example in a Rails initializer:</p>
     <pre><code class="language-ruby">require 'opentelemetry/sdk'
 require 'opentelemetry/exporter/otlp'
@@ -353,7 +353,7 @@ processors:
 exporters:
   # Collector versions before v0.144 call this exporter `otlp`.
   otlp_grpc:
-    endpoint: "otel.monoscope.tech:443"
+    endpoint: "otel.monoscopehq.com:443"
     headers:
       x-api-key: "YOUR_API_KEY"
 

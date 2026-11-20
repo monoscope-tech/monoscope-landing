@@ -61,7 +61,7 @@ Add the following environment variables to your `.env` file:
 
 ```sh
 # Specifies the endpoint URL for the OpenTelemetry collector.
-OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscope.tech"
+OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscopehq.com"
 # Specifies the name of the service.
 OTEL_SERVICE_NAME="{YOUR_SERVICE_NAME}"
 # Adds your API KEY to the resource.

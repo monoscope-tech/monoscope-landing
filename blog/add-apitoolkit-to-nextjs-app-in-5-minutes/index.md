@@ -56,7 +56,7 @@ Let's install Monoscope's [Next.js SDK](https://monoscope.tech/docs/sdks/nodejs/
 Create a `.env` file with the following configuration. Replace the `service name` and `API key` with your actual API and service name.
 
 ```javascript
-  OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscope.tech"
+  OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscopehq.com"
   OTEL_SERVICE_NAME="my-service" # Specifies the name of the service.
   OTEL_RESOURCE_ATTRIBUTES="at-project-key={YOUR_API_KEY}" # Adds your API KEY to the resource.
   OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf" #Specifies the protocol to use for the OpenTelemetry exporter.

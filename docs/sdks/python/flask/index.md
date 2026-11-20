@@ -58,7 +58,7 @@ Setting up open telemetry allows you to send traces, metrics and logs to the mon
 To setup open telemetry, you need to configure the following environment variables:
 
 ```sh
-export OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscope.tech"
+export OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscopehq.com"
 export OTEL_SERVICE_NAME="my-service" # Specifies the name of the service.
 export OTEL_RESOURCE_ATTRIBUTES="x-api-key=YOUR_API_KEY" # Adds your API KEY to the resource.
 export OTEL_EXPORTER_OTLP_PROTOCOL="grpc" #Specifies the protocol to use for the OpenTelemetry exporter.
