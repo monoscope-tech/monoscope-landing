@@ -1,17 +1,17 @@
 ---
-title: Flutter (OpenTelemetry)
+title: Flutter
 ogTitle: Flutter OpenTelemetry Integration Guide for monoscope
 date: 2026-05-08
-updatedDate: 2026-11-19
+updatedDate: 2026-11-22
 linkTitle: "Flutter"
 menuWeight: 45
 ---
 
 # Flutter Integration Guide
 
-monoscope does not yet ship a native Flutter wrapper, but you can fully instrument a Flutter app — traces, HTTP calls, and **uncaught errors** — by wiring the Dart [`opentelemetry_wk`](https://pub.dev/packages/opentelemetry_wk) package directly to monoscope's OTLP endpoint.
+The [`monoscope_flutter`](https://pub.dev/packages/monoscope_flutter) SDK adds **OpenTelemetry tracing**, **error and crash reporting**, and **session replay** to Flutter apps. It hooks all three Flutter error channels (framework, Dart runtime, platform engine) and native crashes for you.
 
-This guide focuses on **error tracking**, which on Flutter requires hooking three different error channels: the Flutter framework, the Dart runtime, and the platform engine. Miss any one of them and you'll lose half your crashes silently.
+If you'd rather not add the SDK, [instrument with OpenTelemetry directly](#Without-the-SDK) instead.
 
 ```=html
 <hr>
@@ -47,6 +47,58 @@ Then ask your agent to instrument the project. In Claude Code, run:
 The skill uses the CLI to add the SDK and to make sure that events arrive. To do the setup by hand, follow the steps below. For help from a person, [email us](mailto:hello@monoscope.tech).
 
 ## Installation
+
+```sh
+flutter pub add monoscope_flutter
+```
+
+## Quick Start
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:monoscope_flutter/monoscope_flutter.dart';
+
+Future<void> main() async {
+  await Monoscope.start(
+    const MonoscopeConfig(apiKey: 'YOUR_API_KEY'),
+  );
+
+  runApp(const MonoscopeWidget(child: MyApp()));
+}
+```
+
+`MonoscopeWidget` enables session replay. Tracing and error reporting work without it.
+
+To record route changes, add the navigator observer:
+
+```dart
+MaterialApp(
+  navigatorObservers: [MonoscopeNavigatorObserver()],
+  home: const HomeScreen(),
+)
+```
+
+Identify the user at any point after startup:
+
+```dart
+Monoscope.instance?.setUser(
+  const MonoscopeUser(id: 'user-123', email: 'user@example.com'),
+);
+```
+
+To verify the setup, set `debug: true` in `MonoscopeConfig` and call:
+
+```dart
+final ok = await Monoscope.instance!.test(); // true when the span was exported
+```
+
+The SDK sends to `https://otel.monoscopehq.com` by default. All options are in the [SDK README](https://github.com/monoscope-tech/monoscope-flutter#configuration).
+
+## Without the SDK
+
+You can also instrument a Flutter app — traces, HTTP calls, and **uncaught errors** — by wiring the Dart [`opentelemetry_wk`](https://pub.dev/packages/opentelemetry_wk) package directly to monoscope's OTLP endpoint. The rest of this guide covers that path. It focuses on **error tracking**, which requires hooking three error channels: the Flutter framework, the Dart runtime, and the platform engine. Miss any one of them and you'll lose half your crashes silently.
+
+### Manual Installation
 
 Add the OpenTelemetry packages to your `pubspec.yaml`:
 
