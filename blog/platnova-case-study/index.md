@@ -1,5 +1,5 @@
 ---
-title: "How Platnova gave support and operations the visibility to investigate production issues without engineering"
+title: "How Monoscope gave Platnova support and operations the visibility to investigate production issues without engineering"
 featured_image: platnova-team.jpg
 date: 2026-11-10T00:00:00+00:00
 description: "With Monoscope, Platnova's support and operations teams can investigate failed API requests, identify affected customers, trace provider issues and answer questions that previously required engineering involvement."
@@ -11,8 +11,6 @@ categories:
 ![Platnova logo](./platnova-logo.png)
 
 Platnova lets people pay bills, create virtual cards and send money across borders. These services rely on multiple third-party providers, which means a failure in one integration can quickly become a problem for customers and the teams supporting them.
-
-![The Platnova team](./platnova-team.jpg)
 
 > "Monoscope has freed us a lot of time to actually innovate and build our product in the long run."
 >
