@@ -50,7 +50,7 @@ monoscope is a web service development platform that enables developers to desig
 Follow this instruction to generate swagger documentation from your live traffic using monoscope. In this article I will be using flask for the process
 ### Prerequisites
 
-1. Create an account with monoscope. If you do not have an account use [this link](https://app.monoscope.tech/) to create or login into your account.
+1. Create an account with monoscope. If you do not have an account use [this link](https://app.monoscope.tech/login?screen_hint=signup) to create or login into your account.
 2. Connect your API to monoscope.
 
 ### General overview on how to generate swagger docs from live traffic using APItoolki.
