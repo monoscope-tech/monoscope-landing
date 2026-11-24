@@ -39,7 +39,7 @@ Send your first logs, traces and requests to monoscope in about five minutes. Yo
 {#create-an-account}
 ## 1. Create an Account
 
-1. Go to [app.monoscope.tech](https://app.monoscope.tech?utm_source=docs_onboarding).
+1. Go to [app.monoscope.tech](https://app.monoscope.tech/login?screen_hint=signup&utm_source=docs_onboarding).
 2. Sign up with Google, GitHub or an email address and password.
 
 monoscope creates your first project and opens the project setup.

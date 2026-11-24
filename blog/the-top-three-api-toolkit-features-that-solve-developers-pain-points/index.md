@@ -64,7 +64,7 @@ Being the most feature-rich solution available, [API ToolKit](https://monoscope.
 
 Here, I’ll show you a step-by-step guide on getting started with Monoscope
 
-- Navigate to [app.monoscope.tech](https://app.monoscope.tech/) and sign up with email or GitHub. 
+- Navigate to [app.monoscope.tech](https://app.monoscope.tech/login?screen_hint=signup) and sign up with email or GitHub. 
 
 ![login](./login.png)
 

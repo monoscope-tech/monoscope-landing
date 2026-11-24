@@ -15,7 +15,7 @@
         <div class="space-y-6 md:pb-2">
           <p class="text-lg md:text-xl leading-relaxed text-textStrong/85 text-pretty max-w-[44ch]">{{fm.pitch}}</p>
           <div class="flex flex-wrap items-center gap-x-6 gap-y-4">
-            <a href="https://app.monoscope.tech" class="btn h-auto min-h-11 py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong text-base font-medium inline-flex items-center gap-2 whitespace-nowrap" data-tracking="feature-start" data-reddit-event="SignUp">{% if fm.cta %}{{fm.cta}}{% else %}Start for free{% endif %} <svg class="h-3 w-3" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#arrow-right"></use></svg></a>
+            <a href="https://app.monoscope.tech/login?screen_hint=signup" class="btn h-auto min-h-11 py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong text-base font-medium inline-flex items-center gap-2 whitespace-nowrap" data-tracking="feature-start" data-reddit-event="SignUp">{% if fm.cta %}{{fm.cta}}{% else %}Start for free{% endif %} <svg class="h-3 w-3" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#arrow-right"></use></svg></a>
             <a href="{% if fm.docs %}{{fm.docs}}{% else %}https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/{{pg}}{% endif %}" class="inline-flex items-center min-h-11 text-base font-medium text-textStrong whitespace-nowrap underline underline-offset-4 [text-decoration-thickness:from-font] decoration-strokeWeak hover:decoration-strokeStrong" data-tracking="feature-playground" data-reddit-event="ViewContent">{% if fm.docs %}Read the setup docs{% else %}Launch playground{% endif %}</a>
           </div>
         </div>

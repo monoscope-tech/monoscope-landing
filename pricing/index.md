@@ -10,7 +10,7 @@ plans:
     price: Free
     price_note: up to 10k events a day
     bullets: ["10k events a day", "Request and response bodies included", "Unlimited team members", "30 days of retention", "No credit card"]
-    cta: { label: Start for free, href: "https://app.monoscope.tech", tracking: pricing-plan-free, event: SignUp }
+    cta: { label: Start for free, href: "https://app.monoscope.tech/login?screen_hint=signup", tracking: pricing-plan-free, event: SignUp }
   - eyebrow: monoscope Cloud
     name: Keep every event
     icon: cloud
@@ -20,7 +20,7 @@ plans:
     price_note: includes 20M events, then $1 per million
     bullets: ["Every event kept, never sampled", "Request and response bodies included", "20M metric datapoints, then $1 per 10M", "2,000 session replays, then $1 per 1,000", "30 days of retention", "No host or seat fees"]
     addon: { name: "Your own S3 bucket", price: "+$199/month", note: "Every event written to your bucket as open Delta Lake and Parquet. Unlimited retention, queryable from monoscope, DuckDB or Spark." }
-    cta: { label: Get started, href: "https://app.monoscope.tech", tracking: pricing-plan-cloud, event: SignUp }
+    cta: { label: Get started, href: "https://app.monoscope.tech/login?screen_hint=signup", tracking: pricing-plan-cloud, event: SignUp }
   - eyebrow: Self-hosted
     name: Run it on your servers
     icon: server

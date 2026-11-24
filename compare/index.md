@@ -69,7 +69,7 @@ pages:
           <p class="text-base leading-relaxed text-textWeak text-pretty max-w-[65ch]">Run monoscope next to your current tool for a week or two, compare which errors and API changes each one catches, then decide. Free up to 10k events a day.</p>
         </div>
         <div class="flex flex-wrap gap-3">
-          <a href="https://app.monoscope.tech" class="press btn py-2.5 px-5 rounded-lg bg-fillBrand-strong text-textInverse-strong" data-tracking="compare-index-start" data-reddit-event="SignUp">Start for free</a>
+          <a href="https://app.monoscope.tech/login?screen_hint=signup" class="press btn py-2.5 px-5 rounded-lg bg-fillBrand-strong text-textInverse-strong" data-tracking="compare-index-start" data-reddit-event="SignUp">Start for free</a>
           <a href="/pricing/" class="press btn btn-secondary py-2.5 px-5 rounded-lg">See pricing</a>
         </div>
       </div>

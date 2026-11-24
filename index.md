@@ -199,7 +199,7 @@ plans:
     cta:
       {
         label: Start for free,
-        href: "https://app.monoscope.tech",
+        href: "https://app.monoscope.tech/login?screen_hint=signup",
         tracking: index-pricing-plan,
         event: SignUp,
       }
@@ -226,7 +226,7 @@ plans:
     cta:
       {
         label: Get started,
-        href: "https://app.monoscope.tech",
+        href: "https://app.monoscope.tech/login?screen_hint=signup",
         tracking: index-pricing-plan,
         event: SignUp,
       }
@@ -418,7 +418,7 @@ capabilities:
         <div class="hero-copy md:col-start-2 md:row-start-1 space-y-6 md:pt-2">
           <p class="text-lg md:text-2xl leading-relaxed text-textStrong/85 text-pretty max-w-[44ch]">Observability data lake and an AI SRE agent, to catch issues and continuously improve production.</p>
           <div class="flex flex-wrap items-center gap-x-6 gap-y-4">
-            <a href="https://app.monoscope.tech" class="btn h-auto min-h-11 py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong text-base font-medium inline-flex items-center gap-2 whitespace-nowrap" data-tracking="index-start-trial-1" data-reddit-event="SignUp">Start for free <svg class="h-3 w-3" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#arrow-right"></use></svg></a>
+            <a href="https://app.monoscope.tech/login?screen_hint=signup" class="btn h-auto min-h-11 py-3 px-6 rounded-xl bg-fillBrand-strong text-textInverse-strong text-base font-medium inline-flex items-center gap-2 whitespace-nowrap" data-tracking="index-start-trial-1" data-reddit-event="SignUp">Start for free <svg class="h-3 w-3" aria-hidden="true"><use xlink:href="/assets/deps/sprite.svg#arrow-right"></use></svg></a>
             <a href="https://app.monoscope.tech/p/00000000-0000-0000-0000-000000000000/log_explorer" class="inline-flex items-center min-h-11 text-base font-medium text-textStrong whitespace-nowrap underline underline-offset-4 [text-decoration-thickness:from-font] decoration-strokeWeak hover:decoration-strokeStrong" data-tracking="index-playground-1" data-reddit-event="ViewContent">Launch playground</a>
           </div>
           <p class="flex flex-wrap items-center gap-x-3 gap-y-2 text-base leading-relaxed text-textWeak">
@@ -832,7 +832,7 @@ capabilities:
             <p class="text-base leading-relaxed text-textWeak text-pretty max-w-[65ch]">Run monoscope next to it for a week or two, compare which errors and API changes each one catches, then move your services over. An engineer from our team can help.</p>
           </div>
           <div class="flex flex-wrap gap-3">
-            <a href="https://app.monoscope.tech" class="btn py-2.5 px-5 rounded-lg bg-fillBrand-strong text-textInverse-strong" data-tracking="index-start-trial-3" data-reddit-event="SignUp">Start for free</a>
+            <a href="https://app.monoscope.tech/login?screen_hint=signup" class="btn py-2.5 px-5 rounded-lg bg-fillBrand-strong text-textInverse-strong" data-tracking="index-start-trial-3" data-reddit-event="SignUp">Start for free</a>
             <a href="https://calendar.app.google/1a4HG5GZYv1sjjZG6" target="_blank" rel="noopener noreferrer" class="btn btn-secondary py-2.5 px-5 rounded-lg" data-tracking="index-book-call" data-reddit-event="ScheduleDemo">Book a migration call</a>
           </div>
         </div>
